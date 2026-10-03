@@ -252,7 +252,7 @@ graph LR
 
 ### 12.4.3. La Colisión de Rutas
 
-El error clásico de la migración es darle a la página la misma URL que la acción. Probamos exactamente eso, con la página en `@page "/Productos/Ficha/{id:int}"` y la acción sigue escuchando por `{controller}/{action}/{id?}`:
+El error clásico de la migración es darle a la página la misma URL que la acción. Esto es lo que pasa si lo haces: deja la página en `@page "/Productos/Ficha/{id:int}"` mientras la acción sigue escuchando por `{controller}/{action}/{id?}`:
 
 - `GET /Productos/Ficha/1` → **200**, sin ninguna excepción: la aplicación no se queja, elige un ganador.
 - El ganador es la página: con un marcador temporal en el `PageModel` se vio que la respuesta salía de ella. Las rutas con literales (`Productos`, `Ficha`) tienen prioridad sobre las de parámetros (`{controller}`, `{action}`).
