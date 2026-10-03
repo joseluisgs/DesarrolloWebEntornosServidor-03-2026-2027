@@ -59,7 +59,7 @@ La diferencia con una expresión es radical:
 | | **Directiva** | Expresión |
 |---|---|---|
 | **Ejemplo** | `@page "/productos"` | `@nombre` |
-| **¿Genera HTML?** | No ( trabaja en el compilador | Sí ) escribe texto en la página |
+| **¿Genera HTML?** | No (trabaja en el compilador) | Sí (escribe texto en la página) |
 | **¿Cuándo actúa?** | Al compilar la vista | Al renderizar la página |
 | **¿Dónde se pone?** | Normalmente, arriba del fichero | Donde quieras que aparezca |
 | **Si la borras** | La vista deja de compilar o cambia de sentido | Simplemente desaparece el texto |
@@ -178,7 +178,7 @@ graph TD
 | `Pages/_ViewImports.cshtml` | `@using` y `@addTagHelper` | Toda la carpeta `Pages/` y subcarpetas |
 | `Views/_ViewStart.cshtml` | `Layout = "..."` | Toda la carpeta (herencia de layout) |
 
-> 💡 **Consejo:** Pon en `_ViewImports` solo lo que usan muchas vistas. Si metes un `@using` que usa una única vista, ahí no estáis ahorrando nada: estáis ensuciando el ámbito de todas.
+> 💡 **Consejo:** Pon en `_ViewImports` solo lo que usan muchas vistas. Si metes un `@using` que usa una única vista, ahí no estás ahorrando nada: estás ensuciando el ámbito de todas.
 
 ## 2.2. Sintaxis del Lenguaje en Razor
 
@@ -240,10 +240,10 @@ Una expresión es cualquier cosa que produce un valor y que Razor escribe en el 
 @* Expresión con operador ternario (¡ponla entre paréntesis!) *@
 <p>Estado: @(activo ? "En el catálogo" : "Descatalogado")</p>
 
-@* Nul-condicional: no revienta si la propiedad es null *@
+@* Operador de acceso condicional: no revienta si la propiedad es null *@
 <p>Etiquetas: @(etiquetas?.Count ?? 0)</p>
 
-@* Nul-coalescing: valor por defecto si es null *@
+@* Coalescencia nula: valor por defecto si es null *@
 <p>Imagen: @(imagen ?? "/img/sin-foto.png")</p>
 ```
 
@@ -418,7 +418,7 @@ Dentro de una vista se usan **los mismos tipos que en cualquier parte de C#**. C
 | **Colecciones** | `T[]`, `List<T>`, `Dictionary<K,V>` | `var productos = new List<Producto>();` |
 | **Objetos** | clases y `record` | `var producto = new Producto(...);` |
 
-Esta es la forma en que modelaremos un Producto. Fíjate cómo **los `?` y el `decimal` de la tabla aparecen de verdad**:
+Esta es la forma en que modelaremos un Producto: los tipos de la tabla, con sus `?` y su `decimal`, en un modelo real:
 
 ```csharp
 // Models/Producto.cs — todavía NO hay repositorio ni base de datos
@@ -472,8 +472,8 @@ graph TD
 | **Comparación** | `==  !=  <  >  <=  >=` | `@(anio >= 2020)` |
 | **Lógicos** | `&&  \|\|  !` | `@(activo && anio >= 2020)` |
 | **Ternario** | `? :` | `@(activo ? "Sí" : "No")` |
-| **Nul-coalescing** | `??`  y  `??=` | `@(imagen ?? "sin foto")` |
-| **Nul-condicional** | `?.`  y  `?[]` | `@etiquetas?.Count` |
+| **Coalescencia nula** | `??`  y  `??=` | `@(imagen ?? "sin foto")` |
+| **Acceso condicional** | `?.`  y  `?[]` | `@etiquetas?.Count` |
 | **Incremento** | `++`  `--` | `indice++` |
 | **Asignación compuesta** | `+=`  `-=`  `*=` | `total += 1` |
 | **Concatenación** | `+` | `@nombre + " " + categoria` |
@@ -492,7 +492,7 @@ graph TD
 <p>¿Es de esta década?: @(anio >= 2020)</p>                    @* comparación *@
 <p>¿Activo y reciente?: @(activo && anio >= 2020)</p>          @* lógico *@
 <p>Estado: @(activo ? "En el catálogo" : "Descatalogado")</p>  @* ternario *@
-<p>Imagen: @(imagen ?? "/img/sin-foto.png")</p>                @* nul-coalescing *@
+<p>Imagen: @(imagen ?? "/img/sin-foto.png")</p>                @* coalescencia nula *@
 ```
 
 > 💡 **Truco:** `??` y `?.` son tus amigos: `@etiquetas?.Count` no revienta si `Etiquetas` es `null`, mientras que `@etiquetas.Count` lanza `NullReferenceException` y te deja la página en blanco. Recuerda: el campo `Imagen` de nuestro `Producto` es `string?`, o sea que puede no existir.
@@ -642,7 +642,7 @@ graph TD
 
 ## 2.7. Reto: Directivas y sintaxis de Razor en FunkoApp
 
-> Aplica las directivas y la sintaxis de Razor a FunkoApp.
+> Domina las directivas y la sintaxis de Razor montando la pantalla de gestión de FunkoApp — todavía con datos escritos a mano.
 
 ### 2.7.1. Contexto
 
