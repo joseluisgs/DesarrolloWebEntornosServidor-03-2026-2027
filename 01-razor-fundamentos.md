@@ -3,6 +3,7 @@
     - [1.1.1. La Web Estática](#111-la-web-estática)
     - [1.1.2. La Web Dinámica](#112-la-web-dinámica)
     - [1.1.3. Mecanismos de Generación de Páginas](#113-mecanismos-de-generación-de-páginas)
+    - [1.1.4. Del Navegador a la Pantalla: Kestrel y el Pipeline](#114-del-navegador-a-la-pantalla-kestrel-y-el-pipeline)
   - [1.2. Tecnologías Asociadas a las Páginas Dinámicas](#12-tecnologías-asociadas-a-las-páginas-dinámicas)
     - [1.2.1. El Patrón Común: Código Embebido en el Servidor](#121-el-patrón-común-código-embebido-en-el-servidor)
     - [1.2.2. Comparativa de Tecnologías](#122-comparativa-de-tecnologías)
@@ -37,6 +38,7 @@ En este tema aprenderás a reconocer los mecanismos de generación de páginas c
 **Objetivos de aprendizaje:**
 
 - Comprender los mecanismos de generación de páginas web con código embebido
+- Reconocer el viaje de una petición: Kestrel, el pipeline de middlewares y el endpoint que responde
 - Conocer las tecnologías asociadas a la generación de páginas dinámicas y situar Razor entre ellas
 - Dominar las etiquetas de inclusión de código de Razor: `@`, `@{ }`, `@@`, `<text>` y `@:`
 - Saber comentar el código de una vista sin que el comentario llegue al navegador
@@ -112,6 +114,56 @@ graph TD
 > 📝 **Nota:** Esta unidad se centra en el primer mecanismo, que es el de ASP.NET Core: el HTML se construye en el servidor con **código C# embebido dentro de HTML**. Eso es exactamente lo que hace Razor.
 
 > ⚠️ **Advertencia:** No confundas "dinámico" con "JavaScript". Una página puede ser dinámica sin una sola línea de JavaScript en el cliente — la genera entera el servidor. Razor es el ejemplo perfecto.
+
+### 1.1.4. Del Navegador a la Pantalla: Kestrel y el Pipeline
+
+Antes de escribir la primera vista, conviene saber qué le pasa a la petición por dentro. ASP.NET Core tiene dos piezas que lo explican casi todo:
+
+- **Kestrel**, el servidor web integrado: es el proceso que escucha en el puerto (cuando arrancas con `dotnet run`, la consola dice `Now listening on: http://localhost:5000`) y convierte cada conexión en un objeto `HttpContext`, el sobre que viaja con la petición y con la respuesta.
+- **El pipeline de middlewares**, una cadena de pasos por los que viaja la petición antes de llegar a quien responde. Cada middleware puede mirar la petición, modificarla o cortar el camino; el último paso, el endpoint, es el que sirve la página.
+
+El orden de la cadena no es libre. La plantilla de ASP.NET Core monta este pipeline en el `Program.cs` de cualquier proyecto:
+
+```csharp
+var app = builder.Build();
+
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");   // errores → página de error
+    app.UseHsts();
+}
+
+app.UseHttpsRedirection();               // HTTP → HTTPS
+app.UseRouting();                        // decide qué endpoint encaja
+app.UseAuthorization();                  // permisos
+app.MapStaticAssets();                   // CSS, JS e imágenes
+app.MapRazorPages();                     // tus páginas (o MapControllerRoute en MVC)
+
+app.Run();
+```
+
+```mermaid
+graph LR
+    A["Navegador<br/>GET /productos"] --> B["Kestrel<br/>escucha el puerto"]
+    B --> C["Middleware<br/>de errores"]
+    C --> D["Middleware<br/>de HTTPS"]
+    D --> E["Enrutador<br/>busca endpoint"]
+    E --> F["Estáticos<br/>css, js"]
+    E --> G["Endpoint Razor o MVC<br/>genera el HTML"]
+    G --> H["Respuesta<br/>al navegador"]
+    style A fill:#2196F3,color:#fff
+    style B fill:#607D8B,color:#fff
+    style C fill:#f44336,color:#fff
+    style D fill:#FF9800,color:#fff
+    style E fill:#9C27B0,color:#fff
+    style F fill:#4CAF50,color:#fff
+    style G fill:#4CAF50,color:#fff
+    style H fill:#607D8B,color:#fff
+```
+
+📌 **Ejemplo real:** La pestaña *Network* del navegador (F12) te muestra el final de este viaje: cada fichero que pide la página es una petición que recorrió su propio pipeline. Por eso el CSS suele aparecer antes que el HTML: los estáticos se resuelven en un middleware previo al endpoint.
+
+> 📝 **Nota:** Esto es la vista de pájaro. En el punto 20 abriremos el `Program.cs` por dentro: configuración por capas, inyección de dependencias y el orden completo del pipeline. De momento, con saber que la petición entra por Kestrel, pasa por una cadena de middlewares y termina en un endpoint, te basta para entender por dónde sale Razor.
 
 ## 1.2. Tecnologías Asociadas a las Páginas Dinámicas
 
