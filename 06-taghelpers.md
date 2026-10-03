@@ -15,7 +15,7 @@
   - [6.5. Crear tu Propio Tag Helper](#65-crear-tu-propio-tag-helper)
     - [6.5.1. La Clase y el Atributo](#651-la-clase-y-el-atributo)
     - [6.5.2. El Proceso de Transformación](#652-el-proceso-de-transformación)
-    - [6.5.3. El Gotcha del TagMode](#653-el-gotcha-del-tagmode)
+    - [6.5.3. La Trampa del TagMode](#653-la-trampa-del-tagmode)
     - [6.5.4. Dos Formas de Engancharse](#654-dos-formas-de-engancharse)
   - [6.6. Buenas Prácticas](#66-buenas-prácticas)
   - [6.7. Reto: Controles de servidor en FunkoApp con Tag Helpers](#67-reto-controles-de-servidor-en-funkoapp-con-tag-helpers)
@@ -401,7 +401,7 @@ graph TD
 
 No toques `context`: sirve para saber de dónde vienes (qué atributos originales había). Lo que tú editas es siempre **`output`**: adónde vas.
 
-### 6.5.3. El Gotcha del TagMode
+### 6.5.3. La Trampa del TagMode
 
 Este es el error que más vueltas da. Escribimos la etiqueta sin etiqueta de cierre:
 

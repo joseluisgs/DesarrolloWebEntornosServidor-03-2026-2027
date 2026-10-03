@@ -72,7 +72,7 @@ Una web dinámica no guarda el HTML: guarda la plantilla y los datos. En cada pe
 
 > 💡 **Analogía:** Una web estática es un menú impreso en una hamburguesería: vale para todos. Una web dinámica es el cartel LED que cambia según la hora y lo que queda en la cocina: el marcador (plantilla) es el mismo, pero el mensaje (HTML) cambia todo el rato.
 
-📌 **Ejemplo real:** Instagram. La URL `instagram.com` es la misma para ti y para mí, pero el HTML que llega a tu navegador y al mío es radicalmente distinto: tus followings, tus historias, tu algoritmo. Nadie "guardó" esa página: **se construyó en los 200 ms que tardó tu petición**.
+📌 **Ejemplo real:** Instagram. La URL `instagram.com` es la misma para ti y para mí, pero el HTML que llega a tu navegador y al mío es radicalmente distinto: tus seguidos, tus historias, tu algoritmo. Nadie "guardó" esa página: **se construyó en los 200 ms que tardó tu petición**.
 
 ### 1.1.3. Mecanismos de Generación de Páginas
 
@@ -175,7 +175,7 @@ graph LR
 | **Thymeleaf (Spring)** | Java | `th:text="..."` | `.html` |
 | **EJS (Node.js)** | JavaScript | `<% %>` y `<%= %>` | `.ejs` |
 
-> 💡 **Truco:** Fíjate en quién usa **`@`**: Blade (PHP) y Razor (.NET). Quien usa **`{{ }}`**: Twig y **Mustache/Handlebars**. Quien usa **`<% %>`: JSP, ERB, EJS y ASP clásico**. Si vienes de otro lenguaje, esa es tu traducción instantánea.
+> 💡 **Truco:** Fíjate en quién usa cada delimitador: **`@`** es de Blade (PHP) y Razor (.NET); **`{{ }}`** es de Twig y Mustache/Handlebars; **`<% %>`** es de JSP, ERB, EJS y ASP clásico. Si vienes de otro lenguaje, esa es tu traducción instantánea.
 
 > 📝 **Nota:** Razor heredó la filosofía de Web Forms (todo en el ecosistema .NET) pero cambió la sintaxis por completo: de los ruidosos `<% %>` a un `@` limpio y mínimo. Ese `@` es literalmente todo lo que necesitas para empezar.
 
@@ -413,7 +413,7 @@ Razor no es un simple sustitutor de texto: compila. Eso trae una ventaja enorme 
 |----------------|--------------|-------------------------|
 | **Declarar el tipo** | `var` o tipo explícito, validado | Inferido o nulo |
 | **Error de variable mal escrita** | Error de compilación | Falla en tiempo de ejecución, o silencio |
-| **IntelliSense en la vista** | ✅ Autocompleta | ❌ Texto plano |
+| **IntelliSense en la vista** | Sí, autocompleta | No, texto plano |
 | **Refactorizaciones** | Rename global seguro | Búsqueda manual |
 | **Lenguaje embebido** | C# 14 completo | Lenguaje propio limitado |
 
@@ -458,7 +458,7 @@ Estas son las plantillas que usaremos en este curso:
 | Plantilla | Nombre corto | Qué crea | Dónde se usa |
 |-----------|--------------|----------|--------------|
 | Aplicación web de ASP.NET Core (Modelo-Vista-Controlador) | `mvc` | Proyecto MVC | Bloques III y V |
-| ASP.NET Core Web App (Razor Pages) | `webapp` (alias `razor`) | Proyecto Razor Pages | Bloques IV y V |
+| ASP.NET Core Web App (Razor Pages) | `webapp` (también `razor`) | Proyecto Razor Pages | Bloques IV y V |
 | ASP.NET Core vacío | `web` | Web mínima, sin plantillas | Pruebas rápidas |
 | ASP.NET Core Web API | `webapi` | API REST sin vistas | UD02 |
 | Aplicación web Blazor | `blazor` | Blazor (WebAssembly) | UD04 (material en `back/`) |
@@ -592,7 +592,7 @@ El `.slnx` es XML y se lee sin ser informático. Esto es exactamente lo que gene
 
 ## 1.9. Reto: Muestra tu primer Funko en una página web dinámica
 
-> Muestra tu primer Funko en una página web dinámica — FunkoApp.
+> Escribe a mano tu primer Funko dentro de una vista y deja que Razor pinte el resto — todavía sin repositorios ni bases de datos.
 
 ### 1.9.1. Contexto
 
