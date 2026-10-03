@@ -48,7 +48,7 @@ public class ProductoInput
     [StringLength(50)]
     public string Nombre { get; set; } = string.Empty;
 
-    [Range(2000, 2030, ErrorMessage = "El anio debe estar entre 2000 y 2030")]
+    [Range(2000, 2030, ErrorMessage = "El año debe estar entre 2000 y 2030")]
     public int Anio { get; set; }
 
     [Range(0.01, 10000, ErrorMessage = "El precio debe ser positivo")]
@@ -129,7 +129,7 @@ public IActionResult Edicion(ProductoInput input, List<string> etiquetas)
 </div>
 ```
 
-Y esto es lo que ocurre cuando envías un año imposible (`Input.Anio=1800`) en cualquiera de las dos visiones: la respuesta es **200** con el eco `Datos invalidos`, y el campo correspondiente pinta `El anio debe estar entre 2000 y 2030` mientras los campos buenos se quedan vacíos. El navegador vuelve a ver el formulario entero, con los errores en su sitio.
+Y esto es lo que ocurre cuando envías un año imposible (`Input.Anio=1800`) en cualquiera de las dos visiones: la respuesta es **200** con el eco `Datos invalidos`, y el campo correspondiente pinta `El año debe estar entre 2000 y 2030` mientras los campos buenos se quedan vacíos. El navegador vuelve a ver el formulario entero, con los errores en su sitio.
 
 > 💡 **Consejo:** el mensaje vive en el atributo (`ErrorMessage`), no en la vista: si mañana cambia la regla, se toca el modelo y las dos visiones se enteran a la vez, porque comparten `ProductoInput`.
 
@@ -168,7 +168,7 @@ public static Result<ProductoInput> Validar(ProductoInput input)
         return Result.Failure<ProductoInput>("El nombre es obligatorio");
 
     if (input.Anio is < 2000 or > 2030)
-        return Result.Failure<ProductoInput>("El anio debe estar entre 2000 y 2030");
+        return Result.Failure<ProductoInput>("El año debe estar entre 2000 y 2030");
 
     return Result.Success(input);
 }
