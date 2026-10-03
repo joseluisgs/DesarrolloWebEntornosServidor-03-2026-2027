@@ -84,7 +84,7 @@ Responden a la pregunta **¿qué es esta vista?**
 > | **Razor Pages** | el **PageModel** (el `.cshtml.cs`) | `Model.Products`, `Model.Titulo` | `@model Pages.Product.IndexModel` |
 > | **MVC** | los **datos** que manda el controlador | `Model.Any()`, `Model.First()` | `@model IEnumerable<Product>` |
 >
-> ¿Por qué la diferencia? En Razor Pages la **lógica vive pegada a la página**, así que el modelo *es* la página. En MVC la lógica está en el controlador, que **manda los datos** a la vista. Por eso mismo, **`@model` no va todavía en este tema**: lo conectamos de verdad en el **punto 03**, cuando entre el repositorio en memoria.
+> ¿Por qué la diferencia? En Razor Pages la **lógica vive pegada a la página**, así que el modelo *es* la página. En MVC la lógica está en el controlador, que **manda los datos** a la vista. Por eso mismo, **`@model` no va todavía en este tema**: en el **punto 03** los datos entran por el **repositorio en memoria**, y `@model` lo conectamos de verdad en los puntos **08** (controladores MVC) y **11** (`PageModel`).
 
 > ⚠️ **Advertencia:** `@page` **solo existe en Razor Pages**. En MVC la ruta la pone el controlador. Es la directiva que más se olvida: sin ella, la página **no es accesible por URL**.
 
@@ -420,7 +420,7 @@ Esta es la forma en que modelaremos un Funko. Fíjate cómo **los `?` y el `deci
 
 ```csharp
 // Models/Funko.cs — todavía NO hay repositorio ni base de datos
-record Funko(
+public record Funko(
     int Id,
     string Nombre,
     string Categoria,          // Marvel, DC, Star Wars...
@@ -655,7 +655,7 @@ Crea la vista `Pages/Funkos/Gestion.cshtml` con los datos **escritos a mano** (s
 6. Escribe una **sentencia que NO produzca HTML** (una asignación con `@functions`) y comprueba con **F12** que **no aparece ni un byte** en el documento
 7. Declara una variable **dentro** del `@if` y prueba a usarla **fuera**: lee el error de compilación `CS0103` y anótalo
 
-> 📝 **Nota:** `@model` **no va todavía en este reto**. En Razor Pages declara el **PageModel** y en MVC los **datos**; ambos casos los conectamos en el **punto 03**, cuando entre el repositorio en memoria.
+> 📝 **Nota:** `@model` **no va todavía en este reto**. En Razor Pages declara el **PageModel** y en MVC los **datos**; en el **punto 03** los datos entran por el **repositorio en memoria**, y `@model` lo conectamos en los puntos **08** (MVC) y **11** (`PageModel`).
 
 **Puntos extra:**
 
