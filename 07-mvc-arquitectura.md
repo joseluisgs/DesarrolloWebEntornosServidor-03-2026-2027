@@ -1,4 +1,4 @@
-- [7. Arquitectura MVC: Separación de Presentación y Negocio](#7-arquitectura-mvc-separación-de-presentación-y-negocio)
+﻿- [7. Arquitectura MVC: Separación de Presentación y Negocio](#7-arquitectura-mvc-separación-de-presentación-y-negocio)
   - [7.1. El Problema: Todo Junto en la Vista](#71-el-problema-todo-junto-en-la-vista)
     - [7.1.1. El Fichero que Hace de Todo](#711-el-fichero-que-hace-de-todo)
     - [7.1.2. El Coste de Hablar Con Todo el Mundo](#712-el-coste-de-hablar-con-todo-el-mundo)
@@ -250,7 +250,7 @@ Aquí está la magia de MVC: nadie escribe a mano qué vista abrir. Lo decide un
 
 > 💡 **Consejo:** Si tu aplicación devuelve **500** en una acción que "no hace nada raro", lo primero que miras es **si existe el `.cshtml` en la carpeta correcta**. Es el error más frecuente de MVC: la vista se busca sola y, si no la encuentra, revienta.
 
-> 📝 **Nota:** Para salir de la convención tienes `return View("OtroNombre")`, `return PartialView(...)` o `return RedirectToAction("Accion")`:** veremos el detalle en el punto 08**: . La convención es el camino normal; lo demás, excepciones.
+> 📝 **Nota:** Para salir de la convención tienes `return View("OtroNombre")`, `return PartialView(...)` o `return RedirectToAction("Accion")`; veremos el detalle en el punto **08**. La convención es el camino normal; lo demás, excepciones.
 
 ## 7.4. Los Tres Componentes en un Proyecto Real
 
