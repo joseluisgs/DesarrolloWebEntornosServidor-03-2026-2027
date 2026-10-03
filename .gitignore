@@ -48,3 +48,7 @@ TestResults/
 .DS_Store
 Thumbs.db
 upload.sh
+
+# Archivo local del material antiguo: nunca se sube
+back/
+
