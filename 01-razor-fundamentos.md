@@ -30,7 +30,10 @@
 
 > 💡 **Punto de partida:** Si abres el código fuente de una web como Netflix, ¿por qué cada usuario ve una portada distinta si todos llaman a la misma URL? ¿Quién escribe ese HTML diferente cada vez? ¿Y si te dijera que ese HTML ni siquiera está guardado en el servidor?
 
+En este tema aprenderás a reconocer los **mecanismos de generación de páginas** con código embebido, a situar **Razor** entre las tecnologías existentes, a dominar sus **etiquetas de inclusión de código** y a **montar tu primer proyecto** con la CLI de .NET.
+
 **Objetivos de aprendizaje:**
+
 - Comprender los mecanismos de generación de páginas web con código embebido
 - Conocer las tecnologías asociadas a la generación de páginas dinámicas y situar Razor entre ellas
 - Dominar las etiquetas de inclusión de código de Razor: `@`, `@{ }`, `@@`, `<text>` y `@:`
@@ -39,6 +42,8 @@
 ## 1.1. De la Web Estática a la Web Dinámica
 
 Antes de escribir una sola línea de Razor, hay que entender **qué problema resuelve**. Si no, estás aprendiendo una sintaxis sin saber para qué existe.
+
+> 📝 **Nota de la unidad:** en **FunkoApp** vamos a construir un **gestor de Funkos**: mostrarlos, recorrerlos, buscarlos, editarlos, darlos de baja y subir sus fotos. Todo eso empieza aquí, con una **página que se genera sola**. Nada de base de datos todavía: al principio, los datos van escritos en la propia vista.
 
 ### 1.1.1. La Web Estática
 
@@ -54,18 +59,16 @@ Una web estática es un conjunto de ficheros `.html`, `.css` y `.js` que **ya es
 
 Una web dinámica **no guarda el HTML**: guarda la **plantilla** y los **datos**. En cada petición, el servidor **construye el HTML en ese momento**, mezclando las dos cosas, y envía el resultado.
 
-La diferencia es de concepto, no de tamaño:
-
 | Aspecto | Web estática | Web dinámica |
 |---------|--------------|--------------|
 | **Qué hay en el servidor** | Ficheros HTML ya escritos | Plantillas + datos |
 | **Cuándo se genera el HTML** | Nunca (ya existe) | En **cada petición** |
 | **¿Quién lo ve?** | Todos lo mismo | Cada usuario lo suyo |
-| **Fuente de datos** | Ninguna | BD, API, ficheros, sesión |
+| **Fuente de datos** | Ninguna | Variables, ficheros, listas, BD |
 | **Coste por petición** | Nulo (lectura) | Cálculo (CPU + datos) |
-| **Ejemplo** | Folleto digital | Banca online, Netflix, Instagram |
+| **Ejemplo** | Folleto digital | Netflix, Instagram, FunkoApp |
 
-> 💡 **Analogía:** Una web estática es un **menú impreso** en una hamburguesería: vale para todos. Una web dinámica es el **cartel LED** que cambia según la hora, el stock y la promoción del día: el marcador (plantilla) es el mismo, pero el mensaje (HTML) cambia todo el rato.
+> 💡 **Analogía:** Una web estática es un **menú impreso** en una hamburguesería: vale para todos. Una web dinámica es el **cartel LED** que cambia según la hora y lo que queda en la cocina: el marcador (plantilla) es el mismo, pero el mensaje (HTML) cambia todo el rato.
 
 📌 Ejemplo real: **Instagram**. La URL `instagram.com` es la misma para ti y para mí, pero el HTML que llega a tu navegador y al mío es radicalmente distinto: tus followings, tus historias, tu algoritmo. Nadie "guardó" esa página: **se construyó en los 200 ms que tardó tu petición**.
 
@@ -75,7 +78,7 @@ El CCEE **RA2 a)** pide conocer *los mecanismos de generación de páginas con c
 
 ```mermaid
 graph TD
-    A["Petición del usuario<br/>GET /productos"] --> B{"¿Quién genera<br/>el HTML?"}
+    A["Petición del usuario<br/>GET /funkos"] --> B{"¿Quién genera<br/>el HTML?"}
 
     B -->|"Código embebido<br/>en el SERVIDOR"| C["Plantilla + Datos<br/>se mezclan en el servidor"]
     C --> D["HTML final listo"]
@@ -100,7 +103,7 @@ graph TD
 
 | Mecanismo | Dónde se ejecuta | Ventaja | Riesgo |
 |-----------|------------------|---------|--------|
-| **Código embebido en el servidor** | Servidor | SEO inmediato, lógica oculta, datos cerca de la BD | Carga de CPU en el servidor |
+| **Código embebido en el servidor** | Servidor | SEO inmediato, lógica oculta, datos cerca del origen | Carga de CPU en el servidor |
 | **Generado en el cliente (SPA)** | Navegador | Interfaz muy reactiva, menos recargas | SEO más complejo, lógica expuesta |
 | **Generación anticipada (SSG)** | Compilación | Velocidad máxima, coste mínimo | Contenido menos personalizado |
 
@@ -122,7 +125,7 @@ Todas estas tecnologías comparten la misma idea:
 4. **Sustituye** esos valores dentro del HTML
 5. Envía al navegador **HTML puro**, sin rastro del código
 
-📌 Ejemplo real: **Netflix** usa internamente plantillas del lado del servidor para construir sus páginas de catálogo antes de enviarlas. **Amazon** hace lo mismo con las fichas de producto: el precio, el stock y las valoraciones son datos vivos, y el motor de plantillas los inyecta en el HTML en cada visita.
+📌 Ejemplo real: **Netflix** usa plantillas del lado del servidor para construir sus páginas antes de enviarlas. **Amazon** hace lo mismo con las fichas de producto: el nombre, el precio y las valoraciones son datos vivos, y el motor de plantillas los inyecta en el HTML en cada visita.
 
 ### 1.2.2. Comparativa de Tecnologías
 
@@ -138,12 +141,12 @@ graph LR
         BL["Blade<br/>@directiva"]
     end
     subgraph "Familia .NET"
-        ASPX["Web Forms<br/>&lt;% %>"]
+        ASPX["Web Forms<br/>&lt;% %&gt;"]
         RAZOR["RAZOR<br/>@  y  @{ }"]
     end
     subgraph "Otras"
-        ERB["Ruby ERB<br/>&lt;% %>"]
-        EJS["Node EJS<br/>&lt;% %>"]
+        ERB["Ruby ERB<br/>&lt;% %&gt;"]
+        EJS["Node EJS<br/>&lt;% %&gt;"]
     end
 
     style RAZOR fill:#4CAF50,color:#fff
@@ -170,7 +173,7 @@ graph LR
 | **Thymeleaf (Spring)** | Java | `th:text="..."` | `.html` |
 | **EJS (Node.js)** | JavaScript | `<% %>` y `<%= %>` | `.ejs` |
 
-> 💡 **Truco:** Fíjate en quién usa **`@`**: **Blade** (PHP) y **Razor** (.NET). Quien usa **`{{ }}`**: **Twig** y **Mustache/Handlebars**. Quien usa **`<% %>`**: **JSP, ERB, EJS y ASP clásico**. Si vienes de otro lenguaje, esa es tu traducción instantánea.
+> 💡 **Truco:** Fíjate en quién usa **`@`**: **Blade** (PHP) y **Razor** (.NET). Quien usa **`{{ }}`**: **Twig** y **Mustache/Handlebars**. Quien usa **`<% %>`: JSP, ERB, EJS y ASP clásico**. Si vienes de otro lenguaje, esa es tu traducción instantánea.
 
 > 📝 **Nota:** Razor **heredó la filosofía de Web Forms** (todo en el ecosistema .NET) pero **cambió la sintaxis por completo**: de los ruidosos `<% %>` a un `@` limpio y mínimo. Ese `@` es literalmente todo lo que necesitas para empezar.
 
@@ -184,7 +187,7 @@ graph LR
 - **Lenguaje embebido:** C# 14
 - **Resultado:** HTML + CSS + JS estáticos enviados al cliente
 
-> 💡 **Analogía:** Razor es un **cocinero con receta**. La receta es el `.cshtml` (la estructura del plato). Los ingredientes variables son los **datos** (el modelo). El cocinero recorre la receta, cambia cada ingrediente por lo que haya en la despensa ese día y sirve un plato distinto cada vez — aunque la receta no haya cambiado nunca.
+> 💡 **Analogía:** Razor es un **cocinero con receta**. La receta es el `.cshtml` (la estructura del plato). Los ingredientes variables son los **datos**. El cocinero recorre la receta, cambia cada ingrediente por lo que haya en la despensa ese día y sirve un plato distinto cada vez — aunque la receta no haya cambiado nunca.
 
 ### 1.3.2. El Proceso de Renderizado
 
@@ -192,7 +195,7 @@ graph LR
 graph LR
     A["Fichero .cshtml<br/>HTML + C#"] -->|"1. Compilación"| B["Ensamblado .dll<br/>código C# ya validado"]
     B -->|"2. Petición<br/>del usuario"| C["Motor Razor<br/>ejecuta la plantilla"]
-    D[("Datos:<br/>Modelo / BD")] --> C
+    D[("Datos:<br/>variables · lista · BD")] --> C
     C -->|"3. Render"| E["HTML final<br/>texto plano"]
     E -->|"4. Respuesta HTTP"| F["Navegador<br/>lo pinta"]
 
@@ -239,45 +242,51 @@ graph TD
 
 ### 1.4.1. Expresiones con @
 
-El `@` dice *"lo que viene a continuación es C#, y su resultado se escribe aquí"*:
+El `@` dice *«lo que viene a continuación es C#, y su resultado se escribe aquí»*. Para probarlo **no necesitas base de datos ni modelo**: escribe los datos **a mano** en la propia vista.
 
 ```cshtml
-@* Vista: Views/Funkos/Detalle.cshtml *@
-@model FunkoDetalleViewModel
+@* Vista: Pages/Funkos/Detalle.cshtml — datos escritos a mano *@
+@{
+    var nombre = "Spider-Man";
+    var categoria = "Marvel";
+    var anio = 2019;
+    var precioReferencia = 14.99m;
+}
 
-<h1>@Model.Nombre</h1>
-<p>Precio: @Model.Precio.ToString("C")</p>
-<p>Disponible: @(Model.Stock > 0)</p>
+<h1>@nombre</h1>
+<p>Categoría: @categoria</p>
+<p>Lanzamiento: @anio</p>
+<p>Precio de referencia: @precioReferencia.ToString("C")</p>
 
 @* ✅ BUENO: paréntesis cuando hay operadores o espacios *@
-<p>Total: @(Model.Precio * 1.21m)</p>
+<p>Años en el circuito: @(DateTime.Now.Year - anio)</p>
 
-@* ❌ MALO: sin paréntesis, Razor solo coge "Model.Precio" *@
-<p>Total: @Model.Precio * 1.21m</p>
+@* ❌ MALO: sin paréntesis, Razor solo coge la variable *@
+<p>Años: @DateTime.Now.Year - anio</p>
 ```
 
-> 💡 **Regla de oro:** si tu expresión contiene **espacios, operadores o comas**, ponla entre paréntesis `@( ... )`. Si es una simple propiedad (`@Model.Nombre`), no hace falta.
+> 💡 **Regla de oro:** si tu expresión contiene **espacios, operadores o comas**, ponla entre paréntesis `@( ... )`. Si es una simple variable (`@nombre`), no hace falta.
 
-### 1.4.2. Bloques de Código con @{ }
+### 1.4.2. Bloques de Código @{ }
 
 Cuando necesitas **más de una instrucción** (variables, cálculos, condiciones previas), usas un bloque:
 
 ```cshtml
 @{
     // Variables locales: solo existen mientras se renderiza la vista
-    var precioConIva = Model.Precio * 1.21m;
-    var enOferta = Model.Descuento > 0;
-    var claseBadge = enOferta ? "bg-danger" : "bg-success";
+    var aniosEnCircuito = DateTime.Now.Year - anio;
+    var esNovedad = true;
+    var claseBadge = esNovedad ? "bg-success" : "bg-secondary";
 }
 ```
 
-> 📝 **Nota:** Dentro de `@{ }` estás **plenamente en C#**: necesitas punto y coma, los comentarios son `//` o `/* */`, y **no se escribe HTML directamente**. Para salir a HTML necesitas `@if`, `@foreach`, `<text>` o `@:` (lo veremos en el siguiente tema).
+> 📝 **Nota:** Dentro de `@{ }` estás **plenamente en C#**: necesitas punto y coma, los comentarios son `//` o `/* */`, y **no se escribe HTML directamente**. Para salir a HTML necesitas `@if`, `@foreach`, `<text>` o `@:`.
 
 ### 1.4.3. Texto Literal, Escape y Transiciones
 
 | Situación | Cómo se hace | Ejemplo |
 |-----------|--------------|---------|
-| Escribir un `@` literal | `@@` | `info@@funkoshop.com` → `info@funkoshop.com` |
+| Escribir un `@` literal | `@@` | `coleccion@@funkoapp.es` → `coleccion@funkoapp.es` |
 | Texto plano desde C# con etiquetas | `<text>` | `<text>Hola @nombre</text>` |
 | Texto plano desde C# sin etiquetas | `@:` | `@:Hola @nombre` |
 
@@ -298,39 +307,46 @@ Cuando necesitas **más de una instrucción** (variables, cálculos, condiciones
 ### 1.4.4. Todos los Delimitadores en un Solo Archivo
 
 ```cshtml
-@* Vista: Views/Funkos/Index.cshtml *@
-@model List<Funko>
-
+@* Vista: Pages/Funkos/Detalle.cshtml *@
+@* TODO: cuando haya repositorio, estos datos vendrán de la lista *@
 @{
     // 1. Bloque de código: aquí manda C#
-    ViewData["Title"] = "Catálogo de Funkos";
-    var total = Model.Count;
-    var hayStock = Model.Any(f => f.Stock > 0);
+    var nombre = "Spider-Man";
+    var categoria = "Marvel";
+    var anio = 2019;
+    var precioReferencia = 14.99m;
+    var esNovedad = false;
+    var contacto = "coleccion";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1>@nombre</h1>
 
 @* 2. Expresión inline: el valor se escribe en el HTML *@
-<p>Total en catálogo: <strong>@total</strong></p>
+<p>Categoría: <strong>@categoria</strong></p>
 
 @* 3. Expresión agrupada: obligatoria con operadores *@
-<p>Valor del catálogo: <strong>@(Model.Sum(f => f.Precio)) €</strong></p>
+<p>En el circuito desde hace <strong>@(DateTime.Now.Year - anio)</strong> años</p>
+<p>Precio de referencia: <strong>@(precioReferencia.ToString("C"))</strong></p>
 
 @* 4. Transición a HTML desde dentro de C# *@
-@if (hayStock)
+@if (esNovedad)
 {
-    <span class="badge bg-success">¡Hay stock!</span>
-    @:¡No te lo pierdas!
+    <span class="badge bg-success">Novedad</span>
+    @:¡Acaba de llegar a la colección!
+}
+else
+{
+    <span class="badge bg-secondary">Clásico</span>
 }
 
 @* 5. Escape de la arroba *@
-<p>Contacto: soporte@@funkoshop.es</p>
+<p>Contacto: @contacto@@funkoapp.es</p>
 
 @* 6. Comentario Razor: NUNCA aparece en el HTML enviado *@
-@* TODO: paginar cuando haya más de 50 funkos *@
+@* TODO: añadir la foto cuando se suba el fichero *@
 ```
 
-📌 Ejemplo real: **Glovo** genera cada tarjeta de restaurante con un patrón así: una plantilla única con `@restaurante.Nombre`, `@restaurante.TiempoEntrega` y `@restaurante.Calificacion`. Un solo `.cshtml`, mil platos distintos en pantalla.
+📌 Ejemplo real: **Glovo** genera cada tarjeta de restaurante con un patrón así: una plantilla única con `@restaurante.Nombre`, `@restaurante.TiempoEntrega` y `@restaurante.Calificacion`. Un solo `.cshtml`, mil platos distintos en pantalla. Nosotros haremos **exactamente lo mismo** en el punto 03, con un `@foreach` sobre una lista de Funkos.
 
 ## 1.5. Comentarios en las Vistas
 
@@ -375,15 +391,15 @@ graph LR
     style H fill:#f44336,color:#fff
 ```
 
-> ⚠️ **Advertencia — el comentario que delata:** si dejas claves, URLs internas o pensamientos sobre un cliente dentro de un `<!-- -->`, **están publicadas**. Cualquiera pulsa F12 y las lee. En el código de presentación, **las notas internas van con `@* *@`, siempre**.
-
 ```cshtml
 <!-- ❌ MALO: el comentario viaja hasta el usuario -->
-<!-- Precio provisional pendiente de validar con Marketing -->
+<!-- Precio de referencia pendiente de revisión -->
 
 @* ✅ BUENO: solo existe en el servidor, el navegador nunca lo ve *@
-@* Precio provisional pendiente de validar con Marketing *@
+@* Precio de referencia pendiente de revisión *@
 ```
+
+> ⚠️ **Advertencia — el comentario que delata:** si dejas claves, URLs internas o pensamientos sobre un cliente dentro de un `<!-- -->`, **están publicadas**. Cualquiera pulsa F12 y las lee. En el código de presentación, **las notas internas van con `@* *@`, siempre**.
 
 > 💡 **Consejo:** Si quieres comprobarlo, guarda una vista con ambos comentarios y mira el HTML resultante con F12. Verás que el `<!-- -->` está ahí, y del `@* *@` **no queda ni rastro**.
 
@@ -393,9 +409,9 @@ Razor no es un simple sustitutor de texto: **compila**. Eso trae una ventaja eno
 
 | Característica | Razor (.NET) | Motor débilmente tipado |
 |----------------|--------------|-------------------------|
-| **Tipo del modelo** | Declarado con `@model Tipo` | Inferido o nulo |
-| **Error de propiedad mal escrita** | **Error de compilación** | Falla en tiempo de ejecución, o silencio |
-| **IntelliSense en la vista** | ✅ Autocompleta propiedades | ❌ Texto plano |
+| **Declarar el tipo** | `var` o tipo explícito, **validado** | Inferido o nulo |
+| **Error de variable mal escrita** | **Error de compilación** | Falla en tiempo de ejecución, o silencio |
+| **IntelliSense en la vista** | ✅ Autocompleta | ❌ Texto plano |
 | **Refactorizaciones** | Rename global seguro | Búsqueda manual |
 | **Lenguaje embebido** | C# 14 completo | Lenguaje propio limitado |
 
@@ -404,15 +420,15 @@ Razor no es un simple sustitutor de texto: **compila**. Eso trae una ventaja eno
 <p>Precio: {{ funko.presio }}</p>   @* ❌ "presio" → error o vacío al ejecutar *@
 
 @* Razor: el compilador te lo dice antes de que ejecutes nada *@
-@model FunkoDetalleViewModel
-<p>Precio: @Model.Precio</p>        @* ✅ IntelliSense completa "Precio" *@
+@{ var precio = 14.99m; }
+<p>Precio: @precio</p>              @* ✅ IntelliSense completa "precio" *@
 
-<p>@Model.Nombe</p>                 @* ❌ CS1061: 'FunkoDetalleViewModel' no define 'Nombe' *@
+<p>@preciio</p>                     @* ❌ CS0103: no existe el nombre 'preciio' *@
 ```
 
 > 💡 **Analogía:** Es la diferencia entre **montar un mueble con manual** y **montarlo a ciegas**. Con Razor, si metes el tornillo equivocado, el manual te lo grita antes de que fuerces. En un motor débil, te enteras cuando el mueble se cae.
 
-📌 Ejemplo real: en **Microsoft Teams**, donde hay cientos de vistas y plantillas, el tipado fuerte de Razor es lo que permite refactorizar un modelo sin romper media aplicación: si una vista referencia una propiedad que ya no existe, **la compilación falla en local**, no en producción.
+📌 Ejemplo real: en **Microsoft Teams**, donde hay cientos de vistas y plantillas, el tipado fuerte de Razor es lo que permite refactorizar un modelo sin romper media aplicación: si una vista referencia una variable que ya no existe, **la compilación falla en local**, no en producción.
 
 ## 1.7. Crear el Proyecto con la CLI de .NET
 
@@ -454,16 +470,16 @@ Esta unidad se estudia con **dos visiones** sobre el mismo problema, y cada una 
 
 ```bash
 # Opción A — visión MVC: Controlador y Vista separados
-dotnet new mvc -n TiendaMvc -f net10.0
+dotnet new mvc -n FunkoAppMvc -f net10.0
 
 # Opción B — visión Razor Pages: Página y PageModel juntos
-dotnet new webapp -n TiendaRazor -f net10.0
+dotnet new webapp -n FunkoApp -f net10.0
 ```
 
 - **`-n`** → nombre del proyecto (y de la carpeta que se crea)
 - **`-f`** → *framework* destino; en este curso siempre **`net10.0`**
 
-📌 Ejemplo real: cuando en una práctica diga *"crea el proyecto de la Tienda"*, ese es literalmente el comando. La CLI genera la estructura, restaura los paquetes NuGet y deja el proyecto listo para `dotnet run` — lo mismo que harías a mano en cualquier equipo.
+📌 Ejemplo real: cuando en una práctica diga *"crea el proyecto de FunkoApp"*, ese es literalmente el comando. La CLI genera la estructura, restaura los paquetes NuGet y deja el proyecto listo para `dotnet run` — lo mismo que harías a mano en cualquier equipo.
 
 > 📝 **Nota:** La plantilla **restaura los paquetes automáticamente** al terminar (lo ves en la salida: `Restauración realizada correctamente`). No hace falta ejecutar `dotnet restore` a mano la primera vez.
 
@@ -520,27 +536,27 @@ Las diferencias que de verdad importan:
 Con los proyectos creados, agrúpalos en una **solución**:
 
 ```bash
-# 1. Crear la solución → genera Tienda.slnx (formato por defecto en .NET 10)
-dotnet new sln -n Tienda
+# 1. Crear la solución → genera FunkoApp.slnx (formato por defecto en .NET 10)
+dotnet new sln -n FunkoApp
 
 # 2. Añadir cada proyecto a la solución
-dotnet sln Tienda.slnx add TiendaMvc\TiendaMvc.csproj
-dotnet sln Tienda.slnx add TiendaRazor\TiendaRazor.csproj
+dotnet sln FunkoApp.slnx add FunkoAppMvc\FunkoAppMvc.csproj
+dotnet sln FunkoApp.slnx add FunkoApp\FunkoApp.csproj
 
 # 3. Comprobar qué contiene
-dotnet sln Tienda.slnx list
+dotnet sln FunkoApp.slnx list
 
 # 4. Compilar y arrancar
 dotnet build
-dotnet run --project TiendaRazor
+dotnet run --project FunkoApp
 ```
 
 El `.slnx` es XML y **se lee sin ser informático**. Esto es exactamente lo que genera la CLI:
 
 ```xml
 <Solution>
-  <Project Path="TiendaMvc/TiendaMvc.csproj" />
-  <Project Path="TiendaRazor/TiendaRazor.csproj" />
+  <Project Path="FunkoAppMvc/FunkoAppMvc.csproj" />
+  <Project Path="FunkoApp/FunkoApp.csproj" />
 </Solution>
 ```
 
@@ -566,32 +582,33 @@ El `.slnx` es XML y **se lee sin ser informático**. Esto es exactamente lo que 
 - ✅ **Usa `@{ }` para la lógica preparatoria** (variables y cálculos) y `@` para el resultado en el HTML
 - ✅ **Envuelve entre paréntesis** cualquier expresión con operadores: `@(a + b)`
 - ✅ **Comenta con `@* *@`** todo lo que sea nota interna; reserva `<!-- -->` solo para lo que deba viajar al cliente
-- ✅ **Declara el modelo con `@model`** en la primera línea de la vista: sin ello, no hay IntelliSense
+- ✅ **Empieza con datos escritos a mano** en la vista: entiende el mecanismo antes de traer datos de un repositorio
 - ✅ **Mantén la vista delgada**: si superas 10 líneas de `@{ }`, esa lógica probablemente pertenece al `PageModel` o al controlador
 - ❌ **No pegues claves, URLs internas ni comentarios sobre clientes en `<!-- -->`**: se publican
 - ❌ **No escribas HTML dentro de `@{ }`**: usa `@if`, `@foreach`, `<text>` o `@:`
-- ❌ **No llames a la base de datos desde la vista**: la vista **presenta**, no decide
+- ❌ **No llames a una base de datos desde la vista**: la vista **presenta**, no decide — y en esta unidad todavía **no hay base de datos**
 
 ## 1.9. Reto
 
-> Aplica los fundamentos de Razor a **FunkoApp**.
+> Muestra tu primer Funko en una **página web dinámica** — **FunkoApp**.
 
-**Paso 0 — monta el proyecto** con los comandos del apartado anterior (`dotnet new mvc -n FunkoApp -f net10.0` o `dotnet new webapp -n FunkoApp -f net10.0`), agrúpalo en una solución y arráncalo con `dotnet run`.
+**Paso 0 — monta el proyecto** con los comandos del apartado anterior (`dotnet new webapp -n FunkoApp -f net10.0` o `dotnet new mvc -n FunkoApp -f net10.0`), agrúpalo en una solución y arráncalo con `dotnet run`.
 
-Luego, crea la vista `Views/Funkos/Index.cshtml` (o `Pages/Funkos/Index.cshtml` si trabajas con Razor Pages) con:
+Crea la vista `Pages/Funkos/Detalle.cshtml` (o `Views/Funkos/Detalle.cshtml`) y escribe **a mano** los datos de un Funko. En este punto **no hay repositorio ni base de datos**: los datos van dentro de la propia vista.
 
-1. Un bloque `@{ }` que calcule: total de funkos, número de novedades y valor total del catálogo
-2. Una expresión `@` que pinte el título con el total incluido
-3. Una expresión agrupada `@( ... )` con una suma o una multiplicación
-4. Un `@if` con `<text>` o `@:` que muestre un aviso si hay agotados
-5. Un `@@` para pintar un correo de contacto
-6. Al menos **dos comentarios Razor** (`@* *@`) explicando decisiones, y **cero** comentarios HTML
+1. Un bloque `@{ }` con **cinco variables**: nombre (`string`), categoría (`string`), año (`int`), precio de referencia (`decimal`) y si es novedad (`bool`)
+2. Una expresión `@` que pinte **el nombre como título** dentro de un `<h1>`
+3. Una expresión agrupada `@( ... )` que calcule **los años que lleva en el circuito**: `DateTime.Now.Year - anio`
+4. El precio de referencia formateado con `.ToString("C")`
+5. Un `@if` con `<text>` o `@:` que muestre el sello **«Novedad»** solo si `esNovedad` es `true`, y otro sello distinto si no lo es
+6. Un `@@` para pintar un correo de contacto
+7. Al menos **dos comentarios Razor** (`@* *@`) explicando decisiones, y **cero** comentarios HTML
 
 **Puntos extra:**
 
-- Deja **un comentario HTML a propósito** con una nota interna, compila y comprueba con F12 que **sí viaja al navegador** — y bórralo
-- Usa `@model` en la primera línea y comprueba que el IntelliSense te autocompleta las propiedades
-- Escribe a mano una propiedad mal escrita (`@Model.Nombe`) y lee el error de compilación
+- Comprueba con **F12** que los comentarios Razor **no aparecen** en el HTML, y que el comentario HTML **sí** está
+- Cambia `esNovedad` a `false`, recarga y verifica que **el sello cambia** — esa es la prueba de que la página es dinámica
+- Escribe una variable mal escrita (`@nombrr`) y lee el error de compilación
 
 ---
 
@@ -599,7 +616,7 @@ Luego, crea la vista `Views/Funkos/Index.cshtml` (o `Pages/Funkos/Index.cshtml` 
 
 | Concepto | Descripción |
 |----------|-------------|
-| **Web dinámica** | No guarda el HTML: genera una plantilla + datos en cada petición |
+| **Web dinámica** | No guarda el HTML: genera plantilla + datos en cada petición |
 | **Código embebido** | Código de servidor escrito dentro del marcado; el resultado se inyecta en el HTML |
 | **Razor** | Motor de plantillas de ASP.NET Core: `.cshtml` (HTML + C#) → HTML puro |
 | **`@expresión`** | Escribe el valor de una expresión C# dentro del HTML |
@@ -609,36 +626,40 @@ Luego, crea la vista `Views/Funkos/Index.cshtml` (o `Pages/Funkos/Index.cshtml` 
 | **`<text>` / `@:`** | Salen a HTML desde dentro de un bloque de C# |
 | **`@* *@`** | Comentario Razor: **no** llega al navegador |
 | **`<!-- -->`** | Comentario HTML: **sí** llega al navegador (visible con F12) |
-| **Tipado fuerte** | `@model` + compilación = IntelliSense y errores antes de ejecutar |
+| **Tipado fuerte** | C# compilado = IntelliSense y errores antes de ejecutar |
+| **CLI de .NET** | `dotnet new`, `dotnet sln`, `dotnet run` — el proyecto sin abrir un IDE |
+| **`.slnx`** | Formato de solución por defecto en .NET 10 (XML legible) |
 
 ```mermaid
 graph TD
-    A["PÁGINAS DINÁMICAS<br/>con código embebido"] --> B["1.1 Mecanismos:<br/>servidor · cliente · anticipado"]
-    A --> C["1.2 Tecnologías:<br/>PHP · JSP · ERB · Twig · RAZOR"]
-    A --> D["1.3 Motor Razor:<br/>.cshtml + C# → HTML"]
+    A["FUNDAMENTOS DE RAZOR"] --> B["1.1 De la web estática<br/>a la dinámica"]
+    A --> C["1.2 Tecnologías<br/>PHP · JSP · ERB · RAZOR"]
+    A --> D["1.3 Motor Razor<br/>.cshtml + C# → HTML"]
+    A --> E["1.4 Delimitadores<br/>las etiquetas de código"]
+    A --> F["1.5 Comentarios<br/>Razor NO viaja · HTML SÍ"]
+    A --> G["1.6 Tipado fuerte<br/>IntelliSense + errores al compilar"]
+    A --> H["1.7 CLI de .NET<br/>dotnet new · sln · run"]
 
-    D --> E["1.4 Delimitadores"]
-    E --> E1["@ expresión"]
-    E --> E2["@{ } bloque"]
-    E --> E3["@@ escape · &lt;text&gt; · @:"]
-    E --> E4["@* *@ comentario"]
+    E --> E1["@ expresión · @{ } bloque"]
+    E --> E2["@@ escape · &lt;text&gt; · @:"]
+    E --> E3["@* *@ comentario"]
 
-    D --> F["1.5 Comentarios:<br/>Razor NO viaja · HTML SÍ viaja"]
-    D --> G["1.6 Tipado fuerte:<br/>IntelliSense + errores al compilar"]
+    H --> H1["mvc  ·  webapp  →  .slnx"]
 
     style A fill:#9C27B0,color:#fff
     style B fill:#607D8B,color:#fff
     style C fill:#2196F3,color:#fff
     style D fill:#4CAF50,color:#fff
     style E fill:#FF9800,color:#fff
-    style E1 fill:#FF9800,color:#fff
-    style E2 fill:#FF9800,color:#fff
-    style E3 fill:#FF9800,color:#fff
-    style E4 fill:#f44336,color:#fff
     style F fill:#f44336,color:#fff
     style G fill:#607D8B,color:#fff
+    style H fill:#4CAF50,color:#fff
+    style E1 fill:#FF9800,color:#fff
+    style E2 fill:#FF9800,color:#fff
+    style E3 fill:#f44336,color:#fff
+    style H1 fill:#4CAF50,color:#fff
 ```
 
 **¿Qué viene después?**
 
-En el siguiente punto veremos **Directivas y Sintaxis de Razor**: cómo las directivas (`@page`, `@model`, `@using`, `@inject`, `@layout`) cambian el comportamiento por defecto de una vista, qué tipos de variables y operadores admite C# dentro de Razor y en qué ámbito vive cada variable.
+En el siguiente punto veremos **Directivas y Sintaxis de Razor**: cómo las directivas (`@page`, `@model`, `@using`, `@inject`, `@section`) cambian el comportamiento por defecto de una vista, qué tipos de variables y operadores admite C# dentro de Razor y en qué ámbito vive cada variable.
