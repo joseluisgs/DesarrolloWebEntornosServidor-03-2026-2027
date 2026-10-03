@@ -19,7 +19,7 @@
 
 # 11. Razor Pages: PageModel y Handlers
 
-> 💡 **Punto de partida:** Tu primera página ya sabe atender un GET con `OnGet` y pintar los datos que trae la ruta. Pero una web de verdad no solo lee: recibe lo que escribe el usuario, guarda, redirige, ordena y a veces ni siquiera sabe qué le están pidiendo. Abre el PageModel por dentro: esto son los handlers.
+> 💡 **Punto de partida:** Cuando rellenas el formulario de cambio de contraseña en Gmail, el servidor no se limita a leer: compara, guarda, redirige a la bandeja y te deja un aviso. Entre el pulsado y el hay un método que decide todo eso; en Razor Pages se llama handler, y en este punto abres el PageModel por dentro: convención de nombres, recibir datos, responder con resultados y el patrón PRG.
 
 En este punto aprendemos la mitad que faltaba del binomio: cómo el motor elige qué método se ejecuta, de dónde salen los datos que ese método recibe y con qué resultados puede responder la página.
 

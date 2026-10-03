@@ -26,7 +26,7 @@
 
 # 9. ViewModels y Programación Orientada a Objetos
 
-> 💡 **Punto de partida:** En el punto 08 le pasamos a la vista la entidad `Producto` entera, con sus nueve campos. Pero la ficha de detalle pinta cinco elementos y necesita cuatro textos que en la entidad no existen, como "En catálogo" o "Novedad". ¿Quién los calcula? Si los calcula la vista, la separación del 07 se cae. Si no los calcula nadie, la vista queda a medias. Existe un objeto pensado justo para este hueco.
+> 💡 **Punto de partida:** Cuando abres la ficha de un vuelo en Kiwi, ves *Equipaje incluido* y *Cancelación gratis*; detrás hay decenas de campos internos de reservas que esa vista nunca mostrará. La vista pide una cosa y el modelo interno guarda otra: entre los dos hay un objeto pensado justo para la pantalla, el ViewModel. En este punto lo construyes para tu ficha de productos, con propiedades calculadas y POO aplicada a las vistas.
 
 En este punto construimos los **ViewModels**: objetos con la forma exacta que pide cada vista, montados por el controlador y leídos por la vista. Y veremos que detrás de ese objeto hay programación orientada a objetos de verdad: encapsulación, propiedades calculadas, inmutabilidad y polimorfismo, todo aplicado a las vistas.
 

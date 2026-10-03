@@ -23,7 +23,7 @@
 
 # 4. Funciones y Métodos en las Vistas
 
-> 💡 **Punto de partida:** Has montado el listado del punto anterior y funciona. Pero fíjate: la misma cascada de `@if / else if / else` para la etiqueta de estado está dentro de cada tarjeta. Si mañana cambia la regla (una cuarta posibilidad, otro texto), ¿cuántos sitios tienes que tocar? Si la respuesta es *"varios"*, tu vista ha dejado de ser una plantilla y se ha convertido en un guion de teatro donde se repite el mismo parlamento en cada escena.
+> 💡 **Punto de partida:** Cuando Spotify pinta tu lista de reproducción, el sello de *descargado* no está escrito a mano en cada canción: una función decide, una sola vez, qué sello le toca a cada una. Si mañana la regla cambia, se toca la función y cambian todas las canciones a la vez. En este punto aprendes a sacar esa lógica repetida de la vista a funciones con `@functions` y lambdas, y a distinguir lo que una función devuelve: un valor o HTML.
 
 En este tema aprenderás a crear y utilizar funciones dentro de la vista con `@functions`, a escribir funciones locales y **funciones anónimas (lambdas)**, a saber qué devuelve una función (valor o HTML) y a reconocer lo que Razor no soporta, para que no pierdas media hora con un tutorial antiguo.
 

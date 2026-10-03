@@ -27,7 +27,7 @@
 
 # 5. Layouts, Partials y Componentes de Vista
 
-> 💡 **Punto de partida:** Tienes ya seis páginas en ProductosApp y todas empiezan igual: el `<!DOCTYPE>`, el `<head>`, el título, el menú, el pie... Mañana el profesor te pide cambiar el color del menú. ¿Cuántos ficheros tienes que abrir? Si la respuesta es *"seis"*, tu proyecto tiene un problema estructural, no de código.
+> 💡 **Punto de partida:** Cuando abres cualquier sección de Amazon, la barra de búsqueda, el menú y el pie son idénticos página tras página. Si Amazon cambiara el pie en cada plantilla, tardaría meses; en su sitio, lo cambian una vez y se actualiza en todo el sitio. La solución se llama layout, y en este punto aprendes a trocear la interfaz en piezas reutilizables: layout, vistas parciales y componentes de vista.
 
 En este tema aprenderás a trocear la interfaz en tres piezas reutilizables (layout, vistas parciales y componentes de vista), a conectarlas entre sí con `_ViewStart`, `_Layout` y `_ViewImports`, y a saber cuándo conviene cada una.
 

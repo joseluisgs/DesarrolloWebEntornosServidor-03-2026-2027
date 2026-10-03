@@ -30,7 +30,7 @@
 
 # 8. Controladores y Vistas en MVC
 
-> 💡 **Punto de partida:** Escribes `productos/7` en la barra de direcciones y aparece una ficha. Pero fíjate — no existe ningún fichero llamado `productos/7`. Alguien recibe ese texto, lo parte en trozos, encuentra una acción, le entrega el 7 y decide qué responde. Si pones `productos/abc`, ese alguien decide otra cosa: un error. ¿Quién es y qué reglas sigue?
+> 💡 **Punto de partida:** Cuando tecleas `youtube.com/watch?v=abc123`, no existe ningún fichero llamado así: alguien recibe ese texto, lo parte en trozos, encuentra la acción que sabe tratar el vídeo y decide qué responder. Si en vez de `abc123` pones letras imposibles, ese mismo alguien decide otra cosa: un error. Ese alguien es el controlador de MVC; en este punto lo programas de verdad, con rutas, parámetros y resultados.
 
 En el punto 07 diseñamos el flujo MVC en el papel. En este punto lo programamos: rutas de verdad, parámetros que llegan desde la URL, acciones que devuelven vistas, JSON, trozos de HTML o redirecciones, y avisos que cruzan un redirect. Todo visto de cerca con **F12**.
 

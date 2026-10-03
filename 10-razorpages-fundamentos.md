@@ -25,7 +25,7 @@
 
 # 10. Razor Pages: Fundamentos
 
-> 💡 **Punto de partida:** Tres carpetas que tienen que ponerse de acuerdo: `Controllers`, `Views` y `ViewModels`, y una convención tras otra para que cada petición llegue a su sitio. ¿Y si el orden fuera más simple: que cada URL tuviera su propio archivo, con su lógica pegada al lado? Quita al intermediario y deja que la página se sirva sola. Eso es Razor Pages.
+> 💡 **Punto de partida:** Cuando abres el portal de trámites de cualquier administración, cada dirección es una pantalla completa: su formulario, su lógica y sus resultados, sin intermediarios ni mapa de controladores. Razor Pages monta tus proyectos exactamente así: cada URL con su propio archivo y su PageModel pegado al lado. En este punto aprendes esa visión: la directiva `@page`, la geografía de carpetas y el binomio vista y PageModel.
 
 En este punto aprendemos el otro gran enfoque de ASP.NET Core: la **orientación a páginas**. Veremos dónde viven las páginas, cómo la carpeta se convierte en URL, qué hace que un `.cshtml` sea una página de verdad y qué papel juega su `PageModel`.
 

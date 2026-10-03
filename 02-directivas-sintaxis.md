@@ -32,7 +32,7 @@
 
 # 2. Directivas y Sintaxis de Razor
 
-> 💡 **Punto de partida:** Imagina que llegas a una casa que no es tuya. Sin que te lo expliquen, no sabes qué habitación es el salón, dónde está la cocina ni qué reglas rigen la casa. En una vista Razor pasa exactamente lo mismo: sin directivas, el motor no sabe qué modelo espera, qué servicios tiene disponibles ni dónde debe encajar la página. Las directivas son el plano de la casa.
+> 💡 **Punto de partida:** Cuando compras en Amazon, la ficha del producto muestra el precio con su moneda, el año de lanzamiento y la etiqueta de novedad, todo en tu idioma. Detrás de esa página hay un motor que recibe órdenes antes de pintar nada: qué modelo espera, qué servicios usa y qué plantilla monta. Esas órdenes son las directivas de Razor, y en este punto aprendes a darlas.
 
 En este tema aprenderás a dar órdenes al motor Razor con directivas, a escribir sentencias simples comprobando qué HTML producen, a usar los tipos de variables y operadores de C# dentro de una vista y a saber en qué ámbito vive cada variable.
 

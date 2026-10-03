@@ -25,7 +25,7 @@
 
 # 7. Arquitectura MVC: Separación de Presentación y Negocio
 
-> 💡 **Punto de partida:** Llevas seis temas programando dentro de las vistas. Funciona... pero abres `Index.cshtml` y dentro hay datos, decisiones, funciones y HTML mezclados. Si mañana quieres que la misma lista la consuma una app móvil o una API, ¿qué haces: copiar la vista entera? Hay un momento en el que hay que parar y separar. Ese momento es ahora.
+> 💡 **Punto de partida:** Cuando el equipo de Spotify cambia su portada, los que programan la interfaz no tocan a los que calculan las recomendaciones: están en partes distintas del código, y cada equipo puede trabajar sin romper el trabajo del otro. Ese es el patrón MVC: separar datos, presentación y coordinación para que todo sea más claro y mantenible. En este punto aprendes las tres piezas y la regla de oro que las gobierna.
 
 En este tema aprendes el patrón MVC: tres piezas (Model, View, Controller) y una regla de oro: cada pieza solo habla con las que le tocan. Verás cómo se traduce en un proyecto .NET real, qué cambia en la carpeta `Controllers/` y cómo fluye una petición de principio a fin.
 

@@ -18,7 +18,7 @@
 
 # 13. Formularios Web y Generación Dinámica
 
-> 💡 **Punto de partida:** Compras en una tienda online: eliges la talla, marcas la cantidad, aceptas los términos y pulsas *Confirmar*. Entre ese pulsado y el servidor hay una pieza que lleva treinta años funcionando igual: un formulario. En este punto montamos el mismo alta dos veces, una como página Razor Pages y otra como acción de MVC, para que veas que el formulario no cambia: cambia quién lo recibe.
+> 💡 **Punto de partida:** Cuando reservas un vuelo en Ryanair, eliges fechas, pasajeros y equipaje, aceptas los términos y pulsas *Continuar*. Entre ese pulsado y el servidor hay una pieza que lleva décadas funcionando igual: un formulario. En este punto montamos el mismo alta dos veces, una como página Razor Pages y otra como acción de MVC, para que veas que el formulario no cambia: cambia quién lo recibe.
 
 En este tema aprenderás la anatomía de un formulario, su ciclo completo con el patrón PRG que ya conociste, cómo generar los campos del propio formulario a partir de datos y los Tag Helpers que escriben el HTML por ti. Todo con la forma dual: la misma vista en las dos visiones.
 

@@ -26,7 +26,7 @@
 
 # 6. Tag Helpers: Controles en el Servidor
 
-> 💡 **Punto de partida:** Tienes una página de listado y quieres enlazar al detalle. Escribes `<a href="/Productos/Detalle/7">`... y resulta que la ruta real es `/Productos/Detalle/007`. O cambias el patrón de URL y tienes que buscar cada `href` del proyecto con `Ctrl + E`. ¿Y si la etiqueta decidiera la URL en el servidor, en el momento de pintarse?
+> 💡 **Punto de partida:** Cuando navegas por Booking y pasas el ratón por un enlace de hotel, la URL que ves no la escribió nadie a mano: el servidor la calculó en el momento de pintar la página, y si mañana cambia el patrón de direcciones, el enlace se arregla solo. Los Tag Helpers son ese servidor dentro de la etiqueta: las escribes como HTML y el servidor las transforma antes de mandarlas al navegador.
 
 En este tema conoces los Tag Helpers: etiquetas que escribes como HTML pero que el servidor transforma antes de mandarlas al navegador. Verás los que trae ASP.NET Core (enlaces, recursos, caché, entornos) y aprenderás a escribir los tuyos.
 
