@@ -1,7 +1,10 @@
 - [13. Formularios Web y Generación Dinámica](#13-formularios-web-y-generación-dinámica)
   - [13.1. La Anatomía de un Formulario](#131-la-anatomía-de-un-formulario)
   - [13.2. El Ciclo de un Formulario](#132-el-ciclo-de-un-formulario)
-  - [13.3. La Misma Pantalla en las Dos Visiones](#133-la-misma-pantalla-en-las-dos-visiones)
+  - [13.3. La Pantalla de Alta: Las Dos Visiones](#133-la-pantalla-de-alta-las-dos-visiones)
+    - [13.3.1. Visión Razor Pages: La Página de Alta](#1331-visión-razor-pages-la-página-de-alta)
+    - [13.3.2. Visión MVC: La Acción de Alta](#1332-visión-mvc-la-acción-de-alta)
+    - [13.3.3. La Misma Pantalla, Comparada](#1333-la-misma-pantalla-comparada)
   - [13.4. Generación Dinámica del Formulario](#134-generación-dinámica-del-formulario)
   - [13.5. Tag Helpers de Formulario](#135-tag-helpers-de-formulario)
   - [13.6. Buenas Prácticas](#136-buenas-prácticas)
@@ -118,11 +121,13 @@ La diferencia es importante y se aprende a la primera: **Razor Pages valida el t
 
 > ⚠️ **Advertencia:** si tu acción MVC de escritura no lleva `[ValidateAntiForgeryToken]`, no está protegida aunque el formulario traiga el token. El token se inyecta siempre; quien decide exigirlo eres tú.
 
-## 13.3. La Misma Pantalla en las Dos Visiones
+## 13.3. La Pantalla de Alta: Las Dos Visiones
 
-Este es el corazón del punto: la misma pantalla de alta, montada dos veces. Los campos son idénticos (nombre, categoría y casilla de novedad); cambia dónde vive cada pieza.
+Este es el corazón del punto: la misma pantalla de alta, montada dos veces. Los campos son idénticos (nombre, categoría y casilla de novedad); cambia dónde vive cada pieza. A partir de aquí, los temas duales separan cada pantalla en dos apartados con el nombre de su visión, para que el índice diga de un vistazo qué es página y qué es controlador.
 
-**La página Razor Pages:**
+### 13.3.1. Visión Razor Pages: La Página de Alta
+
+La página vive en `Pages/Productos/Alta.cshtml` con su `PageModel` al lado. El formulario no lleva `action`: envía a la propia página, que es quien procesa.
 
 ```cshtml
 @* Pages/Productos/Alta.cshtml *@
@@ -180,7 +185,9 @@ public class AltaModel : PageModel
 }
 ```
 
-**La acción MVC:**
+### 13.3.2. Visión MVC: La Acción de Alta
+
+La misma pantalla como controlador y vista: el formulario lleva `asp-controller` y `asp-action`, y quien procesa son dos acciones con el mismo nombre.
 
 ```cshtml
 @* Views/Productos/Alta.cshtml *@
@@ -218,6 +225,8 @@ public IActionResult Alta(string nombre, string categoria, bool esNovedad)
     return RedirectToAction("Index");   // PRG: vuelve al listado
 }
 ```
+
+### 13.3.3. La Misma Pantalla, Comparada
 
 La comparación, pieza a pieza:
 
