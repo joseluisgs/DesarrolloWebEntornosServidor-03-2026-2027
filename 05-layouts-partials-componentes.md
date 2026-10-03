@@ -216,7 +216,7 @@ graph TD
 
 ### 5.2.3. Secciones con RenderSectionAsync
 
-`@RenderBody()` es el hueco obligatorio. Las secciones son huecos opcionales para cosas que solo alguna página necesita —una hoja de estilos extra, un script concreto.
+`@RenderBody()` es el hueco obligatorio. Las secciones son huecos opcionales para cosas que solo alguna página necesita (una hoja de estilos extra, un script concreto).
 
 **En el layout** (el hueco):
 
@@ -248,8 +248,8 @@ graph TD
 
 | Situación | `required: false` | `required: true` |
 |---|---|---|
-| La página define la sección | ✅ HTTP 200 | ✅ HTTP 200 |
-| La página no la define | ✅ HTTP 200 | ❌ **HTTP 500** |
+| La página define la sección | HTTP 200 | HTTP 200 |
+| La página no la define | HTTP 200 | HTTP 500 con excepción |
 
 Y en el HTML final, cada sección aparece en su hueco: `Styles` **dentro del `<head>`** y `Scripts` **antes de cerrar el `<body>`**.
 
@@ -304,7 +304,7 @@ El orden de renderizado es exactamente este: la cabecera del `_Layout` principal
 
 ## 5.3. Vistas Parciales
 
-Una vista parcial es un fragmento `.cshtml` con extensión `.cshtml` que se inserta dentro de otra vista. Vive en `Pages/Shared/` (o `Views/Shared/` en MVC) y **empieza por `_`** por convención: así se ve de un vistazo que es una pieza, no una página.
+Un trozo de HTML en `.cshtml` que se inserta dentro de otra vista. Vive en `Pages/Shared/` (o `Views/Shared/` en MVC) y **empieza por `_`** por convención: así se ve de un vistazo que es una pieza, no una página.
 
 ### 5.3.1. Parciales sin Modelo
 
@@ -559,10 +559,10 @@ La directiva `@addTagHelper` dice: *"busca en esta asamblea las etiquetas que sa
 
 | Línea | Qué activa | Efecto |
 |---|---|---|
-| `@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers` | Los Tag Helpers de ASP.NET Core, entre ellos **`<partial>`** | ✅ Sin ella, **`<partial>` sale literal** |
-| `@addTagHelper *, ProductosApp` | Los de tu proyecto, entre ellos **`<vc:...>`** | ✅ Sin ella, **`<vc:...>` sale literal** |
+| `@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers` | Los Tag Helpers de ASP.NET Core, entre ellos **`<partial>`** | Sin ella, **`<partial>` sale como texto literal** |
+| `@addTagHelper *, ProductosApp` | Los de tu proyecto, entre ellos **`<vc:...>`** | Sin ella, **`<vc:...>` sale como texto literal** |
 
-Probamos además `@addTagHelper *, Microsoft.AspNetCore.Mvc.ViewComponents` por separado: **no activa `<vc:...>`**. La línea que necesitas es la de tu asamblea.
+Existe además una asamblea `Microsoft.AspNetCore.Mvc.ViewComponents` que parece la indicada, pero **no activa `<vc:...>`**. La línea que necesitas es la de tu proyecto.
 
 > ⚠️ **Advertencia:** Los dos fallos se ven igual en el navegador (una etiqueta que aparece como texto) pero la causa es distinta. Antes de culpar al componente, mira qué etiqueta ha salido literal: ¿`<partial>`? → falta la de MVC. ¿`<vc:...>`? → falta la de tu proyecto.
 
