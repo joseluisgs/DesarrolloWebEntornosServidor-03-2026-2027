@@ -1,0 +1,50 @@
+# Compilación
+bin/
+obj/
+out/
+
+# IDEs
+.idea/
+.vs/
+.vscode/
+*.sln.iml
+*.DotSettings.user
+
+# Archivos temporales
+*.user
+*.suo
+*.userprefs
+*.log
+*.cache
+*.pdb
+*.tmp
+*.bak
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+artifacts/
+
+# Publicaciones y resultados de pruebas
+publish/
+TestResults/
+
+# Contenido multimedia y docs (no subir a git)
+/multimedia/
+/doc/
+/docs/
+
+# Prácticas de cursos anteriores
+/practicas/2023-2024/
+/practicas/2024-2025/
+
+# Material extra no incluido en el índice
+/ejercicios/
+/ejemplos/mas_ejemplos/
+
+# Sistema y ofimática
+*.pptx
+.DS_Store
+Thumbs.db
+upload.sh
