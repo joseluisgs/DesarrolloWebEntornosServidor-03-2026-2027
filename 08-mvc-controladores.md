@@ -377,7 +377,7 @@ La vista `Ver` no hace más que leerlo: `<p id="aviso">@TempData["Aviso"]</p>`.
 
 📌 **Ejemplo real:** Es el mensaje que ves tras enviar un formulario: "Cambios guardados". Si recargas la página, desaparece. No está en la base de datos ni en la página: viajó una sola vez, del servidor al navegador y de vuelta.
 
-> 💡 **Consejo:** `TempData` es para el aviso del redirect, nada más. La persistencia de verdad entre peticiones (cookies, sesión) tiene su sitio: el punto 17. El patrón que lo lleva a los formularios, PRG, llega en los puntos 13 y 14.
+> 💡 **Consejo:** `TempData` es para el aviso del redirect, nada más. La persistencia de verdad entre peticiones (cookies, sesión) tiene su sitio: el punto 18. El patrón que lo lleva a los formularios, PRG, llega en los puntos 13 y 14.
 
 ## 8.5. La Vista que Elige el Controlador
 

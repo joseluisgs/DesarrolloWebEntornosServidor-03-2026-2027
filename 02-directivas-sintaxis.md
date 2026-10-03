@@ -603,7 +603,7 @@ graph TD
     A -.->|"❌ total NO existe aquí"| C
 
     D["¿Cómo se pasan datos?"] --> E["Con el MODELO<br/>model= y PartialAsync"]
-    D --> F["Con ViewData / ViewBag<br/>(tema 16)"]
+    D --> F["Con ViewData / ViewBag<br/>(tema 08)"]
 
     style A fill:#2196F3,color:#fff
     style B fill:#607D8B,color:#fff
