@@ -429,22 +429,22 @@ Rellena la lista con seis figuras para que haya activas y dadas de baja, novedad
 ### 10.8.4. Retos
 
 1. **En papel primero:** dibuja el árbol `Pages/` que va a tener tu tienda (inicio, listado, detalle, ofertas) y anota al lado de cada archivo su URL; separa los que llevarán `@page` simple de los que llevarán ruta personalizada
-2. Crea `Pages/Productos/Index.cshtml` con `@page` a secas y su `PageModel`; mide `GET /Productos/Index` → **200** y `GET /Productos` → anota qué responde
-3. Crea `Pages/Productos/Detalle.cshtml` con `@page "/productos/{id:int}"` y un `OnGet(int id)` que muestre el nombre del funko; mide `/productos/1` → **200** con el nombre, `/productos/abc` → **404**, `/productos` → **404** y `/Productos/Detalle` → **404**
-4. **Experimento de invisibilidad:** borra la línea `@page`, comprueba que `dotnet build` sigue en **0 errores** y mide `/productos/1` → **404**; devuélvela y confirma el **200**
-5. **Experimento de invención:** cambia a `@page "/productos/{id}"`, mide `/productos/abc` y lee lo que pinta la página; devuelve `:int` y comprueba que vuelve el **404**
-6. Crea `Pages/Productos/Oferta.cshtml` con `@page "/ofertas/{id:int?}"`; mide `/ofertas` y `/ofertas/7` y comprueba que los dos dan **200** con títulos distintos
+2. Crea `Pages/Productos/Index.cshtml` con `@page` a secas y su `PageModel`; abre `/Productos/Index` y comprueba **200**; abre también `/Productos` y anota qué responde
+3. Crea `Pages/Productos/Detalle.cshtml` con `@page "/productos/{id:int}"` y un `OnGet(int id)` que muestre el nombre del funko; abre `/productos/1` y comprueba **200** con el nombre; repite con `/productos/abc`, `/productos` y `/Productos/Detalle` y comprueba **404** en los tres
+4. **Experimento de invisibilidad:** borra la línea `@page`, comprueba que `dotnet build` sigue en **0 errores** y abre `/productos/1`: ahora da **404**; devuélvela y confirma el **200**
+5. **Experimento de invención:** cambia a `@page "/productos/{id}"`, abre `/productos/abc` y lee lo que pinta la página; devuelve `:int` y comprueba que vuelve el **404**
+6. Crea `Pages/Productos/Oferta.cshtml` con `@page "/ofertas/{id:int?}"`; abre `/ofertas` y `/ofertas/7` y comprueba que los dos dan **200** con títulos distintos
 7. Enlaza desde tu inicio con `<a asp-page="/Productos/Detalle" asp-route-id="1">` y verifica con **F12** que el `href` renderizado es `/productos/1`
 8. **Geografía:** comprueba que existen `Pages/_ViewStart.cshtml` y `Pages/Shared/_Layout.cshtml`, y que tu página nueva hereda el layout mirando el `<title>` del resultado
 9. **Namespace roto:** cambia en el `PageModel` el `using Microsoft.AspNetCore.Mvc.RazorPages` por `Microsoft.AspNetCore.Mvc.Razor.Pages`, lee los errores **CS0234** y **CS0246**, y devuélvelo
 
 **Puntos extra:**
 
-- Añade `:min(1)` a la restricción (`{id:int:min(1)}`) y mide qué responde `/productos/0`
+- Añade `:min(1)` a la restricción (`{id:int:min(1)}`) y abre `/productos/0` para ver qué responde
 - Renombra `Detalle.cshtml` a `Ficha.cshtml` (deja copia), anota qué URLs dan 404 y cuál empieza a responder
 - Compara en **F12** el HTML de `/productos/1` con el de la acción `Detalle` del proyecto MVC del 08: título, encabezado y estructura, con dos arquitecturas distintas por detrás
 - Crea `Pages/Sobre.cshtml` con `@page "/sobre"` y comprueba que la ruta literal no sigue el mapa de carpetas
-- Comenta en `Program.cs` la línea `app.MapRazorPages()` y mide: la app arranca y todas las páginas dan **404** (`/css/site.css` en **200**); devuélvela y, después, comenta `builder.Services.AddRazorPages()` y observa que ya no arranca, con `System.InvalidOperationException`
+- Comenta en `Program.cs` la línea `app.MapRazorPages()`, arranca de nuevo y comprueba: la app responde, pero todas las páginas dan **404** (`/css/site.css` en **200**); devuélvela y, después, comenta `builder.Services.AddRazorPages()` y observa que ya no arranca, con `System.InvalidOperationException`
 - Quita la línea `@namespace` de `Pages/_ViewImports.cshtml`, lee el **CS0246** que devuelve `dotnet build` y devuélvela
 
 ---

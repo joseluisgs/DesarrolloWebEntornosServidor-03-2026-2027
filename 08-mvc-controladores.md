@@ -116,9 +116,9 @@ La restricción es un filtro que decide qué valores admiten los huecos de la UR
 | `minlength(3)` | `{q:minlength(3)}` | La búsqueda debe traer al menos 3 caracteres |
 | `range(0,10)` | `{pagina:range(0,10)}` | Reglas de negocio escritas en la propia URL |
 
- /productos/abc` → **HTTP 404** con el cuerpo vacío. La plantilla no encaja con `abc`, así que la petición ni siquiera llega a `Detalle`.
+`GET /productos/abc` → **HTTP 404** con el cuerpo vacío. La plantilla no encaja con `abc`, así que la petición ni siquiera llega a `Detalle`.
 
-¿Y si quitamos `:int`? Lo hemos probado: se cambia la ruta a `productos/{id}` y se añade una sonda en la primera línea de la acción para ver si la petición llega:
+¿Y si quitamos `:int`? Se cambia la ruta a `productos/{id}` y se añade una sonda en la primera línea de la acción para ver si la petición llega:
 
 ```csharp
 [HttpGet("productos/{id}")]
@@ -183,7 +183,8 @@ public IActionResult Buscar(string? q)
 }
 ```
 
-El nombre del argumento es la clave: solo el parámetro llamado `q` se llena con `?q=...`. 
+El nombre del argumento es la clave: solo el parámetro llamado `q` se llena con `?q=...`.
+
 | Petición | `q` recibe | Resultado |
 |----------|-----------|------------------|
 | `GET /Productos/Buscar?q=o` | `"o"` | **200**, `Resultados de "o"`, **3** resultados (Teclado, Botella, Mochila) |
@@ -350,7 +351,7 @@ ViewData["Encontrados"] = res.Count;  // controlador escribe
 
 ### 8.4.2. TempData: el Aviso que Cruza un Redirect
 
-`ViewData` vive una sola petición, pero un redirect son dos peticiones: `Cargar` escribe, `Ver` es quien pinta. `TempData` es la solución — un almacén que sobrevive exactamente una petición y se borra al leerse.
+`ViewData` vive una sola petición, pero un redirect son dos peticiones: `Cargar` escribe, `Ver` es quien pinta. `TempData` es la solución: un almacén que sobrevive exactamente una petición y se borra al leerse.
 
 ```mermaid
 sequenceDiagram
@@ -397,7 +398,7 @@ public IActionResult Novedades()
 }
 ```
 
-`View("Index", novos)` busca `Views/Productos/Index.cshtml` (del controlador actual) y le pasa otros datos.  /Productos/Novedades` → **HTTP 200** con `Novedades del catálogo (2)` y **2 tarjetas**, mientras que `GET /Productos` muestra 6: misma vista, dos acciones, listados distintos.
+`View("Index", novos)` busca `Views/Productos/Index.cshtml` (del controlador actual) y le pasa otros datos. `GET /Productos/Novedades` → **HTTP 200** con `Novedades del catálogo (2)` y **2 tarjetas**, mientras que `GET /Productos` muestra 6: misma vista, dos acciones, listados distintos.
 
 > 📝 **Nota:** si el nombre no corresponde a ninguna vista, el resultado es el del punto 07: **HTTP 500**. Nombrar mal una vista es un error de programación, no un "no encontrado".
 
@@ -416,7 +417,7 @@ public IActionResult Tarjeta(int id)
 }
 ```
 
-La pieza vive en `Views/Shared/_FichaProducto.cshtml`, igual que las demás.  /Productos/Tarjeta/1` → **HTTP 200** con `text/html`, pero el cuerpo empieza en `<div class="card mb-3 ficha">` y no contiene ni `<html>` ni `</html>`: es HTML suelto, sin layout y sin página.
+La pieza vive en `Views/Shared/_FichaProducto.cshtml`, igual que las demás. `GET /Productos/Tarjeta/1` → **HTTP 200** con `text/html`, pero el cuerpo empieza en `<div class="card mb-3 ficha">` y no contiene ni `<html>` ni `</html>`: es HTML suelto, sin layout y sin página.
 
 📌 **Ejemplo real:** Cuando bajas en el muro de X y entra contenido nuevo, la web no recarga la página: pide un trozo de HTML por una dirección como esta y lo pega al final. Un `PartialView` servido por una acción es exactamente ese trozo.
 
@@ -437,7 +438,7 @@ Resumen de la búsqueda de la vista para una acción que hace `return View(...)`
 
 ## 8.6. El Flujo Completo con el Repositorio
 
-Ya están todas las piezas — este es el recorrido entero de `GET /productos/1`, desde la barra de direcciones hasta el HTML, con el repositorio enchufado en el medio:
+Ya están todas las piezas: este es el recorrido entero de `GET /productos/1`, desde la barra de direcciones hasta el HTML, con el repositorio enchufado en el medio:
 
 ```mermaid
 graph LR
@@ -531,13 +532,13 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 
 1. **En papel primero:** dibuja la tabla de rutas: URL de ejemplo → acción que responde → resultado esperado (código HTTP y formato). Incluye al menos una ruta de atributo, un query string, un 404, un 405 y un 302
 2. Crea **`Controllers/FunkosController.cs`** con `Index()` que haga `return View(RepositorioFunkos.ObtenerTodos())` y comprueba con **F12** que `GET /Funkos` da **200** con seis tarjetas
-3. Añade `[HttpGet("funkos/{id:int}")] Detalle(int id)` con el `if (producto is null) return NotFound()`: mide `GET /funkos/1` → **200**, `GET /funkos/99` → **404** y `GET /funkos/abc` → **404**
+3. Añade `[HttpGet("funkos/{id:int}")] Detalle(int id)` con el `if (producto is null) return NotFound()`: abre `GET /funkos/1` y comprueba **200** con el nombre; repite con `/funkos/99` y `/funkos/abc` y comprueba **404** en los dos
 4. Comprueba que `POST /funkos/1` devuelve **405** y que `GET /Funkos/Detalle/1` devuelve **404**: la acción con atributo solo escucha en su dirección
 5. Añade `Buscar(string? q)` y tres peticiones: `?q=` con resultados, `?q=` sin resultados y sin parámetro. Comprueba los tres casos
 6. Añade `Datos()` con `return Json(...)` y verifica en **F12** que el `Content-Type` es `application/json`
 7. Añade `Tarjeta(int id)` con `return PartialView("_FichaFunko", funko)`: comprueba que la respuesta **no contiene `<html>`**
 8. Añade `Saludo()` con `return Content("...", "text/plain")` y verifica el `text/plain`
-9. Añade `Cargar()` con `TempData` y `RedirectToAction("Ver")`, y `Ver()` que pinta `@TempData["Aviso"]`: mide el **302** con su `Location` y el aviso en la segunda petición. Repite sin cookie y comprueba que el aviso no viaja
+9. Añade `Cargar()` con `TempData` y `RedirectToAction("Ver")`, y `Ver()` que pinta `@TempData["Aviso"]`: comprueba el **302** con su `Location` y el aviso en la segunda petición. Repite sin cookie y comprueba que el aviso no viaja
 10. Añade `Novedades()` con `return View("Index", lista)` y comprueba que pinta la vista de `Index` con menos tarjetas y otro título
 11. Añade una acción sin vista y comprueba el **500**: así dejas documentado el caso de error en tu proyecto
 

@@ -479,12 +479,12 @@ Rellena la lista con seis figuras para que haya activas y dadas de baja, novedad
 
 1. **En papel primero:** dibuja las dos formas que pide la pantalla: la del detalle (qué campos pinta la ficha, qué textos se calculan y qué se queda fuera) y la del panel (título, contadores y lista). Separa *se copia* de *se calcula*
 2. Crea `ViewModels/FunkoViewModel.cs` con un `record` para el detalle y las propiedades calculadas `Titulo`, `Subtitulo`, `Estado` y `Sello`; `dotnet build` debe quedar en **0 errores**
-3. Crea `Mappers/FunkoMapper.cs` con el método de extensión `ToViewModel` y la acción `Ficha(int id)`; mide `GET /Funkos/Ficha/1` → **200** con estado y sello, y `GET /Funkos/Ficha/99` → **404** con el cuerpo vacío
+3. Crea `Mappers/FunkoMapper.cs` con el método de extensión `ToViewModel` y la acción `Ficha(int id)`; abre `/Funkos/Ficha/1` y comprueba **200** con estado y sello, y `/Funkos/Ficha/99` y comprueba **404** con el cuerpo vacío
 4. **Rompé el escudo:** añade `@Model.Imagen` a la vista, ejecuta `dotnet build` y lee el error **CS1061**; quítalo y vuelve a dejarlo en **0 errores**
 5. **Rompé la inmutabilidad:** añade `@{ Model.Estado = "cambiado"; }`, lee el error **CS0200** y quítalo
-6. Crea `ViewModels/CatalogoViewModel.cs` con la lista en un campo privado y los conteos `Total`, `Novedades`, `Descatalogados` y `NombresNovedad`; mide `GET /Funkos/Panel` → **200** con título, resumen y lista
-7. Crea la interfaz `IResumen` con `Titulo`, impléntala en los dos ViewModels y la vista `Resumen.cshtml` con `@model IResumen`; mide `GET /Funkos/Resumen` y `GET /Funkos/Resumen?id=1` (**200** con títulos distintos) y `GET /Funkos/Resumen?id=99` (**404**)
-8. **La trampa del contrato:** quita `: IResumen` de un ViewModel, mide el **500** en `/Funkos/Resumen`, léelo: el mensaje dice qué tipo espera la vista; devuélvelo y comprueba que vuelve el **200**
+6. Crea `ViewModels/CatalogoViewModel.cs` con la lista en un campo privado y los conteos `Total`, `Novedades`, `Descatalogados` y `NombresNovedad`; abre `/Funkos/Panel` y comprueba **200** con título, resumen y lista
+7. Crea la interfaz `IResumen` con `Titulo`, impléntala en los dos ViewModels y la vista `Resumen.cshtml` con `@model IResumen`; abre `/Funkos/Resumen`, `/Funkos/Resumen?id=1` (**200** con títulos distintos) y `/Funkos/Resumen?id=99` (**404**) y comprueba los tres códigos
+8. **La trampa del contrato:** quita `: IResumen` de un ViewModel, vuelve a abrir `/Funkos/Resumen` y comprueba el **500**, léelo: el mensaje dice qué tipo espera la vista; devuélvelo y comprueba que vuelve el **200**
 9. Revisa tus vistas: si alguna hace un `Where` o un `Count`, muévelo al ViewModel y comprueba el resultado
 
 **Puntos extra:**

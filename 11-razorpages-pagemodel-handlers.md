@@ -127,7 +127,7 @@ Prueba el alta en el navegador: envía dos POST, uno con `nombre=Teclado` y otro
 
 ### 11.2.2. Propiedades con BindProperty
 
-Los parámetros van bien para datos sueltos; cuando el formulario trae varios campos que van juntos, se declaran como propiedades con `[BindProperty]`. Y aquí aparece el primer gotcha del punto: sin el atributo, la propiedad no se rellena, aunque el formulario envíe un campo con su nombre.
+Los parámetros van bien para datos sueltos; cuando el formulario trae varios campos que van juntos, se declaran como propiedades con `[BindProperty]`. Y aquí aparece la primera trampa del punto: sin el atributo, la propiedad no se rellena, aunque el formulario envíe un campo con su nombre.
 
 ```csharp
 // Pages/Productos/Eco.cshtml.cs (extracto)
@@ -358,13 +358,13 @@ Para el alta, añade una lista estática de nombres dados de alta en la sesión,
 ### 11.7.4. Retos
 
 1. **En papel primero:** dibuja el ciclo de tu pantalla de alta: qué pinta cada GET, qué procesa cada POST, dónde guarda y a dónde redirige; anota el nombre de cada handler
-2. Crea `Pages/Funkos/Alta.cshtml` con `<form method="post">` y un `OnPost(string nombre)` que guarde en la lista y devuelva `RedirectToPage()`; mide: el contador de la página empieza en 0, el POST sin token → **400**, el POST con el token del formulario → **302** con `Location` y el GET siguiente muestra el contador en 1
+2. Crea `Pages/Funkos/Alta.cshtml` con `<form method="post">` y un `OnPost(string nombre)` que guarde en la lista y devuelva `RedirectToPage()`; comprueba en el navegador: el contador empieza en 0, el POST sin token → **400**, el POST con el token del formulario → **302** con `Location` y el GET siguiente muestra el contador en 1
 3. Comprueba con **F12** que el `<form>` sale con el campo oculto `__RequestVerificationToken` aunque no lleve atributos `asp-*`
 4. Añade una propiedad `Comentario` sin `[BindProperty]` y un campo con su nombre en el formulario; tras el POST comprueba que no llega; dale después el atributo y comprueba que sí
-5. En el detalle del 10, añade validación de id: `if (id < 1 || id > 6) return NotFound();` y mide `/funkos/1` → **200** y `/funkos/99` → **404**
+5. En el detalle del 10, añade validación de id: `if (id < 1 || id > 6) return NotFound();`; abre `/funkos/1` y comprueba **200**, y `/funkos/99` y comprueba **404**
 6. En el listado, crea `OnGetOrdenar()` con un enlace `<a asp-page-handler="Ordenar">`; verifica en **F12** el `href` renderizado (`?handler=Ordenar`) y que la lista sale ordenada
 7. Añade `OnPostActualizar(string marca)` con un formulario `asp-page-handler="Actualizar"`; comprueba que el POST lo ejecuta a él y no a `OnPost`
-8. Mide el fallback: POST con `?handler=NoExiste` y comprueba que responde **200** y se ejecuta `OnPost`
+8. Cambia el valor de `asp-page-handler` a `NoExiste` (con **F12**, en el atributo del `<form>`), recarga y envía: la app responde **200** y se ejecuta `OnPost`, el de por defecto
 9. Renombra `OnPost` a `OnPostAsync` (con `await Task.Yield()` dentro) y comprueba que todo sigue igual: **200** en lectura y **302** en el alta
 
 **Puntos extra:**
