@@ -246,7 +246,7 @@ Si una función tiene que esperar a algo (una consulta, una llamada HTTP) se dec
 }
 ```
 
-📌 **Ejemplo real:** La propia plantilla de ASP.NET Core lo hace: en el `_Layout` se llama a `await UserManager.GetUserAsync(User)` desde la vista para decidir si pintar *"Hola, Ana"* o el botón de acceso.
+📌 **Ejemplo real:** Las redes sociales pintan *"Hola, Ana"* en la barra superior con este mismo mecanismo: la plantilla consulta quién ha entrado, con una llamada asíncrona al servicio de identidad, y pinta el saludo o el botón de acceso según lo que devuelva.
 
 > ⚠️ **Advertencia:** Si llamas a una función `async` **sin `await`**, el compilador te avisa (CS4014) y la tarea se queda huérfana: la página continúa sin esperar y el dato sale vacío. **`await` siempre.**
 
@@ -292,7 +292,7 @@ El HTML resultante es:
 >
 > ✅ **Regla:** HTML de tu plantilla → puede. HTML del usuario → jamás.
 
-> 💡 **Consejo:** Si lo que quieres es reutilizar HTML:** una tarjeta, un pie, un listado—, la respuesta correcta no es una función que devuelva `IHtmlContent`: es una vista parcial. Esa es exactamente la razón de ser del punto 05 · Layouts, Partials y Componentes de Vista**.
+> 💡 **Consejo:** Si lo que quieres es reutilizar HTML (una tarjeta, un pie, un listado), la respuesta correcta no es una función que devuelva `IHtmlContent`: es una vista parcial. Esa es exactamente la razón de ser del punto **05** · Layouts, Partials y Componentes de Vista.
 
 ### 4.2.4. Funciones Locales en un Bloque de Código
 
@@ -346,7 +346,7 @@ Ahí sí hay llaves, y la función se queda dentro sin salir.
 | **¿Puede ser `public static`?** | `static` sí · `public` no | No | Sí |
 | **Ideal para** | Auxiliar rápida de esta vista | Lógica privada de un bucle | Reglas que se repiten |
 
-> 📝 **Nota:** Lo anterior lo hemos mirado en el código generado con `/p:EmitCompilerGeneratedFiles=true`. Es la mejor forma de entender Razor: **compila a C# y ese C# se puede leer**.
+> 📝 **Nota:** Puedes verlo tú mismo: compila con `/p:EmitCompilerGeneratedFiles=true` y abre el `.g.cs` que se genera en `obj/`. Es la mejor forma de entender Razor: **compila a C# y ese C# se puede leer**.
 
 > 💡 **Analogía:** Una función local es una herramienta que sacas del cajón, la usas y la guardas. `@functions` es una herramienta atornillada a la vista: se queda montada mientras dure la página.
 
