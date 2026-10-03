@@ -132,7 +132,7 @@ Veamos el precio concreto de dejarlo todo junto:
 
 ### 7.2.1. Los Tres Papeles
 
-**MVC** son las iniciales de ***Model-View-Controller***. Es un patrón de diseño: una solución probada a un problema repetido —cómo mantener separadas la lógica de negocio, la presentación y la entrada de datos.
+**MVC** son las iniciales de ***Model-View-Controller***. Es un patrón de diseño: una solución probada a un problema repetido, cómo mantener separadas la lógica de negocio, la presentación y la entrada de datos.
 
 | Pieza | Pregunta que responde | Qué lleva dentro | En .NET |
 |---|---|---|---|
@@ -168,7 +168,7 @@ La regla del patrón es corta y es lo único que hay que memorizar:
 
 > ✅ **La vista NO decide, la vista NO busca: la vista PINTA.**
 
-Y un detalle importante —honestidad con lo que hemos hecho hasta ahora:
+Y un detalle importante, con honestidad sobre lo que hemos hecho hasta ahora:
 
 | Qué hacíamos antes | Qué hace MVC |
 |---|---|
@@ -212,13 +212,13 @@ Creamos un proyecto MVC real con `dotnet new mvc` y vamos paso a paso:
 
 | URL pedida | Qué ocurre | HTTP |
 |---|---|---|
-| `/` | Ruta por defecto → `Home` + `Index` → `Views/Home/Index.cshtml` | **200** ✅ |
-| `/Home/Acerca` | `HomeController.Acerca()` → `Views/Home/Acerca.cshtml` | **200** ✅ |
-| `/Home/NoExiste` | El controlador existe, la acción no | **404** ❌ |
-| `/NoExiste/Index` | Ni el controlador existe | **404** ❌ |
-| `/Views/Home/Index` | La vista no es una URL | **404** ❌ |
-| `/Home/SinVista` | La acción pide `View()` y no existe el `.cshtml` | **500** ❌ |
-| `/Home/Volver` | `RedirectToAction("Privacy")` | **302** ↪️ |
+| `/` | Ruta por defecto → `Home` + `Index` → `Views/Home/Index.cshtml` | **200** |
+| `/Home/Acerca` | `HomeController.Acerca()` → `Views/Home/Acerca.cshtml` | **200** |
+| `/Home/NoExiste` | El controlador existe, la acción no | **404** |
+| `/NoExiste/Index` | Ni el controlador existe | **404** |
+| `/Views/Home/Index` | La vista no es una URL | **404** |
+| `/Home/SinVista` | La acción pide `View()` y no existe el `.cshtml` | **500** |
+| `/Home/Volver` | `RedirectToAction("Privacy")` | **302** con `Location` |
 
 La ruta que lo gobierna todo está en `Program.cs` y es una sola línea:
 
@@ -236,7 +236,7 @@ El patrón dice: el primer trozo de la URL es el controlador, el segundo es la a
 
 ### 7.3.2. La Convención que Decide la Vista
 
-Aquí está la magia de MVC: nadie escribe a mano qué vista abrir. Lo decide una convención —una regla que se cumple sin que la declares:
+Aquí está la magia de MVC: nadie escribe a mano qué vista abrir. Lo decide una convención (una regla que se cumple sin que la declares):
 
 | Controlador | Acción | La vista que se busca |
 |---|---|---|
@@ -254,7 +254,7 @@ Aquí está la magia de MVC: nadie escribe a mano qué vista abrir. Lo decide un
 
 ## 7.4. Los Tres Componentes en un Proyecto Real
 
-Todo lo de esta sección es código real, compilado y ejecutado en un proyecto creado con `dotnet new mvc`.
+Todo lo de esta sección es código real de un proyecto creado con `dotnet new mvc`.
 
 ### 7.4.1. El Controlador
 
@@ -452,7 +452,7 @@ La tabla que cierra el capítulo: **todo lo que hemos hecho en los puntos 01-06,
 | `@functions` con reglas dentro de la vista | ⚠️ Mezclado | Sacar de la vista |
 | `RepositorioProductos.ObtenerTodos()` llamado dentro de la vista | ⚠️ Mezclado | Llamarlo desde el controlador |
 
-📌 **Ejemplo real:** Es lo mismo que le pasó a Twitter al reescribir su app: el código de *"mostrar un tuit"* estaba en el mismo sitio que el de *"decir si es un tuit favorito"*. Cuando quisieron sacar esa regla a una app nueva, tuvieron que reescribir mitad de la interfaz. Separar a tiempo ahora ahorra reescribir después.
+📌 **Ejemplo real:** Es el problema clásico de las aplicaciones que crecen: la regla de *"mostrar un elemento"* y la de *"decidir si es favorito"* acaban en el mismo fichero, y cuando alguien quiere reutilizar una de las dos en otra app, hay que desentrañar la interfaz entera. Separar a tiempo ahorra reescribir después.
 
 > 💡 **Punto de partida para el diseño:** Antes de escribir una sola línea, dibuja en papel tres columnas (Presentación, Negocio, Datos) y coloca cada fichero en la suya. Si un fichero no cabe en ninguna o cabe en dos, ahí hay un problema de diseño.
 
