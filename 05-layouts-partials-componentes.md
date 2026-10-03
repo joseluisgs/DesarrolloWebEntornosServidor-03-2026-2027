@@ -298,7 +298,7 @@ El orden de renderizado es exactamente este: la cabecera del `_Layout` principal
 <html><head><title>Solo yo</title></head><body><p>sin layout</p></body></html>
 ```
 
-📌 **Ejemplo real:** Gmail funciona así. La pantalla de lectura de un correo es una plantilla; el panel de *"Ajustes"* usa una plantilla secundaria con su propio menú lateral; y la pantalla de inicio de sesión es una página suelta (`Layout = null`): no tiene ni cabecera ni pie de la bandeja, porque no tiene sentido.
+📌 **Ejemplo real:** Gmail funciona así. La vista de lectura de un correo es una plantilla; el panel de *"Ajustes"* usa una plantilla secundaria con su propio menú lateral; y la vista de inicio de sesión es una página suelta (`Layout = null`): no tiene ni cabecera ni pie de la bandeja, porque no tiene sentido.
 
 > 💡 **Analogía:** Un layout anidado es una caja dentro de otra caja. El contenido va en la caja pequeña, la caja pequeña va en la grande, y la grande es la que viaja.
 
@@ -432,7 +432,7 @@ graph TD
     style E fill:#4CAF50,color:#fff
 ```
 
-📌 **Ejemplo real:** En Instagram, el número de seguidores de un perfil no se lo pasa la página al componente: el componente lo consulta él mismo cada vez que se pinta. Si se lo tuviera que pasar la vista, cada pantalla que quiera mostrar seguidores tendría que repetir la misma consulta. Un View Component evita exactamente eso.
+📌 **Ejemplo real:** En Instagram, el número de seguidores de un perfil no se lo pasa la página al componente: el componente lo consulta él mismo cada vez que se pinta. Si se lo tuviera que pasar la vista, cada vista que quiera mostrar seguidores tendría que repetir la misma consulta. Un View Component evita exactamente eso.
 
 ### 5.4.2. Crear un Componente
 

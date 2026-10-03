@@ -1,7 +1,7 @@
 - [9. ViewModels y Programación Orientada a Objetos](#9-viewmodels-y-programación-orientada-a-objetos)
   - [9.1. La Forma que Pide la Vista](#91-la-forma-que-pide-la-vista)
-    - [9.1.1. La Entidad No Es la Pantalla](#911-la-entidad-no-es-la-pantalla)
-    - [9.1.2. Qué Pide la Pantalla que la Entidad No Da](#912-qué-pide-la-pantalla-que-la-entidad-no-da)
+    - [9.1.1. La Entidad No Es la Vista](#911-la-entidad-no-es-la-vista)
+    - [9.1.2. Qué Pide la Vista que la Entidad No Da](#912-qué-pide-la-vista-que-la-entidad-no-da)
   - [9.2. Qué es un ViewModel](#92-qué-es-un-viewmodel)
     - [9.2.1. Tres Tipos de Modelo](#921-tres-tipos-de-modelo)
     - [9.2.2. El ViewModel del Detalle](#922-el-viewmodel-del-detalle)
@@ -26,9 +26,9 @@
 
 # 9. ViewModels y Programación Orientada a Objetos
 
-> 💡 **Punto de partida:** En el punto 08 le pasamos a la vista la entidad `Producto` entera, con sus nueve campos. Pero la ficha de detalle pinta cinco elementos y necesita cuatro textos que en la entidad no existen, como "En catálogo" o "Novedad". ¿Quién los calcula? Si los calcula la vista, la separación del 07 se cae. Si no los calcula nadie, la pantalla queda a medias. Existe un objeto pensado justo para este hueco.
+> 💡 **Punto de partida:** En el punto 08 le pasamos a la vista la entidad `Producto` entera, con sus nueve campos. Pero la ficha de detalle pinta cinco elementos y necesita cuatro textos que en la entidad no existen, como "En catálogo" o "Novedad". ¿Quién los calcula? Si los calcula la vista, la separación del 07 se cae. Si no los calcula nadie, la vista queda a medias. Existe un objeto pensado justo para este hueco.
 
-En este punto construimos los **ViewModels**: objetos con la forma exacta que pide cada pantalla, montados por el controlador y leídos por la vista. Y veremos que detrás de ese objeto hay programación orientada a objetos de verdad: encapsulación, propiedades calculadas, inmutabilidad y polimorfismo, todo aplicado a las vistas.
+En este punto construimos los **ViewModels**: objetos con la forma exacta que pide cada vista, montados por el controlador y leídos por la vista. Y veremos que detrás de ese objeto hay programación orientada a objetos de verdad: encapsulación, propiedades calculadas, inmutabilidad y polimorfismo, todo aplicado a las vistas.
 
 **Objetivos de aprendizaje:**
 
@@ -42,7 +42,7 @@ En este punto construimos los **ViewModels**: objetos con la forma exacta que pi
 
 ## 9.1. La Forma que Pide la Vista
 
-### 9.1.1. La Entidad No Es la Pantalla
+### 9.1.1. La Entidad No Es la Vista
 
 Volvemos a la entidad con la que trabajamos desde el punto 03:
 
@@ -60,13 +60,13 @@ public record Producto(
 );
 ```
 
-Nueve campos, un reflejo fiel de lo que guarda la aplicación. Eso está bien para el repositorio y para la base de datos, pero la pantalla de ficha no es la base de datos: es una opinión sobre esos datos. En el punto 08, la vista `Detalle.cshtml` recibía la entidad y pintaba `Nombre`, `Categoria`, `Anio` y `PrecioReferencia`; los otros cinco campos viajaban de gratis.
+Nueve campos, un reflejo fiel de lo que guarda la aplicación. Eso está bien para el repositorio y para la base de datos, pero la vista de ficha no es la base de datos: es una opinión sobre esos datos. En el punto 08, la vista `Detalle.cshtml` recibía la entidad y pintaba `Nombre`, `Categoria`, `Anio` y `PrecioReferencia`; los otros cinco campos viajaban de gratis.
 
-📌 **Ejemplo real:** En la ficha de un producto de Amazon ves el nombre, el precio y la valoración. Detrás hay stock por almacén, coste de adquisición, margen del proveedor y decenas de campos más que jamás aparecen en tu pantalla, porque esa vista no es el almacén: es una opinión sobre él.
+📌 **Ejemplo real:** En la ficha de un producto de Amazon ves el nombre, el precio y la valoración. Detrás hay stock por almacén, coste de adquisición, margen del proveedor y decenas de campos más que jamás aparecen en tu vista, porque esa vista no es el almacén: es una opinión sobre él.
 
 > 💡 **Analogía:** Un camarero lleva a la mesa una bandeja con los platos que tocan. La mesa no consulta la cocina ni sabe de dónde sale cada plato: recibe la bandeja ya preparada. El controlador es el camarero, el ViewModel es la bandeja y la vista es la mesa.
 
-### 9.1.2. Qué Pide la Pantalla que la Entidad No Da
+### 9.1.2. Qué Pide la Vista que la Entidad No Da
 
 Comparemos lo que pinta la ficha con lo que la entidad sabe dar:
 
@@ -85,7 +85,7 @@ Dos problemas enfrentados. Por un lado, faltan textos derivados de los datos. Po
 
 ## 9.2. Qué es un ViewModel
 
-Un **ViewModel** es un objeto con las propiedades exactas que necesita una pantalla concreta, construido por el controlador y consumido por la vista. No guarda nada nuevo: presenta lo que ya existe con otra forma. La respuesta al hueco del apartado anterior es un objeto a medida — el ViewModel, escudo entre la entidad y la vista.
+Un **ViewModel** es un objeto con las propiedades exactas que necesita una vista concreta, construido por el controlador y consumido por la vista. No guarda nada nuevo: presenta lo que ya existe con otra forma. La respuesta al hueco del apartado anterior es un objeto a medida — el ViewModel, escudo entre la entidad y la vista.
 
 ### 9.2.1. Tres Tipos de Modelo
 
@@ -94,12 +94,12 @@ En un proyecto MVC conviven tres clases de modelo, y confundirlas es la fuente d
 | Tipo | Carpeta | Para qué lo usas | Ejemplo |
 |------|---------|------------------|---------|
 | **Entidad** | `Models/` | Reflejo de lo que almacenas | `Producto` con sus 9 campos |
-| **ViewModel** | `ViewModels/` | Forma exacta de una pantalla | `ProductoViewModel` para la ficha |
+| **ViewModel** | `ViewModels/` | Forma exacta de una vista | `ProductoViewModel` para la ficha |
 | **InputModel** | `ViewModels/` | Lo que un formulario envía y hay que validar | Lo veremos con los formularios |
 
 El nombre `ViewModels/` como carpeta de "escudos de datos" viene de esa idea: el ViewModel decide qué ve y qué no ve la vista.
 
-📌 **Ejemplo real:** Instagram tiene un muro, un perfil y una pantalla de búsqueda; los tres pintan "publicaciones", pero cada pantalla necesita campos distintos (seguidores, ubicación, número de hashtags) y por eso cada una recibe un objeto distinto, no el registro crudo.
+📌 **Ejemplo real:** Instagram tiene un muro, un perfil y una vista de búsqueda; los tres pintan "publicaciones", pero cada vista necesita campos distintos (seguidores, ubicación, número de hashtags) y por eso cada una recibe un objeto distinto, no el registro crudo.
 
 > 📝 **Nota:** la cláusula `: IResumen` que verás en la firma del ViewModel del apartado siguiente se explica en el 9.4.4: es el contrato que permite pintar el mismo objeto en otra vista. Por ahora, léela como una etiqueta más.
 
@@ -197,7 +197,7 @@ graph LR
 
 ### 9.3.1. El Panel del Catálogo
 
-La segunda pantalla no es una ficha: es un resumen con título, dos contadores y una lista de nombres. Ahí el ViewModel no mapea campos de uno a uno, sino que guarda los datos de origen en privado y abre solo sus conclusiones:
+La segunda vista no es una ficha: es un resumen con título, dos contadores y una lista de nombres. Ahí el ViewModel no mapea campos de uno a uno, sino que guarda los datos de origen en privado y abre solo sus conclusiones:
 
 ```csharp
 public record CatalogoViewModel : IResumen
@@ -242,7 +242,7 @@ public IActionResult Panel() =>
 
 La lista `_productos` no se pinta nunca — la vista solo lee contadores y nombres que ya vienen calculados.
 
-📌 **Ejemplo real:** El panel de YouTube Studio te resume el canal en un vistazo: suscriptores, vistas totales y últimos vídeos. Nadie consulta la base de datos en la pantalla; alguien ha preparado el resumen antes de que la página se pinte.
+📌 **Ejemplo real:** El panel de YouTube Studio te resume el canal en un vistazo: suscriptores, vistas totales y últimos vídeos. Nadie consulta la base de datos en la vista; alguien ha preparado el resumen antes de que la página se pinte.
 
 ### 9.3.2. ViewData o ViewModel
 
@@ -253,13 +253,13 @@ En el punto 08 usaste `ViewData["Titulo"]` y `ViewBag.Consulta`; aquí llegan lo
 | **Tipo** | `object?` y `dynamic` | Tipado en tiempo de compilación |
 | **Errores** | Aparecen en ejecución | Aparecen en `dotnet build` |
 | **Autocompletado** | No | Sí, mientras escribes la vista |
-| **Tamaño** | Uno o dos mensajes sueltos | Los datos completos de la pantalla |
+| **Tamaño** | Uno o dos mensajes sueltos | Los datos completos de la vista |
 | **Ejemplo del 08** | `ViewData["Titulo"]`, `ViewBag.Consulta` | `ProductoViewModel`, `CatalogoViewModel` |
 
 ```mermaid
 graph TD
     Q["¿Qué le pasas<br/>a la vista?"] --> A["Mensajes sueltos<br/>ViewData / ViewBag"]
-    Q --> B["Datos de la pantalla<br/>ViewModel"]
+    Q --> B["Datos de la vista<br/>ViewModel"]
     Q --> C["La entidad entera<br/>Producto"]
     A --> D["Bien para títulos<br/>y avisos"]
     B --> E["Forma exacta y<br/>errores al compilar"]
@@ -273,7 +273,7 @@ graph TD
     style F fill:#f44336,color:#fff
 ```
 
-> 💡 **Truco:** el criterio es el tamaño. Un título o un aviso de una petición: `ViewData` o `TempData`. Una pantalla con lista, contadores y textos derivados: ViewModel. Si vas a escribir tres o más claves seguidas, ya es ViewModel.
+> 💡 **Truco:** el criterio es el tamaño. Un título o un aviso de una petición: `ViewData` o `TempData`. Una vista con lista, contadores y textos derivados: ViewModel. Si vas a escribir tres o más claves seguidas, ya es ViewModel.
 
 ## 9.4. Programación Orientada a Objetos en la Vista
 
@@ -297,7 +297,7 @@ para "Imagen" ni un método de extensión accesible "Imagen" que acepte un prime
 argumento del tipo "ProductoViewModel"
 ```
 
-📌 **Ejemplo real:** En la app de tu banco, la pantalla de tu cuenta no puede leer campos internos de riesgo o scoring del cliente, aunque existan en la entidad. El contrato de tipos hace ese trabajo: si no está en la superficie que recibes, no existe para ti.
+📌 **Ejemplo real:** En la app de tu banco, la vista de tu cuenta no puede leer campos internos de riesgo o scoring del cliente, aunque existan en la entidad. El contrato de tipos hace ese trabajo: si no está en la superficie que recibes, no existe para ti.
 
 ### 9.4.2. Propiedades Calculadas
 
@@ -331,7 +331,7 @@ Ficha.cshtml(10,4): error CS0200: No se puede asignar a la propiedad o el indiza
 
 Son dos errores de compilación distintos con el mismo mensaje implícito: *lo que la vista no puede hacer, no lo hace ni de casualidad*. Los errores de tipos en una vista se pagan en local, con el compilador, y no en producción, con un usuario.
 
-> ⚠️ **Advertencia:** si una pantalla necesita "modificar" algo (marcar como leído, incrementar un contador), eso no es pintar: es una acción. Se manda con un `POST` a una acción del controlador, como vimos en el punto 08, no escribiendo sobre el modelo de la vista.
+> ⚠️ **Advertencia:** si una vista necesita "modificar" algo (marcar como leído, incrementar un contador), eso no es pintar: es una acción. Se manda con un `POST` a una acción del controlador, como vimos en el punto 08, no escribiendo sobre el modelo de la vista.
 
 ### 9.4.4. Herencia y Polimorfismo
 
@@ -415,7 +415,7 @@ Con las piezas de los puntos 07, 08 y este, la pregunta de siempre tiene respues
 ```mermaid
 graph TD
     Q["¿Dónde va<br/>este código?"] --> A["Solo pinta<br/>Vista"]
-    Q --> B["Textos y conteos<br/>de pantalla<br/>ViewModel"]
+    Q --> B["Textos y conteos<br/>de vista<br/>ViewModel"]
     Q --> C["Reglas de negocio<br/>y datos<br/>Modelo / Repositorio"]
     Q --> D["Busca, convierte<br/>y decide vista<br/>Controlador"]
     style Q fill:#2196F3,color:#fff
@@ -427,11 +427,11 @@ graph TD
 
 El criterio es simple — si la respuesta cambia cuando cambian los datos de negocio, no va en la vista.
 
-📌 **Ejemplo real:** En Glovo, el precio final con descuentos y gastos de envío lo calcula el servidor antes de pintar la página. La pantalla solo muestra la cifra ya cerrada: si el cálculo se equivoca, se arregla en un sitio, no en cuarenta vistas.
+📌 **Ejemplo real:** En Glovo, el precio final con descuentos y gastos de envío lo calcula el servidor antes de pintar la página. La vista solo muestra la cifra ya cerrada: si el cálculo se equivoca, se arregla en un sitio, no en cuarenta vistas.
 
 ## 9.6. Buenas Prácticas
 
-- **Un ViewModel por pantalla**: el detalle y el panel tienen formas distintas y cada una tiene su objeto
+- **Un ViewModel por vista**: el detalle y el panel tienen formas distintas y cada una tiene su objeto
 - **Carpetas con su propósito**: entidades en `Models/`, escudos en `ViewModels/`, conversión en `Mappers/`
 - **Propiedades calculadas, no guardadas**: estado, subtítulo y conteos se derivan al leerse
 - **La fuente, en privado**: el ViewModel abre solo lo que la vista pinta, nunca la lista cruda
@@ -442,7 +442,7 @@ El criterio es simple — si la respuesta cambia cuando cambian los datos de neg
 
 ## 9.7. Reto: Escudos de datos para FunkoApp
 
-> Escuda los datos de FunkoApp con ViewModels — y dibuja antes en papel la forma que pide cada pantalla.
+> Escuda los datos de FunkoApp con ViewModels — y dibuja antes en papel la forma que pide cada vista.
 
 ### 9.7.1. Contexto
 
@@ -477,7 +477,7 @@ Rellena la lista con seis figuras para que haya activas y dadas de baja, novedad
 
 ### 9.7.4. Retos
 
-1. **En papel primero:** dibuja las dos formas que pide la pantalla: la del detalle (qué campos pinta la ficha, qué textos se calculan y qué se queda fuera) y la del panel (título, contadores y lista). Separa *se copia* de *se calcula*
+1. **En papel primero:** dibuja las dos formas que pide la vista: la del detalle (qué campos pinta la ficha, qué textos se calculan y qué se queda fuera) y la del panel (título, contadores y lista). Separa *se copia* de *se calcula*
 2. Crea `ViewModels/FunkoViewModel.cs` con un `record` para el detalle y las propiedades calculadas `Titulo`, `Subtitulo`, `Estado` y `Sello`; `dotnet build` debe quedar en **0 errores**
 3. Crea `Mappers/FunkoMapper.cs` con el método de extensión `ToViewModel` y la acción `Ficha(int id)`; abre `/Funkos/Ficha/1` y comprueba **200** con estado y sello, y `/Funkos/Ficha/99` y comprueba **404** con el cuerpo vacío
 4. **Rompé el escudo:** añade `@Model.Imagen` a la vista, ejecuta `dotnet build` y lee el error **CS1061**; quítalo y vuelve a dejarlo en **0 errores**
@@ -502,14 +502,14 @@ Rellena la lista con seis figuras para que haya activas y dadas de baja, novedad
 | Concepto | Descripción |
 |----------|-------------|
 | **Entidad** | Reflejo de lo que almacenas; vive en `Models/` |
-| **ViewModel** | Forma exacta de una pantalla; escudo en `ViewModels/` |
+| **ViewModel** | Forma exacta de una vista; escudo en `ViewModels/` |
 | **InputModel** | Lo que un formulario envía; llega con los formularios |
 | **Mapper** | `Mappers/` convierte entidad en ViewModel con `ToViewModel()` |
 | **Propiedad calculada** | `=>` sin backing field: se recalcula al leerse |
 | **Encapsulación** | La fuente va en privado; se publica solo lo pintable |
 | **Inmutabilidad** | El `record` no se reescribe: asignar da **CS0200** |
 | **Escudo compilado** | Un campo inexistente para la vista da **CS1061** |
-| **ViewData vs ViewModel** | Mensajes sueltos sin tipo vs datos tipados de pantalla |
+| **ViewData vs ViewModel** | Mensajes sueltos sin tipo vs datos tipados de vista |
 | **Interfaz en la vista** | `@model IResumen` pinta cualquier implementación |
 | **Contrato roto** | Si el modelo no cumple la interfaz, la vista da **500** |
 | **Vista pinta, VM calcula** | La vista no consulta: `Where` y `Count` van en el ViewModel |

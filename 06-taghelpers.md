@@ -162,11 +162,11 @@ graph LR
 | `/Productos/Detalle/12` | **HTTP 200**: `Detalle del Producto 12` |
 | `/Productos/Detalle/abc` | **HTTP 404** |
 
-📌 **Ejemplo real:** Glovo enlaza a cada restaurante con su identificador. Si alguien teclea a mano `/tienda/abc` en la barra de direcciones, no obtiene un error de programa ni una pantalla rota: obtiene un **404**. Eso es exactamente lo que hace la restricción `{id:int}`: rechaza en la puerta lo que no puede procesar.
+📌 **Ejemplo real:** Glovo enlaza a cada restaurante con su identificador. Si alguien teclea a mano `/tienda/abc` en la barra de direcciones, no obtiene un error de programa ni una vista rota: obtiene un **404**. Eso es exactamente lo que hace la restricción `{id:int}`: rechaza en la puerta lo que no puede procesar.
 
 > ⚠️ **Advertencia:** El nombre de `asp-route-id` tiene que coincidir con el de la plantilla. Si escribes `asp-route-id="7"` pero la página declara `@page "{identificador}"`, el hueco se queda vacío y recibirás un **404** sin saber por qué.
 
-> 📝 **Nota:** `RouteData.Values["id"]` devuelve un `object`. Para convertirlo a número, cuando llegue el momento usarás *model binding* (el tema **14**). Aquí nos basta para mostrarlo en pantalla.
+> 📝 **Nota:** `RouteData.Values["id"]` devuelve un `object`. Para convertirlo a número, cuando llegue el momento usarás *model binding* (el tema **14**). Aquí nos basta para mostrarlo en la vista.
 
 ## 6.3. Recursos Estáticos y la Huella
 

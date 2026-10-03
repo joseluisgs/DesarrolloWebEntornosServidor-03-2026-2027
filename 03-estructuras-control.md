@@ -258,7 +258,7 @@ Cuando hay muchas ramas posibles sobre el mismo valor, `@switch` se lee mejor qu
 }
 ```
 
-📌 **Ejemplo real:** Un panel de gestión muestra el icono de estado de cada registro con un `switch`: pendiente, en curso, cerrado. Un solo bloque resuelve diez posibles pantallas.
+📌 **Ejemplo real:** Un panel de gestión muestra el icono de estado de cada registro con un `switch`: pendiente, en curso, cerrado. Un solo bloque resuelve diez posibles vistas.
 
 La switch expression no genera HTML: devuelve un valor que luego se pinta.
 
@@ -322,7 +322,7 @@ else
 
 📌 **Ejemplo real:** Cuando Instagram te muestra tu lista de seguidores no hay un archivo por cada lista. Hay una plantilla con un `@foreach` y los datos que devolvió la base de datos en ese instante. Si no sigue a nadie, verás el estado vacío: `@if (!lista.Any())`.
 
-> ⚠️ **Advertencia:** Si la lista llega vacía, el `@foreach` no genera nada y te queda un `<div class="row"></div>` hueco en pantalla. Comprueba siempre el estado vacío antes de recorrer: es el fallo más habitual de las prácticas.
+> ⚠️ **Advertencia:** Si la lista llega vacía, el `@foreach` no genera nada y te queda un `<div class="row"></div>` hueco en la vista. Comprueba siempre el estado vacío antes de recorrer: es el fallo más habitual de las prácticas.
 
 > 📝 **Nota:** `Any()` y `Count` vienen de LINQ. `Any()` es más barato porque se para en cuanto encuentra el primero; usa `Count == 0` solo si ya tienes el número contado.
 

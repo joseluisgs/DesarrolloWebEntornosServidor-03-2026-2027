@@ -50,7 +50,7 @@ En este tema aprenderás a dar órdenes al motor Razor con directivas, a escribi
 
 ### 2.1.1. Qué es una Directiva
 
-Una directiva es una instrucción que le dice al motor Razor cómo debe compilar la vista. No pinta nada en pantalla: cambia por defecto cómo se comporta el documento.
+Una directiva es una instrucción que le dice al motor Razor cómo debe compilar la vista. No pinta nada en la vista: cambia por defecto cómo se comporta el documento.
 
 > 💡 **Analogía:** Una directiva es como la pegatina *"Esta es la puerta de emergencia"* en un cine. Nadie la ve cuando mira la película, pero cambia el comportamiento del edificio entero.
 
@@ -397,7 +397,7 @@ Fíjate en lo que no aparece: ni `@functions`, ni la llamada `Duplicar(6)`, ni e
 | `@if (activo) { ... }` | Sí, una rama u otra | Cambia al invertir la condición |
 | `@etiqueta` | Sí, el valor | Aparece el texto `x12` |
 
-📌 **Ejemplo real:** En un panel de administración, el cálculo de "cuántos registros caben por página" se hace con sentencias dentro de `@{ }`; en pantalla solo aparece el resultado ya calculado. Nadie ve la fórmula, solo el número.
+📌 **Ejemplo real:** En un panel de administración, el cálculo de "cuántos registros caben por página" se hace con sentencias dentro de `@{ }`; en la vista solo aparece el resultado ya calculado. Nadie ve la fórmula, solo el número.
 
 > 💡 **Consejo:** Abre **F12 → pestaña Elementos** y busca el texto que esperabas. Si no está, esa sentencia no produjo HTML: no es un fallo, es el comportamiento esperado. Hacerlo una vez te ahorra media hora de dudas en el futuro.
 
@@ -642,7 +642,7 @@ graph TD
 
 ## 2.7. Reto: Directivas y sintaxis de Razor en FunkoApp
 
-> Domina las directivas y la sintaxis de Razor montando la pantalla de gestión de FunkoApp — todavía con datos escritos a mano.
+> Domina las directivas y la sintaxis de Razor montando la vista de gestión de FunkoApp — todavía con datos escritos a mano.
 
 ### 2.7.1. Contexto
 

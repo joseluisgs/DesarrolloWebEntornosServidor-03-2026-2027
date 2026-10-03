@@ -237,7 +237,7 @@ graph TD
     Q --> C["Datos para una app<br/>Json"]
     Q --> D["Texto suelto<br/>Content"]
     Q --> E["No existe<br/>NotFound"]
-    Q --> F["Otra pantalla<br/>RedirectToAction"]
+    Q --> F["Otra vista<br/>RedirectToAction"]
     A --> R1["text/html"]
     B --> R1
     C --> R2["application/json"]
@@ -317,9 +317,9 @@ public IActionResult Cargar()
 - `GET /Productos/Cargar` → **HTTP 302** con la cabecera `Location: /Productos/Ver`
 - El navegador lee el 302, no pinta nada y hace una segunda petición a `/Productos/Ver` → **HTTP 200**
 
-Es el mismo truco del 07 (`/Home/Volver`), pero ahora con un motivo real: la acción `Cargar` termina su trabajo y quiere que la pantalla siguiente sea `Ver`, no ella.
+Es el mismo truco del 07 (`/Home/Volver`), pero ahora con un motivo real: la acción `Cargar` termina su trabajo y quiere que la vista siguiente sea `Ver`, no ella.
 
-📌 **Ejemplo real:** Cuando terminas un pedido en Glovo, la web no se queda en la pantalla de pago: te redirige al seguimiento del repartidor. El servidor responde "ve a esta otra dirección" y el navegador la pide por ti.
+📌 **Ejemplo real:** Cuando terminas un pedido en Glovo, la web no se queda en la vista de pago: te redirige al seguimiento del repartidor. El servidor responde "ve a esta otra dirección" y el navegador la pide por ti.
 
 ## 8.4. ViewData, ViewBag y TempData
 
@@ -339,7 +339,7 @@ ViewData["Encontrados"] = res.Count;  // controlador escribe
 <p id="n">@ViewData["Encontrados"]</p>
 ```
 
-`GET /Productos/Buscar?q=o`, la pantalla muestra `Resultados de "o"` (por `ViewBag`) y `3` (por `ViewData`), los dos en la misma página. Y en `GET /Productos` aparece `Productos del catálogo (6)`, que sale del `ViewData["Titulo"]` que puso la acción.
+`GET /Productos/Buscar?q=o`, la vista muestra `Resultados de "o"` (por `ViewBag`) y `3` (por `ViewData`), los dos en la misma página. Y en `GET /Productos` aparece `Productos del catálogo (6)`, que sale del `ViewData["Titulo"]` que puso la acción.
 
 | Vía | Tipo | Para qué se usa |
 |-----|------|-----------------|
@@ -361,7 +361,7 @@ sequenceDiagram
     C->>C: TempData["Aviso"] = "Producto cargado correctamente"
     C-->>N: 302 Location: /Productos/Ver
     N->>C: GET /Productos/Ver (con la cookie)
-    C-->>N: 200 con el aviso en pantalla
+    C-->>N: 200 con el aviso en la vista
     Note over C: TempData se borra al leerse
     N->>C: GET /Productos/Ver otra vez
     C-->>N: 200 sin aviso
@@ -369,7 +369,7 @@ sequenceDiagram
 
 La vista `Ver` no hace más que leerlo: `<p id="aviso">@TempData["Aviso"]</p>`.
 
-| Cadena de peticiones | Aviso en pantalla |
+| Cadena de peticiones | Aviso en la vista |
 |----------------------|-------------------|
 | `Cargar` → `Ver` con la misma cookie | `Producto cargado correctamente` |
 | `Ver` otra vez (misma cookie) | Vacío: ya se leyó |
@@ -486,7 +486,7 @@ Fíjate en la dirección de la flecha: el controlador habla con el repositorio y
 - **404 y 405 con su significado**: "no hay nada" y "no así" son mensajes distintos para quien depura
 - **Modelo para datos, `ViewData` para mensajes**: si la vista necesita una lista, va por `View(datos)` con `@model`, no por el `ViewData`
 - **`TempData` solo para el aviso del redirect**: lo que deba durar más pertenece a otro mecanismo
-- **Resultado coherente con el cliente**: JSON para datos, `View` para pantallas, `PartialView` para trozos
+- **Resultado coherente con el cliente**: JSON para datos, `View` para vistas, `PartialView` para trozos
 - **Comprueba con F12**: código de estado y `Content-Type` dicen en una línea si la acción hizo lo que querías
 
 ## 8.8. Reto: Monta el catálogo de FunkoApp tras un controlador

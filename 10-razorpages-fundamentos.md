@@ -379,7 +379,7 @@ El HTML que recibe el navegador es `<a id="enlace-ficha" href="/productos/1">Ver
 - **Una funcionalidad, una carpeta**: agrupa en `Pages/Productos/`, `Pages/Cuentas/`, no repartas por capas como en MVC
 - **`@page` siempre primera**: es la primera directiva del archivo, sin excepciones
 - **Restringe todos los parámetros**: `{id:int}` y compañía; sin restricción, la página inventa datos con **200**
-- **El `PageModel` prepara, no decide**: la lógica de negocio se va a servicios, como en el punto 07; la página solo orquesta su pantalla
+- **El `PageModel` prepara, no decide**: la lógica de negocio se va a servicios, como en el punto 07; la página solo orquesta su vista
 - **Un handler por verbo**: `OnGet` para lectura, `OnPost` para envío; no conviertas la página en un controlador multificha
 - **`_ViewImports` completo**: `@using`, `@namespace` y `@addTagHelper` para escribir corto en todas las páginas
 - **Enlaces con `asp-page`**: nunca URLs escritas a mano en el HTML

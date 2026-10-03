@@ -327,7 +327,7 @@ Dos vías para que el controlador le hable a la vista:
 | **`View(datos)`** + `@model` | `return View(lista)` / `@model IEnumerable<Producto>` | Los datos de verdad |
 | **`ViewData["x"]`** | `ViewData["Titulo"] = ...` / `@ViewData["Titulo"]` | Cosas sueltas: títulos, avisos, contadores |
 
-`ViewData["Mensaje"] = "Hola desde el controlador"` llega a la pantalla como *"Hola desde el controlador"*, y `ViewData["Numero"] = 42` como *"42"*.
+`ViewData["Mensaje"] = "Hola desde el controlador"` llega a la vista como *"Hola desde el controlador"*, y `ViewData["Numero"] = 42` como *"42"*.
 
 > ⚠️ **Advertencia:** En MVC la vista **no tiene `@page`**. Si se lo pones, no hará nada útil: en MVC el acceso es por URL de controlador, no por fichero. La diferencia es exactamente la que veremos en el punto **12** (MVC vs Razor Pages).
 
@@ -506,7 +506,7 @@ Los Funkos se guardan en `Repositories/RepositorioFunkos.cs`, con una lista en m
 4. Crea **`Views/Funkos/Index.cshtml`** (sin `@page`) con `@model IEnumerable<Funko>` y el listado en tarjetas
 5. Comprueba con **F12** que `/Funkos` da **200** y pinta **6 tarjetas**
 6. Comprueba que `/Views/Funkos/Index` devuelve **404**: la vista no es una URL
-7. Añade una acción `Acerca()` que ponga algo en `ViewData` y comprueba que llega a la pantalla
+7. Añade una acción `Acerca()` que ponga algo en `ViewData` y comprueba que llega a la vista
 8. Añade una acción `Volver()` con `RedirectToAction("Index")` y comprueba que responde **302**
 9. Añade una acción sin vista y comprueba que devuelve **500**: así entiendes qué busca la convención
 

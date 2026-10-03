@@ -3,7 +3,7 @@
     - [1.1.1. La Web Estática](#111-la-web-estática)
     - [1.1.2. La Web Dinámica](#112-la-web-dinámica)
     - [1.1.3. Mecanismos de Generación de Páginas](#113-mecanismos-de-generación-de-páginas)
-    - [1.1.4. Del Navegador a la Pantalla: Kestrel y el Pipeline](#114-del-navegador-a-la-pantalla-kestrel-y-el-pipeline)
+    - [1.1.4. Del Navegador a la Vista: Kestrel y el Pipeline](#114-del-navegador-a-la-vista-kestrel-y-el-pipeline)
   - [1.2. Tecnologías Asociadas a las Páginas Dinámicas](#12-tecnologías-asociadas-a-las-páginas-dinámicas)
     - [1.2.1. El Patrón Común: Código Embebido en el Servidor](#121-el-patrón-común-código-embebido-en-el-servidor)
     - [1.2.2. Comparativa de Tecnologías](#122-comparativa-de-tecnologías)
@@ -115,7 +115,7 @@ graph TD
 
 > ⚠️ **Advertencia:** No confundas "dinámico" con "JavaScript". Una página puede ser dinámica sin una sola línea de JavaScript en el cliente — la genera entera el servidor. Razor es el ejemplo perfecto.
 
-### 1.1.4. Del Navegador a la Pantalla: Kestrel y el Pipeline
+### 1.1.4. Del Navegador a la Vista: Kestrel y el Pipeline
 
 Antes de escribir la primera vista, conviene saber qué le pasa a la petición por dentro. ASP.NET Core tiene dos piezas que lo explican casi todo:
 
@@ -266,7 +266,7 @@ Dos ideas clave que te van a ahorrar horas de frustración:
 | Paso | Qué ocurre | Consecuencia práctica |
 |------|------------|-----------------------|
 | **Compilación** | El `.cshtml` se compila a **C# real** dentro de un ensamblado | Un error de sintaxis no aparece al cargar la página, aparece al compilar |
-| **Render** | La plantilla se ejecuta con datos concretos | Lo que ves en pantalla no está guardado en ningún sitio |
+| **Render** | La plantilla se ejecuta con datos concretos | Lo que ves en la vista no está guardado en ningún sitio |
 
 > ⚠️ **Advertencia:** Por eso a veces verás errores en tiempo de compilación y no en tiempo de ejecución. Razor no es un intérprete que va leyendo el texto: primero traduce todo a C# y lo compila. Si el C# no compila, la vista no llega a existir.
 
@@ -400,7 +400,7 @@ else
 @* TODO: añadir la foto cuando se suba el fichero *@
 ```
 
-📌 **Ejemplo real:** Glovo genera cada tarjeta de restaurante con un patrón así: una plantilla única con `@restaurante.Nombre`, `@restaurante.TiempoEntrega` y `@restaurante.Calificacion`. Un solo `.cshtml`, mil platos distintos en pantalla. Nosotros haremos exactamente lo mismo en el punto 03, con un `@foreach` sobre una lista de Productos.
+📌 **Ejemplo real:** Glovo genera cada tarjeta de restaurante con un patrón así: una plantilla única con `@restaurante.Nombre`, `@restaurante.TiempoEntrega` y `@restaurante.Calificacion`. Un solo `.cshtml`, mil platos distintos en la vista. Nosotros haremos exactamente lo mismo en el punto 03, con un `@foreach` sobre una lista de Productos.
 
 ## 1.5. Comentarios en las Vistas
 
@@ -415,7 +415,7 @@ En una vista hay dos tipos de comentario, y confundirlos tiene consecuencias rea
 *@
 
 <!-- 2. COMENTARIO HTML  →  SÍ viaja hasta el navegador -->
-<!-- El usuario puede leerlo con F12, aunque no se vea en pantalla -->
+<!-- El usuario puede leerlo con F12, aunque no se vea en la vista -->
 ```
 
 | Tipo | Sintaxis | ¿Llega al navegador? | Uso recomendado |

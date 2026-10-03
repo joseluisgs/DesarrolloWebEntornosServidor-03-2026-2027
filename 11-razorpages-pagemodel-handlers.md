@@ -292,7 +292,7 @@ graph TD
     style E fill:#4CAF50,color:#fff
 ```
 
-> 💡 **Consejo:** durante el desarrollo, pon en cada handler un mensaje identificativo, como hicimos con `Marca`. Cuando pruebes una pantalla con varios handlers, ver en el HTML cuál se ejecutó te ahorra media hora de depuración.
+> 💡 **Consejo:** durante el desarrollo, pon en cada handler un mensaje identificativo, como hicimos con `Marca`. Cuando pruebes una vista con varios handlers, ver en el HTML cuál se ejecutó te ahorra media hora de depuración.
 
 ## 11.5. Async y el Antiforgery de los POST
 
@@ -357,7 +357,7 @@ Para el alta, añade una lista estática de nombres dados de alta en la sesión,
 
 ### 11.7.4. Retos
 
-1. **En papel primero:** dibuja el ciclo de tu pantalla de alta: qué pinta cada GET, qué procesa cada POST, dónde guarda y a dónde redirige; anota el nombre de cada handler
+1. **En papel primero:** dibuja el ciclo de tu vista de alta: qué pinta cada GET, qué procesa cada POST, dónde guarda y a dónde redirige; anota el nombre de cada handler
 2. Crea `Pages/Funkos/Alta.cshtml` con `<form method="post">` y un `OnPost(string nombre)` que guarde en la lista y devuelva `RedirectToPage()`; comprueba en el navegador: el contador empieza en 0, el POST sin token → **400**, el POST con el token del formulario → **302** con `Location` y el GET siguiente muestra el contador en 1
 3. Comprueba con **F12** que el `<form>` sale con el campo oculto `__RequestVerificationToken` aunque no lleve atributos `asp-*`
 4. Añade una propiedad `Comentario` sin `[BindProperty]` y un campo con su nombre en el formulario; tras el POST comprueba que no llega; dale después el atributo y comprueba que sí
@@ -396,4 +396,4 @@ Para el alta, añade una lista estática de nombres dados de alta en la sesión,
 
 **¿Qué viene después?**
 
-En el siguiente punto miramos las dos arquitecturas juntas: cuándo conviene cada una, cómo conviven en la misma aplicación y cómo se migra una pantalla de MVC a Razor Pages sin romper nada por el camino.
+En el siguiente punto miramos las dos arquitecturas juntas: cuándo conviene cada una, cómo conviven en la misma aplicación y cómo se migra una vista de MVC a Razor Pages sin romper nada por el camino.

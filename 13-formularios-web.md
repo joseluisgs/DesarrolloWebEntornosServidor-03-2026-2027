@@ -1,10 +1,10 @@
 - [13. Formularios Web y Generación Dinámica](#13-formularios-web-y-generación-dinámica)
   - [13.1. La Anatomía de un Formulario](#131-la-anatomía-de-un-formulario)
   - [13.2. El Ciclo de un Formulario](#132-el-ciclo-de-un-formulario)
-  - [13.3. La Pantalla de Alta: Las Dos Visiones](#133-la-pantalla-de-alta-las-dos-visiones)
+  - [13.3. La Vista de Alta: Las Dos Visiones](#133-la-vista-de-alta-las-dos-visiones)
     - [13.3.1. Visión Razor Pages: La Página de Alta](#1331-visión-razor-pages-la-página-de-alta)
     - [13.3.2. Visión MVC: La Acción de Alta](#1332-visión-mvc-la-acción-de-alta)
-    - [13.3.3. La Misma Pantalla, Comparada](#1333-la-misma-pantalla-comparada)
+    - [13.3.3. La Misma Vista, Comparada](#1333-la-misma-vista-comparada)
   - [13.4. Generación Dinámica del Formulario](#134-generación-dinámica-del-formulario)
   - [13.5. Tag Helpers de Formulario](#135-tag-helpers-de-formulario)
   - [13.6. Buenas Prácticas](#136-buenas-prácticas)
@@ -20,13 +20,13 @@
 
 > 💡 **Punto de partida:** Compras en una tienda online: eliges la talla, marcas la cantidad, aceptas los términos y pulsas *Confirmar*. Entre ese pulsado y el servidor hay una pieza que lleva treinta años funcionando igual: un formulario. En este punto montamos el mismo alta dos veces, una como página Razor Pages y otra como acción de MVC, para que veas que el formulario no cambia: cambia quién lo recibe.
 
-En este tema aprenderás la anatomía de un formulario, su ciclo completo con el patrón PRG que ya conociste, cómo generar los campos del propio formulario a partir de datos y los Tag Helpers que escriben el HTML por ti. Todo con la forma dual: la misma pantalla en las dos visiones.
+En este tema aprenderás la anatomía de un formulario, su ciclo completo con el patrón PRG que ya conociste, cómo generar los campos del propio formulario a partir de datos y los Tag Helpers que escriben el HTML por ti. Todo con la forma dual: la misma vista en las dos visiones.
 
 **Objetivos de aprendizaje:**
 
 - Reconocer las piezas de un formulario: `form`, `label`, `input`, `select`, `name` y `button`
 - Seguir el ciclo completo de un formulario: pintar, enviar, procesar y confirmar con PRG
-- Montar la misma pantalla de alta como página Razor Pages y como acción de MVC
+- Montar la misma vista de alta como página Razor Pages y como acción de MVC
 - Generar el formulario dinámicamente con `@foreach`: selects y casillas que salen de los datos
 - Usar los Tag Helpers de formulario (`form`, `input`, `label`) en las dos visiones
 
@@ -34,7 +34,7 @@ En este tema aprenderás la anatomía de un formulario, su ciclo completo con el
 
 ## 13.1. La Anatomía de un Formulario
 
-Un formulario es una etiqueta `form` con campos dentro. Cada campo tiene dos nombres que no son lo mismo: el `id`, que ve el navegador (lo usa la etiqueta `label` y el CSS), y el `name`, que ve el servidor (es el nombre con el que llega el dato). Olvidar el `name` es el error número uno: el campo se ve en pantalla y el servidor no recibe nada.
+Un formulario es una etiqueta `form` con campos dentro. Cada campo tiene dos nombres que no son lo mismo: el `id`, que ve el navegador (lo usa la etiqueta `label` y el CSS), y el `name`, que ve el servidor (es el nombre con el que llega el dato). Olvidar el `name` es el error número uno: el campo se ve en la vista y el servidor no recibe nada.
 
 ```html
 <form method="post">
@@ -121,9 +121,9 @@ La diferencia es importante y se aprende a la primera: **Razor Pages valida el t
 
 > ⚠️ **Advertencia:** si tu acción MVC de escritura no lleva `[ValidateAntiForgeryToken]`, no está protegida aunque el formulario traiga el token. El token se inyecta siempre; quien decide exigirlo eres tú.
 
-## 13.3. La Pantalla de Alta: Las Dos Visiones
+## 13.3. La Vista de Alta: Las Dos Visiones
 
-Este es el corazón del punto: la misma pantalla de alta, montada dos veces. Los campos son idénticos (nombre, categoría y casilla de novedad); cambia dónde vive cada pieza. A partir de aquí, los temas duales separan cada pantalla en dos apartados con el nombre de su visión, para que el índice diga de un vistazo qué es página y qué es controlador.
+Este es el corazón del punto: la misma vista de alta, montada dos veces. Los campos son idénticos (nombre, categoría y casilla de novedad); cambia dónde vive cada pieza. A partir de aquí, los temas duales separan cada vista en dos apartados con el nombre de su visión, para que el índice diga de un vistazo qué es página y qué es controlador.
 
 ### 13.3.1. Visión Razor Pages: La Página de Alta
 
@@ -187,7 +187,7 @@ public class AltaModel : PageModel
 
 ### 13.3.2. Visión MVC: La Acción de Alta
 
-La misma pantalla como controlador y vista: el formulario lleva `asp-controller` y `asp-action`, y quien procesa son dos acciones con el mismo nombre.
+La misma vista como controlador y vista: el formulario lleva `asp-controller` y `asp-action`, y quien procesa son dos acciones con el mismo nombre.
 
 ```cshtml
 @* Views/Productos/Alta.cshtml *@
@@ -226,7 +226,7 @@ public IActionResult Alta(string nombre, string categoria, bool esNovedad)
 }
 ```
 
-### 13.3.3. La Misma Pantalla, Comparada
+### 13.3.3. La Misma Vista, Comparada
 
 La comparación, pieza a pieza:
 
@@ -272,7 +272,7 @@ graph LR
     style D fill:#607D8B,color:#fff
 ```
 
-📌 **Ejemplo real:** Los formularios de preferencias de cualquier servicio (notificaciones, privacidad, idioma) se generan así: hay una lista de opciones en el servidor y la plantilla pinta un control por cada una. Si el producto añade una opción nueva, la pantalla cambia sin que nadie edite HTML.
+📌 **Ejemplo real:** Los formularios de preferencias de cualquier servicio (notificaciones, privacidad, idioma) se generan así: hay una lista de opciones en el servidor y la plantilla pinta un control por cada una. Si el producto añade una opción nueva, la vista cambia sin que nadie edite HTML.
 
 En las dos visiones de `ProductosApp` ocurre exactamente lo mismo: el `select` de la página y el de la vista MVC salen del mismo `@foreach` y el navegador recibe en ambos casos tres `<option>`.
 
@@ -295,7 +295,7 @@ Escribir `action="/productos/alta"` a mano es escribir una URL a mano, con los m
 
 ## 13.6. Buenas Prácticas
 
-- **`name` siempre**: un campo sin `name` no existe para el servidor, aunque se vea en pantalla
+- **`name` siempre**: un campo sin `name` no existe para el servidor, aunque se vea en la vista
 - **`label` con `for`**: asocia el texto al campo y mejora la accesibilidad y los clics
 - **`method="post"` para escribir, `get` para leer**: altas y ediciones con POST; búsquedas y filtros con GET
 - **Termina siempre con PRG**: guarda y redirige; el `Page()` o `View()` con mensaje es solo para el error
@@ -343,7 +343,7 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 
 **Pasos compartidos (las dos visiones):**
 
-1. **En papel primero:** dibuja la pantalla de alta y su ciclo: qué pinta el GET, qué campos envía el formulario, qué decide el POST y a dónde redirige
+1. **En papel primero:** dibuja la vista de alta y su ciclo: qué pinta el GET, qué campos envía el formulario, qué decide el POST y a dónde redirige
 2. El formulario lleva tres campos: nombre (`text`), categoría (`select` generado con `@foreach` desde un array de las tres categorías) y novedad (`checkbox` con `value="true"`); comprueba con **F12** que cada campo tiene su `name`
 3. El campo vacío devuelve **200** con el mensaje `El nombre es obligatorio`; el envío válido termina en **302** con su cabecera `Location`
 4. Comprueba que el formulario sale con el campo oculto `__RequestVerificationToken`
@@ -382,7 +382,7 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 | **Mensaje de error** | `Page()` o `View()` con el mensaje; el redirect es solo para el éxito |
 | **Generación dinámica** | `@foreach` sobre los datos → `select`, casillas y campos del formulario |
 | **Tag Helpers de formulario** | `asp-controller`/`asp-action` o `asp-page` generan la `action`; `asp-for` genera `id` y `name` |
-| **Doble visión** | La misma pantalla como página (`OnPost` + `RedirectToPage`) y como acción (HttpPost + `RedirectToAction`) |
+| **Doble visión** | La misma vista como página (`OnPost` + `RedirectToPage`) y como acción (HttpPost + `RedirectToAction`) |
 | **Comprobado** | Página: token **400** y alta **302**; acción: **302** sin atributo y **400** con él |
 
 **¿Qué viene después?**

@@ -2,7 +2,7 @@
   - [12.1. Las Dos Arquitecturas en Paralelo](#121-las-dos-arquitecturas-en-paralelo)
   - [12.2. Qué elige Cada Una](#122-qué-elige-cada-una)
   - [12.3. Convivir en la Misma Aplicación](#123-convivir-en-la-misma-aplicación)
-  - [12.4. Migrar una Pantalla de MVC a Razor Pages](#124-migrar-una-pantalla-de-mvc-a-razor-pages)
+  - [12.4. Migrar una Vista de MVC a Razor Pages](#124-migrar-una-vista-de-mvc-a-razor-pages)
     - [12.4.1. El Punto de Partida: la Acción Ficha](#1241-el-punto-de-partida-la-acción-ficha)
     - [12.4.2. La Página Equivalente](#1242-la-página-equivalente)
     - [12.4.3. La Colisión de Rutas](#1243-la-colisión-de-rutas)
@@ -19,17 +19,17 @@
 
 # 12. MVC vs Razor Pages: Comparativa y Migración
 
-> 💡 **Punto de partida:** Has construido la misma ficha dos veces en los últimos puntos: una como página Razor Pages y otra como acción de MVC. Los dos caminos llegan al mismo HTML. Entonces, ¿cuándo conviene cada uno? Y la pregunta que nadie se atreve a hacer: ¿y si mañana te piden pasar una pantalla de una a otra sin romper la aplicación?
+> 💡 **Punto de partida:** Has construido la misma ficha dos veces en los últimos puntos: una como página Razor Pages y otra como acción de MVC. Los dos caminos llegan al mismo HTML. Entonces, ¿cuándo conviene cada uno? Y la pregunta que nadie se atreve a hacer: ¿y si mañana te piden pasar una vista de una a otra sin romper la aplicación?
 
-En este punto compararemos las dos visiones por dentro, aprenderás a convivirlas en un mismo `Program.cs` y harás una migración real de una acción de MVC a una página, pantalla a pantalla y sin caídas.
+En este punto compararemos las dos visiones por dentro, aprenderás a convivirlas en un mismo `Program.cs` y harás una migración real de una acción de MVC a una página, vista a vista y sin caídas.
 
 **Objetivos de aprendizaje:**
 
 - Comparar las dos arquitecturas: quién atiende, dónde vive la lógica y cómo se resuelven los archivos
 - Convivir controladores y páginas en la misma aplicación con los cuatro registros de `Program.cs`
-- Migrar una pantalla de MVC a Razor Pages: página con ruta propia, equivalencia comprobada, acción borrada y enlaces actualizados
+- Migrar una vista de MVC a Razor Pages: página con ruta propia, equivalencia comprobada, acción borrada y enlaces actualizados
 - Reconocer la colisión de rutas y saber quién gana
-- Elegir arquitectura con criterios claros para cada pantalla
+- Elegir arquitectura con criterios claros para cada vista
 
 > 📝 **Nota:** los fragmentos de este punto salen del proyecto MVC que llevas montando desde el punto 07 y de una copia suya donde conviven las dos visiones y donde se hace la migración.
 
@@ -60,27 +60,27 @@ graph LR
     style E fill:#607D8B,color:#fff
 ```
 
-📌 **Ejemplo real:** Los dos enfoques conviven en la industria. Los paneles de gestión y las páginas de trámite suelen ir en Razor Pages, una pantalla por archivo; las aplicaciones que mezclan pantallas con servicios de datos van en MVC, donde un mismo controlador puede devolver una vista a un navegador y JSON a una app móvil.
+📌 **Ejemplo real:** Los dos enfoques conviven en la industria. Los paneles de gestión y las páginas de trámite suelen ir en Razor Pages, una vista por archivo; las aplicaciones que mezclan vistas con servicios de datos van en MVC, donde un mismo controlador puede devolver una vista a un navegador y JSON a una app móvil.
 
 ## 12.2. Qué elige Cada Una
 
-La propia Microsoft recomienda Razor Pages para desarrollo nuevo por encima de MVC con controladores y vistas. Eso no entierra a MVC: son pantallas distintas.
+La propia Microsoft recomienda Razor Pages para desarrollo nuevo por encima de MVC con controladores y vistas. Eso no entierra a MVC: son vistas distintas.
 
 | Elige Razor Pages cuando... | Elige MVC cuando... |
 |---|---|
-| Cada URL es una pantalla y ya está | Un controlador debe servir vistas y JSON a la vez |
+| Cada URL es una vista y ya está | Un controlador debe servir vistas y JSON a la vez |
 | El formulario y su lógica viven juntos | Vieneis de un proyecto MVC y el equipo ya piensa en capas |
 | Quieres el menor número de archivos posible | Necesitas varias acciones compartiendo el mismo modelo de vista |
 | La app es de tamaño medio o pequeño | La app es grande y separas por capas de forma estricta |
 
 ```mermaid
 graph TD
-    A["¿Qué pantalla<br/>necesitas?"] --> B["Una URL = una pantalla<br/>formulario, contenido, ficha"]
+    A["¿Qué vista<br/>necesitas?"] --> B["Una URL = una vista<br/>formulario, contenido, ficha"]
     A --> C["Varias URLs<br/>sirviendo el mismo modelo<br/>o JSON + vistas"]
     B --> D["Razor Pages"]
     C --> E["MVC"]
     D --> F["Añade también:<br/>un par de acciones MVC si necesitas JSON"]
-    E --> G["Añade también:<br/>páginas sueltas si una pantalla no crece"]
+    E --> G["Añade también:<br/>páginas sueltas si una vista no crece"]
     style A fill:#2196F3,color:#fff
     style B fill:#4CAF50,color:#fff
     style C fill:#FF9800,color:#fff
@@ -154,9 +154,9 @@ graph TD
 
 > 💡 **Consejo:** si vas a convivir, convive de verdad: no mezcles carpetas. Las páginas van en `Pages/`, las vistas en `Views/`, y cada una con sus propios `_ViewImports` y `_Layout`.
 
-## 12.4. Migrar una Pantalla de MVC a Razor Pages
+## 12.4. Migrar una Vista de MVC a Razor Pages
 
-Migrar no es reescribir el proyecto: es mover pantalla a pantalla, dejando cada cambio funcionando antes de pasar al siguiente.
+Migrar no es reescribir el proyecto: es mover vista a vista, dejando cada cambio funcionando antes de pasar al siguiente.
 
 ### 12.4.1. El Punto de Partida: la Acción Ficha
 
@@ -279,33 +279,33 @@ Y los enlaces, el punto donde la migración se rompe en silencio. En la portada 
 
 > ⚠️ **Advertencia:** la migración no está terminada hasta que los enlaces apuntan a la página. Borra la acción un día y los navegadores te avisarán de inmediato: el enlace antiguo ya no lleva a ninguna parte.
 
-> 💡 **Consejo:** migra una pantalla, déjala cerrada (equivalencia, acción borrada, enlaces actualizados) y solo entonces pasa a la siguiente. Una migración a medias entre dos arquitecturas es el peor lugar para estar.
+> 💡 **Consejo:** migra una vista, déjala cerrada (equivalencia, acción borrada, enlaces actualizados) y solo entonces pasa a la siguiente. Una migración a medias entre dos arquitecturas es el peor lugar para estar.
 
 ## 12.5. Tabla de decisión
 
 Checklist para decidir hoy y para revisar mañana:
 
-- [ ] ¿La URL es una pantalla con su formulario? → Razor Pages
+- [ ] ¿La URL es una vista con su formulario? → Razor Pages
 - [ ] ¿Un controlador debe servir vistas y JSON? → MVC
 - [ ] ¿El equipo ya piensa en capas estrictas? → MVC
 - [ ] ¿Quieres el menor número de archivos posible? → Razor Pages
-- [ ] ¿Hay que migrar? → pantalla a pantalla, con ruta propia y sin colisiones
+- [ ] ¿Hay que migrar? → vista a vista, con ruta propia y sin colisiones
 - [ ] ¿Las dos conviven? → cuatro registros en `Program.cs`, dos `_ViewImports`, dos layouts
 
 ## 12.6. Buenas Prácticas
 
-- **Elige por pantalla, no por proyecto**: una app puede empezar en Pages y crecer con un par de controladores
+- **Elige por vista, no por proyecto**: una app puede empezar en Pages y crecer con un par de controladores
 - **Cuatro registros, cero medias tintas**: si conviven, `Program.cs` lleva las dos parejas completas
 - **Un `_ViewImports` y un layout por mundo**: `Pages/` con `@namespace`, `Views/` sin él
 - **Ruta propia siempre que migres**: la página nueva no pisa la URL de la acción que aún vive
 - **Equivalencia antes que borrado**: mismo título, mismo contenido, mismos errores antes de quitar nada
 - **Actualiza los enlaces al final**: `asp-action` por `asp-page` apuntando al nombre de página
 - **No dupliques URLs**: si dos endpoints responden lo mismo, la prioridad de rutas decide por ti, y no siempre hacia donde crees
-- **Migra de una en una**: pantalla, equivalencia, borrado, enlaces; después la siguiente
+- **Migra de una en una**: vista, equivalencia, borrado, enlaces; después la siguiente
 
 ## 12.7. Reto: Migra la Tienda de Funkos
 
-> Migra pantalla a página sobre una copia del proyecto — y sin romper lo que ya funciona.
+> Migra vista a página sobre una copia del proyecto — y sin romper lo que ya funciona.
 
 ### 12.7.1. Contexto
 
@@ -340,21 +340,21 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 
 ### 12.7.4. Retos
 
-1. **En papel primero:** dibuja la pantalla de ficha en las dos arquitecturas: qué archivo atiende la URL, dónde vive la lógica, qué URL responde y qué enlace la invoca
+1. **En papel primero:** dibuja la vista de ficha en las dos arquitecturas: qué archivo atiende la URL, dónde vive la lógica, qué URL responde y qué enlace la invoca
 2. En la copia, añade `AddRazorPages()` y `MapRazorPages()` a `Program.cs`, crea `Pages/Bienvenida.cshtml` y comprueba que `/` sigue dando **200** (MVC) y `/Bienvenida` da **200** (Razor Pages)
 3. Crea `Pages/_ViewImports.cshtml` con `@namespace`, `Pages/_ViewStart.cshtml` y el `_Layout` en `Pages/Shared/`; comprueba con **F12** que la página nueva sale con la barra de navegación
 4. Crea `Pages/Funkos/Ficha.cshtml` con `@page "/ficha/{id:int}"` y su `FichaModel` con la misma lógica que la acción; comprueba que `/ficha/1` pinta el mismo título y el mismo h1 que `/Funkos/Ficha/1`, y que `/ficha/99` da **404**
 5. Con las dos respondiendo, cambia la ruta de la página a `@page "/Funkos/Ficha/{id:int}"`, añade un marcador visible en el `PageModel` y comprueba que `/Funkos/Ficha/1` responde **200** y que el marcador es el de la página; devuelve la ruta propia
 6. **Migra de verdad:** borra la acción `Ficha` y su vista `Views/Funkos/Ficha.cshtml`; comprueba que `/Funkos/Ficha/1` pasa a **404** y que `/ficha/1` sigue en **200**
 7. Actualiza el enlace de la portada de `asp-action` a `asp-page="/Funkos/Ficha"` y comprueba con **F12** que el `href` renderizado es `/ficha/1` y que el enlace viejo, si lo dejas, sigue generando `/Funkos/Ficha/1` muerto
-8. Repite el ciclo completo con otra pantalla (por ejemplo, `Panel`): página nueva, equivalencia, borrado de la acción y enlaces
+8. Repite el ciclo completo con otra vista (por ejemplo, `Panel`): página nueva, equivalencia, borrado de la acción y enlaces
 
 **Puntos extra:**
 
 - Quita el `@namespace` de `Pages/_ViewImports.cshtml` y lee el `CS0246`; devuélvelo
 - Pon `Layout = "/Views/Shared/_Layout"` en `Pages/_ViewStart.cshtml` y lee el `InvalidOperationException` de layout no encontrado; devuelve la copia en `Pages/Shared/`
 - Compara en la pestaña **Network** el peso de `/Funkos/Ficha/1` (acción) y `/ficha/1` (página): mismo dato, dos arquitecturas
-- Escribe un `README.md` en la solución listando qué pantallas quedan en MVC, cuáles pasan a Razor Pages y el motivo de cada decisión
+- Escribe un `README.md` en la solución listando qué vistas quedan en MVC, cuáles pasan a Razor Pages y el motivo de cada decisión
 
 ---
 
@@ -367,14 +367,14 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 | **Convivencia** | Los cuatro registros en un `Program.cs`; dos `_ViewImports` y dos layouts |
 | **`@namespace` en Pages** | Sin él, `CS0246`: el modelo de la página no se encuentra |
 | **Layout por mundo** | `Views/Shared` y `Pages/Shared`; apuntar al otro da **500** |
-| **Migración** | Pantalla a pantalla: página con ruta propia, equivalencia, borrado, enlaces |
+| **Migración** | Vista a vista: página con ruta propia, equivalencia, borrado, enlaces |
 | **Colisión de rutas** | Dos endpoints en la misma URL: responde **200** y gana la ruta con literales |
 | **Nombre de página ≠ URL** | Con ruta personalizada: `asp-page="/Productos/Ficha"` → `href=/ficha/1` |
 | **Enlace muerto** | `asp-action` sigue renderizando tras borrar la acción; el destino da **404** |
 | **Equivalencia** | Mismo título, mismo contenido y mismos errores antes de borrar nada |
-| **Criterio de elección** | Pantalla por URL → Pages; vistas y JSON desde un controlador → MVC |
+| **Criterio de elección** | Vista por URL → Pages; vistas y JSON desde un controlador → MVC |
 | **Comprobado** | Convivencia **200/200/200**, migración con URL vieja **404** y nueva **200** |
 
 **¿Qué viene después?**
 
-En el siguiente punto empezamos el bloque de formularios con la forma dual: la misma pantalla de alta montada como página Razor Pages y como acción de MVC, con los mismos campos y dos hogares distintos.
+En el siguiente punto empezamos el bloque de formularios con la forma dual: la misma vista de alta montada como página Razor Pages y como acción de MVC, con los mismos campos y dos hogares distintos.
