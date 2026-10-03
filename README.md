@@ -36,11 +36,12 @@ UD03. Desarrollo de páginas web dinámicas en .NET. 2DAW. Curso 2026-2027
 17. [Cookies, Sesiones y Almacenamiento en el Cliente](17-cookies-sesiones-cliente.md)
 18. [Autenticación de Usuarios con ASP.NET Core Identity](18-autenticacion-identity.md)
 19. [Configuración de la Aplicación Web](19-configuracion-entornos.md)
-20. [Internacionalización (I18n) y Localización](20-i18n-localizacion.md)
-21. [Herramientas de Programación, Prueba y Depuración](21-herramientas-debug.md)
-22. [Pruebas y Documentación del Código de Presentación](22-testing-documentacion.md)
-23. [Despliegue con Docker y Nube](23-docker-despliegue.md)
-24. [Resumen](24-resumen.md)
+20. [Caché HTTP y OutputCache en .NET 10](20-cache-http-outputcache.md)
+21. [Internacionalización (I18n) y Localización](21-i18n-localizacion.md)
+22. [Herramientas de Programación, Prueba y Depuración](22-herramientas-debug.md)
+23. [Pruebas y Documentación del Código de Presentación](23-testing-documentacion.md)
+24. [Despliegue con Docker y Nube](24-docker-despliegue.md)
+25. [Resumen](25-resumen.md)
 
 ## Proyecto Integrador
 Los proyectos realizados en clase:
