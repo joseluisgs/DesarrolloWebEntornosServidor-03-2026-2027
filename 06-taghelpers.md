@@ -158,15 +158,15 @@ graph LR
 
 | URL pedida | Resultado |
 |---|---|
-| `/Productos/Detalle/7` | ✅ **HTTP 200**: `Detalle del Producto 7` |
-| `/Productos/Detalle/12` | ✅ **HTTP 200**: `Detalle del Producto 12` |
-| `/Productos/Detalle/abc` | ❌ **HTTP 404** |
+| `/Productos/Detalle/7` | **HTTP 200**: `Detalle del Producto 7` |
+| `/Productos/Detalle/12` | **HTTP 200**: `Detalle del Producto 12` |
+| `/Productos/Detalle/abc` | **HTTP 404** |
 
 📌 **Ejemplo real:** Glovo enlaza a cada restaurante con su identificador. Si alguien teclea a mano `/tienda/abc` en la barra de direcciones, no obtiene un error de programa ni una pantalla rota: obtiene un **404**. Eso es exactamente lo que hace la restricción `{id:int}`: rechaza en la puerta lo que no puede procesar.
 
 > ⚠️ **Advertencia:** El nombre de `asp-route-id` tiene que coincidir con el de la plantilla. Si escribes `asp-route-id="7"` pero la página declara `@page "{identificador}"`, el hueco se queda vacío y recibirás un **404** sin saber por qué.
 
-> 📝 **Nota:** `RouteData.Values["id"]` devuelve un `object`. Para convertirlo a número, cuando llegue el momento usarás *model binding* —el tema **14**. Aquí nos basta para mostrarlo en pantalla.
+> 📝 **Nota:** `RouteData.Values["id"]` devuelve un `object`. Para convertirlo a número, cuando llegue el momento usarás *model binding* (el tema **14**). Aquí nos basta para mostrarlo en pantalla.
 
 ## 6.3. Recursos Estáticos y la Huella
 
@@ -194,12 +194,12 @@ El `~` ha desaparecido... pero además ha cambiado el nombre del fichero.
 
 A esa cadena de letras y números del medio la llamamos huella (*fingerprint*). Sirve para la caché: si el contenido del fichero cambia, cambia la huella, y el navegador se ve obligado a descargar la versión nueva.
 
-| Situación | HTML resultado | Efecto |
+| Situación | HTML resultado | Huella |
 |---|---|---|
-| `~/js/site.js` y el fichero existe | `/js/site.xtxxf3hu2r.js` — con huella | ✅ |
-| `~/favicon.ico` y el fichero existe | `/favicon.61n19gt1b8.ico` — con huella | ✅ |
-| `~/images/logo.png` y el fichero NO existe | `/images/logo.png` — sin huella | ✅ |
-| `/js/site.js` ( ruta literal, sin `~` | `/js/site.js` ) sin huella | ✅ |
+| `~/js/site.js` y el fichero existe | `/js/site.xtxxf3hu2r.js` | Sí |
+| `~/favicon.ico` y el fichero existe | `/favicon.61n19gt1b8.ico` | Sí |
+| `~/images/logo.png` y el fichero NO existe | `/images/logo.png` | No |
+| `/js/site.js` (ruta literal, sin `~`) | `/js/site.js` | No |
 
 Dos reglas:
 
@@ -284,7 +284,7 @@ graph TD
 
 📌 **Ejemplo real:** El panel de estadísticas de cualquier red social. No se recalculan los seguidores globales en cada visita: se guardan un rato y se sirven tal cual. Si no, con millones de peticiones el servidor no daría abasto.
 
-> ⚠️ **Advertencia:** No cachees nada que sea personal. Si guardas dentro de `<cache>` el nombre del usuario, la primera persona en entrar se lo bebe a todas las siguientes. Caché para lo igual para todos; datos personales, jamás.
+> ⚠️ **Advertencia:** No cachees nada que sea personal. Si guardas dentro de `<cache>` el nombre del usuario, la primera persona en entrar lo verá solo ella y las demás recibirán sus datos. Caché para lo igual para todos; datos personales, jamás.
 
 ### 6.4.2. La Etiqueta environment
 
@@ -304,8 +304,8 @@ En entorno de producción, el párrafo `prod` sí aparece y el `dev` no.
 
 | Entorno | `names="Development"` | `names="Production"` |
 |---|---|---|
-| Desarrollo | ✅ visible | ❌ oculto |
-| Producción | ❌ oculto | ✅ visible |
+| Desarrollo | visible | oculto |
+| Producción | oculto | visible |
 
 > 💡 **Consejo:** Es el lugar natural para el script de depuración, los errores detallados o el mensaje *"entorno de pruebas"*. Lo que no debe salir a producción, no debe estar en producción.
 
@@ -363,7 +363,7 @@ Las piezas:
 | `output.Attributes` | Los atributos del HTML resultante |
 | `output.Content` | El contenido entre la etiqueta de apertura y la de cierre |
 
-> ⚠️ **Advertencia:** dos errores de manual: Necesitas `using Microsoft.AspNetCore.Razor.TagHelpers;` —sin él, **`CS0246: 'TagHelper' no se encontró`**: y necesitas `@addTagHelper *, ProductosApp` en `_ViewImports.cshtml` —sin él, la etiqueta sale literal.
+> ⚠️ **Advertencia:** dos errores de manual: sin `using Microsoft.AspNetCore.Razor.TagHelpers;` llega el **`CS0246: 'TagHelper' no se encontró`**, y sin `@addTagHelper *, ProductosApp` en `_ViewImports.cshtml` la etiqueta sale literal.
 
 > 🔧 **Truco:** El enlace entre atributo y propiedad es automático y no distingue mayúsculas: `texto="Novedad"` rellena `Texto`. Si el atributo tiene guiones (`mi-texto`), la propiedad se llama `MiTexto`.
 
@@ -403,13 +403,13 @@ No toques `context`: sirve para saber de dónde vienes (qué atributos originale
 
 ### 6.5.3. La Trampa del TagMode
 
-Este es el error que más vueltas da. Escribimos la etiqueta sin etiqueta de cierre:
+Este es el error que más vueltas da. Si escribes la etiqueta sin etiqueta de cierre:
 
 ```cshtml
 <estado-producto texto="Novedad" id="badge" />
 ```
 
-y el resultado fue:
+el resultado es:
 
 ```html
 <span id="badge" class="badge bg-primary" />
@@ -426,7 +426,7 @@ output.TagMode = TagMode.StartTagAndEndTag;   // <- añádela SIEMPRE
 | `TagMode` | Resultado |
 |---|---|
 | `SelfClosing` (por defecto con `/>`) | `<span class="badge bg-primary" />` — contenido perdido |
-| `StartTagAndEndTag` | `<span class="badge bg-primary">Novedad</span>` ✅ |
+| `StartTagAndEndTag` | `<span class="badge bg-primary">Novedad</span>` |
 
 > ⚠️ **Advertencia:** Si tu Tag Helper pinta texto y sale siempre vacío, nunca empieces a buscar en los atributos. El 99% de las veces es el `TagMode`. Con la línea aparece `Novedad`; sin ella, no.
 
@@ -455,8 +455,8 @@ Funciona con cualquier etiqueta:
 
 | En la vista | HTML final |
 |---|---|
-| `<span precio="18,50">x</span>` | `<span id="p1">18,50 €</span>` |
-| `<strong precio="3,20">y</strong>` | `<strong id="p2">3,20 €</strong>` |
+| `<span precio="18,50">x</span>` | `<span>18,50 €</span>` |
+| `<strong precio="3,20">y</strong>` | `<strong>3,20 €</strong>` |
 
 | Forma | Cuándo usarla |
 |---|---|
@@ -498,7 +498,7 @@ Y fíjate en el resultado: el contenido original (`x`, `y`) desaparece. `output.
 3. Comprueba con **F12** que cada `href` lleva su identificador y que has escrito la ruta de la vista, no la URL
 4. Pide a mano `/Funkos/Detalle/abc` y confirma que devuelve **404**: la restricción `{id:int}` está funcionando
 5. Crea **`TagHelpers/EstadoFunkoTagHelper.cs`** con `[HtmlTargetElement("estado-funko")]` y úsalo en el listado para pintar la etiqueta de estado, sin la función `EtiquetaEstado`
-6. Añade **`output.TagMode = TagMode.StartTagAndEndTag;`** y comprueba con F12 que no sale vacía —sin la línea, saldrá `<span ... />`
+6. Añade **`output.TagMode = TagMode.StartTagAndEndTag;`** y comprueba con F12 que no sale vacía (sin la línea, saldrá `<span ... />`)
 7. Crea un segundo Tag Helper que se enganche con `[HtmlTargetElement(Attributes = "precio")]` y úsalo en dos etiquetas distintas (`span` y `strong`) para formatear el precio de referencia con `ToString("C")`
 8. Envuelve el listado en `<cache expires-after="@TimeSpan.FromSeconds(10)">` y recarga dos veces: comprueba que no cambia
 9. Añade un `<environment names="Development">` con un aviso y comprueba que no aparece en producción
