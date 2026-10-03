@@ -42,11 +42,11 @@ En el punto 07 diseñamos el flujo MVC en el papel. En este punto lo programamos
 - Hacer llegar datos a la vista con `ViewData`, `ViewBag` y `TempData`
 - Comprobar cada respuesta en ejecución: código HTTP, `Content-Type` y cuerpo
 
-> 📝 **Nota:** seguimos con el proyecto MVC del punto 07 (creado con `dotnet new mvc`, con namespaces `MvcApp`). Lo ampliamos con más acciones.
+> 📝 **Nota:** seguimos con el proyecto MVC del punto 07 (creado con `dotnet new mvc`, con namespaces `ProductosApp`). Lo ampliamos con más acciones.
 
 ## 8.1. Rutas de Acción: Convención y Atributos
 
-En el 07 vimos la ruta que gobierna el proyecto entero:
+En el punto 07 vimos la ruta que gobierna el proyecto entero:
 
 ```csharp
 app.MapControllerRoute(
@@ -211,7 +211,7 @@ No todos los caminos llegan a una acción, y cada uno falla a su manera:
 | `POST /productos/1` | La dirección existe, pero `[HttpGet]` rechaza el verbo | **405** |
 | `POST /Productos/Datos` | La acción no restringe verbo y acepta el POST | **200** |
 
-La regla para leer la consola del navegador: `404` cuando no hay destino (ruta, acción o dato), `405` cuando el destino existe y el verbo no encaja, y `500` cuando el destino existe pero algo se rompe (en el 07 ya vimos el caso típico: la acción pide una vista que no está).
+La regla para leer la consola del navegador: `404` cuando no hay destino (ruta, acción o dato), `405` cuando el destino existe y el verbo no encaja, y `500` cuando el destino existe pero algo se rompe (en el punto 07 ya vimos el caso típico: la acción pide una vista que no está).
 
 > 💡 **Consejo:** cuando una URL falle, pregúntate siempre en este orden: ¿la ruta encaja? ¿la acción existe? ¿el parámetro tiene sentido? ¿la vista está? Son cuatro fallos distintos con cuatro soluciones distintas.
 
@@ -323,7 +323,7 @@ Es el mismo truco del 07 (`/Home/Volver`), pero ahora con un motivo real: la acc
 
 ## 8.4. ViewData, ViewBag y TempData
 
-Elegir el resultado no basta: a veces la acción necesita dejar un mensaje suelto para la vista. En el 07 aparecieron `ViewData` y `ViewData["Titulo"]`; ahora les damos sitio junto a `TempData`.
+Elegir el resultado no basta: a veces la acción necesita dejar un mensaje suelto para la vista. En el punto 07 aparecieron `ViewData` y `ViewData["Titulo"]`; ahora les damos sitio junto a `TempData`.
 
 ### 8.4.1. Dos Nombres para la Misma Caja
 
@@ -381,7 +381,7 @@ La vista `Ver` no hace más que leerlo: `<p id="aviso">@TempData["Aviso"]</p>`.
 
 ## 8.5. La Vista que Elige el Controlador
 
-El 07 dejó anotado que `return View()` busca la vista por convención: primero `Views/<Controlador>/<Acción>.cshtml` y después `Views/Shared/`. Aquí vemos lo que pasa cuando te sales del camino normal.
+El punto 07 dejó anotado que `return View()` busca la vista por convención: primero `Views/<Controlador>/<Acción>.cshtml` y después `Views/Shared/`. Aquí vemos lo que pasa cuando te sales del camino normal.
 
 ### 8.5.1. View con Otro Nombre
 
@@ -404,7 +404,7 @@ public IActionResult Novedades()
 
 ### 8.5.2. PartialView: Devolver Solo la Pieza
 
-En el 05 invocaste una parcial desde otra vista con `<partial name="_FichaProducto" />`. El controlador puede devolverla directamente como resultado:
+En el punto 05 invocaste una parcial desde otra vista con `<partial name="_FichaProducto" />`. El controlador puede devolverla directamente como resultado:
 
 ```csharp
 public IActionResult Tarjeta(int id)
@@ -434,7 +434,7 @@ Resumen de la búsqueda de la vista para una acción que hace `return View(...)`
 | No está ninguna | Error de vista no encontrada | **500** |
 | El resultado es `Json`, `Content` o `PartialView` | No busca nada | El código que devuelvas |
 
-> 💡 **Consejo:** el orden de búsqueda es el mismo que describió el 07; lo que cambia aquí es quién lo provoca: la acción decide qué nombre se busca y, si se sale de la convención, tú firmas el nombre.
+> 💡 **Consejo:** el orden de búsqueda es el mismo que describió el punto 07; lo que cambia aquí es quién lo provoca: la acción decide qué nombre se busca y, si se sale de la convención, tú firmas el nombre.
 
 ## 8.6. El Flujo Completo con el Repositorio
 

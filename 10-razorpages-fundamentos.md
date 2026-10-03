@@ -25,7 +25,7 @@
 
 # 10. Razor Pages: Fundamentos
 
-> 💡 **Punto de partida:** Para cerrar el 09 necesitaste tres carpetas que tienen que ponerse de acuerdo: `Controllers`, `Views` y `ViewModels`, con una convención tras otra para que cada petición llegue a su sitio. ¿Y si el orden fuera más simple: que cada URL tuviera su propio archivo, con su lógica pegada al lado? Quita al intermediario y deja que la página se sirva sola. Eso es Razor Pages.
+> 💡 **Punto de partida:** Tres carpetas que tienen que ponerse de acuerdo: `Controllers`, `Views` y `ViewModels`, y una convención tras otra para que cada petición llegue a su sitio. ¿Y si el orden fuera más simple: que cada URL tuviera su propio archivo, con su lógica pegada al lado? Quita al intermediario y deja que la página se sirva sola. Eso es Razor Pages.
 
 En este punto aprendemos el otro gran enfoque de ASP.NET Core: la **orientación a páginas**. Veremos dónde viven las páginas, cómo la carpeta se convierte en URL, qué hace que un `.cshtml` sea una página de verdad y qué papel juega su `PageModel`.
 
@@ -38,7 +38,7 @@ En este punto aprendemos el otro gran enfoque de ASP.NET Core: la **orientación
 - Completar las dos líneas de `Program.cs` y enlazar páginas con `asp-page`
 - Reconocer los tres tropiezos típicos: sin `@page` da 404, el namespace mal escrito da CS0234 y la ruta sin restricción pinta datos inventados
 
-> 📝 **Nota:** el proyecto de este punto es `PagesApp`, creado con `dotnet new webapp`. Todas las páginas que verás están en su carpeta `Pages/Productos/`.
+> 📝 **Nota:** el proyecto de este punto es `ProductosApp`, creado con `dotnet new webapp`. Todas las páginas que verás están en su carpeta `Pages/Productos/`.
 
 ## 10.1. La Web Página a Página
 
@@ -48,7 +48,7 @@ En MVC, que es lo que hemos montado en los puntos 07, 08 y 09, la petición mira
 
 `@page` convierte el archivo en un endpoint: atiende peticiones directamente, sin pasar por ningún controlador, y debe ser la primera directiva Razor del archivo.
 
-| | MVC (07-09) | Razor Pages |
+| | MVC (puntos 07 a 09) | Razor Pages |
 |---|---|---|
 | **Quién atiende** | Controlador + acción | La propia página |
 | **Dónde vive la lógica** | Acciones del controlador | `PageModel` pegado a la vista |
@@ -72,7 +72,7 @@ graph LR
 
 > 💡 **Analogía:** MVC es un restaurante con camarero: pides, el camarero (controlador) va a cocina, decide qué te trae y vuelve. Razor Pages es showcooking: te sientas delante de la barra y el cocinero (el `PageModel`) te prepara el plato en la misma mesa donde lo consumes.
 
-La propia Microsoft recomienda Razor Pages para el desarrollo nuevo por encima de MVC con controladores y vistas. MVC no se queda obsoleto (lo veremos en el 12): sigue siendo el rey cuando necesitas que un mismo controlador sirva vistas y JSON a la vez.
+La propia Microsoft recomienda Razor Pages para el desarrollo nuevo por encima de MVC con controladores y vistas. MVC no se queda obsoleto (lo veremos en el punto 12): sigue siendo el rey cuando necesitas que un mismo controlador sirva vistas y JSON a la vez.
 
 📌 **Ejemplo real:** ASP.NET Core Identity, el sistema de login y registro de .NET, está construido con Razor Pages: sus páginas de registro y acceso viven en `Areas/Identity/Pages/Account/Register` y `.../Login` y atienden sus URLs sin un solo controlador. En el 18 lo montarás.
 
@@ -88,7 +88,7 @@ Buena noticia: el lenguaje de las páginas es exactamente el mismo que estudiast
 | `_Layout.cshtml` | Vive en `Pages/Shared/` |
 | Tag Helpers del 06 | `asp-action` se sustituye por `asp-page` |
 
-> 📝 **Nota:** la plantilla mantiene el mismo contrato que en MVC: `Pages/_ViewStart.cshtml` solo contiene `Layout = "_Layout";` y `_Layout.cshtml` sigue con `@RenderBody()` y `@ViewData["Title"]`. El 05 se aplica tal cual, en otra casa.
+> 📝 **Nota:** la plantilla mantiene el mismo contrato que en MVC: `Pages/_ViewStart.cshtml` solo contiene `Layout = "_Layout";` y `_Layout.cshtml` sigue con `@RenderBody()` y `@ViewData["Title"]`. El punto 05 se aplica tal cual, en otra casa.
 
 ## 10.2. La Carpeta Pages: La URL Está en el Disco
 
@@ -101,7 +101,7 @@ La regla que sostiene todo el enfoque es geográfica: **la URL es la ruta del ar
 Esto es lo que creó la plantilla en nuestro proyecto de verificación, con la URL que responde cada archivo:
 
 ```text
-PagesApp/
+ProductosApp/
 ├── Program.cs                      ← AddRazorPages + MapRazorPages
 └── Pages/
     ├── _ViewImports.cshtml
@@ -139,8 +139,8 @@ El mapa anterior no es una teoría: son los códigos reales que devolvió la app
 
 | Petición | Código | Qué se sirvió |
 |----------|:------:|---------------|
-| `GET /` | **200** | `Pages/Index.cshtml`, pestaña `Home page - PagesApp` |
-| `GET /Privacy` | **200** | `Pages/Privacy.cshtml`, pestaña `Privacy Policy - PagesApp` |
+| `GET /` | **200** | `Pages/Index.cshtml`, pestaña `Home page - ProductosApp` |
+| `GET /Privacy` | **200** | `Pages/Privacy.cshtml`, pestaña `Privacy Policy - ProductosApp` |
 | `GET /NoExiste` | **404** | No hay archivo en esa dirección |
 | `GET /Error` | **200** | `Pages/Error.cshtml`, la página de errores |
 | `GET /Catalogo` | **200** | `Pages/Catalogo/Index.cshtml`, h1 `Productos en Pages` |
@@ -178,7 +178,7 @@ Para no quedarnos en la teoría, las quitamos por separado y anotamos qué pasa:
 | Sin `AddRazorPages()` | La app no arranca: `System.InvalidOperationException: Unable to find the required services... AddAuthorization` |
 | Sin `MapRazorPages()` | La app arranca, pero `/`, `/Privacy` y `/productos/1` devuelven **404**; `/css/site.css` sigue en **200** |
 
-> 📝 **Nota:** el proyecto MVC del punto 08 no lleva ninguna de las dos: su `Program.cs` tiene `AddControllersWithViews()` y `MapControllerRoute(...)`. Dos mundos, dos configuraciones; en el 12 los conviviremos en la misma app.
+> 📝 **Nota:** el proyecto MVC del punto 08 no lleva ninguna de las dos: su `Program.cs` tiene `AddControllersWithViews()` y `MapControllerRoute(...)`. Dos mundos, dos configuraciones; en el punto 12 los conviviremos en la misma app.
 
 > ⚠️ **Advertencia:** los dos síntomas no se parecen: si quitas `AddRazorPages()`, la app se cae al arrancar porque `app.UseAuthorization()` exige servicios que no registró nadie (`InvalidOperationException`); si quitas `MapRazorPages()`, la app levanta y responde, pero sin ninguna página.
 
@@ -216,7 +216,7 @@ El archivo compila perfecto y aun así la página no existe — la directiva es 
 
 ### 10.4.2. Ruta Personalizada y Restricciones
 
-Con `@page` a secas, la URL sale de la carpeta. Con `@page` y un modelo de ruta, la página se da su propia dirección y puede pedir parámetros con restricciones, igual que en el 08 con `[HttpGet("productos/{id:int}")]`:
+Con `@page` a secas, la URL sale de la carpeta. Con `@page` y un modelo de ruta, la página se da su propia dirección y puede pedir parámetros con restricciones, igual que en el punto 08 con `[HttpGet("productos/{id:int}")]`:
 
 ```cshtml
 @page "/productos/{id:int}"
@@ -246,7 +246,7 @@ graph TD
 
 ¿Y si quitamos la restricción? Lo probamos con `@page "/productos/{id}"`:
 
-- `GET /productos/abc` → **200** con el h1 `Producto 0` y la pestaña `Producto 0 - PagesApp`
+- `GET /productos/abc` → **200** con el h1 `Producto 0` y la pestaña `Producto 0 - ProductosApp`
 - `GET /productos/1` → **200** con `Producto 1`
 - `GET /productos` → **404** (el segmento sigue siendo obligatorio)
 
@@ -265,7 +265,7 @@ Cada página vive en dos archivos que son dos caras de lo mismo: el `.cshtml` co
 
 ### 10.5.1. La Vista de la Página
 
-La vista es el archivo completo que viste en el 10.4.1. Línea a línea:
+La vista es el archivo completo que viste en el apartado 10.4.1. Línea a línea:
 
 ```cshtml
 @page "/productos/{id:int}"
@@ -278,7 +278,7 @@ La vista es el archivo completo que viste en el 10.4.1. Línea a línea:
 ```
 
 - La primera línea la convierte en endpoint con su ruta
-- `@model DetalleModel` apunta al tipo de su `.cshtml.cs`, sin namespace completo gracias a `@namespace` (en el 10.5.3)
+- `@model DetalleModel` apunta al tipo de su `.cshtml.cs`, sin namespace completo gracias a `@namespace` (en el apartado 10.5.3)
 - `ViewData["Title"]` sigue siendo la forma de titular la pestaña en el `_Layout` del 05
 - El HTML no lleva `<html>` ni `<body>`: ya se los pone el layout
 
@@ -290,7 +290,7 @@ El `.cshtml.cs` es una clase que hereda de `PageModel`:
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace PagesApp.Pages.Productos;
+namespace ProductosApp.Pages.Productos;
 
 /// <summary>
 /// Página con ruta personalizada y restricción de tipo.
@@ -314,7 +314,7 @@ public class DetalleModel : PageModel
 
 Tres piezas: las propiedades, que son lo que la vista lee; el handler `OnGet`, que se ejecuta en cada petición GET y prepara esos valores; y `Page()`, el resultado que la página devuelve cuando ya está listo. El `PageModel` es en la práctica el controlador y el ViewModel del 09 fundidos en uno, pero solo de esta página.
 
-Si abres `GET /productos/1`, verás **200**, el h1 `Producto 1` y la pestaña `Producto 1 - PagesApp`: el handler recibió `1`, calculó el título y la vista lo pintó dentro del layout.
+Si abres `GET /productos/1`, verás **200**, el h1 `Producto 1` y la pestaña `Producto 1 - ProductosApp`: el handler recibió `1`, calculó el título y la vista lo pintó dentro del layout.
 
 ```mermaid
 graph TD
@@ -329,19 +329,19 @@ graph TD
     style H fill:#607D8B,color:#fff
 ```
 
-> 📝 **Nota:** en MVC el controlador hacía `return View(viewmodel)` y la vista podía ser cualquiera; aquí el binomio es fijo y `Page()` devuelve siempre la propia página. El resto de handlers (`OnPost`), las propiedades con `[BindProperty]` y los handlers con nombre los abrimos en el 11.
+> 📝 **Nota:** en MVC el controlador hacía `return View(viewmodel)` y la vista podía ser cualquiera; aquí el binomio es fijo y `Page()` devuelve siempre la propia página. El resto de handlers (`OnPost`), las propiedades con `[BindProperty]` y los handlers con nombre los abrimos en el punto 11.
 
 ### 10.5.3. El Namespace de las Páginas
 
-En el 09 el nombre corto lo resolvía un `@using` en `Views/_ViewImports.cshtml` (`@using MvcApp.ViewModels`); en Razor Pages la plantilla añade una directiva que el de MVC no trae y que va en `Pages/_ViewImports.cshtml`:
+En el punto 09 el nombre corto lo resolvía un `@using` en `Views/_ViewImports.cshtml` (`@using ProductosApp.ViewModels`); en Razor Pages la plantilla añade una directiva que el de MVC no trae y que va en `Pages/_ViewImports.cshtml`:
 
 ```cshtml
-@using PagesApp
-@namespace PagesApp.Pages
+@using ProductosApp
+@namespace ProductosApp.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 ```
 
-`@namespace PagesApp.Pages` fija el espacio de nombres con el que el generador de Razor construye las clases de esta carpeta, y por eso `@model DetalleModel` resuelve sin escribir el namespace entero. Si quitas la línea, la compilación se cancela con **CS0246** en las páginas, con mensajes como `'OfertaModel' no se encontró`: el nombre corto de `@model` deja de resolver.
+`@namespace ProductosApp.Pages` fija el espacio de nombres con el que el generador de Razor construye las clases de esta carpeta, y por eso `@model DetalleModel` resuelve sin escribir el namespace entero. Si quitas la línea, la compilación se cancela con **CS0246** en las páginas, con mensajes como `'OfertaModel' no se encontró`: el nombre corto de `@model` deja de resolver.
 
 El otro nombre fácil de escribir mal es el `using` del propio `PageModel`. El namespace correcto es `Microsoft.AspNetCore.Mvc.RazorPages` (una sola palabra). Si escribes `Microsoft.AspNetCore.Mvc.Razor.Pages`, `dotnet build` se queja con dos errores:
 
@@ -368,7 +368,7 @@ El HTML que recibe el navegador es `<a id="enlace-ficha" href="/productos/1">Ver
 |-----------|-----|-------------|
 | Ir a una acción o página | `asp-action` + `asp-controller` | `asp-page` |
 | Pasar un parámetro | `asp-route-id="@item.Id"` | `asp-route-id="@item.Id"` |
-| Ir a un handler con nombre | No existe | `asp-page-handler` (en el 11) |
+| Ir a un handler con nombre | No existe | `asp-page-handler` (en el punto 11) |
 
 > 💡 **Consejo:** la ruta de `asp-page` es relativa a `Pages/` y empieza siempre por barra: `asp-page="/Productos/Detalle"` busca el archivo `Pages/Productos/Detalle.cshtml`. Si te comes la barra inicial, la ruta se interpreta desde la página donde estás y el enlace no apunta a donde crees.
 
@@ -379,7 +379,7 @@ El HTML que recibe el navegador es `<a id="enlace-ficha" href="/productos/1">Ver
 - **Una funcionalidad, una carpeta**: agrupa en `Pages/Productos/`, `Pages/Cuentas/`, no repartas por capas como en MVC
 - **`@page` siempre primera**: es la primera directiva del archivo, sin excepciones
 - **Restringe todos los parámetros**: `{id:int}` y compañía; sin restricción, la página inventa datos con **200**
-- **El `PageModel` prepara, no decide**: la lógica de negocio se va a servicios, como en el 07; la página solo orquesta su pantalla
+- **El `PageModel` prepara, no decide**: la lógica de negocio se va a servicios, como en el punto 07; la página solo orquesta su pantalla
 - **Un handler por verbo**: `OnGet` para lectura, `OnPost` para envío; no conviertas la página en un controlador multificha
 - **`_ViewImports` completo**: `@using`, `@namespace` y `@addTagHelper` para escribir corto en todas las páginas
 - **Enlaces con `asp-page`**: nunca URLs escritas a mano en el HTML
@@ -460,7 +460,7 @@ Rellena la lista con seis figuras para que haya activas y dadas de baja, novedad
 | **Restricciones** | `{id:int}` descarta en el enrutado; sin ella, **200** con datos inventados |
 | **Parámetro opcional** | `{id:int?}` admite la URL sin ese segmento |
 | **`PageModel`** | Clase `.cshtml.cs` que hereda de `PageModel` y prepara los datos |
-| **Handler `OnGet`** | Se ejecuta en cada GET; `OnPost` y los handlers con nombre, en el 11 |
+| **Handler `OnGet`** | Se ejecuta en cada GET; `OnPost` y los handlers con nombre, en el punto 11 |
 | **`@namespace`** | En `_ViewImports`; permite `@model` corto en todas las páginas |
 | **Dos líneas en `Program.cs`** | `AddRazorPages()` registra servicios (sin ella, no arranca) y `MapRazorPages()` publica rutas (sin ella, **404**) |
 | **`asp-page`** | Tag Helper de enlaces; el equivalente a `asp-action` |

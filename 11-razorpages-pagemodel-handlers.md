@@ -19,7 +19,7 @@
 
 # 11. Razor Pages: PageModel y Handlers
 
-> 💡 **Punto de partida:** En el 10 montaste tu primera página y viste a `OnGet` atender una petición GET. Pero una web de verdad no solo lee datos de la ruta: recibe lo que escribe el usuario, guarda, redirige, ordena y a veces ni siquiera sabe qué le están pidiendo. Abre el PageModel por dentro: esto son los handlers.
+> 💡 **Punto de partida:** Tu primera página ya sabe atender un GET con `OnGet` y pintar los datos que trae la ruta. Pero una web de verdad no solo lee: recibe lo que escribe el usuario, guarda, redirige, ordena y a veces ni siquiera sabe qué le están pidiendo. Abre el PageModel por dentro: esto son los handlers.
 
 En este punto aprendemos la mitad que faltaba del binomio: cómo el motor elige qué método se ejecuta, de dónde salen los datos que ese método recibe y con qué resultados puede responder la página.
 
@@ -32,7 +32,7 @@ En este punto aprendemos la mitad que faltaba del binomio: cómo el motor elige 
 - Explicar el patrón PRG y por qué un POST sin token antiforgery responde **400**
 - Reconocer los dos tropiezos típicos: `RedirectToPage("/")` da **500** y un handler con nombre inexistente cae en el por defecto
 
-> 📝 **Nota:** seguimos en `PagesApp`; las páginas nuevas de este punto están en `Pages/Productos/`.
+> 📝 **Nota:** seguimos en el proyecto Razor Pages del punto anterior; las páginas nuevas de este punto están en `Pages/Productos/`.
 
 ## 11.1. Qué es un Handler
 
@@ -119,7 +119,7 @@ Hay dos caminos para que un dato llegue al handler, y conviene saber cuál usa c
 
 ### 11.2.1. Parámetros del Handler
 
-Si el método declara parámetros, el motor rellena cada uno con un valor coincidente de la ruta, la query o el formulario. Ya lo viste en el 10 con `OnGet(int id)`; en escritura funciona igual: `OnPost(string nombre)` recibió el campo `nombre` del formulario y `OnPostActualizar(string marca)` recibió el campo `marca`.
+Si el método declara parámetros, el motor rellena cada uno con un valor coincidente de la ruta, la query o el formulario. Ya lo viste en el punto 10 con `OnGet(int id)`; en escritura funciona igual: `OnPost(string nombre)` recibió el campo `nombre` del formulario y `OnPostActualizar(string marca)` recibió el campo `marca`.
 
 Prueba el alta en el navegador: envía dos POST, uno con `nombre=Teclado` y otro con `nombre=Raton`. Cada uno redirige con **302** y la página siguiente muestra el contador en 2. Si en el listado envías `marca=XYZ` con `?handler=Actualizar`, verás pintar `OnPostActualizar: XYZ`.
 

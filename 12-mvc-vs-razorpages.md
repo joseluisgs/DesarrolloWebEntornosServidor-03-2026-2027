@@ -7,7 +7,7 @@
     - [12.4.2. La Página Equivalente](#1242-la-página-equivalente)
     - [12.4.3. La Colisión de Rutas](#1243-la-colisión-de-rutas)
     - [12.4.4. Completar la Migración](#1244-completar-la-migración)
-  - [12.5. Tabla Decisora](#125-tabla-decisoria)
+  - [12.5. Tabla de decisión](#125-tabla-de-decision)
   - [12.6. Buenas Prácticas](#126-buenas-prácticas)
   - [12.7. Reto: Migra la Tienda de Funkos](#127-reto-migra-la-tienda-de-funkos)
     - [12.7.1. Contexto](#1271-contexto)
@@ -19,7 +19,7 @@
 
 # 12. MVC vs Razor Pages: Comparativa y Migración
 
-> 💡 **Punto de partida:** En el 10 dije que volveríamos aquí. Ya has programado las dos arquitecturas: páginas con su `PageModel` (10-11) y controladores con sus acciones (07-09). Ahora toca la pregunta que se hace todo el mundo: ¿cuándo conviene cada una? Y la que no se atreve a preguntar: ¿y si mañana me piden pasar una pantalla de una a otra sin romper la aplicación?
+> 💡 **Punto de partida:** Has construido la misma ficha dos veces en los últimos puntos: una como página Razor Pages y otra como acción de MVC. Los dos caminos llegan al mismo HTML. Entonces, ¿cuándo conviene cada uno? Y la pregunta que nadie se atreve a hacer: ¿y si mañana te piden pasar una pantalla de una a otra sin romper la aplicación?
 
 En este punto compararemos las dos visiones por dentro, aprenderás a convivirlas en un mismo `Program.cs` y harás una migración real de una acción de MVC a una página, pantalla a pantalla y sin caídas.
 
@@ -31,7 +31,7 @@ En este punto compararemos las dos visiones por dentro, aprenderás a convivirla
 - Reconocer la colisión de rutas y saber quién gana
 - Elegir arquitectura con criterios claros para cada pantalla
 
-> 📝 **Nota:** los proyectos de este punto son `MvcApp` (el MVC de los puntos 07-09) y una copia suya, `MigracionApp`, donde conviven las dos visiones y donde se hace la migración.
+> 📝 **Nota:** los fragmentos de este punto salen del proyecto MVC que llevas montando desde el punto 07 y de una copia suya donde conviven las dos visiones y donde se hace la migración.
 
 ## 12.1. Las Dos Arquitecturas en Paralelo
 
@@ -160,7 +160,7 @@ Migrar no es reescribir el proyecto: es mover pantalla a pantalla, dejando cada 
 
 ### 12.4.1. El Punto de Partida: la Acción Ficha
 
-Esto es lo que hay que mover, tal como está en `MvcApp`:
+Esto es lo que hay que mover, tal como está en `ProductosApp`:
 
 ```csharp
 // Controllers/ProductosController.cs
@@ -191,7 +191,7 @@ public IActionResult Ficha(int id)
 
 La migración tiene cuatro pasos, y el orden importa:
 
-1. Crea la carpeta `Pages/Productos/` y su `_ViewImports.cshtml` con `@using MvcApp`, `@using MvcApp.ViewModels` y `@namespace MvcApp.Pages`.
+1. Crea la carpeta `Pages/Productos/` y su `_ViewImports.cshtml` con `@using ProductosApp`, `@using ProductosApp.ViewModels` y `@namespace ProductosApp.Pages`.
 2. Crea `Pages/_ViewStart.cshtml` con `Layout = "_Layout";` y copia el `_Layout` a `Pages/Shared/_Layout.cshtml`.
 3. Escribe la página con su ruta propia, que no pise la de la acción:
 
@@ -232,13 +232,13 @@ Mientras las dos existen, la equivalencia se ve a simple vista:
 
 | Petición | Quién responde | Resultado |
 |----------|----------------|-----------|
-| `GET /Productos/Ficha/1` | La acción (MVC) | **200**, título `Ficha de Auriculares - MvcApp`, h1 `Auriculares` |
+| `GET /Productos/Ficha/1` | La acción (MVC) | **200**, título `Ficha de Auriculares - ProductosApp`, h1 `Auriculares` |
 | `GET /ficha/1` | La página (Razor Pages) | **200**, el mismo título y el mismo h1 |
 | `GET /ficha/99` | La página | **404**, porque el `PageModel` devuelve `NotFound()` igual que la acción |
 
 ```mermaid
 graph LR
-    A["Acción Ficha<br/>MvcApp"] -->|"1. Copiar lógica"| B["PageModel<br/>FichaModel"]
+    A["Acción Ficha<br/>ProductosApp"] -->|"1. Copiar lógica"| B["PageModel<br/>FichaModel"]
     A -->|"2. Copiar vista"| C["Página<br/>Ficha.cshtml + @page"]
     C --> D["3. Ruta propia<br/>/ficha/{id:int}"]
     B --> E["4. Comprobar<br/>mismo título, mismo h1"]
@@ -281,7 +281,7 @@ Y los enlaces, el punto donde la migración se rompe en silencio. En la portada 
 
 > 💡 **Consejo:** migra una pantalla, déjala cerrada (equivalencia, acción borrada, enlaces actualizados) y solo entonces pasa a la siguiente. Una migración a medias entre dos arquitecturas es el peor lugar para estar.
 
-## 12.5. Tabla Decisora
+## 12.5. Tabla de decisión
 
 Checklist para decidir hoy y para revisar mañana:
 

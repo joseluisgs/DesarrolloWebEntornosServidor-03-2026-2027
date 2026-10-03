@@ -89,7 +89,7 @@ Es fundamental entender que el navegador nunca ve el Tag Helper: solo ve el resu
 
 📌 **Ejemplo real:** Es lo mismo que ocurre con el motor de plantillas de cualquier CMS. En el *back-office* escribes una plantilla con marcadores; el visitante ve la página ya montada. Nadie ve los marcadores.
 
-> ⚠️ **Advertencia:** Si una etiqueta especial sale literalmente en el navegador, no la ha reconocido el servidor. Casi siempre es porque **falta `@addTagHelper`** en `_ViewImports.cshtml`. Ese error lo viste en el tema 5.5 y se repite aquí.
+> ⚠️ **Advertencia:** Si una etiqueta especial sale literalmente en el navegador, no la ha reconocido el servidor. Casi siempre es porque **falta `@addTagHelper`** en `_ViewImports.cshtml`. Ese error lo viste en el apartado 5.5 y se repite aquí.
 
 ## 6.2. Enlaces Dinámicos con asp-page
 
@@ -465,7 +465,7 @@ Funciona con cualquier etiqueta:
 
 Y fíjate en el resultado: el contenido original (`x`, `y`) desaparece. `output.Content` sustituye lo que hubiera.
 
-> 📝 **Nota:** En este ejemplo se usa `ProcessAsync` (el equivalente asíncrono de `Process`) porque consultar una base de datos o llamar a un servicio es una operación que hay que esperar. Es el mismo motivo por el que en el tema 04 usabas `await` en las funciones de la vista.
+> 📝 **Nota:** En este ejemplo se usa `ProcessAsync` (el equivalente asíncrono de `Process`) porque consultar una base de datos o llamar a un servicio es una operación que hay que esperar. Es el mismo motivo por el que en el punto 04 usabas `await` en las funciones de la vista.
 
 > ⚠️ **Advertencia:** `TagHelperContent` no tiene `SetHtmlContentAsync`: te daría **`CS1061`**. Se pone el contenido con `output.Content.SetHtmlContent(...)` (síncrono) dentro del método asíncrono.
 

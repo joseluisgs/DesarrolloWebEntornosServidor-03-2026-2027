@@ -60,7 +60,7 @@ public record Producto(
 );
 ```
 
-Nueve campos, un reflejo fiel de lo que guarda la aplicación. Eso está bien para el repositorio y para la base de datos, pero la pantalla de ficha no es la base de datos: es una opinión sobre esos datos. En el 08, la vista `Detalle.cshtml` recibía la entidad y pintaba `Nombre`, `Categoria`, `Anio` y `PrecioReferencia`; los otros cinco campos viajaban de gratis.
+Nueve campos, un reflejo fiel de lo que guarda la aplicación. Eso está bien para el repositorio y para la base de datos, pero la pantalla de ficha no es la base de datos: es una opinión sobre esos datos. En el punto 08, la vista `Detalle.cshtml` recibía la entidad y pintaba `Nombre`, `Categoria`, `Anio` y `PrecioReferencia`; los otros cinco campos viajaban de gratis.
 
 📌 **Ejemplo real:** En la ficha de un producto de Amazon ves el nombre, el precio y la valoración. Detrás hay stock por almacén, coste de adquisición, margen del proveedor y decenas de campos más que jamás aparecen en tu pantalla, porque esa vista no es el almacén: es una opinión sobre él.
 
@@ -139,7 +139,7 @@ Dos cambios respecto a la entidad. Se quedan fuera `Imagen` y `Etiquetas` (la fi
 <span id="sello">@Model.Sello</span>
 ```
 
-Para que `@model ProductoViewModel` funcione sin escribir el namespace completo, `Views/_ViewImports.cshtml` suma una directiva que ya conoces del punto 05: `@using MvcApp.ViewModels`.
+Para que `@model ProductoViewModel` funcione sin escribir el namespace completo, `Views/_ViewImports.cshtml` suma una directiva que ya conoces del punto 05: `@using ProductosApp.ViewModels`.
 
 ### 9.2.3. El Controlador Construye el ViewModel
 
@@ -176,7 +176,7 @@ public IActionResult Ficha(int id)
 ```
 
 
-- `GET /Productos/Ficha/1` → **HTTP 200** con `Auriculares`, `Electrónica · 2019`, `14,99 €`, estado `En catálogo`, sello `Novedad` y pestaña `Ficha de Auriculares - MvcApp`
+- `GET /Productos/Ficha/1` → **HTTP 200** con `Auriculares`, `Electrónica · 2019`, `14,99 €`, estado `En catálogo`, sello `Novedad` y pestaña `Ficha de Auriculares - ProductosApp`
 - `GET /Productos/Ficha/4` → **HTTP 200** con `Lámpara`, estado `Descatalogado` y el sello vacío
 - `GET /Productos/Ficha/99` → **HTTP 404** con el cuerpo vacío: el escudo no tapa el `NotFound`
 
@@ -246,7 +246,7 @@ La lista `_productos` no se pinta nunca — la vista solo lee contadores y nombr
 
 ### 9.3.2. ViewData o ViewModel
 
-En el 08 usaste `ViewData["Titulo"]` y `ViewBag.Consulta`; aquí llegan los ViewModels. No son alternativas rivales: son herramientas de tamaño distinto.
+En el punto 08 usaste `ViewData["Titulo"]` y `ViewBag.Consulta`; aquí llegan los ViewModels. No son alternativas rivales: son herramientas de tamaño distinto.
 
 | | `ViewData` / `ViewBag` | ViewModel |
 |---|---|---|
@@ -331,7 +331,7 @@ Ficha.cshtml(10,4): error CS0200: No se puede asignar a la propiedad o el indiza
 
 Son dos errores de compilación distintos con el mismo mensaje implícito: *lo que la vista no puede hacer, no lo hace ni de casualidad*. Los errores de tipos en una vista se pagan en local, con el compilador, y no en producción, con un usuario.
 
-> ⚠️ **Advertencia:** si una pantalla necesita "modificar" algo (marcar como leído, incrementar un contador), eso no es pintar: es una acción. Se manda con un `POST` a una acción del controlador, como vimos en el 08, no escribiendo sobre el modelo de la vista.
+> ⚠️ **Advertencia:** si una pantalla necesita "modificar" algo (marcar como leído, incrementar un contador), eso no es pintar: es una acción. Se manda con un `POST` a una acción del controlador, como vimos en el punto 08, no escribiendo sobre el modelo de la vista.
 
 ### 9.4.4. Herencia y Polimorfismo
 
@@ -383,8 +383,8 @@ El contrato también falla si el tipo no lo cumple. Quita `: IResumen` de `Catal
 
 ```text
 System.InvalidOperationException: The model item passed into the ViewDataDictionary
-is of type 'MvcApp.ViewModels.CatalogoViewModel', but this ViewDataDictionary
-instance requires a model item of type 'MvcApp.ViewModels.IResumen'.
+is of type 'ProductosApp.ViewModels.CatalogoViewModel', but this ViewDataDictionary
+instance requires a model item of type 'ProductosApp.ViewModels.IResumen'.
 ```
 
 ```mermaid
@@ -489,7 +489,7 @@ Rellena la lista con seis figuras para que haya activas y dadas de baja, novedad
 
 **Puntos extra:**
 
-- Quita `@using MvcApp.ViewModels` de `_ViewImports.cshtml` y lee el error que te devuelve `dotnet build`: así ves por qué existía esa directiva
+- Quita `@using ProductosApp.ViewModels` de `_ViewImports.cshtml` y lee el error que te devuelve `dotnet build`: así ves por qué existía esa directiva
 - Compara en **F12** el HTML de `Funkos/Ficha/1` con el JSON de una acción `Datos()` que devuelva `Json(RepositorioFunkos.ObtenerTodos())`: el mismo dato, dos formas y dos pesos
 - Añade un tercer implementador de `IResumen` (por ejemplo `BusquedaViewModel`) y comprueba que `Resumen.cshtml` no se toca
 - Sustituye en tu `Index` los `ViewData` por un ViewModel de listado y decide en un comentario si ha valido la pena

@@ -262,9 +262,9 @@ Un controlador es una clase que hereda de `Controller`. Cada acción (cada méto
 
 ```csharp
 using Microsoft.AspNetCore.Mvc;
-using MvcApp.Repositories;
+using ProductosApp.Repositories;
 
-namespace MvcApp.Controllers;
+namespace ProductosApp.Controllers;
 
 /// <summary>
 /// Gestiona los Productos: decide qué vista se muestra.
@@ -294,8 +294,8 @@ public class ProductosController : Controller
 La vista en MVC **no lleva `@page`** (no es una página, es una plantilla que alguien le pide) y vive en `Views/<Controlador>/<Accion>.cshtml`.
 
 ```cshtml
-@using MvcApp.Repositories
-@model IEnumerable<MvcApp.Models.Producto>
+@using ProductosApp.Repositories
+@model IEnumerable<ProductosApp.Models.Producto>
 @{
     ViewData["Title"] = "Productos";
 }
@@ -336,7 +336,7 @@ Dos vías para que el controlador le hable a la vista:
 El Modelo es la pieza más amplia: los datos y las reglas. En un proyecto MVC mínimo, `Models/` trae el de la plantilla:
 
 ```csharp
-namespace MvcApp.Models;
+namespace ProductosApp.Models;
 
 public class ErrorViewModel
 {
@@ -348,7 +348,7 @@ public class ErrorViewModel
 Y el nuestro, con el repositorio en memoria:
 
 ```csharp
-namespace MvcApp.Models;
+namespace ProductosApp.Models;
 
 public record Producto(
     int Id,
