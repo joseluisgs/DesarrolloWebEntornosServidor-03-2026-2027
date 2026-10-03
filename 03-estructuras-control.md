@@ -126,7 +126,7 @@ graph LR
 
 📌 **Ejemplo real:** Netflix no consulta la base de datos 40 veces mientras bajas por la portada. Pide el catálogo una vez y lo recorre en memoria. Nosotros hacemos una versión mini: pedimos la lista una vez y el `@foreach` la pinta.
 
-> 📝 **Nota:** Hemos usado una clase estática a propósito. Todavía no sabes qué es la inyección de dependencias ni hay controlador ni `PageModel`:** eso llega en los puntos 07** y **11**. De momento la vista llama directamente al repositorio: es el paso intermedio entre *"datos escritos a mano"* y *"datos que llegan de una base de datos"*.
+> 📝 **Nota:** Hemos usado una clase estática a propósito. Todavía no sabes qué es la inyección de dependencias ni hay controlador ni `PageModel`: eso llega en los puntos **07** y **11**. De momento la vista llama directamente al repositorio: es el paso intermedio entre *"datos escritos a mano"* y *"datos que llegan de una base de datos"*.
 
 ### 3.1.3. Cómo se Llama desde la Vista
 
@@ -295,7 +295,7 @@ El `@foreach` recorre una colección elemento a elemento. Es el bucle del 90 % d
 ```cshtml
 @if (!productos.Any())
 {
-    @* ⚠️ El estado vacío: lo que separa una aplicación cuidada de una chapuza *@
+    @* ⚠️ El estado vacío: lo que separa una aplicación cuidada de una descuidada *@
     <div class="text-center py-5">
         <h3>No hay productos en el catálogo</h3>
         <p>Amplía el repositorio para ver algo aquí.</p>
@@ -350,7 +350,7 @@ Cuando necesitas el número de vuelta (una posición, un número de página, un 
 
 Fíjate en `@(i + 1)`: los índices empiezan en **0**, pero a las personas les gusta empezar a contar en **1**. Ese paréntesis es obligatorio por el operador.
 
-| Búcle | Cuándo lo usas |
+| Bucle | Cuándo lo usas |
 |-------|----------------|
 | `@foreach` | No necesitas el índice, solo el elemento |
 | `@for` | Necesitas la posición, el contador o un paso concreto |
@@ -428,7 +428,7 @@ Los bucles se anidan: un bucle dentro de otro. Es la forma de pintar, por ejempl
 | `continue` | Salta esta vuelta y pasa a la siguiente |
 | `return` | Sale de la vista entera (usado dentro de `@functions`) |
 
-> ⚠️ **Advertencia:** En bucles anidados, `break` solo sale del bucle interno. Si queréis salir de los dos, necesitas una bandera (`bool encontrado = false;`) o moverlo a una función.
+> ⚠️ **Advertencia:** En bucles anidados, `break` solo sale del bucle interno. Si quieres salir de los dos, necesitas una bandera (`bool encontrado = false;`) o moverlo a una función.
 
 ## 3.4. Arrays y Matrices
 
@@ -627,7 +627,7 @@ Recuperar un dato es tan importante como guardarlo. Tres errores típicos, todos
 
 ## 3.6. Reto: Listado de Funkos con decisión, bucles y arrays
 
-> Monta el listado de Funkos de FunkoApp con decisión, bucles y arrays — contra el repositorio en memoria.
+> Monta el listado de Funkos de FunkoApp con decisión, bucles y arrays, yendo a buscar los datos al repositorio en memoria.
 
 ### 3.6.1. Contexto
 
@@ -674,7 +674,7 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 6. **Decisión simple:** dentro de cada tarjeta, un `@if / else if / else` que muestre *Novedad* / *En colección* / *Dado de baja*
 7. **Decisión por caso:** un `@switch` sobre `Categoria` que cambie el icono de la tarjeta, con su `default`
 8. **Pattern matching:** un `@if` con `is >= 2016 and <= 2026` que añada un sello *"Década actual"*
-9. **Búcle con índice:** un `@for` que pinte la posición de cada Funko (`#1`, `#2`…)
+9. **Bucle con índice:** un `@for` que pinte la posición de cada Funko (`#1`, `#2`…)
 10. **Matriz:** monta un `string[,]` con nombre, categoría y año de tres Funkos y pinta una `<table>` con dos bucles anidados (`filas` y `columnas`)
 11. **Verificación:** cambia un dato del repositorio, recarga y comprueba con **F12** que el HTML ha cambiado. Añade un comentario Razor explicando cada bloque
 
