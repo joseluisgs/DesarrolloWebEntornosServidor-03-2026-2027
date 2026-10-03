@@ -1,4 +1,4 @@
-﻿- [7. Arquitectura MVC: Separación de Presentación y Negocio](#7-arquitectura-mvc-separación-de-presentación-y-negocio)
+- [7. Arquitectura MVC: Separación de Presentación y Negocio](#7-arquitectura-mvc-separación-de-presentación-y-negocio)
   - [7.1. El Problema: Todo Junto en la Vista](#71-el-problema-todo-junto-en-la-vista)
     - [7.1.1. El Fichero que Hace de Todo](#711-el-fichero-que-hace-de-todo)
     - [7.1.2. El Coste de Hablar Con Todo el Mundo](#712-el-coste-de-hablar-con-todo-el-mundo)
