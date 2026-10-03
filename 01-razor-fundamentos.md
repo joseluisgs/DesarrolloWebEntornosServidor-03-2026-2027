@@ -453,7 +453,7 @@ dotnet new list web
 dotnet new mvc --help
 ```
 
-Estas son las plantillas que usaremos en este curso (nombres cortos verificados con la CLI de .NET 10):
+Estas son las plantillas que usaremos en este curso:
 
 | Plantilla | Nombre corto | Qué crea | Dónde se usa |
 |-----------|--------------|----------|--------------|

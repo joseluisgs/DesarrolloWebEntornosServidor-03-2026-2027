@@ -208,7 +208,7 @@ graph LR
 
 ### 7.3.1. El Recorrido Completo
 
-Creamos un proyecto MVC real con `dotnet new mvc` y medimos cada paso:
+Creamos un proyecto MVC real con `dotnet new mvc` y vamos paso a paso:
 
 | URL pedida | Qué ocurre | HTTP |
 |---|---|---|
@@ -244,7 +244,6 @@ Aquí está la magia de MVC: nadie escribe a mano qué vista abrir. Lo decide un
 | `HomeController` | `Acerca()` | `Views/Home/Acerca.cshtml` |
 | `ProductosController` | `Index()` | `Views/Productos/Index.cshtml` |
 
-**Comprobado en ejecución:**
 
 - `ProductosController.Index()` con `return View();` → se sirvió `Views/Productos/Index.cshtml` → **HTTP 200**
 - `HomeController.SinVista()` sin su `.cshtml` → **HTTP 500**
@@ -319,7 +318,7 @@ La vista en MVC **no lleva `@page`** (no es una página, es una plantilla que al
 </div>
 ```
 
-**Comprobado en ejecución**: `/Productos` devolvió **HTTP 200** con `<h1>Productos del catálogo (6)</h1>`, **6 tarjetas** y **6 precios**.
+`GET /Productos` devuelve **HTTP 200** con `<h1>Productos del catálogo (6)</h1>`, **6 tarjetas** y **6 precios**.
 
 Dos vías para que el controlador le hable a la vista:
 
@@ -328,7 +327,7 @@ Dos vías para que el controlador le hable a la vista:
 | **`View(datos)`** + `@model` | `return View(lista)` / `@model IEnumerable<Producto>` | Los datos de verdad |
 | **`ViewData["x"]`** | `ViewData["Titulo"] = ...` / `@ViewData["Titulo"]` | Cosas sueltas: títulos, avisos, contadores |
 
-**Comprobado**: `ViewData["Mensaje"] = "Hola desde el controlador"` llegó a la pantalla como *"Hola desde el controlador"*, y `ViewData["Numero"] = 42` como *"42"*.
+`ViewData["Mensaje"] = "Hola desde el controlador"` llega a la pantalla como *"Hola desde el controlador"*, y `ViewData["Numero"] = 42` como *"42"*.
 
 > ⚠️ **Advertencia:** En MVC la vista **no tiene `@page`**. Si se lo pones, no hará nada útil: en MVC el acceso es por URL de controlador, no por fichero. La diferencia es exactamente la que veremos en el punto **12** (MVC vs Razor Pages).
 
@@ -400,7 +399,7 @@ graph TD
 | `Controllers/` | Controller — recibe y decide | `ProductosController.cs`, `HomeController.cs` |
 | `Views/` | View — solo presenta | `Productos/Index.cshtml`, `Shared/_Layout.cshtml` |
 
-> 📝 **Nota:** La plantilla de MVC **no trae carpeta `Pages/`**. Comprobado: al crear el proyecto con `dotnet new mvc`, solo aparecen `Controllers/`, `Views/`, `Models/` y `wwwroot/`.
+> 📝 **Nota:** La plantilla de MVC **no trae carpeta `Pages/`**: al crear el proyecto con `dotnet new mvc`, solo aparecen `Controllers/`, `Views/`, `Models/` y `wwwroot/`.
 
 ## 7.5. Presentación, Negocio y Datos
 

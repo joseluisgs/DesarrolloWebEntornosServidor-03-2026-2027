@@ -246,7 +246,7 @@ Si una función tiene que esperar a algo (una consulta, una llamada HTTP) se dec
 }
 ```
 
-📌 **Ejemplo real:** La propia plantilla de ASP.NET Core lo hace: en el `_Layout` se llama a `await UserManager.GetUserAsync(User)` desde la vista para decidir si pintar *"Hola, Ana"* o el botón de acceso. Eso ya lo viste funcionando en el proyecto Tienda.
+📌 **Ejemplo real:** La propia plantilla de ASP.NET Core lo hace: en el `_Layout` se llama a `await UserManager.GetUserAsync(User)` desde la vista para decidir si pintar *"Hola, Ana"* o el botón de acceso.
 
 > ⚠️ **Advertencia:** Si llamas a una función `async` **sin `await`**, el compilador te avisa (CS4014) y la tarea se queda huérfana: la página continúa sin esperar y el dato sale vacío. **`await` siempre.**
 
@@ -280,7 +280,7 @@ Para que el HTML se pinte de verdad hay dos formas, y las dos desactivan la prot
 }
 ```
 
-**Comprobado en ejecución**, el HTML resultante es:
+El HTML resultante es:
 
 ```html
 <p id="escapado">hola &lt;b&gt;mundo&lt;/b&gt;</p>
@@ -485,7 +485,7 @@ Lo verdaderamente potente: una función que recibe otra función. Así decides e
 
 ## 4.4. Lo que NO Existe en Razor
 
-Esto lo hemos comprobado compilando, no leyendo. Saberlo ahorra media hora de vida.
+Nada de esto funciona en Razor, por mucho que te lo parezca. Saberlo ahorra media hora de vida.
 
 ```mermaid
 graph TD

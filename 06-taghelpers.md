@@ -105,7 +105,6 @@ El Tag Helper **`AnchorTagHelper`** se activa con el atributo `asp-page`. Escrib
 </p>
 ```
 
-**Comprobado en ejecución:**
 
 | Etiqueta de origen | HTML final |
 |---|---|
@@ -156,7 +155,6 @@ graph LR
     style I fill:#f44336,color:#fff
 ```
 
-**Comprobado en ejecución:**
 
 | URL pedida | Resultado |
 |---|---|
@@ -182,7 +180,7 @@ Las rutas que empiezan por **`~`** significan *"desde la raíz del sitio"*. El s
 <img src="~/favicon.ico" alt="icono" />
 ```
 
-**Comprobado en ejecución**, el HTML final es:
+El HTML final es:
 
 ```html
 <script src="/js/site.xtxxf3hu2r.js"></script>
@@ -196,14 +194,14 @@ El `~` ha desaparecido... pero además ha cambiado el nombre del fichero.
 
 A esa cadena de letras y números del medio la llamamos huella (*fingerprint*). Sirve para la caché: si el contenido del fichero cambia, cambia la huella, y el navegador se ve obligado a descargar la versión nueva.
 
-| Situación | HTML resultado | Comprobado |
+| Situación | HTML resultado | Efecto |
 |---|---|---|
 | `~/js/site.js` y el fichero existe | `/js/site.xtxxf3hu2r.js` — con huella | ✅ |
 | `~/favicon.ico` y el fichero existe | `/favicon.61n19gt1b8.ico` — con huella | ✅ |
 | `~/images/logo.png` y el fichero NO existe | `/images/logo.png` — sin huella | ✅ |
 | `/js/site.js` ( ruta literal, sin `~` | `/js/site.js` ) sin huella | ✅ |
 
-Dos reglas, ambas verificadas:
+Dos reglas:
 
 1. **La huella solo aparece si el fichero existe** como recurso estático del proyecto
 2. **La huella solo aparece con `~`**: una ruta literal se copia tal cual
@@ -242,9 +240,9 @@ Existe el atributo `asp-append-version="true"`, que es la forma clásica de forz
 | `<script src="~/js/site.js" asp-append-version="false">` | `/js/site.xtxxf3hu2r.js` |
 | `<script src="~/js/site.js">` — sin atributo | `/js/site.xtxxf3hu2r.js` |
 
-**Las tres dan exactamente lo mismo.** Lo hemos comprobado escribiendo las tres etiquetas en la misma página y comparando el HTML final.
+**Las tres dan exactamente lo mismo.** Escribe las tres etiquetas en la misma página y compara el HTML final.
 
-> 📝 **Nota:** Verifica siempre antes de enseñar algo. Si en tu equipo el resultado fuera distinto:** por ejemplo, `/js/site.js?v=abc123`—, significa que la huella automática no está activa y entonces `asp-append-version` sí haría falta. El F12 manda.**
+> 📝 **Nota:** Si en tu equipo el resultado fuera distinto (por ejemplo, `/js/site.js?v=abc123`), significa que la huella automática no está activa y entonces `asp-append-version` sí haría falta. El F12 manda.
 
 ## 6.4. Etiquetas Condicionales
 
@@ -260,7 +258,7 @@ Además de generar HTML, hay Tag Helpers que deciden si el HTML entra o no.
 </cache>
 ```
 
-**Comprobado en ejecución**: dos peticiones seguidas devolvieron el mismo valor (`17:07:45` en las dos), porque el contenido estaba cacheado.
+Dos peticiones seguidas devuelven el mismo valor (`17:07:45` en las dos), porque el contenido está cacheado.
 
 ```mermaid
 graph TD
@@ -302,7 +300,7 @@ graph TD
 </environment>
 ```
 
-**Comprobado en ejecución** (entorno de producción): el párrafo `prod` sí apareció y el `dev` no.
+En entorno de producción, el párrafo `prod` sí aparece y el `dev` no.
 
 | Entorno | `names="Development"` | `names="Production"` |
 |---|---|---|
@@ -348,7 +346,7 @@ public class EstadoProductoTagHelper : TagHelper
 <estado-producto texto="Novedad" id="b1"></estado-producto>
 ```
 
-**HTML resultante**: comprobado en ejecución:
+HTML resultante:
 
 ```html
 <span id="b1" class="badge bg-primary">Novedad</span>
@@ -430,7 +428,7 @@ output.TagMode = TagMode.StartTagAndEndTag;   // <- añádela SIEMPRE
 | `SelfClosing` (por defecto con `/>`) | `<span class="badge bg-primary" />` — contenido perdido |
 | `StartTagAndEndTag` | `<span class="badge bg-primary">Novedad</span>` ✅ |
 
-> ⚠️ **Advertencia:** Si tu Tag Helper pinta texto y sale siempre vacío, nunca empieces a buscar en los atributos. El 99% de las veces es el `TagMode`. Lo hemos comprobado: con la línea, aparece `Novedad`; sin ella, no.
+> ⚠️ **Advertencia:** Si tu Tag Helper pinta texto y sale siempre vacío, nunca empieces a buscar en los atributos. El 99% de las veces es el `TagMode`. Con la línea aparece `Novedad`; sin ella, no.
 
 ### 6.5.4. Dos Formas de Engancharse
 
@@ -453,7 +451,7 @@ public class PrecioTagHelper : TagHelper
 }
 ```
 
-**Comprobado en ejecución**: funciona con cualquier etiqueta:
+Funciona con cualquier etiqueta:
 
 | En la vista | HTML final |
 |---|---|

@@ -4,7 +4,7 @@
     - [10.1.2. El Mismo Motor Razor](#1012-el-mismo-motor-razor)
   - [10.2. La Carpeta Pages: La URL Está en el Disco](#102-la-carpeta-pages-la-url-está-en-el-disco)
     - [10.2.1. El Mapa de Carpetas](#1021-el-mapa-de-carpetas)
-    - [10.2.2. Comprobado en el Navegador](#1022-comprobado-en-el-navegador)
+    - [10.2.2. El Mapa en el Navegador](#1022-el-mapa-en-el-navegador)
   - [10.3. Program.cs: Dos Líneas para Arrancar](#103-programcs-dos-líneas-para-arrancar)
   - [10.4. La Directiva @page](#104-la-directiva-page)
     - [10.4.1. Primera Línea, Obligatoria](#1041-primera-línea-obligatoria)
@@ -38,7 +38,7 @@ En este punto aprendemos el otro gran enfoque de ASP.NET Core: la **orientación
 - Completar las dos líneas de `Program.cs` y enlazar páginas con `asp-page`
 - Reconocer los tres tropiezos típicos: sin `@page` da 404, el namespace mal escrito da CS0234 y la ruta sin restricción pinta datos inventados
 
-> 📝 **Nota:** todo lo de aquí está medido sobre un proyecto creado con `dotnet new webapp` de .NET 10, con `dotnet build` en **0 errores**. Las citas de comportamiento salen de la documentación oficial de ASP.NET Core.
+> 📝 **Nota:** el proyecto de este punto es `PagesApp`, creado con `dotnet new webapp`. Todas las páginas que verás están en su carpeta `Pages/Productos/`.
 
 ## 10.1. La Web Página a Página
 
@@ -46,7 +46,7 @@ En este punto aprendemos el otro gran enfoque de ASP.NET Core: la **orientación
 
 En MVC, que es lo que hemos montado en los puntos 07, 08 y 09, la petición mira a una acción: hay ruta, hay controlador, hay método y al final alguien decide qué vista se entrega. En Razor Pages la petición mira a un archivo: el que coincida con la URL, ni más ni menos.
 
-La documentación oficial lo define así: `@page` convierte el archivo en algo que atiende peticiones directamente, sin pasar por un controlador, y debe ser la primera directiva Razor del archivo.
+`@page` convierte el archivo en un endpoint: atiende peticiones directamente, sin pasar por ningún controlador, y debe ser la primera directiva Razor del archivo.
 
 | | MVC (07-09) | Razor Pages |
 |---|---|---|
@@ -72,7 +72,7 @@ graph LR
 
 > 💡 **Analogía:** MVC es un restaurante con camarero: pides, el camarero (controlador) va a cocina, decide qué te trae y vuelve. Razor Pages es showcooking: te sientas delante de la barra y el cocinero (el `PageModel`) te prepara el plato en la misma mesa donde lo consumes.
 
-La recomendación oficial es clara: para desarrollo nuevo, la documentación de ASP.NET Core recomienda Razor Pages sobre MVC con controladores y vistas. MVC no se queda obsoleto (lo veremos en el 12): sigue siendo el rey cuando necesitas que un mismo controlador sirva vistas y JSON a la vez.
+La propia Microsoft recomienda Razor Pages para el desarrollo nuevo por encima de MVC con controladores y vistas. MVC no se queda obsoleto (lo veremos en el 12): sigue siendo el rey cuando necesitas que un mismo controlador sirva vistas y JSON a la vez.
 
 📌 **Ejemplo real:** ASP.NET Core Identity, el sistema de login y registro de .NET, está construido con Razor Pages: sus páginas de registro y acceso viven en `Areas/Identity/Pages/Account/Register` y `.../Login` y atienden sus URLs sin un solo controlador. En el 18 lo montarás.
 
@@ -94,7 +94,7 @@ Buena noticia: el lenguaje de las páginas es exactamente el mismo que estudiast
 
 ### 10.2.1. El Mapa de Carpetas
 
-La regla que sostiene todo el enfoque es geográfica: **la URL es la ruta del archivo dentro de `Pages/`**. La documentación oficial lo ejemplifica con `/Pages/SubscriptionManagement/ViewAll.cshtml`, cuya ruta automática es `/SubscriptionManagement/ViewAll`.
+La regla que sostiene todo el enfoque es geográfica: **la URL es la ruta del archivo dentro de `Pages/`**. Un archivo en `Pages/Servicios/Listado.cshtml` responde en `/Servicios/Listado`: la carpeta dicta la URL.
 
 📌 **Ejemplo real:** La plantilla oficial *ASP.NET Core Web App (Razor Pages)*, la que crea `dotnet new webapp`, monta exactamente el árbol de abajo.
 
@@ -133,7 +133,7 @@ graph TD
     style D fill:#FF9800,color:#fff
 ```
 
-### 10.2.2. Comprobado en el Navegador
+### 10.2.2. El Mapa en el Navegador
 
 El mapa anterior no es una teoría: son los códigos reales que devolvió la app:
 
@@ -173,7 +173,7 @@ app.Run();
 
 Para no quedarnos en la teoría, las quitamos por separado y anotamos qué pasa:
 
-| Cambio en `Program.cs` | Resultado medido |
+| Cambio en `Program.cs` | Qué pasa |
 |-------------------------|------------------|
 | Sin `AddRazorPages()` | La app no arranca: `System.InvalidOperationException: Unable to find the required services... AddAuthorization` |
 | Sin `MapRazorPages()` | La app arranca, pero `/`, `/Privacy` y `/productos/1` devuelven **404**; `/css/site.css` sigue en **200** |
@@ -186,7 +186,7 @@ Para no quedarnos en la teoría, las quitamos por separado y anotamos qué pasa:
 
 ### 10.4.1. Primera Línea, Obligatoria
 
-Un `.cshtml` dentro de `Pages/` sigue siendo una vista normal hasta que aparece `@page`. La documentación oficial lo deja claro: la directiva convierte el archivo en algo que atiende peticiones directamente y debe ser la primera directiva Razor del archivo.
+Un `.cshtml` dentro de `Pages/` sigue siendo una vista normal hasta que aparece `@page`. La directiva convierte el archivo en un endpoint que atiende peticiones directamente, y debe ir siempre en la primera línea.
 
 ```cshtml
 @page "/productos/{id:int}"
@@ -200,7 +200,7 @@ Un `.cshtml` dentro de `Pages/` sigue siendo una vista normal hasta que aparece 
 
 > 💡 **Analogía:** `@page` es el número de puerta de la casa. Sin número, la casa existe, hay gente dentro y la puerta cierra bien, pero el cartero no puede llevarle nada a nadie: no está en el callejero.
 
-Lo comprobamos quitando la primera línea del archivo. El resultado es el de abajo; el experimento completo se hizo con `dotnet build` en **0 errores**:
+Quita la primera línea y observa lo que cambia:
 
 | Estado del archivo | Petición | Código |
 |--------------------|----------|:------:|
@@ -222,7 +222,7 @@ Con `@page` a secas, la URL sale de la carpeta. Con `@page` y un modelo de ruta,
 @page "/productos/{id:int}"
 ```
 
-Medido sobre la app en ejecución:
+El resultado en el navegador:
 
 | Petición | Código | Por qué |
 |----------|:------:|---------|
@@ -254,7 +254,7 @@ Sin restricción la página no falla: inventa — la conversión de `abc` a `int
 
 > 💡 **Consejo:** restringe siempre los parámetros de ruta (`{id:int}`, `{slug:regex(...)}`). La restricción se resuelve en el enrutado, que es el sitio más barato para descartar peticiones imposibles.
 
-Para parámetros opcionales se usa el signo de interrogación, con el mismo patrón que recomienda la documentación oficial (`@page "{searchString?}"`). En nuestra página de ofertas, `@page "/ofertas/{id:int?}"`:
+Para parámetros opcionales se usa el signo de interrogación (`@page "{searchString?}"`). En nuestra página de ofertas, `@page "/ofertas/{id:int?}"`:
 
 - `GET /ofertas` → **200** con `Oferta sin id`
 - `GET /ofertas/7` → **200** con `Oferta del producto 7`
@@ -314,7 +314,7 @@ public class DetalleModel : PageModel
 
 Tres piezas: las propiedades, que son lo que la vista lee; el handler `OnGet`, que se ejecuta en cada petición GET y prepara esos valores; y `Page()`, el resultado que la página devuelve cuando ya está listo. El `PageModel` es en la práctica el controlador y el ViewModel del 09 fundidos en uno, pero solo de esta página.
 
-La comprobación en runtime: `GET /productos/1` → **200**, h1 `Producto 1`, pestaña `Producto 1 - PagesApp`. El handler recibió `1`, calculó el título, la vista lo pintó dentro del layout.
+Si abres `GET /productos/1`, verás **200**, el h1 `Producto 1` y la pestaña `Producto 1 - PagesApp`: el handler recibió `1`, calculó el título y la vista lo pintó dentro del layout.
 
 ```mermaid
 graph TD
@@ -341,7 +341,7 @@ En el 09 el nombre corto lo resolvía un `@using` en `Views/_ViewImports.cshtml`
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 ```
 
-`@namespace PagesApp.Pages` fija el espacio de nombres con el que el generador de Razor construye las clases de esta carpeta, y por eso `@model DetalleModel` resuelve sin escribir el namespace entero. Lo medimos quitando la línea: `dotnet build` se cancela con **CS0246** en las páginas, con mensajes como `'OfertaModel' no se encontró`, porque el nombre corto de `@model` deja de resolver.
+`@namespace PagesApp.Pages` fija el espacio de nombres con el que el generador de Razor construye las clases de esta carpeta, y por eso `@model DetalleModel` resuelve sin escribir el namespace entero. Si quitas la línea, la compilación se cancela con **CS0246** en las páginas, con mensajes como `'OfertaModel' no se encontró`: el nombre corto de `@model` deja de resolver.
 
 El otro nombre fácil de escribir mal es el `using` del propio `PageModel`. El namespace correcto es `Microsoft.AspNetCore.Mvc.RazorPages` (una sola palabra). Si escribes `Microsoft.AspNetCore.Mvc.Razor.Pages`, `dotnet build` se queja con dos errores:
 
@@ -362,7 +362,7 @@ Ningún enlace de la app escribe URLs a mano: los Tag Helpers del 06 traducen la
 <a id="enlace-ficha" asp-page="/Productos/Detalle" asp-route-id="1">Ver ficha de producto</a>
 ```
 
-**Comprobado en ejecución:** el HTML que recibe el navegador es `<a id="enlace-ficha" href="/productos/1">Ver ficha de producto</a>`, y en toda la página renderizada quedan **0** atributos `asp-page` sin resolver: el Tag Helper trabajó en el servidor. El pie del layout hace lo propio con `asp-page="/Privacy"`, que sale como `href="/Privacy"`.
+El HTML que recibe el navegador es `<a id="enlace-ficha" href="/productos/1">Ver ficha de producto</a>`, y en toda la página renderizada no queda ni un atributo `asp-page` sin resolver: el Tag Helper trabajó en el servidor. El pie del layout hace lo propio con `asp-page="/Privacy"`, que sale como `href="/Privacy"`.
 
 | Necesitas | MVC | Razor Pages |
 |-----------|-----|-------------|
@@ -466,7 +466,7 @@ Rellena la lista con seis figuras para que haya activas y dadas de baja, novedad
 | **`asp-page`** | Tag Helper de enlaces; el equivalente a `asp-action` |
 | **Mismo motor** | Razor, layouts y Tag Helpers de los puntos 01-06 siguen igual |
 | **Error de namespace** | `Razor.Pages` en vez de `RazorPages` da **CS0234** y **CS0246** |
-| **Comprobado** | `/productos/1` **200**, sin `@page` **404**, `/ofertas` **200** |
+| **En el navegador** | `/productos/1` **200**, sin `@page` **404**, `/ofertas` **200** |
 
 **¿Qué viene después?**
 

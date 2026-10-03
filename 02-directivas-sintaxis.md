@@ -81,10 +81,10 @@ Responden a la pregunta **¿qué es esta vista?**
 
 > 📝 **Nota:** `@model` NO significa lo mismo en las dos visiones. Esto es lo que has de tener claro antes de tocar un solo fichero:
 >
-> | Visión | `@model` declara | `Model` es | Ejemplo real del proyecto Tienda |
-> |--------|------------------|------------|--------------------------------|
-> | **Razor Pages** | el PageModel (el `.cshtml.cs`) | `Model.Products`, `Model.Titulo` | `@model Pages.Product.IndexModel` |
-> | **MVC** | los datos que manda el controlador | `Model.Any()`, `Model.First()` | `@model IEnumerable<Product>` |
+> | Visión | `@model` declara | `Model` es | Ejemplo |
+> |--------|------------------|------------|---------|
+> | **Razor Pages** | el PageModel (el `.cshtml.cs`) | `Model.Productos`, `Model.Titulo` | `@model ListadoModel` |
+> | **MVC** | los datos que manda el controlador | `Model.Any()`, `Model.First()` | `@model IEnumerable<Producto>` |
 >
 > ¿Por qué la diferencia? En Razor Pages la lógica vive pegada a la página, así que el modelo *es* la página. En MVC la lógica está en el controlador, que manda los datos a la vista. Por eso mismo, **`@model` no va todavía en este tema**: en el **punto 03** los datos entran por el repositorio en memoria, y `@model` lo conectamos de verdad en los puntos **08** (controladores MVC) y **11** (`PageModel`).
 

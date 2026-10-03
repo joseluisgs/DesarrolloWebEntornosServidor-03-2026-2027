@@ -245,7 +245,6 @@ graph TD
 }
 ```
 
-**Comprobado en ejecución:**
 
 | Situación | `required: false` | `required: true` |
 |---|---|---|
@@ -284,7 +283,7 @@ El layout no tiene por qué ser único. Puedes encadenar: una plantilla secundar
 <h1 id="contenido">Contenido del panel</h1>
 ```
 
-**Comprobado en ejecución**, el orden es exactamente este: la cabecera del `_Layout` principal → el `<aside>` del `_AdminLayout` → el contenido de la página → el pie del principal.
+El orden de renderizado es exactamente este: la cabecera del `_Layout` principal → el `<aside>` del `_AdminLayout` → el contenido de la página → el pie del principal.
 
 | Situación | Qué obtienes |
 |---|---|
@@ -369,7 +368,7 @@ Cuando el trozo sí depende de datos, la parcial declara su modelo con `@model`.
 
 ### 5.3.3. Partial y PartialAsync
 
-Hay dos formas de invocar una parcial. Las dos funcionan: están comprobadas.
+Hay dos formas de invocar una parcial. Las dos funcionan.
 
 ```mermaid
 graph LR
@@ -396,7 +395,7 @@ graph LR
 | `<partial name="_X" model="obj" />` | **El 90% de los casos.** Se lee como HTML y no rompe la línea de lectura |
 | `@await Html.PartialAsync("_X", obj)` | Cuando necesitas **C# dentro de una expresión**: un `if`, un bucle, una condición |
 
-**Comprobado en ejecución**: en la misma página, una invocación con `<partial>` y otra con `PartialAsync` produjeron dos fichas idénticas en el HTML final.
+En la misma página, una invocación con `<partial>` y otra con `PartialAsync` producen dos fichas idénticas en el HTML final.
 
 > ⚠️ **Advertencia:** La etiqueta `<partial>` es un Tag Helper, y los Tag Helpers solo funcionan si están registrados en `_ViewImports.cshtml`. Si quitas esa línea, **`<partial>` sale como texto literal** en el navegador en vez de insertar la pieza. Lo ves en la sección 5.5.
 
@@ -494,7 +493,7 @@ public class ResumenProductosViewComponent : ViewComponent
 
 ### 5.4.3. Invocarlo: InvokeAsync y la Etiqueta vc
 
-Hay dos formas. Las dos comprobadas en ejecución, y ambas respetan el parámetro `limite`.
+Hay dos formas, y ambas respetan el parámetro `limite`.
 
 ```cshtml
 @* 1. Forma clásica: C# dentro del marcado *@
@@ -504,7 +503,7 @@ Hay dos formas. Las dos comprobadas en ejecución, y ambas respetan el parámetr
 <vc:resumen-productos limite="2" />
 ```
 
-| Forma | Resultado verificado | Estilo |
+| Forma | Resultado | Estilo |
 |---|---|---|
 | `Component.InvokeAsync("ResumenProductos", new { limite = 3 })` | `Resumen (3)` | Funciona, pero mezcla C# con HTML |
 | `<vc:resumen-productos limite="2" />` | `Resumen (2)` | Se lee como HTML |
@@ -558,7 +557,7 @@ graph TD
 
 La directiva `@addTagHelper` dice: *"busca en esta asamblea las etiquetas que sabes interpretar"*. Y el asterisco significa *"toda la asamblea"*.
 
-| Línea | Qué activa | Comprobado |
+| Línea | Qué activa | Efecto |
 |---|---|---|
 | `@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers` | Los Tag Helpers de ASP.NET Core, entre ellos **`<partial>`** | ✅ Sin ella, **`<partial>` sale literal** |
 | `@addTagHelper *, ProductosApp` | Los de tu proyecto, entre ellos **`<vc:...>`** | ✅ Sin ella, **`<vc:...>` sale literal** |

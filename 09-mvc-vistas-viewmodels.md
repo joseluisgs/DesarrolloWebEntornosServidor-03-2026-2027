@@ -38,7 +38,7 @@ En este punto construimos los **ViewModels**: objetos con la forma exacta que pi
 - Decidir dónde acaba la lógica de presentación y empieza la de negocio
 - Comprobar en compilación y en ejecución que el escudo funciona: CS1061, CS0200 y 500
 
-> 📝 **Nota:** seguimos en el proyecto MVC de los puntos 07 y 08. Aparecen dos carpetas nuevas: `ViewModels/` para los escudos de datos y `Mappers/` para la conversión de entidades. Todo lo de aquí está compilado y medido.
+> 📝 **Nota:** seguimos en el proyecto MVC de los puntos 07 y 08. Aparecen dos carpetas nuevas: `ViewModels/` para los escudos de datos y `Mappers/` para la conversión de entidades.
 
 ## 9.1. La Forma que Pide la Vista
 
@@ -175,7 +175,6 @@ public IActionResult Ficha(int id)
 }
 ```
 
-**Comprobado en ejecución:**
 
 - `GET /Productos/Ficha/1` → **HTTP 200** con `Auriculares`, `Electrónica · 2019`, `14,99 €`, estado `En catálogo`, sello `Novedad` y pestaña `Ficha de Auriculares - MvcApp`
 - `GET /Productos/Ficha/4` → **HTTP 200** con `Lámpara`, estado `Descatalogado` y el sello vacío
@@ -239,7 +238,7 @@ public IActionResult Panel() =>
 </ul>
 ```
 
-**Comprobado en ejecución:** `GET /Productos/Panel` → **HTTP 200** con `Productos del catálogo (6)`, `2 novedades · 2 descatalogados` y la lista `Auriculares`, `Botella`.
+`GET /Productos/Panel` → **HTTP 200** con `Productos del catálogo (6)`, `2 novedades · 2 descatalogados` y la lista `Auriculares`, `Botella`.
 
 La lista `_productos` no se pinta nunca — la vista solo lee contadores y nombres que ya vienen calculados.
 
@@ -290,7 +289,7 @@ El escudo se puede romper a propósito para ver cómo defiende al proyecto. Prue
 <p>@Model.Imagen</p>
 ```
 
-**Comprobado:** `dotnet build` se niega a compilar:
+`dotnet build` se niega a compilar:
 
 ```text
 Ficha.cshtml(10,11): error CS1061: "ProductoViewModel" no contiene una definición
@@ -304,7 +303,7 @@ argumento del tipo "ProductoViewModel"
 
 Las propiedades con cuerpo (`=>`) no guardan nada: se recalculan cada vez que alguien las lee. Eso significa que nunca pueden quedar desfasadas respecto a los datos de las que salen.
 
-| Propiedad | De qué sale | Valor medido en `/Ficha/1` | Valor medido en `/Ficha/4` |
+| Propiedad | De qué sale | Valor en `/Ficha/1` | Valor en `/Ficha/4` |
 |-----------|-------------|----------------------------|----------------------------|
 | `Subtitulo` | `Categoria` + `Anio` | `Electrónica · 2019` | `Hogar · 2017` |
 | `Estado` | `Activo` | `En catálogo` | `Descatalogado` |
@@ -323,7 +322,7 @@ En `CatalogoViewModel` la misma técnica escala a agregados: `Total`, `Novedades
 @{ Model.Estado = "cambiado en la vista"; }
 ```
 
-**Comprobado:** `dotnet build` se niega de nuevo:
+`dotnet build` se niega de nuevo:
 
 ```text
 Ficha.cshtml(10,4): error CS0200: No se puede asignar a la propiedad o el indizador
@@ -371,17 +370,16 @@ public IActionResult Resumen(int? id)
 }
 ```
 
-**Comprobado en ejecución:**
 
-| Petición | Tipo concreto que llega | Respuesta medida |
+| Petición | Tipo concreto que llega | Respuesta |
 |----------|-------------------------|------------------|
 | `GET /Productos/Resumen` | `CatalogoViewModel` | **200**, `Productos del catálogo` |
 | `GET /Productos/Resumen?id=1` | `ProductoViewModel` | **200**, `Ficha de Auriculares` |
 | `GET /Productos/Resumen?id=99` | Nada que pintar | **404**, cuerpo vacío |
 
-El contrato también falla si el tipo no lo cumple. Quita `: IResumen` de `CatalogoViewModel` y vuelve a medir la primera petición:
+El contrato también falla si el tipo no lo cumple. Quita `: IResumen` de `CatalogoViewModel` y vuelve a abrir la primera petición:
 
-**Comprobado:** `GET /Productos/Resumen` pasa a **HTTP 500** con la excepción:
+`GET /Productos/Resumen` pasa a **HTTP 500** con la excepción:
 
 ```text
 System.InvalidOperationException: The model item passed into the ViewDataDictionary
@@ -487,7 +485,7 @@ Rellena la lista con seis figuras para que haya activas y dadas de baja, novedad
 6. Crea `ViewModels/CatalogoViewModel.cs` con la lista en un campo privado y los conteos `Total`, `Novedades`, `Descatalogados` y `NombresNovedad`; mide `GET /Funkos/Panel` → **200** con título, resumen y lista
 7. Crea la interfaz `IResumen` con `Titulo`, impléntala en los dos ViewModels y la vista `Resumen.cshtml` con `@model IResumen`; mide `GET /Funkos/Resumen` y `GET /Funkos/Resumen?id=1` (**200** con títulos distintos) y `GET /Funkos/Resumen?id=99` (**404**)
 8. **La trampa del contrato:** quita `: IResumen` de un ViewModel, mide el **500** en `/Funkos/Resumen`, léelo: el mensaje dice qué tipo espera la vista; devuélvelo y comprueba que vuelve el **200**
-9. Revisa tus vistas: si alguna hace un `Where` o un `Count`, muévelo al ViewModel y vuelve a medir
+9. Revisa tus vistas: si alguna hace un `Where` o un `Count`, muévelo al ViewModel y comprueba el resultado
 
 **Puntos extra:**
 
@@ -516,7 +514,7 @@ Rellena la lista con seis figuras para que haya activas y dadas de baja, novedad
 | **Contrato roto** | Si el modelo no cumple la interfaz, la vista da **500** |
 | **Vista pinta, VM calcula** | La vista no consulta: `Where` y `Count` van en el ViewModel |
 | **Controlador orquesta** | Busca, convierte con el mapper y elige resultado |
-| **Comprobado** | `/Ficha/1` **200**, `/Panel` **200**, `/Resumen` **200** y **404** |
+| **En el navegador** | `/Ficha/1` **200**, `/Panel` **200**, `/Resumen` **200** y **404** |
 
 **¿Qué viene después?**
 

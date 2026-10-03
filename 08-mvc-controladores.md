@@ -8,7 +8,7 @@
     - [8.2.2. Cuando el Parámetro no Encaja](#822-cuando-el-parámetro-no-encaja)
   - [8.3. Qué Devuelve una Acción](#83-qué-devuelve-una-acción)
     - [8.3.1. El Catálogo de Resultados](#831-el-catálogo-de-resultados)
-    - [8.3.2. Medido en Ejecución](#832-medido-en-ejecución)
+    - [8.3.2. En Ejecución](#832-en-ejecución)
     - [8.3.3. Los 404 Bajo Control](#833-los-404-bajo-control)
     - [8.3.4. Redirigir con RedirectToAction](#834-redirigir-con-redirecttoaction)
   - [8.4. ViewData, ViewBag y TempData](#84-viewdata-viewbag-y-tempdata)
@@ -32,7 +32,7 @@
 
 > 💡 **Punto de partida:** Escribes `productos/7` en la barra de direcciones y aparece una ficha. Pero fíjate — no existe ningún fichero llamado `productos/7`. Alguien recibe ese texto, lo parte en trozos, encuentra una acción, le entrega el 7 y decide qué responde. Si pones `productos/abc`, ese alguien decide otra cosa: un error. ¿Quién es y qué reglas sigue?
 
-En el punto 07 diseñamos el flujo MVC en el papel. En este punto lo programamos: rutas de verdad, parámetros que llegan desde la URL, acciones que devuelven vistas, JSON, trozos de HTML o redirecciones, y avisos que cruzan un redirect. Todo con la app en ejecución y cada respuesta medida con **F12**.
+En el punto 07 diseñamos el flujo MVC en el papel. En este punto lo programamos: rutas de verdad, parámetros que llegan desde la URL, acciones que devuelven vistas, JSON, trozos de HTML o redirecciones, y avisos que cruzan un redirect. Todo visto de cerca con **F12**.
 
 **Objetivos de aprendizaje:**
 
@@ -42,7 +42,7 @@ En el punto 07 diseñamos el flujo MVC en el papel. En este punto lo programamos
 - Hacer llegar datos a la vista con `ViewData`, `ViewBag` y `TempData`
 - Comprobar cada respuesta en ejecución: código HTTP, `Content-Type` y cuerpo
 
-> 📝 **Nota:** seguimos con el proyecto MVC del punto 07 (creado con `dotnet new mvc`, con namespaces `MvcApp`). Lo ampliamos con más acciones. Todo lo que aparece aquí está compilado, en ejecución y medido; las cifras de este tema salen de ahí.
+> 📝 **Nota:** seguimos con el proyecto MVC del punto 07 (creado con `dotnet new mvc`, con namespaces `MvcApp`). Lo ampliamos con más acciones.
 
 ## 8.1. Rutas de Acción: Convención y Atributos
 
@@ -81,7 +81,6 @@ La plantilla `productos/{id:int}` se lee así: `productos` es texto literal que 
 | `{id:int}` | Hueco con restricción | Solo deja pasar enteros |
 | `[HttpGet]` | Verbo permitido | La acción responde a GET |
 
-**Comprobado en ejecución:**
 
 - `GET /productos/1` → **HTTP 200** con `Auriculares` y precio `14,99 €`
 - `GET /productos/5` → **HTTP 200** con `Mochila`
@@ -117,7 +116,7 @@ La restricción es un filtro que decide qué valores admiten los huecos de la UR
 | `minlength(3)` | `{q:minlength(3)}` | La búsqueda debe traer al menos 3 caracteres |
 | `range(0,10)` | `{pagina:range(0,10)}` | Reglas de negocio escritas en la propia URL |
 
-**Comprobado en ejecución:** `GET /productos/abc` → **HTTP 404** con el cuerpo vacío. La plantilla no encaja con `abc`, así que la petición ni siquiera llega a `Detalle`.
+ /productos/abc` → **HTTP 404** con el cuerpo vacío. La plantilla no encaja con `abc`, así que la petición ni siquiera llega a `Detalle`.
 
 ¿Y si quitamos `:int`? Lo hemos probado: se cambia la ruta a `productos/{id}` y se añade una sonda en la primera línea de la acción para ver si la petición llega:
 
@@ -125,12 +124,12 @@ La restricción es un filtro que decide qué valores admiten los huecos de la UR
 [HttpGet("productos/{id}")]
 public IActionResult Detalle(int id)
 {
-    // Sonda del experimento
+    // Sonda: llega aquí la petición
     if (id == 0) return Content("accion invocada con id=0", "text/plain");
     // ... resto de la acción sin cambios
 ```
 
-Medido sin la restricción:
+Sin la restricción:
 
 | URL | Resultado sin `:int` |
 |-----|----------------------|
@@ -150,7 +149,6 @@ Sin la restricción, `{id}` acepta cualquier texto: o la acción se invoca con u
 
 Una petición HTTP no es solo una dirección: también lleva un verbo (`GET`, `POST`, `PUT`, `DELETE`). El atributo `[HttpGet]` restringe la acción a ese verbo.
 
-**Comprobado en ejecución:**
 
 - `GET /productos/1` → **HTTP 200** (el verbo es el que pide la ruta)
 - `POST /productos/1` → **HTTP 405** Method Not Allowed: la dirección existe, pero no por ese verbo
@@ -185,9 +183,8 @@ public IActionResult Buscar(string? q)
 }
 ```
 
-El nombre del argumento es la clave: solo el parámetro llamado `q` se llena con `?q=...`. **Comprobado en ejecución:**
-
-| Petición | `q` recibe | Resultado medido |
+El nombre del argumento es la clave: solo el parámetro llamado `q` se llena con `?q=...`. 
+| Petición | `q` recibe | Resultado |
 |----------|-----------|------------------|
 | `GET /Productos/Buscar?q=o` | `"o"` | **200**, `Resultados de "o"`, **3** resultados (Teclado, Botella, Mochila) |
 | `GET /Productos/Buscar?q=man` | `"man"` | **200**, `Resultados de "man"`, **0** resultados |
@@ -202,7 +199,7 @@ Las dos puertas conviven: `Detalle` recibe por ruta y `Buscar` por query string,
 
 ### 8.2.2. Cuando el Parámetro no Encaja
 
-No todos los caminos llegan a una acción, y cada uno falla a su manera. Medido con la app en marcha:
+No todos los caminos llegan a una acción, y cada uno falla a su manera:
 
 | Petición | Qué ocurre | HTTP |
 |----------|------------|------|
@@ -213,7 +210,7 @@ No todos los caminos llegan a una acción, y cada uno falla a su manera. Medido 
 | `POST /productos/1` | La dirección existe, pero `[HttpGet]` rechaza el verbo | **405** |
 | `POST /Productos/Datos` | La acción no restringe verbo y acepta el POST | **200** |
 
-La regla para leer la consola del navegador: `404` cuando no hay destino (ruta, acción o dato), `405` cuando el destino existe y el verbo no encaja, y `500` cuando el destino existe pero algo se rompe (en el 07 medimos el caso típico: la acción pide una vista que no está).
+La regla para leer la consola del navegador: `404` cuando no hay destino (ruta, acción o dato), `405` cuando el destino existe y el verbo no encaja, y `500` cuando el destino existe pero algo se rompe (en el 07 ya vimos el caso típico: la acción pide una vista que no está).
 
 > 💡 **Consejo:** cuando una URL falle, pregúntate siempre en este orden: ¿la ruta encaja? ¿la acción existe? ¿el parámetro tiene sentido? ¿la vista está? Son cuatro fallos distintos con cuatro soluciones distintas.
 
@@ -262,11 +259,11 @@ graph TD
 
 📌 **Ejemplo real:** Netflix es una web y a la vez una app. La web recibe `text/html` porque alguien tiene que pintarla en un navegador; la tele y el móvil piden `application/json` a las mismas acciones del servidor. El dato es el mismo; cambia el resultado que se le devuelve a cada cliente.
 
-### 8.3.2. Medido en Ejecución
+### 8.3.2. En Ejecución
 
-Esta es la hoja de resultados de las acciones del `ProductosController` que llevamos en este punto, con la app en ejecución y cada fila comprobada con **F12**:
+Esta es la hoja de resultados de las acciones del `ProductosController` que llevamos en este punto:
 
-| URL | Qué hace la acción | HTTP | Respuesta medida |
+| URL | Qué hace la acción | HTTP | Respuesta |
 |-----|--------------------|------|------------------|
 | `GET /Productos` | `View(lista)` con `ViewData` | **200** | `text/html`: `Productos del catálogo (6)`, 6 tarjetas |
 | `GET /Productos/Novedades` | `View("Index", novos)` | **200** | `text/html`: `Novedades del catálogo (2)`, 2 tarjetas |
@@ -297,7 +294,7 @@ if (producto is null) return NotFound();
 return View(producto);
 ```
 
-La comprobación es obligatoria: sin ella, `View(producto)` recibiría `null` y la vista revienta al intentar leer `Model.Nombre`. El `404` es una respuesta limpia, decidida en el punto exacto donde los datos se acaban. Medido: `GET /productos/99` → **HTTP 404** con el cuerpo vacío (en producción, el middleware de errores puede servir ahí tu propia página de "no encontrado").
+La comprobación es obligatoria: sin ella, `View(producto)` recibiría `null` y la vista revienta al intentar leer `Model.Nombre`. El `404` es una respuesta limpia, decidida en el punto exacto donde los datos se acaban. `GET /productos/99` → **HTTP 404** con el cuerpo vacío (en producción, el middleware de errores puede servir ahí tu propia página de "no encontrado").
 
 📌 **Ejemplo real:** Steam guarda enlaces antiguos a juegos retirados de la tienda. Cuando sigues uno, no ves un error técnico: ves una página cuidada que te invita a volver a la tienda. El 404 está decidido y diseñado, no improvisado.
 
@@ -315,7 +312,6 @@ public IActionResult Cargar()
 }
 ```
 
-**Comprobado en ejecución:**
 
 - `GET /Productos/Cargar` → **HTTP 302** con la cabecera `Location: /Productos/Ver`
 - El navegador lee el 302, no pinta nada y hace una segunda petición a `/Productos/Ver` → **HTTP 200**
@@ -342,7 +338,7 @@ ViewData["Encontrados"] = res.Count;  // controlador escribe
 <p id="n">@ViewData["Encontrados"]</p>
 ```
 
-**Comprobado en ejecución:** con `GET /Productos/Buscar?q=o` la pantalla muestra `Resultados de "o"` (por `ViewBag`) y `3` (por `ViewData`), los dos en la misma página. Y en `GET /Productos` aparece `Productos del catálogo (6)`, que sale del `ViewData["Titulo"]` que puso la acción.
+`GET /Productos/Buscar?q=o`, la pantalla muestra `Resultados de "o"` (por `ViewBag`) y `3` (por `ViewData`), los dos en la misma página. Y en `GET /Productos` aparece `Productos del catálogo (6)`, que sale del `ViewData["Titulo"]` que puso la acción.
 
 | Vía | Tipo | Para qué se usa |
 |-----|------|-----------------|
@@ -370,7 +366,7 @@ sequenceDiagram
     C-->>N: 200 sin aviso
 ```
 
-La vista `Ver` no hace más que leerlo: `<p id="aviso">@TempData["Aviso"]</p>`. Medido con la app en ejecución:
+La vista `Ver` no hace más que leerlo: `<p id="aviso">@TempData["Aviso"]</p>`.
 
 | Cadena de peticiones | Aviso en pantalla |
 |----------------------|-------------------|
@@ -401,7 +397,7 @@ public IActionResult Novedades()
 }
 ```
 
-`View("Index", novos)` busca `Views/Productos/Index.cshtml` (del controlador actual) y le pasa otros datos. **Comprobado en ejecución:** `GET /Productos/Novedades` → **HTTP 200** con `Novedades del catálogo (2)` y **2 tarjetas**, mientras que `GET /Productos` muestra 6: misma vista, dos acciones, listados distintos.
+`View("Index", novos)` busca `Views/Productos/Index.cshtml` (del controlador actual) y le pasa otros datos.  /Productos/Novedades` → **HTTP 200** con `Novedades del catálogo (2)` y **2 tarjetas**, mientras que `GET /Productos` muestra 6: misma vista, dos acciones, listados distintos.
 
 > 📝 **Nota:** si el nombre no corresponde a ninguna vista, el resultado es el del punto 07: **HTTP 500**. Nombrar mal una vista es un error de programación, no un "no encontrado".
 
@@ -420,7 +416,7 @@ public IActionResult Tarjeta(int id)
 }
 ```
 
-La pieza vive en `Views/Shared/_FichaProducto.cshtml`, igual que las demás. **Comprobado en ejecución:** `GET /Productos/Tarjeta/1` → **HTTP 200** con `text/html`, pero el cuerpo empieza en `<div class="card mb-3 ficha">` y no contiene ni `<html>` ni `</html>`: es HTML suelto, sin layout y sin página.
+La pieza vive en `Views/Shared/_FichaProducto.cshtml`, igual que las demás.  /Productos/Tarjeta/1` → **HTTP 200** con `text/html`, pero el cuerpo empieza en `<div class="card mb-3 ficha">` y no contiene ni `<html>` ni `</html>`: es HTML suelto, sin layout y sin página.
 
 📌 **Ejemplo real:** Cuando bajas en el muro de X y entra contenido nuevo, la web no recarga la página: pide un trozo de HTML por una dirección como esta y lo pega al final. Un `PartialView` servido por una acción es exactamente ese trozo.
 
@@ -494,7 +490,7 @@ Fíjate en la dirección de la flecha: el controlador habla con el repositorio y
 
 ## 8.8. Reto: Monta el catálogo de FunkoApp tras un controlador
 
-> Monta el catálogo de FunkoApp tras un controlador — con rutas, parámetros y resultados, todo medido en ejecución.
+> Monta el catálogo de FunkoApp tras un controlador — con rutas, parámetros y resultados, hasta el último detalle.
 
 ### 8.8.1. Contexto
 

@@ -30,15 +30,15 @@ En este punto aprendemos la mitad que faltaba del binomio: cómo el motor elige 
 - Devolver los resultados de página: `Page()`, `RedirectToPage()`, `NotFound()` y `BadRequest()`
 - Organizar varios handlers con nombre en una misma página y enlazarlos con `asp-page-handler`
 - Explicar el patrón PRG y por qué un POST sin token antiforgery responde **400**
-- Reconocer los dos tropiezos medidos: `RedirectToPage("/")` da **500** y un handler con nombre inexistente cae en el por defecto
+- Reconocer los dos tropiezos típicos: `RedirectToPage("/")` da **500** y un handler con nombre inexistente cae en el por defecto
 
-> 📝 **Nota:** todo está medido sobre el proyecto `PagesApp` de los puntos 10 y 11, con `dotnet build` en **0 errores**. Las citas de comportamiento salen de la documentación oficial de ASP.NET Core.
+> 📝 **Nota:** seguimos en `PagesApp`; las páginas nuevas de este punto están en `Pages/Productos/`.
 
 ## 11.1. Qué es un Handler
 
-Un handler es un método del `PageModel` que el motor invoca solo — tú nunca llamas a `OnGet`, el motor lo decide por el verbo de la petición. La documentación oficial lo resume así: los handlers más comunes son `OnGet`, que inicializa lo que la página necesita, y `OnPost`, que procesa los envíos; se pueden añadir handlers para cualquier verbo HTTP, y el sufijo `Async` es opcional, por convención.
+Un handler es un método del `PageModel` que el motor invoca solo — tú nunca llamas a `OnGet`, el motor lo decide por el verbo de la petición. Los handlers más comunes son `OnGet`, que inicializa lo que la página necesita, y `OnPost`, que procesa los envíos; puedes añadir handlers para cualquier verbo HTTP, y el sufijo `Async` es opcional, por convención.
 
-El alta que montamos en las mediciones tiene los dos:
+Nuestro alta de ejemplo tiene los dos:
 
 ```cshtml
 @* Pages/Productos/Alta.cshtml *@
@@ -78,7 +78,7 @@ public class AltaModel : PageModel
 }
 ```
 
-📌 **Ejemplo real:** El Proyecto Integrador de la unidad, TiendaDawWeb, tiene la página de perfil con `OnPostAsync(string nombre, string apellidos, IFormFile? avatar)`: el handler recibe los campos del formulario y el avatar, los procesa con un servicio de almacenamiento y responde. Misma idea, escala real.
+📌 **Ejemplo real:** Los formularios de contacto de cualquier web corporativa siguen este mismo esquema: el GET pinta el formulario, el POST procesa los campos y redirige a una página de agradecimiento para que nadie reenvíe el envío.
 
 ### 11.1.1. La Convención de Nombres
 
@@ -88,11 +88,11 @@ El nombre del método no es decorativo: es la dirección por la que el motor lo 
 |--------|---------------------------|
 | `OnGet()` | Cada GET a la página |
 | `OnPost()` | Cada POST sin handler con nombre |
-| `OnPostAsync()` | Igual que `OnPost`; el sufijo solo marca asíncrono (medido: `Eco` y `Visita` funcionan con async) |
+| `OnPostAsync()` | Igual que `OnPost`; el sufijo solo marca asíncrono |
 | `OnGetOrdenar()` | GET con `?handler=Ordenar` |
 | `OnPostActualizar()` | POST con `?handler=Actualizar` |
 
-> 📝 **Nota:** los handlers con nombre son el texto que queda tras el `On<Verbo>` y antes del `Async`. La documentación lo ejemplifica con `OnPostJoinListAsync`, accesible por la URL `/Customers/CreateFATH?handler=JoinList`. El Tag Helper `asp-page-handler` pide ese nombre sin prefijo ni sufijo.
+> 📝 **Nota:** los handlers con nombre son el texto que queda tras el `On<Verbo>` y antes del `Async`. Si llamas al método `OnPostActualizar`, el nombre del handler es `Actualizar` y la URL que lo invoca es `?handler=Actualizar`. El Tag Helper `asp-page-handler` pide ese nombre sin prefijo ni sufijo: `asp-page-handler="Actualizar"`.
 
 ### 11.1.2. El Ciclo de una Petición
 
@@ -121,9 +121,9 @@ Hay dos caminos para que un dato llegue al handler, y conviene saber cuál usa c
 
 Si el método declara parámetros, el motor rellena cada uno con un valor coincidente de la ruta, la query o el formulario. Ya lo viste en el 10 con `OnGet(int id)`; en escritura funciona igual: `OnPost(string nombre)` recibió el campo `nombre` del formulario y `OnPostActualizar(string marca)` recibió el campo `marca`.
 
-**Medido:** dos POST al alta con `nombre=Teclado` y `nombre=Raton` devolvieron **302** cada uno y la página siguiente mostró `Guardados en esta sesion: 2`. **Medido:** un POST con `?handler=Actualizar` y `marca=XYZ` pintó `OnPostActualizar: XYZ`.
+Prueba el alta en el navegador: envía dos POST, uno con `nombre=Teclado` y otro con `nombre=Raton`. Cada uno redirige con **302** y la página siguiente muestra el contador en 2. Si en el listado envías `marca=XYZ` con `?handler=Actualizar`, verás pintar `OnPostActualizar: XYZ`.
 
-> 💡 **Nota:** es la misma mecánica que en el 08 con las acciones de un controlador. La documentación lo confirma: el model binding, la validación y los action results funcionan igual con controladores y con Razor Pages; lo que cambia es dónde vive el método.
+> 💡 **Nota:** es la misma mecánica que las acciones de un controlador del 08: el model binding, la validación y los action results funcionan igual en controladores y en Razor Pages; lo que cambia es dónde vive el método.
 
 ### 11.2.2. Propiedades con BindProperty
 
@@ -155,7 +155,7 @@ public class EcoModel : PageModel
 }
 ```
 
-La página pinta las cuatro propiedades en un `<dl>` y trae un formulario con un campo por cada una. Medimos GET y POST:
+La página pinta las cuatro propiedades en un `<dl>` y trae un formulario con un campo por cada una. Esto es lo que pasa en cada caso:
 
 | Dato | Cómo se declara | GET `?Nombre=Ana&Etapa=2` | POST con los cuatro campos |
 |------|-----------------|:-------------------------:|:--------------------------:|
@@ -180,7 +180,7 @@ graph LR
     style B fill:#9C27B0,color:#fff
 ```
 
-📌 **Ejemplo real:** El mismo patrón aparece en TiendaDawWeb con un tipo más peligroso: `ProductViewModel` declara `[BindProperty] public IFormFile? ImagenFile { get; set; }` para la imagen que sube el usuario. Ese enlace de formulario a propiedad es el que veremos a fondo en el 13 y el 14.
+📌 **Ejemplo real:** Cuando subes la foto de perfil en cualquier red social, el formulario viaja con `enctype="multipart/form-data"` y el servidor recibe un `IFormFile`: ese enlace de formulario a propiedad es el que veremos a fondo en el 13 y el 14.
 
 ## 11.3. Responder: los Resultados de Página
 
@@ -203,7 +203,7 @@ public async Task<IActionResult> OnGetAsync(string accion)
 }
 ```
 
-| Petición | Resultado devuelto | Código medido |
+| Petición | Resultado devuelto | Código |
 |----------|--------------------|:-------------:|
 | `?accion=ok` | `Page()` | **200** |
 | `?accion=fuera` | `NotFound()` | **404** |
@@ -212,7 +212,7 @@ public async Task<IActionResult> OnGetAsync(string accion)
 
 `Page()` devuelve la propia página y es lo que usa el formulario del alta cuando el nombre llega vacío. `RedirectToPage()` redirige a otra página; `NotFound()` y `BadRequest()` devuelven los códigos de error sin pasar por ninguna vista.
 
-El redirigir tras un POST válido no es una opción de estilo: es el patrón PRG (Post/Redirect/Get). El alta lo usa y lo medimos entero:
+El redirigir tras un POST válido no es una opción de estilo: es el patrón PRG (Post/Redirect/Get). El alta lo usa; sigue su recorrido:
 
 ```mermaid
 graph LR
@@ -227,7 +227,7 @@ graph LR
     style E fill:#607D8B,color:#fff
 ```
 
-**Medido:** dos POST con token devolvieron **302** con `Location: /productos/alta` y el GET siguiente mostró `Guardados en esta sesion: 2`, sin ningún mensaje. El dato sobrevivió a la redirección porque vive en el servidor, y el navegador no reenvía el formulario al refrescar.
+Envía dos POST con el token: cada uno devuelve **302** con `Location: /productos/alta` y el GET siguiente muestra el contador en 2, sin ningún mensaje. El dato sobrevivió a la redirección porque vive en el servidor, y el navegador no reenvía el formulario al refrescar.
 
 > ⚠️ **Advertencia:** `RedirectToPage()` usa el nombre de página, no la URL. `RedirectToPage("/Index")` funciona porque `Pages/Index.cshtml` se llama `/Index`; `RedirectToPage("/")` da **500** con `System.InvalidOperationException: No page named '/' matches the supplied values.` La URL de esa página es `/`, pero su nombre es `/Index`: no confundas las dos cosas.
 
@@ -274,9 +274,9 @@ La vista los enlaza con `asp-page-handler`, y el Tag Helper los convierte en URL
 </form>
 ```
 
-**Medido en el HTML renderizado:** el enlace sale como `href="/productos/listado?handler=Ordenar"` y el formulario como `action="/productos/listado?handler=Actualizar"`, con **0** atributos `asp-page` sin resolver. **Medido en comportamiento:** `GET ?handler=Ordenar` pintó `OnGetOrdenar` con la lista ordenada (`Auriculares, Botella, Lampara, Teclado`), y `POST ?handler=Actualizar` con `marca=XYZ` pintó `OnPostActualizar: XYZ`, no el `OnPost` por defecto.
+En el HTML renderizado, el enlace sale como `href="/productos/listado?handler=Ordenar"` y el formulario como `action="/productos/listado?handler=Actualizar"`, sin ningún atributo `asp-page` sin resolver. En comportamiento, `GET ?handler=Ordenar` pinta `OnGetOrdenar` con la lista ordenada (`Auriculares, Botella, Lampara, Teclado`), y `POST ?handler=Actualizar` con `marca=XYZ` pinta `OnPostActualizar: XYZ`, no el `OnPost` por defecto.
 
-Y el dato que más sorprende: un handler con nombre inexistente no falla. Medimos un POST con `?handler=NoExiste` y la app respondió **200** ejecutando `OnPost (sin handler con nombre)`. El motor cae en el handler por defecto del verbo — y si no llevas marca, ni te enteras de qué pasó. En MVC, en cambio, una acción inexistente responde 404.
+Y el dato que más sorprende: un handler con nombre inexistente no falla. Prueba un POST con `?handler=NoExiste`: la app responde **200** y ejecuta `OnPost (sin handler con nombre)`. El motor cae en el handler por defecto del verbo — y si no llevas marca, ni te enteras de qué pasó. En MVC, en cambio, una acción inexistente responde 404.
 
 ```mermaid
 graph TD
@@ -298,11 +298,11 @@ graph TD
 
 Dos detalles que completan el cuadro de los handlers.
 
-**El sufijo `Async`.** `OnPostAsync` y `OnGetAsync` se invocan igual que sus versiones síncronas: el sufijo es una convención de nombrado, no una señal para el motor. Medido: `Eco` usa `OnPostAsync` y `Visita` usa `OnGetAsync`, y ambos se comportan exactamente igual que `OnGet` y `OnPost` de las otras páginas.
+**El sufijo `Async`.** `OnPostAsync` y `OnGetAsync` se invocan igual que sus versiones síncronas: el sufijo es una convención de nombrado, no una señal para el motor. Prueba a renombrar `OnPost` por `OnPostAsync` (con un `await Task.Yield()` dentro): todo sigue funcionando igual.
 
 **El token antiforgery.** Todo POST de Razor Pages necesita el token antiforgery, y el FormTagHelper lo inyecta solo — aunque el `<form>` no lleve un solo atributo `asp-*`. Lo vimos en el HTML del alta: el formulario sale con un campo oculto `__RequestVerificationToken` cuyo valor empieza por `CfDJ`. Con ese token y su cookie, el POST funciona; sin ellos, no.
 
-| Petición POST al alta | Código medido |
+| Petición POST al alta | Código |
 |-----------------------|:-------------:|
 | Sin token (solo `nombre=Teclado`) | **400** |
 | Con token del formulario | **302** |
@@ -353,7 +353,7 @@ public static class RepositorioFunkos
 }
 ```
 
-Para el alta, añade una lista estática de nombres dados de alta en la sesión, como la del ejemplo medido.
+Para el alta, añade una lista estática de nombres dados de alta en la sesión, como la de nuestro ejemplo.
 
 ### 11.7.4. Retos
 
@@ -371,7 +371,7 @@ Para el alta, añade una lista estática de nombres dados de alta en la sesión,
 
 - Cambia `RedirectToPage()` por `RedirectToPage("/")` y lee el `InvalidOperationException: No page named '/'...`; devuélvelo y comprueba el **302** con `/Index`
 - Añade `OnGetImprimir()` accesible por `?handler=Imprimir` que pinte el listado en texto plano con `Content(...)`
-- Si el nombre del alta llega vacío, devuelve `Page()` con un mensaje, como en el ejemplo medido; en el 15 lo haremos con validación de verdad
+- Si el nombre del alta llega vacío, devuelve `Page()` con un mensaje, como en el ejemplo del alta; en el 15 lo haremos con validación de verdad
 
 ---
 
@@ -392,7 +392,7 @@ Para el alta, añade una lista estática de nombres dados de alta en la sesión,
 | **Fallback del handler** | Un `?handler` inexistente cae en el por defecto del verbo, con **200** |
 | **Sufijo `Async`** | Convención de nombrado; el motor invoca igual `OnPostAsync` que `OnPost` |
 | **Token antiforgery** | El FormTagHelper lo inyecta solo; sin él, el POST da **400** |
-| **Comprobado** | `?handler=Actualizar` ejecuta su handler, `?accion=fuera` da **404** |
+| **En el navegador** | `?handler=Actualizar` ejecuta su handler, `?accion=fuera` da **404** |
 
 **¿Qué viene después?**
 
