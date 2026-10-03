@@ -264,7 +264,7 @@ graph TD
 
 ### 8.3.2. Medido en Ejecución
 
-Esta es la hoja de resultados completa del `ProductosController`, con la app en ejecución y cada fila comprobada con **F12**:
+Esta es la hoja de resultados de las acciones del `ProductosController` que llevamos en este punto, con la app en ejecución y cada fila comprobada con **F12**:
 
 | URL | Qué hace la acción | HTTP | Respuesta medida |
 |-----|--------------------|------|------------------|
