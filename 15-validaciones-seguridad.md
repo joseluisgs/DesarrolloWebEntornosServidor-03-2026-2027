@@ -1,8 +1,11 @@
 - [15. Validaciones, Seguridad y Ataques](#15-validaciones-seguridad-y-ataques)
   - [15.1. Validación en el Servidor](#151-validación-en-el-servidor)
     - [15.1.1. DataAnnotations y ModelState](#1511-dataannotations-y-modelstate)
-    - [15.1.2. FluentValidation: Reglas Fuera del Modelo](#1512-fluentvalidation-reglas-fuera-del-modelo)
-    - [15.1.3. La Alternativa Funcional: Result](#1513-la-alternativa-funcional-result)
+    - [15.1.2. Visión Razor Pages: Validar y Devolver la Página](#1512-visión-razor-pages-validar-y-devolver-la-página)
+    - [15.1.3. Visión MVC: Validar y Devolver la Vista](#1513-visión-mvc-validar-y-devolver-la-vista)
+    - [15.1.4. La Misma Validación, Comparada](#1514-la-misma-validación-comparada)
+    - [15.1.5. FluentValidation: Reglas Fuera del Modelo](#1515-fluentvalidation-reglas-fuera-del-modelo)
+    - [15.1.6. La Alternativa Funcional: Result](#1516-la-alternativa-funcional-result)
   - [15.2. El Mapa de Ataques](#152-el-mapa-de-ataques)
   - [15.3. XSS y el Escapado](#153-xss-y-el-escapado)
   - [15.4. CSRF y el Token Doble](#154-csrf-y-el-token-doble)
@@ -77,7 +80,9 @@ graph LR
     style E fill:#4CAF50,color:#fff
 ```
 
-**La página Razor Pages** comprueba y devuelve `Page()`, y la vista muestra los mensajes con el Tag Helper de validación:
+### 15.1.2. Visión Razor Pages: Validar y Devolver la Página
+
+En la página, quien comprueba es el `OnPost` y quien vuelve a pintar es `Page()`, la misma vista con los errores encima:
 
 ```csharp
 public IActionResult OnPost()
@@ -85,7 +90,7 @@ public IActionResult OnPost()
     if (!ModelState.IsValid)
     {
         Eco = "Datos invalidos";
-        return Page();   // la misma vista, ahora con los errores
+        return Page();   // la misma página, ahora con los errores
     }
 
     Eco = $"Nombre={Input.Nombre}; Anio={Input.Anio}; Precio={Input.Precio}";
@@ -93,8 +98,10 @@ public IActionResult OnPost()
 }
 ```
 
+Y los mensajes los pinta la propia vista con el Tag Helper de validación:
+
 ```cshtml
-@* En la vista de la página: cada span pinta su error *@
+@* Cada span pinta el error de su campo *@
 <div id="resumen">
     <span asp-validation-for="Input.Nombre"></span>
     <span asp-validation-for="Input.Anio"></span>
@@ -102,7 +109,9 @@ public IActionResult OnPost()
 </div>
 ```
 
-**La acción MVC** hace la misma comprobación y devuelve `View()`; en la vista, los mensajes se piden con la clave exacta del `ModelState`:
+### 15.1.3. Visión MVC: Validar y Devolver la Vista
+
+En MVC, la misma comprobación vive en la acción y el retorno es `View()`; los mensajes los pide la vista con la clave exacta del `ModelState`:
 
 ```csharp
 [HttpPost("productos/edicion")]
@@ -121,7 +130,7 @@ public IActionResult Edicion(ProductoInput input, List<string> etiquetas)
 ```
 
 ```cshtml
-@* En la vista de MVC: la clave es el nombre del campo del formulario *@
+@* La clave es el nombre del campo del formulario *@
 <div id="resumen">
     @Html.ValidationMessage("Input.Nombre")
     @Html.ValidationMessage("Input.Anio")
@@ -129,11 +138,13 @@ public IActionResult Edicion(ProductoInput input, List<string> etiquetas)
 </div>
 ```
 
+### 15.1.4. La Misma Validación, Comparada
+
 Y esto es lo que ocurre cuando envías un año imposible (`Input.Anio=1800`) en cualquiera de las dos visiones: la respuesta es **200** con el eco `Datos invalidos`, y el campo correspondiente pinta `El año debe estar entre 2000 y 2030` mientras los campos buenos se quedan vacíos. El navegador vuelve a ver el formulario entero, con los errores en su sitio.
 
 > 💡 **Consejo:** el mensaje vive en el atributo (`ErrorMessage`), no en la vista: si mañana cambia la regla, se toca el modelo y las dos visiones se enteran a la vez, porque comparten `ProductoInput`.
 
-### 15.1.2. FluentValidation: Reglas Fuera del Modelo
+### 15.1.5. FluentValidation: Reglas Fuera del Modelo
 
 Cuando las reglas crecen (fechas coherentes, categorías admitidas, campos condicionales), los atributos se quedan cortos. FluentValidation saca las reglas a una clase dedicada y las encadena con un lenguaje muy legible:
 
@@ -157,7 +168,7 @@ public class ProductoInputValidator : AbstractValidator<ProductoInput>
 
 El validador se registra en la inyección de dependencias y se usa igual en las dos visiones: en la página, antes de `return Page()`; en la acción, antes de `return View()`. Las ventajas respecto a los atributos: reglas condicionales, mensajes agrupados y un modelo de entrada limpio de política de negocio.
 
-### 15.1.3. La Alternativa Funcional: Result
+### 15.1.6. La Alternativa Funcional: Result
 
 La tercera vía es no lanzar ni acumular errores en `ModelState`, sino devolver el resultado de la validación como un valor. El patrón `Result<T>` (del paquete `CSharpFunctionalExtensions`) lo envuelve todo:
 
