@@ -112,14 +112,14 @@ Los atributos son las instrucciones que el servidor deja escritas en la cabecera
 | Atributo | Qué manda | Por qué importa |
 |----------|-----------|-----------------|
 | **`HttpOnly`** | JavaScript no puede leerla | Si un script logra ejecutarse en tu página, no ve esta cookie |
-| **`Secure`** | Solo viaja por HTTPS | En un dominio real por HTTP no se envía; ojo con local: el navegador considera `localhost` origen de confianza y en pruebas la envía igual |
+| **`Secure`** | Solo viaja por HTTPS | En un dominio real por HTTP no se envía; en local, el navegador considera `localhost` origen de confianza y la envía igual, así que en pruebas no se descubre si falta |
 | **`SameSite`** | Cuándo viaja en peticiones de otros sitios | `Lax` es el valor por defecto y frena los envíos cruzados |
 | **`Expires`** | Cuándo caduca | Sin ella, la cookie vive solo mientras el navegador esté abierto |
 | **`Path`** | A qué rutas del sitio se envía | `path=/` la manda a todas las rutas |
 
 📌 **Ejemplo real:** cuando aceptas las cookies en cualquier web, el aviso vuelve dentro de unos días porque guardaste una cookie con `Expires` de meses; en cambio, la sesión de tu banco se olvida al cerrar el navegador.
 
-El efecto de `HttpOnly` se ve desde la consola del navegador. Con la cookie `User_Tema` marcada como `HttpOnly`, la instrucción `document.cookie` devuelve únicamente `User_Visita=primera; User_Segura=solo-https`: la cookie protegida no aparece. Quien quiera leerla desde un script no tendrá por dónde.
+El efecto de `HttpOnly` se ve desde la consola del navegador. Con la cookie `User_Tema` marcada como `HttpOnly`, la instrucción `document.cookie` devuelve únicamente `User_Visita=primera; User_Segura=solo-https`: la cookie protegida no aparece, porque `HttpOnly` le corta el acceso a cualquier script.
 
 > 💡 **Consejo:** en F12, la pestaña Application, sección Cookies, se ven todas las galletas de un sitio con sus atributos tal y como el servidor los escribió.
 
@@ -396,7 +396,7 @@ graph TD
     style L fill:#4CAF50,color:#fff
 ```
 
-La regla que se repite en la práctica: si el dato le pertenece a una cuenta va a la sesión — si es una preferencia que debe sobrevivir a cerrar el navegador, va a una cookie; y si solo lo usa el código de la propia página, no hagas viajar nada.
+La regla que se repite en la práctica: si el dato le pertenece a una cuenta va a la sesión — si es una preferencia que debe sobrevivir a cerrar el navegador, va a una cookie; y si solo lo usa el código de la propia página, no hace falta que viaje nada.
 
 📌 **Ejemplo real:** Booking guarda en cookies el idioma y las fechas de tu búsqueda para enseñártelas otra vez la semana que viene, y en sesión el carrito y el usuario que ha iniciado sesión.
 
@@ -429,7 +429,7 @@ Las diferencias con una cookie son claras:
 - **`HttpOnly` en todo lo que no deba tocar JavaScript**: es la marca que hace que `document.cookie` no muestre la cookie; sin ella, un script inyectado en la página se lleva el valor.
 - **`Secure` para producción**: en un dominio real solo debe viajar por HTTPS; en local, `localhost` cuenta como origen de confianza y la galleta se envía por HTTP igual, así que en pruebas no se nota si falta.
 - **La galleta de sesión es del servidor**: quien la copia, es ese usuario; por eso su valor es opaco, vive en `HttpOnly` y caduca por inactividad.
-- **`SameSite` no se toca a la ligera**: `Lax` es el comportamiento por defecto y el que conviene dejar mientras no necesites otra cosa.
+- **`SameSite` se deja como viene**: `Lax` es el comportamiento por defecto y el que conviene mantener mientras no haya una razón para cambiarlo.
 - **Nada sensible en `localStorage`**: su contenido lo ve cualquier script de la página y no caduca solo.
 - **Borra el recuerdo al cerrar sesión**: `Response.Cookies.Delete` para las cookies del usuario y `HttpContext.Session.Clear()` para los datos de la sesión.
 
@@ -453,7 +453,7 @@ Las diferencias con una cookie son claras:
 
 ### 18.7.1. Contexto
 
-**Paso 0:** parte del formulario completo del punto 16 en sus dos visiones (`FunkoApp` y `FunkoAppMvc`), con el alta y el listado funcionando.
+**Paso 0:** parte del reto del punto 17 en sus dos visiones (`FunkoApp` y `FunkoAppMvc`), con el alta, el listado y el aviso del PRG funcionando.
 
 ### 18.7.2. Modelo de datos
 
@@ -477,9 +477,6 @@ public static class RepositorioFunkos
     private static readonly List<Funko> Funkos = [ /* seis figuras */ ];
 
     public static IReadOnlyList<Funko> ObtenerTodos() => Funkos;
-
-    public static Funko? ObtenerPorId(int id) =>
-        Funkos.FirstOrDefault(f => f.Id == id);
 }
 ```
 
@@ -492,20 +489,21 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 1. **En papel primero:** dibuja el mapa del recuerdo de tu tienda: qué dato recuerdas, en el navegador o en el servidor, cuánto dura y quién lo lee
 2. Escribe una cookie de preferencia `Funko_Tema` con `Response.Cookies.Append`, `HttpOnly` y 30 días de caducidad; comprueba en **F12** (Application > Cookies) que los atributos aparecen como los escribiste
 3. Lee esa cookie en el código y pinta el valor en la vista con su `??` por defecto; borra la cookie con `Response.Cookies.Delete` y comprueba que la vista vuelve al valor por defecto
-4. Abre la app en el navegador, escribe una cookie sin caducidad, cierra el navegador del todo y ábrelo otra vez: la preferencia sigue ahí; repite con una cookie con `Expires` de unos segundos y comprueba que desaparece
+4. Escribe una cookie sin caducidad, cierra el navegador y ábrelo otra vez: la preferencia sigue ahí; repite con una `Expires` de unos segundos y comprueba que desaparece
 5. Monta la sesión en `Program.cs` con `AddDistributedMemoryCache`, `AddSession` y `UseSession`; escribe un contador de visitas y comprueba que tres peticiones seguidas ven `1`, `2`, `3`
 6. Espera más de lo que marca `IdleTimeout` sin tocar nada y comprueba que la siguiente petición vuelve a `1`
-7. Guarda la cesta con `SetJson` y recupérala con `GetJson`; añade un producto a la cesta, recarga y comprueba que la cesta se queda completa entre peticiones
+7. Guarda la cesta con `SetJson` y recupérala con `GetJson`; añade un producto a la cesta, recarga y comprueba que la cesta se completa entre peticiones
+8. Abre la aplicación en una ventana de incógnito y comprueba que el contador de visitas empieza en `1`: sin la galleta ni la sesión del primer navegador, el servidor no reconoce a nadie
 
 **Visión Razor Pages:**
 
-8. Escribe la cookie de preferencia en el `OnGet` y lee `Request.Cookies` en el `PageModel`; comprueba que en la vista usas `HttpContext.Request.Cookies` y que `Context.Request` no compila (`error CS0103`)
-9. Abre la página en una ventana de incógnito: sin la galleta ni la sesión del primer navegador, el contador de visitas empieza en `1`
+9. Escribe la cookie en el `OnGet` y lee `Request.Cookies` en el `PageModel`; en la vista usa `HttpContext.Request.Cookies` y comprueba que `Context.Request` no compila (`error CS0103`)
+10. Pasa el tema de la sesión a la vista con una propiedad del `PageModel` y léelo con `@Model`
 
 **Visión MVC:**
 
-10. Escribe la cookie en la acción con `[HttpGet("cookies")]` y léela con `Request.Cookies`; en la vista, usa `Context.Request.Cookies`
-11. Pasa la cesta de la sesión a la vista con `ViewBag` y comprueba en **F12** (Application > Cookies) que la galleta `.AspNetCore.Session` no cambia de valor entre peticiones
+11. Escribe la cookie en la acción con `[HttpGet("cookies")]` y léela con `Request.Cookies`; en la vista, usa `Context.Request.Cookies`
+12. Pasa la cesta de la sesión a la vista con `ViewBag` y comprueba en **F12** (Application > Cookies) que la galleta `.AspNetCore.Session` no cambia de valor entre peticiones
 
 **Puntos extra:**
 
