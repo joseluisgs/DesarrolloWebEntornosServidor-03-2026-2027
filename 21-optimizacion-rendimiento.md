@@ -15,7 +15,7 @@
     - [21.4.1. CacheConfig, CompressionConfig y OutputCacheConfig](#2141-cacheconfig-compressionconfig-y-outputcacheconfig)
     - [21.4.2. Visión Razor Pages: el Program.cs](#2142-visión-razor-pages-el-programcs)
     - [21.4.3. Visión MVC: el Program.cs](#2143-visión-mvc-el-programcs)
-  - [21.5. Otras Palancas de Velocidad](#215-otras-palancas-de-velocidad)
+  - [21.5. Otras Formas de Ganar Velocidad](#215-otras-formas-de-ganar-velocidad)
   - [21.6. Reglas de Seguridad](#216-reglas-de-seguridad)
   - [21.7. Buenas Prácticas](#217-buenas-prácticas)
   - [21.8. Reto: El Rendimiento de la Tienda de Funkos](#218-reto-el-rendimiento-de-la-tienda-de-funkos)
@@ -30,7 +30,7 @@
 
 > 💡 **Punto de partida:** pones un vídeo en YouTube y arranca al instante; vuelves al principio y ya no vuelve a cargar — el segundo visionado es inmediato. La web del centro, en cambio, tarda lo mismo en enseñar el listado la primera vez que la centésima. Detrás de esa diferencia no hay magia: alguien decidió qué trabajo se repetía sin sentido y qué respuesta se podía guardar. ¿Dónde se va el tiempo de una petición, qué se puede guardar para no repetir el trabajo y cómo se mide de verdad si una web es rápida o lenta?
 
-En este tema montas las tres palancas de velocidad de una aplicación web: la caché de valores con `IMemoryCache`, la caché de respuestas enteras con output cache y la compresión de texto con Brotli o gzip. Todo con el mismo patrón de `Infrastructure` del tema anterior, y todo medido en las dos visiones.
+En este tema montas las tres técnicas para ganar velocidad en una aplicación web: la caché de valores con `IMemoryCache`, la caché de respuestas enteras con output cache y la compresión de texto con Brotli o gzip. Todo con el mismo patrón de `Infrastructure` del tema anterior, y todo medido en las dos visiones.
 
 **Objetivos de aprendizaje:**
 
@@ -210,7 +210,7 @@ public class PerfController(IPrecioService precios) : Controller
 
 ### 21.2.4. Output Cache: Cachear la Respuesta Entera
 
-**La caché de salida guarda la respuesta HTML completa y la devuelve sin ejecutar la página ni la acción.** Es la palanca más grande que hay: si la respuesta es pública y no ha cambiado, el servidor ni siquiera monta el modelo. Se registra en su concern y se declara en cada lectura que merezca caché:
+**La caché de salida guarda la respuesta HTML completa y la devuelve sin ejecutar la página ni la acción.** Es la técnica que más se nota: si la respuesta es pública y no ha cambiado, el servidor ni siquiera monta el modelo. Se registra en su concern y se declara en cada lectura que merezca caché:
 
 ```csharp
 // En el PageModel (Razor Pages) o en la acción (MVC)
@@ -299,7 +299,7 @@ El registro es doble: `AddResponseCompression` en los servicios y `UseResponseCo
 
 ### 21.4.1. CacheConfig, CompressionConfig y OutputCacheConfig
 
-**Las tres palancas de este tema se cablean igual que todo lo demás: una clase por concern en `Infrastructure`, con su método de extensión.** El patrón es el del tema anterior y los nombres, los de siempre en proyectos reales:
+**Las tres técnicas de este tema se cablean igual que todo lo demás: una clase por concern en `Infrastructure`, con su método de extensión.** El patrón es el del tema anterior y los nombres, los de siempre en proyectos reales:
 
 ```csharp
 // Infrastructure/CacheConfig.cs
@@ -405,9 +405,9 @@ app.Run();
 
 > 📝 **Nota:** los tres concerns son del proyecto, no de la visión: las dos aplicaciones comparten la carpeta `Infrastructure` y solo cambian las líneas de su capa web.
 
-## 21.5. Otras Palancas de Velocidad
+## 21.5. Otras Formas de Ganar Velocidad
 
-**Las cachés y la compresión son las palancas grandes; detrás vienen cinco que también se notan:**
+**Las cachés y la compresión son las dos que más se notan; detrás vienen cinco que también ayudan:**
 
 - **Proyecciones y `AsNoTracking`**: leer solo las columnas que se pintan y no rastrear entidades que no se van a guardar
 - **Paginación**: enseñar veinte filas en lugar de cuatro mil reduce el trabajo del servidor y el peso de la respuesta
