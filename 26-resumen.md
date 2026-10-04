@@ -433,7 +433,7 @@ Antes de dar por cerrada la unidad, asegúrate de poder responder **SÍ** a esta
 
 ## 26.8. ¿Qué viene después?
 
-En la **UD04: Aplicaciones Web Híbridas y Componentes de Servidor en .NET** aprenderás a montar interfaces que conviven con JavaScript y componentes del servidor — sobre la misma base de vistas y controladores que has construido aquí.
+En la **UD04: Aplicaciones Web Híbridas y Componentes de Servidor en .NET** aprenderás a montar interfaces híbridas: componentes de servidor con Blazor que conviven con JavaScript — sobre la misma base de vistas y controladores que has construido aquí.
 
 | Punto de UD03 | Se usa en UD04 para |
 |---------------|---------------------|
@@ -445,7 +445,7 @@ En la **UD04: Aplicaciones Web Híbridas y Componentes de Servidor en .NET** apr
 | **Configuración (20)** | Configurar componentes y servicios por entorno |
 | **Pruebas y despliegue (24-25)** | La misma calidad y el mismo contenedor, con JavaScript encima |
 
-📌 **Ejemplo real:** En la UD04 embeberás un carrito interactivo en una página Razor: la vista que ya sabes pintar se queda como base y el componente híbrido se monta encima.
+📌 **Ejemplo real:** En la UD04 embeberás un carrito interactivo en una página Razor: la vista que ya sabes pintar se queda como base y el componente de Blazor se monta encima, hablando con JavaScript cuando hace falta.
 
 ## 26.9. Mapa de Conexiones entre Temas
 
