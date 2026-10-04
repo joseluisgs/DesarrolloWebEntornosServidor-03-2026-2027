@@ -25,7 +25,7 @@
 
 > 💡 **Punto de partida:** Cuando Spotify pinta tu lista de reproducción, el sello de *descargado* no está escrito a mano en cada canción: una función decide, una sola vez, qué sello le toca a cada una. Si mañana la regla cambia, se toca la función y cambian todas las canciones a la vez. En este punto aprendes a sacar esa lógica repetida de la vista a funciones con `@functions` y lambdas, y a distinguir lo que una función devuelve: un valor o HTML.
 
-En este tema aprenderás a crear y utilizar funciones dentro de la vista con `@functions`, a escribir funciones locales y **funciones anónimas (lambdas)**, a saber qué devuelve una función (valor o HTML) y a reconocer lo que Razor no soporta, para que no pierdas media hora con un tutorial antiguo.
+En este punto aprenderás a crear y utilizar funciones dentro de la vista con `@functions`, a escribir funciones locales y **funciones anónimas (lambdas)**, a saber qué devuelve una función (valor o HTML) y a reconocer lo que Razor no soporta, para que no pierdas media hora con un tutorial antiguo.
 
 **Objetivos de aprendizaje:**
 
@@ -494,8 +494,8 @@ graph TD
     A --> D["RenderFragment<br/>concepto de Blazor"]
 
     E["Sustitutos SÍ válidos"] --> F["Función en @functions<br/>devuelve un valor o IHtmlContent"]
-    E --> G["Vista PARCIAL<br/>reutilizar HTML  →  tema 05"]
-    E --> H["TAG HELPER<br/>controles de servidor  →  tema 06"]
+    E --> G["Vista PARCIAL<br/>reutilizar HTML  →  punto 05"]
+    E --> H["TAG HELPER<br/>controles de servidor  →  punto 06"]
 
     style A fill:#f44336,color:#fff
     style B fill:#f44336,color:#fff

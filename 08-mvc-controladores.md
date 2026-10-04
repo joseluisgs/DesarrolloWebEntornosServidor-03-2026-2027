@@ -32,7 +32,7 @@
 
 > 💡 **Punto de partida:** Cuando tecleas `youtube.com/watch?v=abc123`, no existe ningún fichero llamado así: alguien recibe ese texto, lo parte en trozos, encuentra la acción que sabe tratar el vídeo y decide qué responder. Si en vez de `abc123` pones letras imposibles, ese mismo alguien decide otra cosa: un error. Ese alguien es el controlador de MVC; en este punto lo programas de verdad, con rutas, parámetros y resultados.
 
-En el punto 07 diseñamos el flujo MVC en el papel. En este punto lo programamos: rutas de verdad, parámetros que llegan desde la URL, acciones que devuelven vistas, JSON, trozos de HTML o redirecciones, y avisos que cruzan un redirect. Todo visto de cerca con **F12**.
+En el punto 07 diseñaste el flujo MVC en el papel. En este punto aprenderás a programarlo: rutas de verdad, parámetros que llegan desde la URL, acciones que devuelven vistas, JSON, trozos de HTML o redirecciones, y avisos que cruzan un redirect. Todo visto de cerca con **F12**.
 
 **Objetivos de aprendizaje:**
 

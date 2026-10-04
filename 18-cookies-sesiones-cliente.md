@@ -30,7 +30,7 @@
 
 > 💡 **Punto de partida:** ves el primer episodio de una serie en el móvil con la app, lo dejas a mitad y esa noche abres la web en el ordenador: la serie arranca justo por el minuto en que te quedaste. Tres días después entras en Amazon y la cesta te sigue esperando con los mismos dos productos. HTTP olvida todo entre petición y petición — así que ese recuerdo no puede vivir dentro del protocolo. Vive en dos sitios distintos: en tu navegador, en un trozo de texto que tú llevas, o en el servidor, con una llave que tú llevas. Son la cookie y la sesión, y de ellas depende casi todo lo que una web recuerda de ti. ¿Cómo se elige cuál de las dos se encarga de cada dato, y qué hace falta para que ese recuerdo no acabe en manos de nadie más?
 
-En este tema empieza el recuerdo que se sale del servidor: primero la cookie, qué es, su ciclo de vida de escritura, lectura y borrado, y sus atributos de seguridad; después la sesión, qué viaja en la cookie del identificador y qué se queda esperando en el servidor. Los dos mecanismos los hacemos en las dos visiones y cerramos eligiendo entre cookie, sesión y almacenamiento puramente del navegador.
+En este punto aprenderás a montar el recuerdo que se sale del servidor: primero la cookie, qué es, su ciclo de vida de escritura, lectura y borrado, y sus atributos de seguridad; después la sesión, qué viaja en la cookie del identificador y qué se queda esperando en el servidor. Los dos mecanismos los harás en las dos visiones y cerrarás eligiendo entre cookie, sesión y almacenamiento puramente del navegador.
 
 **Objetivos de aprendizaje:**
 

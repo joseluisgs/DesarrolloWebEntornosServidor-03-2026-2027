@@ -22,7 +22,7 @@
 
 > 💡 **Punto de partida:** Cuando confirmas un pedido en Amazon, el servidor recibe texto: referencias, cantidades y direcciones, todo en pares `clave=valor`. Pero en C# no hay texto: hay objetos con propiedades tipadas. Alguien tiene que traducir, campo a campo y sin equivocarse de nombre. Ese traductor es el model binding, y en este punto lo abrimos: de dónde sale cada valor, a dónde llega y qué pasa cuando falta.
 
-En este tema aprenderás las fuentes de un valor (ruta, query y formulario), el enlazado de objetos complejos con prefijo, el de colecciones con casillas y la conversión de tipos, todo montado como la edición de una misma vista en las dos visiones.
+En este punto aprenderás las fuentes de un valor (ruta, query y formulario), el enlazado de objetos complejos con prefijo, el de colecciones con casillas y la conversión de tipos, todo montado como la edición de una misma vista en las dos visiones.
 
 **Objetivos de aprendizaje:**
 

@@ -28,7 +28,7 @@
 
 > 💡 **Punto de partida:** Cuando navegas por Booking y pasas el ratón por un enlace de hotel, la URL que ves no la escribió nadie a mano: el servidor la calculó en el momento de pintar la página, y si mañana cambia el patrón de direcciones, el enlace se arregla solo. Los Tag Helpers son ese servidor dentro de la etiqueta: las escribes como HTML y el servidor las transforma antes de mandarlas al navegador.
 
-En este tema conoces los Tag Helpers: etiquetas que escribes como HTML pero que el servidor transforma antes de mandarlas al navegador. Verás los que trae ASP.NET Core (enlaces, recursos, caché, entornos) y aprenderás a escribir los tuyos.
+En este punto conocerás los Tag Helpers: etiquetas que escribes como HTML pero que el servidor transforma antes de mandarlas al navegador. Verás los que trae ASP.NET Core (enlaces, recursos, caché, entornos) y aprenderás a escribir los tuyos.
 
 **Objetivos de aprendizaje:**
 
@@ -72,7 +72,7 @@ La diferencia con lo que ya sabes:
 |---|---|---|---|
 | **HTML normal** | `<span class="badge">` | Nadie: va tal cual | Siempre |
 | **Código Razor** | `@EtiquetaEstado(producto)` | El servidor, al pintar | Temas 01-04 |
-| **Tag Helper** | `<estado-producto texto="...">` | El servidor, la etiqueta entera | Este tema |
+| **Tag Helper** | `<estado-producto texto="...">` | El servidor, la etiqueta entera | Este punto |
 
 > 💡 **Analogía:** Un Tag Helper es una etiqueta con instrucciones al reverso. Por delante se lee como HTML; por detrás dice *"cuando me imprimas, conviérteme en esto otro"*. Quien lo convierte es la imprenta (el servidor), no el lector (el navegador).
 
@@ -166,7 +166,7 @@ graph LR
 
 > ⚠️ **Advertencia:** El nombre de `asp-route-id` tiene que coincidir con el de la plantilla. Si escribes `asp-route-id="7"` pero la página declara `@page "{identificador}"`, el hueco se queda vacío y recibirás un **404** sin saber por qué.
 
-> 📝 **Nota:** `RouteData.Values["id"]` devuelve un `object`. Para convertirlo a número, cuando llegue el momento usarás *model binding* (el tema **14**). Aquí nos basta para mostrarlo en la vista.
+> 📝 **Nota:** `RouteData.Values["id"]` devuelve un `object`. Para convertirlo a número, cuando llegue el momento usarás *model binding* (el punto **14**). Aquí nos basta para mostrarlo en la vista.
 
 ## 6.3. Recursos Estáticos y la Huella
 

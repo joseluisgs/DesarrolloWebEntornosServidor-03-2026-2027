@@ -18,6 +18,8 @@
 
 > 💡 **Punto de partida:** Esta guía recopila los comandos de `dotnet` que vas a necesitar para crear, compilar, ejecutar y desplegar las aplicaciones de esta unidad: Razor Pages, MVC, formularios, Identity y Docker. Guárdala como referencia rápida; el día del examen, esta página te saca de más de un aprieto.
 
+En este punto aprenderás a usar la línea de comandos de .NET: crear proyectos y aplicaciones, compilar, ejecutar, observar en vivo y publicar, y resolver las tareas comunes de un proyecto sin salir de la terminal.
+
 **Objetivos de aprendizaje:**
 
 - Crear proyectos, soluciones y aplicaciones con la CLI de .NET 10

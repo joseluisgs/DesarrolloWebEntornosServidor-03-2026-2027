@@ -28,7 +28,7 @@
 
 > 💡 **Punto de partida:** Cuando abres la ficha de un vuelo en Kiwi, ves *Equipaje incluido* y *Cancelación gratis*; detrás hay decenas de campos internos de reservas que esa vista nunca mostrará. La vista pide una cosa y el modelo interno guarda otra: entre los dos hay un objeto pensado justo para la vista, el ViewModel. En este punto lo construyes para tu ficha de productos, con propiedades calculadas y POO aplicada a las vistas.
 
-En este punto construimos los **ViewModels**: objetos con la forma exacta que pide cada vista, montados por el controlador y leídos por la vista. Y veremos que detrás de ese objeto hay programación orientada a objetos de verdad: encapsulación, propiedades calculadas, inmutabilidad y polimorfismo, todo aplicado a las vistas.
+En este punto aprenderás a construir los **ViewModels**: objetos con la forma exacta que pide cada vista, montados por el controlador y leídos por la vista. Y verás que detrás de ese objeto hay programación orientada a objetos de verdad: encapsulación, propiedades calculadas, inmutabilidad y polimorfismo, todo aplicado a las vistas.
 
 **Objetivos de aprendizaje:**
 
@@ -405,7 +405,7 @@ graph TD
 
 Con las piezas de los puntos 07, 08 y este, la pregunta de siempre tiene respuesta fija:
 
-| Pieza | Qué decide | Ejemplo real de este tema |
+| Pieza | Qué decide | Ejemplo real de este punto |
 |-------|-----------|---------------------------|
 | **Vista** | Cómo se pinta: bucles, formato, un `if` de pintado | `@Model.PrecioReferencia.ToString("C")` |
 | **ViewModel** | Textos y conteos de presentación | `Estado => Activo ? "En catálogo" : ...` |

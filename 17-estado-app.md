@@ -34,7 +34,7 @@
 
 > 💡 **Punto de partida:** Cambias el idioma de tu cuenta en Netflix, la página se recarga y, sobre el catálogo, aparece el aviso "Tu idioma se ha actualizado". Si pulsas F5, el aviso ya no está. Ese mensaje vivió dos peticiones: la que lo escribió y la que lo pintó, y alguien lo borró después. La pregunta de este punto es la de siempre con HTTP: una aplicación web no recuerda nada de una petición a la siguiente y, sin embargo, todo lo que usas funciona. ¿Qué trucos se monta entre petición y petición para recordar?
 
-En este tema empezamos por el principio: recordamos qué es HTTP y por qué es un protocolo sin estado; después llegan los trucos que la aplicación se monta para no olvidar: ViewData y ViewBag, TempData, el estado compartido. De cada uno vemos qué es, para qué sirve, cómo se hace en las dos visiones y cómo se pasan los datos entre vistas cuando hace falta. Los trucos que viajan hasta el navegador, cookies y sesión, tienen punto propio: el 18.
+En este punto empezarás por el principio: qué es HTTP y por qué es un protocolo sin estado; después llegan los trucos que la aplicación se monta para no olvidar: ViewData y ViewBag, TempData, el estado compartido. De cada uno verás qué es, para qué sirve, cómo se hace en las dos visiones y cómo se pasan los datos entre vistas cuando hace falta. Los trucos que viajan hasta el navegador, cookies y sesión, tienen punto propio: el 18.
 
 **Objetivos de aprendizaje:**
 
@@ -278,7 +278,7 @@ El mecanismo por debajo es el mismo en las dos: `TempData` viaja en una cookie d
 
 📌 **Ejemplo real:** Netflix. El aviso "Tu idioma se ha actualizado" del punto de partida vive en una cookie así: se escribe en un redirect, se pinta una vez y, si se manipula, no se pinta nada.
 
-> 📝 **Nota:** `TempData` no necesita configurar la sesión: el proveedor por defecto es la cookie del navegador. Por eso el aviso viaja hasta el equipo y vuelve en la petición siguiente. La cookie completa y la sesión son el tema 18.
+> 📝 **Nota:** `TempData` no necesita configurar la sesión: el proveedor por defecto es la cookie del navegador. Por eso el aviso viaja hasta el equipo y vuelve en la petición siguiente. La cookie completa y la sesión son el punto 18.
 
 ## 17.4. ModelState: el Estado de la Última Validación
 

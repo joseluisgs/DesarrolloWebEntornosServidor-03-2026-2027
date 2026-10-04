@@ -31,7 +31,7 @@
 
 > 💡 **Punto de partida:** Netflix despliega varias veces al día y, antes de que un cambio llegue a tu televisor, miles de pruebas automáticas lo comprueban todo: que la portada carga, que el vídeo arranca y que el pago procesa — cuando tu propia aplicación cambia, ¿cómo se comprueba de forma automática que lo que funcionaba sigue funcionando y que lo nuevo hace lo que debe, sin depender de que alguien abra el navegador y pruebe a mano?
 
-En este tema montas las pruebas de una aplicación de presentación: pruebas unitarias de la lógica de páginas y controladores con NUnit y FluentAssertions, pruebas de página reales con Playwright, ejecución y lectura de resultados con `dotnet test`, y la documentación que hace entendible ese código. Todo en las dos visiones.
+En este punto aprenderás a montar las pruebas de una aplicación de presentación: pruebas unitarias de la lógica de páginas y controladores con NUnit y FluentAssertions, pruebas de página reales con Playwright, ejecución y lectura de resultados con `dotnet test`, y la documentación que hace entendible ese código. Todo en las dos visiones.
 
 **Objetivos de aprendizaje:**
 
@@ -171,7 +171,7 @@ public class CasosInvalidos
 }
 ```
 
-El laboratorio del tema pasa las ocho pruebas unitarias del carrito: tres con `[TestCase]`, dos de estado y tres de casos inválidos con `Throw<ArgumentException>`.
+El laboratorio del punto pasa las ocho pruebas unitarias del carrito: tres con `[TestCase]`, dos de estado y tres de casos inválidos con `Throw<ArgumentException>`.
 
 ### 24.2.3. Visión Razor Pages: Probar la Lógica del PageModel
 

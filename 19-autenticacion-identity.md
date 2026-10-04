@@ -35,7 +35,7 @@
 
 > 💡 **Punto de partida:** abres Netflix en el ordenador de un amigo y, en cuanto escribes tu correo y tu clave, el catálogo deja de ser el suyo: tus listas, tu progreso, tu idioma. Si solo escribes mal la clave, la web se queda tan tranquila y no te deja pasar; si intentas entrar en la sección de administración, te cortan en seco. Detrás de ese gesto hay dos preguntas que la aplicación contesta en orden: primero, quién eres; después, qué puedes tocar. ¿Qué hay que montar en el servidor para que sepa lo primero en cada petición y para que solo pueda pasar quien cumpla lo segundo? En este punto se responde con el framework oficial de Microsoft, ASP.NET Core Identity, en las dos visiones.
 
-Aquí construimos la autenticación completa con Identity oficial: qué es la identidad de un usuario y cómo se representa con claims, cómo se registran y se conectan usuarios con `UserManager` y `SignInManager`, cómo se protegen rutas con atributos, roles y políticas, y con qué defensas se contesta a los dos ataques de siempre, el falso envío de formularios y la inyección de scripts.
+En este punto aprenderás a construir la autenticación completa con Identity oficial: qué es la identidad de un usuario y cómo se representa con claims, cómo se registran y se conectan usuarios con `UserManager` y `SignInManager`, cómo se protegen rutas con atributos, roles y políticas, y con qué defensas se contesta a los dos ataques de siempre, el falso envío de formularios y la inyección de scripts.
 
 **Objetivos de aprendizaje:**
 

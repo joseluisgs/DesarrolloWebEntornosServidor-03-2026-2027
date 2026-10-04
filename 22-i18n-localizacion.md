@@ -31,7 +31,7 @@
 
 > 💡 **Punto de partida:** reservas un vuelo en Booking desde tu móvil y ves "Reservar ahora", el precio en euros y la fecha en formato español; tu compañero, con la cuenta en inglés, ve "Book now", dólares y mes primero. La lógica que calcula el precio es la misma en los dos casos — lo que cambia son los textos y los formatos con los que se pinta. ¿Cómo se prepara una aplicación para hablar varios idiomas sin duplicar vistas ni lógica, y cómo decide el servidor cuál le toca a cada petición?
 
-En este tema montas la localización completa de una aplicación: los ficheros `.resx` con los textos por idioma, el middleware que decide la cultura de cada petición, los localizadores para vistas y lógica, los formatos de número y fecha, y el selector de idioma con cookie. Todo con el patrón de `Infrastructure` de los temas anteriores y todo medido en las dos visiones.
+En este punto aprenderás a montar la localización completa de una aplicación: los ficheros `.resx` con los textos por idioma, el middleware que decide la cultura de cada petición, los localizadores para vistas y lógica, los formatos de número y fecha, y el selector de idioma con cookie. Todo con el patrón de `Infrastructure` de los puntos anteriores y todo medido en las dos visiones.
 
 **Objetivos de aprendizaje:**
 

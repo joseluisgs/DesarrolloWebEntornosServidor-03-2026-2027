@@ -30,7 +30,7 @@
 
 > 💡 **Punto de partida:** abres la pestaña Red del navegador mientras ves Netflix y el muro se llena de peticiones, cada una con su código, su tamaño y su tiempo — hasta ese momento, la web era una caja negra que simplemente funcionaba. Cuando tu propia aplicación falla, esa misma pestaña es la que te dice si el problema está en la petición, en el servidor o en la vista. ¿Qué herramientas existen para ver lo que hace una aplicación por dentro, dónde se detiene cuando falla y cómo se sigue una petición desde la terminal hasta el navegador?
 
-En este tema recorres el cajón de herramientas de un desarrollador de web: el entorno de trabajo, la línea de comandos de .NET, el depurador del servidor, las pestañas del navegador y el registro de eventos. Todo se practica sobre una aplicación que falla a propósito, en las dos visiones.
+En este punto recorrerás el cajón de herramientas de un desarrollador de web: el entorno de trabajo, la línea de comandos de .NET, el depurador del servidor, las pestañas del navegador y el registro de eventos. Todo se practica sobre una aplicación que falla a propósito, en las dos visiones.
 
 **Objetivos de aprendizaje:**
 
@@ -56,7 +56,7 @@ Lo que usa el depurador de Rider, y que verás en todo el tema:
 
 📌 **Ejemplo real:** JetBrains. Rider es el entorno de C# de la misma empresa que hace IntelliJ para Java, PyCharm para Python o WebStorm para JavaScript: una herramienta para cada lenguaje y la misma idea de trabajo detrás.
 
-> 📝 **Nota:** Visual Studio Code es la alternativa ligera y multiplataforma; las ideas de este tema (puntos de interrupción, pestañas, registro) son las mismas en los dos.
+> 📝 **Nota:** Visual Studio Code es la alternativa ligera y multiplataforma; las ideas de este punto (puntos de interrupción, pestañas, registro) son las mismas en los dos.
 
 ### 23.1.2. La Estructura del Proyecto y Cómo se Ejecuta
 
@@ -280,7 +280,7 @@ logger.LogWarning("Valor nulo detectado en el carrito");
 
 ### 23.5.2. La Página de Error: Desarrollo Frente a Producción
 
-**El mismo fallo se cuenta de dos formas según el entorno, y ese es el comportamiento que ya configuraste en el tema 20:** en desarrollo, la aplicación muestra la excepción y su traza; en producción, un aviso genérico sin detalles.
+**El mismo fallo se cuenta de dos formas según el entorno, y ese es el comportamiento que ya configuraste en el punto 20:** en desarrollo, la aplicación muestra la excepción y su traza; en producción, un aviso genérico sin detalles.
 
 ```mermaid
 graph TD
@@ -307,7 +307,7 @@ else
 
 La medida de las dos visiones, con la misma petición a `/romper`: en `Development` responde `500` y la vista contiene `NullReferenceException` con su traza; en `Production` responde `500` con el aviso `Se ha producido un error inesperado` y sin una sola pista de la excepción.
 
-📌 **Ejemplo real:** Cuando una web grande falla, el usuario ve una página amable y el equipo ve la traza completa: es el mismo `IsDevelopment` que ya montaste en el tema de configuración.
+📌 **Ejemplo real:** Cuando una web grande falla, el usuario ve una página amable y el equipo ve la traza completa: es el mismo `IsDevelopment` que ya montaste en el punto de configuración.
 
 ## 23.6. Errores Frecuentes y Cómo Leerlos
 

@@ -29,7 +29,7 @@
 
 > 💡 **Punto de partida:** Cuando abres cualquier sección de Amazon, la barra de búsqueda, el menú y el pie son idénticos página tras página. Si Amazon cambiara el pie en cada plantilla, tardaría meses; en su sitio, lo cambian una vez y se actualiza en todo el sitio. La solución se llama layout, y en este punto aprendes a trocear la interfaz en piezas reutilizables: layout, vistas parciales y componentes de vista.
 
-En este tema aprenderás a trocear la interfaz en tres piezas reutilizables (layout, vistas parciales y componentes de vista), a conectarlas entre sí con `_ViewStart`, `_Layout` y `_ViewImports`, y a saber cuándo conviene cada una.
+En este punto aprenderás a trocear la interfaz en tres piezas reutilizables (layout, vistas parciales y componentes de vista), a conectarlas entre sí con `_ViewStart`, `_Layout` y `_ViewImports`, y a saber cuándo conviene cada una.
 
 **Objetivos de aprendizaje:**
 
@@ -45,7 +45,7 @@ En este tema aprenderás a trocear la interfaz en tres piezas reutilizables (lay
 
 ### 5.1.1. Copiar y Pegar en Cada Página
 
-**❌ Así se ve una página antes del tema:**
+**❌ Así se ve una página antes del punto:**
 
 ```cshtml
 @* Pages/Productos/Index.cshtml — la PRIMERA línea ya es un incumplimiento *@
@@ -464,7 +464,7 @@ public class ResumenProductosViewComponent : ViewComponent
 }
 ```
 
-> ⚠️ **Advertencia:** Necesitas el `using Microsoft.AspNetCore.Mvc;`. Sin él, el compilador devuelve **`CS0246: El nombre del tipo o del espacio de nombres 'ViewComponent' no se encontró`**. Es el error número uno de este tema.
+> ⚠️ **Advertencia:** Necesitas el `using Microsoft.AspNetCore.Mvc;`. Sin él, el compilador devuelve **`CS0246: El nombre del tipo o del espacio de nombres 'ViewComponent' no se encontró`**. Es el error número uno de este punto.
 
 **2. La vista**: `Pages/Shared/Components/ResumenProductos/Default.cshtml`:
 
@@ -510,7 +510,7 @@ Hay dos formas, y ambas respetan el parámetro `limite`.
 
 La conversión del nombre es automática pero hay que conocerla: `ResumenProductos` → **`resumen-productos`** (*PascalCase* → *kebab-case*).
 
-> 💡 **Truco:** Si te aparece `<vc:resumen-productos limite="2" />` literalmente en el navegador, no has roto el componente: falta registrar los Tag Helpers del proyecto en `_ViewImports.cshtml`. Es la sección siguiente, y es el error más común del tema.
+> 💡 **Truco:** Si te aparece `<vc:resumen-productos limite="2" />` literalmente en el navegador, no has roto el componente: falta registrar los Tag Helpers del proyecto en `_ViewImports.cshtml`. Es la sección siguiente, y es el error más común del punto.
 
 ## 5.5. _ViewImports: las Directivas Compartidas
 
@@ -551,7 +551,7 @@ graph TD
     style F1 fill:#f44336,color:#fff
 ```
 
-📌 **Ejemplo real:** En el tema anterior nos quejamos de que cada vista necesitaba `@using ProductosApp.Models` y `@using ProductosApp.Repositories`. Este es el sitio donde se escriben una vez y desaparecen de todas las demás.
+📌 **Ejemplo real:** En el punto anterior nos quejamos de que cada vista necesitaba `@using ProductosApp.Models` y `@using ProductosApp.Repositories`. Este es el sitio donde se escriben una vez y desaparecen de todas las demás.
 
 ### 5.5.2. Registrar los Tag Helpers del Proyecto
 

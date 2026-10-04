@@ -25,7 +25,7 @@
 
 > 💡 **Punto de partida:** Cuando intentas entrar en tu banca online con la contraseña equivocada tres veces, la web te bloquea el acceso un rato. Ese bloqueo no lo puso el navegador: lo puso el servidor, que no se fía de nadie. La seguridad de una aplicación es exactamente eso: asumir que cualquier petición puede venir de alguien con malas intenciones y defenderse antes de que llegue la lógica de negocio. En este punto aprendes a validar lo que llega y a cerrar las puertas por las que entran los ataques.
 
-En este tema cubrimos el bloque de seguridad de la unidad: validación de datos en el servidor, el mapa de los ataques web y sus defensas, cabeceras de protección, límite de peticiones y manejo de errores. Las cuentas de usuario y la autenticación tienen su punto propio, el 19; aquí nos centramos en el servidor que se defiende.
+En este punto aprenderás el bloque de seguridad de la unidad: validación de datos en el servidor, el mapa de los ataques web y sus defensas, cabeceras de protección, límite de peticiones y manejo de errores. Las cuentas de usuario y la autenticación tienen su punto propio, el 19; aquí nos centramos en el servidor que se defiende.
 
 **Objetivos de aprendizaje:**
 

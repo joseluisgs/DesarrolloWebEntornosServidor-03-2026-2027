@@ -34,7 +34,7 @@
 
 > 💡 **Punto de partida:** Cuando compras en Amazon, la ficha del producto muestra el precio con su moneda, el año de lanzamiento y la etiqueta de novedad, todo en tu idioma. Detrás de esa página hay un motor que recibe órdenes antes de pintar nada: qué modelo espera, qué servicios usa y qué plantilla monta. Esas órdenes son las directivas de Razor, y en este punto aprendes a darlas.
 
-En este tema aprenderás a dar órdenes al motor Razor con directivas, a escribir sentencias simples comprobando qué HTML producen, a usar los tipos de variables y operadores de C# dentro de una vista y a saber en qué ámbito vive cada variable.
+En este punto aprenderás a dar órdenes al motor Razor con directivas, a escribir sentencias simples comprobando qué HTML producen, a usar los tipos de variables y operadores de C# dentro de una vista y a saber en qué ámbito vive cada variable.
 
 **Objetivos de aprendizaje:**
 
@@ -86,7 +86,7 @@ Responden a la pregunta **¿qué es esta vista?**
 > | **Razor Pages** | el PageModel (el `.cshtml.cs`) | `Model.Productos`, `Model.Titulo` | `@model ListadoModel` |
 > | **MVC** | los datos que manda el controlador | `Model.Any()`, `Model.First()` | `@model IEnumerable<Producto>` |
 >
-> ¿Por qué la diferencia? En Razor Pages la lógica vive pegada a la página, así que el modelo *es* la página. En MVC la lógica está en el controlador, que manda los datos a la vista. Por eso mismo, **`@model` no va todavía en este tema**: en el **punto 03** los datos entran por el repositorio en memoria, y `@model` lo conectamos de verdad en los puntos **08** (controladores MVC) y **11** (`PageModel`).
+> ¿Por qué la diferencia? En Razor Pages la lógica vive pegada a la página, así que el modelo *es* la página. En MVC la lógica está en el controlador, que manda los datos a la vista. Por eso mismo, **`@model` no va todavía en este punto**: en el **punto 03** los datos entran por el repositorio en memoria, y `@model` lo conectamos de verdad en los puntos **08** (controladores MVC) y **11** (`PageModel`).
 
 > ⚠️ **Advertencia:** `@page` solo existe en Razor Pages. En MVC la ruta la pone el controlador. Es la directiva que más se olvida: sin ella, la página no es accesible por URL.
 
@@ -149,7 +149,7 @@ Esto funciona tal cual en un proyecto recién creado, sin registrar nada:
 @addTagHelper *, ProductosApp
 ```
 
-El asterisco `*` significa *"todos los Tag Helpers de ese ensamblado"*. El detalle completo está en el tema **06 · Tag Helpers**.
+El asterisco `*` significa *"todos los Tag Helpers de ese ensamblado"*. El detalle completo está en el punto **06 · Tag Helpers**.
 
 ### 2.1.6. Herencia de Directivas con _ViewImports
 
@@ -529,7 +529,7 @@ graph TD
 | `D4` | Entero con relleno de ceros | `2019` |
 | `dd/MM/yyyy` | Fecha | `03/10/2026` |
 
-> ⚠️ **Advertencia:** El formato `C` depende de la cultura del servidor. Si el servidor está en `en-US` verás `$14.99` en lugar de `14,99 €`. Para que salga siempre igual, fija la cultura (lo veremos en el tema **21 · Internacionalización**).
+> ⚠️ **Advertencia:** El formato `C` depende de la cultura del servidor. Si el servidor está en `en-US` verás `$14.99` en lugar de `14,99 €`. Para que salga siempre igual, fija la cultura (lo veremos en el punto **22 · Internacionalización**).
 
 ## 2.5. Ámbitos de las Variables
 
@@ -603,7 +603,7 @@ graph TD
     A -.->|"❌ total NO existe aquí"| C
 
     D["¿Cómo se pasan datos?"] --> E["Con el MODELO<br/>model= y PartialAsync"]
-    D --> F["Con ViewData / ViewBag<br/>(tema 08)"]
+    D --> F["Con ViewData / ViewBag<br/>(punto 08)"]
 
     style A fill:#2196F3,color:#fff
     style B fill:#607D8B,color:#fff
@@ -624,7 +624,7 @@ graph TD
 
 > 💡 **Analogía:** Es la diferencia entre pasar una nota escrita en un papel (el modelo) y gritarla desde tu habitación a la del lado (la variable local). La casa no te oye: cada habitación es un mundo aparte.
 
-> ⚠️ **Advertencia:** El error más buscado en clase es `La variable 'x' no existe en el contexto actual`. Casi siempre significa que la declaraste en una vista y la usas en otra. La solución nunca es repetir la variable: es pasar el dato. Las vistas parciales como tales las veremos en el tema **05**.
+> ⚠️ **Advertencia:** El error más buscado en clase es `La variable 'x' no existe en el contexto actual`. Casi siempre significa que la declaraste en una vista y la usas en otra. La solución nunca es repetir la variable: es pasar el dato. Las vistas parciales como tales las veremos en el punto **05**.
 
 ## 2.6. Buenas Prácticas
 

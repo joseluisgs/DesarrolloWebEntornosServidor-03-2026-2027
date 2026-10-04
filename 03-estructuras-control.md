@@ -30,7 +30,7 @@
 
 > 💡 **Punto de partida:** Cuando bajas por el feed de Instagram, cada tarjeta es distinta: unas llevan el sello de novedad, otras están archivadas, y si no sigues a nadie ves un mensaje avisando de que no hay nada que mostrar. Todo eso son decisiones y bucles dentro de la plantilla: `@if` para lo que se decide, `@foreach` para lo que se repite y un estado vacío para cuando no hay datos. En este punto aprendes las estructuras de control de Razor; y para tener algo que recorrer, entra por fin el repositorio en memoria.
 
-En este tema aprenderás a meter datos de verdad en tus vistas con un repositorio en memoria, a decidir qué HTML se genera (`@if`, `@switch`, patrones), a repetir bloques con bucles (`@foreach`, `@for`, `@while`) y a almacenar y recuperar conjuntos de datos con arrays y matrices.
+En este punto aprenderás a meter datos de verdad en tus vistas con un repositorio en memoria, a decidir qué HTML se genera (`@if`, `@switch`, patrones), a repetir bloques con bucles (`@foreach`, `@for`, `@while`) y a almacenar y recuperar conjuntos de datos con arrays y matrices.
 
 **Objetivos de aprendizaje:**
 

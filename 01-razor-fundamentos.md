@@ -33,7 +33,7 @@
 
 > 💡 **Punto de partida:** Si abres el código fuente de una web como Netflix, ¿por qué cada usuario ve una portada distinta si todos llaman a la misma URL? ¿Quién escribe ese HTML diferente cada vez? ¿Y si te dijera que ese HTML ni siquiera está guardado en el servidor?
 
-En este tema aprenderás a reconocer los mecanismos de generación de páginas con código embebido, a situar Razor entre las tecnologías existentes, a dominar sus etiquetas de inclusión de código y a montar tu primer proyecto con la CLI de .NET.
+En este punto aprenderás a reconocer los mecanismos de generación de páginas con código embebido, a situar Razor entre las tecnologías existentes, a dominar sus etiquetas de inclusión de código y a montar tu primer proyecto con la CLI de .NET.
 
 **Objetivos de aprendizaje:**
 

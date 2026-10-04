@@ -21,7 +21,7 @@
 
 > 💡 **Punto de partida:** Cuando Netflix decide modernizar su web, no la reescribe entera: migra vista a vista mientras el resto sigue sirviendo millones de peticiones sin caerse. Migrar de una arquitectura a otra sin romper la aplicación es un oficio, y en este punto lo practicas: comparar MVC y Razor Pages por dentro, convivirlas en el mismo proyecto y mover una vista de una a la otra sin caídas.
 
-En este punto compararemos las dos visiones por dentro, aprenderás a convivirlas en un mismo `Program.cs` y harás una migración real de una acción de MVC a una página, vista a vista y sin caídas.
+En este punto aprenderás a comparar las dos visiones por dentro, a convivirlas en un mismo `Program.cs` y a hacer una migración real de una acción de MVC a una página, vista a vista y sin caídas.
 
 **Objetivos de aprendizaje:**
 

@@ -30,7 +30,7 @@
 
 > 💡 **Punto de partida:** pones un vídeo en YouTube y arranca al instante; vuelves al principio y ya no vuelve a cargar — el segundo visionado es inmediato. La web del centro, en cambio, tarda lo mismo en enseñar el listado la primera vez que la centésima. Detrás de esa diferencia no hay magia: alguien decidió qué trabajo se repetía sin sentido y qué respuesta se podía guardar. ¿Dónde se va el tiempo de una petición, qué se puede guardar para no repetir el trabajo y cómo se mide de verdad si una web es rápida o lenta?
 
-En este tema montas las tres técnicas para ganar velocidad en una aplicación web: la caché de valores con `IMemoryCache`, la caché de respuestas enteras con output cache y la compresión de texto con Brotli o gzip. Todo con el mismo patrón de `Infrastructure` del tema anterior, y todo medido en las dos visiones.
+En este punto aprenderás a montar las tres técnicas para ganar velocidad en una aplicación web: la caché de valores con `IMemoryCache`, la caché de respuestas enteras con output cache y la compresión de texto con Brotli o gzip. Todo con el mismo patrón de `Infrastructure` del punto anterior, y todo medido en las dos visiones.
 
 **Objetivos de aprendizaje:**
 
@@ -299,7 +299,7 @@ El registro es doble: `AddResponseCompression` en los servicios y `UseResponseCo
 
 ### 21.4.1. CacheConfig, CompressionConfig y OutputCacheConfig
 
-**Las tres técnicas de este tema se cablean igual que todo lo demás: una clase por concern en `Infrastructure`, con su método de extensión.** El patrón es el del tema anterior y los nombres, los de siempre en proyectos reales:
+**Las tres técnicas de este punto se cablean igual que todo lo demás: una clase por concern en `Infrastructure`, con su método de extensión.** El patrón es el del punto anterior y los nombres, los de siempre en proyectos reales:
 
 ```csharp
 // Infrastructure/CacheConfig.cs
@@ -356,7 +356,7 @@ graph LR
 // Program.cs
 var builder = WebApplication.CreateBuilder(args);
 
-// Cableado por concern (patrón Infrastructure del tema anterior)
+// Cableado por concern (patrón Infrastructure del punto anterior)
 builder.Services.AddCaching();
 builder.Services.AddResponseCompressionConfig();
 builder.Services.AddOutputCacheConfig();
@@ -383,7 +383,7 @@ app.Run();
 // Program.cs
 var builder = WebApplication.CreateBuilder(args);
 
-// Cableado por concern (patrón Infrastructure del tema anterior)
+// Cableado por concern (patrón Infrastructure del punto anterior)
 builder.Services.AddCaching();
 builder.Services.AddResponseCompressionConfig();
 builder.Services.AddOutputCacheConfig();

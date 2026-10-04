@@ -27,7 +27,7 @@
 
 > 💡 **Punto de partida:** Cuando el equipo de Spotify cambia su portada, los que programan la interfaz no tocan a los que calculan las recomendaciones: están en partes distintas del código, y cada equipo puede trabajar sin romper el trabajo del otro. Ese es el patrón MVC: separar datos, presentación y coordinación para que todo sea más claro y mantenible. En este punto aprendes las tres piezas y la regla de oro que las gobierna.
 
-En este tema aprendes el patrón MVC: tres piezas (Model, View, Controller) y una regla de oro: cada pieza solo habla con las que le tocan. Verás cómo se traduce en un proyecto .NET real, qué cambia en la carpeta `Controllers/` y cómo fluye una petición de principio a fin.
+En este punto aprenderás el patrón MVC: tres piezas (Model, View, Controller) y una regla de oro: cada pieza solo habla con las que le tocan. Verás cómo se traduce en un proyecto .NET real, qué cambia en la carpeta `Controllers/` y cómo fluye una petición de principio a fin.
 
 **Objetivos de aprendizaje:**
 
@@ -35,9 +35,9 @@ En este tema aprendes el patrón MVC: tres piezas (Model, View, Controller) y un
 - Seguir el recorrido completo de una petición: petición → controlador → modelo → vista → respuesta
 - Reconocer la convención que hace que `Index()` muestre `Views/Home/Index.cshtml`
 - Escribir un controlador, una vista y un modelo mínimos que funcionen
-- Clasificar el código de los temas anteriores en las tres capas
+- Clasificar el código de los puntos anteriores en las tres capas
 
-> 📝 **Nota:** seguimos con ProductosApp. A partir de aquí ya entra el controlador: es el tema donde el proyecto deja de ser "solo vistas".
+> 📝 **Nota:** seguimos con ProductosApp. A partir de aquí ya entra el controlador: es el punto donde el proyecto deja de ser "solo vistas".
 
 ## 7.1. El Problema: Todo Junto en la Vista
 
@@ -459,7 +459,7 @@ La tabla que cierra el capítulo: **todo lo que hemos hecho en los puntos 01-06,
 ## 7.6. Buenas Prácticas
 
 - **Analiza y diseña en papel antes de programar**: Análisis → Diseño (el algoritmo, el esquema, las capas) → Codificación. Saltarse el orden es la causa número uno de código desordenado
-- **El controlador decide, el modelo calcula, la vista pinta**: esa frase resume el tema entero
+- **El controlador decide, el modelo calcula, la vista pinta**: esa frase resume el punto entero
 - Deja que la convención trabaje: `ProductosController.Index()` → `Views/Productos/Index.cshtml`, sin escribirlo
 - Usa **`return View(datos)` + `@model`** para los datos de verdad y **`ViewData`** solo para títulos y avisos sueltos
 - Pon los nombres tal como irán en la URL al crear el controlador: `ProductosController` → `/Productos`

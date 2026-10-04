@@ -30,7 +30,7 @@
 
 > 💡 **Punto de partida:** Cuando subes una foto de perfil en Instagram, la app recibe la imagen, la guarda en sus servidores bajo una dirección que nadie adivina y te devuelve una URL que después carga cualquiera. Detrás de ese gesto hay tres decisiones que se repiten en todo proyecto: qué ficheros acepto, dónde los guardo y cómo se llaman. En este punto construyes ese sistema en tus dos visiones.
 
-En este tema aprendemos la subida de ficheros de principio a fin: el formulario multipart, el `IFormFile`, el servicio de almacenamiento con validación y nombre único, la defensa contra el path traversal, el servicio de los ficheros subidos y las descargas con `File`.
+En este punto aprenderás la subida de ficheros de principio a fin: el formulario multipart, el `IFormFile`, el servicio de almacenamiento con validación y nombre único, la defensa contra el path traversal, el servicio de los ficheros subidos y las descargas con `File`.
 
 **Objetivos de aprendizaje:**
 
@@ -269,7 +269,7 @@ En las dos visiones de `ProductosApp`, un fichero llamado `../../appsettings.jso
 
 ## 16.5. Servir los Ficheros Subidos
 
-Los ficheros se guardan en `wwwroot/uploads/`, y `wwwroot` es la única carpeta que el servidor web sirve como estática. Con los activos del proyecto ya puestos en su sitio (el tema 06 vio la huella y el fingerprinting), un fichero subido queda disponible en su URL relativa:
+Los ficheros se guardan en `wwwroot/uploads/`, y `wwwroot` es la única carpeta que el servidor web sirve como estática. Con los activos del proyecto ya puestos en su sitio (el punto 06 vio la huella y el fingerprinting), un fichero subido queda disponible en su URL relativa:
 
 ```text
 Subida:    /uploads/productos/20261003220843_dc66fe7f_foto.jpg
