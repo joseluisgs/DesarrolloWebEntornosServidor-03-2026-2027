@@ -1,4 +1,4 @@
-# Desarrollo Web en Entorno Servidor - 03 - Desarrollo de páginas web dinámicas en .NET
+﻿# Desarrollo Web en Entorno Servidor - 03 - Desarrollo de páginas web dinámicas en .NET
 
 UD03. Desarrollo de páginas web dinámicas en .NET. 2DAW. Curso 2026-2027
 
@@ -8,7 +8,7 @@ UD03. Desarrollo de páginas web dinámicas en .NET. 2DAW. Curso 2026-2027
   - [Contenido](#contenido)
   - [Proyecto integrador](#proyecto-integrador)
   - [Contenido en YouTube](#contenido-en-youtube)
-  - [Resultados de aprendizaje y criterios de evaluación](#resultados-de-aprendizaje-y-criterios-de-evaluación)
+  - [Resultados de Aprendizaje y Criterios de Evaluación](#resultados-de-aprendizaje-y-criterios-de-evaluación)
   - [Autor](#autor)
     - [Contacto](#contacto)
   - [Licencia de uso](#licencia-de-uso)
@@ -52,7 +52,7 @@ Los proyectos realizados en clase:
 - [Resumen]()
 - [Lista de reproducción](https://www.youtube.com/playlist?list=PLLiuVpAc3Gv4)
 
-## Resultados de aprendizaje y criterios de evaluación
+## Resultados de Aprendizaje y Criterios de Evaluación
 
 - RA2: Escribe sentencias ejecutables por un servidor web reconociendo y aplicando procedimientos de integración del código en lenguajes de marcas.
 
