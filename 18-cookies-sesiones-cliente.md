@@ -4,6 +4,7 @@
     - [18.1.2. Ciclo de Vida: Escribir, Leer y Borrar](#1812-ciclo-de-vida-escribir-leer-y-borrar)
     - [18.1.3. Los Atributos de una Cookie](#1813-los-atributos-de-una-cookie)
     - [18.1.4. Cookies en las Dos Visiones](#1814-cookies-en-las-dos-visiones)
+    - [18.1.5. Cookies y JavaScript](#1815-cookies-y-javascript)
   - [18.2. Sesión: El Recuerdo que Vive en el Servidor](#182-sesión-el-recuerdo-que-vive-en-el-servidor)
     - [18.2.1. Qué es la Sesión y Qué Aporta](#1821-qué-es-la-sesión-y-qué-aporta)
     - [18.2.2. El Id de Sesión: el Vínculo Invisible](#1822-el-id-de-sesión-el-vínculo-invisible)
@@ -11,6 +12,7 @@
     - [18.2.4. Escribir y Leer Datos](#1824-escribir-y-leer-datos)
     - [18.2.5. Objetos Completos con JSON](#1825-objetos-completos-con-json)
     - [18.2.6. La Sesión en las Dos Visiones](#1826-la-sesión-en-las-dos-visiones)
+    - [18.2.7. Sesiones Distribuidas (Redis)](#1827-sesiones-distribuidas-redis)
   - [18.3. Cookies o Sesión: Cómo Elegir](#183-cookies-o-sesión-cómo-elegir)
   - [18.4. Almacenamiento en el Cliente: localStorage](#184-almacenamiento-en-el-cliente-localstorage)
   - [18.5. Reglas de Seguridad](#185-reglas-de-seguridad)
@@ -25,20 +27,20 @@
 
 # 18. Cookies, Sesiones y Almacenamiento en el Cliente
 
-> 💡 **Punto de partida:** ves el primer episodio de una serie en el móvil con la app, lo dejas a mitad y esa noche abres la web en el ordenador: la serie arranca justo por el minuto en que te quedaste. Tres días después entras en Amazon y la cesta te sigue esperando con los mismos dos productos. HTTP olvida todo entre petición y petición — así que ese recuerdo no puede vivir dentro del protocolo. Vive en dos sitios distintos: en tu navegador, en un trozo de texto que tú llevas, o en el servidor, con una llave que tú llevas. Son la cookie y la sesión, y de ellas depende casi todo lo que una web recuerda de ti.
+> 💡 **Punto de partida:** ves el primer episodio de una serie en el móvil con la app, lo dejas a mitad y esa noche abres la web en el ordenador: la serie arranca justo por el minuto en que te quedaste. Tres días después entras en Amazon y la cesta te sigue esperando con los mismos dos productos. HTTP olvida todo entre petición y petición — así que ese recuerdo no puede vivir dentro del protocolo. Vive en dos sitios distintos: en tu navegador, en un trozo de texto que tú llevas, o en el servidor, con una llave que tú llevas. Son la cookie y la sesión, y de ellas depende casi todo lo que una web recuerda de ti. ¿Cómo se elige cuál de las dos se encarga de cada dato, y qué hace falta para que ese recuerdo no acabe en manos de nadie más?
 
-En este tema empieza el recuerdo que se sale del servidor: primero la cookie, qué es, su ciclo de vida de escritura, lectura y borrado, y sus atributos de seguridad; después la sesión, qué viaja en la galleta del identificador y qué se queda esperando en el servidor. Los dos mecanismos los hacemos en las dos visiones y cerramos eligiendo entre cookie, sesión y almacenamiento puramente del navegador.
+En este tema empieza el recuerdo que se sale del servidor: primero la cookie, qué es, su ciclo de vida de escritura, lectura y borrado, y sus atributos de seguridad; después la sesión, qué viaja en la cookie del identificador y qué se queda esperando en el servidor. Los dos mecanismos los hacemos en las dos visiones y cerramos eligiendo entre cookie, sesión y almacenamiento puramente del navegador.
 
 **Objetivos de aprendizaje:**
 
 - Qué es una cookie, cómo se escribe, se lee y se borra, y qué aporta cada atributo
-- Qué es la sesión, qué lleva su galleta y dónde viven realmente los datos
+- Qué es la sesión, qué lleva su cookie y dónde viven realmente los datos
 - Configurar la sesión en `Program.cs` y usarla igual en página y en acción
 - Guardar objetos completos en la sesión serializándolos a JSON
 - Elegir entre cookie, sesión y `localStorage` según dónde deba vivir el dato
 - Las reglas de seguridad de todo lo que vive en el cliente
 
-> 📝 **Nota:** seguimos con `ProductosApp` en sus dos visiones. Las dos usan la misma API de cookies y la misma de sesión, así que los nombres de galleta y los resultados coinciden.
+> 📝 **Nota:** seguimos con `ProductosApp` en sus dos visiones. Las dos usan la misma API de cookies y la misma de sesión, así que los nombres de las cookies y los resultados coinciden.
 
 ## 18.1. Cookies: El Recuerdo que Vive en el Navegador
 
@@ -103,6 +105,8 @@ Response.Cookies.Delete("User_Tema");
 
 El borrado devuelve una respuesta con `Set-Cookie` caducada y en la petición siguiente `Request.Cookies["User_Tema"]` ya no encuentra nada — la vista que antes pintaba `oscuro` pasa a pintar su valor por defecto.
 
+> 🔧 **Truco:** `curl -i http://localhost:5000/catalogo` devuelve la respuesta con sus cabeceras encima, `Set-Cookie` incluida: se ve cómo quedó escrita una cookie y con qué atributos, sin abrir el navegador.
+
 > ⚠️ **Advertencia:** leer una cookie que nadie escribió no da ningún error, solo devuelve `null`. Si pintas sin el `??`, la vista se rompe con una excepción de referencia nula.
 
 ### 18.1.3. Los Atributos de una Cookie
@@ -117,11 +121,11 @@ Los atributos son las instrucciones que el servidor deja escritas en la cabecera
 | **`Expires`** | Cuándo caduca | Sin ella, la cookie vive solo mientras el navegador esté abierto |
 | **`Path`** | A qué rutas del sitio se envía | `path=/` la manda a todas las rutas |
 
-📌 **Ejemplo real:** cuando aceptas las cookies en cualquier web, el aviso vuelve dentro de unos días porque guardaste una cookie con `Expires` de meses; en cambio, la sesión de tu banco se olvida al cerrar el navegador.
+📌 **Ejemplo real:** YouTube. Cuando aceptas su aviso de cookies, la preferencia vuelve dentro de unos días porque quedó escrita con `Expires` de meses; en cambio, la sesión de tu banco se olvida al cerrar el navegador.
 
 El efecto de `HttpOnly` se ve desde la consola del navegador. Con la cookie `User_Tema` marcada como `HttpOnly`, la instrucción `document.cookie` devuelve únicamente `User_Visita=primera; User_Segura=solo-https`: la cookie protegida no aparece, porque `HttpOnly` le corta el acceso a cualquier script.
 
-> 💡 **Consejo:** en F12, la pestaña Application, sección Cookies, se ven todas las galletas de un sitio con sus atributos tal y como el servidor los escribió.
+> 💡 **Consejo:** en F12, la pestaña Application, sección Cookies, se ven todas las cookies de un sitio con sus atributos tal y como el servidor los escribió.
 
 ### 18.1.4. Cookies en las Dos Visiones
 
@@ -194,13 +198,54 @@ Conviene hacer la lectura en el modelo de página o en la acción y pasar el res
 | **Leer en la vista** | `HttpContext.Request.Cookies[...]` | `Context.Request.Cookies[...]` |
 | **Borrar** | `Response.Cookies.Delete` | `Response.Cookies.Delete` |
 
+### 18.1.5. Cookies y JavaScript
+
+`document.cookie` es la puerta de JavaScript a las cookies: devuelve un único texto con todas las cookies del sitio que no estén marcadas como `HttpOnly`, separadas por punto y coma.
+
+```javascript
+// Consola del navegador: lo que JavaScript ve
+console.log(document.cookie);
+// "User_Visita=primera; User_Segura=solo-https"
+// User_Tema no aparece: está marcada como HttpOnly
+
+// Leer una cookie concreta
+function leerCookie(nombre)
+{
+    const pares = document.cookie.split("; ");
+    const par = pares.find(p => p.startsWith(nombre + "="));
+    return par === undefined ? null : par.split("=")[1];
+}
+
+// Escribir una cookie desde el navegador
+document.cookie = "aviso=aceptado; path=/; max-age=31536000";
+```
+
+Lo que JavaScript escriba se comporta como cualquier otra cookie: viaja al servidor en la cabecera `Cookie` y se lee con `Request.Cookies`. Lo que no puede hacer es quitarse `HttpOnly` a una cookie, porque esa marca solo se pone desde el servidor al escribirla.
+
+```mermaid
+graph TD
+    S["El servidor escribe con atributos"] --> H["Cookie con HttpOnly"]
+    S --> N["Cookie sin HttpOnly"]
+    H --> JH["document.cookie la omite:<br/>ningun script la ve"]
+    N --> JN["JavaScript la lee y la escribe<br/>y viaja al servidor"]
+    style S fill:#2196F3,color:#fff
+    style H fill:#4CAF50,color:#fff
+    style N fill:#FF9800,color:#fff
+    style JH fill:#607D8B,color:#fff
+    style JN fill:#9C27B0,color:#fff
+```
+
+📌 **Ejemplo real:** YouTube. Tus preferencias de reproducción viven en cookies que la propia página lee con JavaScript; el identificador con el que te reconoces no aparece en `document.cookie`, porque está marcado como `HttpOnly`.
+
+> ⚠️ **Advertencia:** una cookie escrita desde JavaScript nunca lleva `HttpOnly`, porque quien la escribe es justo el script al que quieres cerrar la puerta. Las cookies que protegen identidad o sesión se escriben siempre desde el servidor.
+
 ## 18.2. Sesión: El Recuerdo que Vive en el Servidor
 
 ### 18.2.1. Qué es la Sesión y Qué Aporta
 
 **La sesión es un almacén de datos en la memoria del servidor al que cada visitante llega con su llave.** El navegador no lleva los datos, solo lleva un identificador corto en una cookie; los datos pesados se quedan dentro.
 
-📌 **Ejemplo real:** Netflix guarda en el servidor en qué minuto va cada perfil y qué episodio viste; tu navegador solo lleva la galleta que le dice al servidor quién eres para que busque tus datos.
+📌 **Ejemplo real:** Netflix guarda en el servidor en qué minuto va cada perfil y qué episodio viste; tu navegador solo lleva la cookie que le dice al servidor quién eres para que busque tus datos.
 
 La diferencia con la cookie es de dónde es la responsabilidad: la cookie te confía el dato a ti y viaja en cada petición — la sesión lo deja en casa y solo te da la llave. Eso la hace más adecuada para datos de usuario, y más cómoda para no andar midiendo cuánto texto se envía.
 
@@ -208,14 +253,14 @@ La diferencia con la cookie es de dónde es la responsabilidad: la cookie te con
 
 ### 18.2.2. El Id de Sesión: el Vínculo Invisible
 
-La sesión no es magia: depende de una cookie técnica. En la primera petición, el servidor crea los datos y devuelve una galleta llamada `.AspNetCore.Session`; a partir de ahí, cada petición la lleva y el servidor carga los datos de ese identificador.
+La sesión no es magia: depende de una cookie técnica. En la primera petición, el servidor crea los datos y devuelve una cookie llamada `.AspNetCore.Session`; a partir de ahí, cada petición la lleva y el servidor carga los datos de ese identificador.
 
 ```mermaid
 sequenceDiagram
     participant N as Navegador
     participant S as Servidor
     participant M as Memoria del servidor
-    Note over N,S: 1. Primera peticion, sin galleta
+    Note over N,S: 1. Primera peticion, sin cookie
     N->>S: GET /sesion
     S->>M: Crea los datos nuevos
     S-->>N: 200 OK + Set-Cookie: .AspNetCore.Session=CfDJ...
@@ -226,7 +271,7 @@ sequenceDiagram
     S-->>N: 200 OK con tus datos
 ```
 
-La cabecera de esa galleta es siempre la misma en las dos visiones y en ambos protocolos:
+La cabecera de esa cookie es siempre la misma en las dos visiones y en ambos protocolos:
 
 ```
 Set-Cookie: .AspNetCore.Session=CfDJ8L67p8Wi4htHqtY2m8i...; path=/; samesite=lax; httponly
@@ -235,7 +280,7 @@ Set-Cookie: .AspNetCore.Session=CfDJ8L67p8Wi4htHqtY2m8i...; path=/; samesite=lax
 Tres consecuencias se deducen de esa línea:
 
 - **Dentro no hay datos**, solo un identificador cifrado; el valor entero es opaco y corto, la cesta y los contadores viven en el servidor.
-- **Sin galleta no hay sesión**: si el navegador no la manda, el servidor no reconoce a nadie y monta datos nuevos; por eso, cuando la galleta caduca, el contador de visitas vuelve a empezar en `1`.
+- **Sin cookie no hay sesión**: si el navegador no la manda, el servidor no reconoce a nadie y monta datos nuevos; por eso, cuando la cookie caduca, el contador de visitas vuelve a empezar en `1`.
 - **Viene marcada como `HttpOnly` y `SameSite=Lax`**; no lleva `secure` por defecto, ni siquiera cuando la petición llega por HTTPS, así que esa marca hay que pedirla en la configuración.
 
 ### 18.2.3. Configuración en Program.cs
@@ -261,9 +306,9 @@ app.MapRazorPages();
 
 Cada línea tiene su porqué:
 
-- **`AddDistributedMemoryCache`** es el requisito técnico: la galleta solo lleva el identificador, así que hace falta un sitio donde poner los datos. Este es un almacén en memoria de un solo servidor.
-- **`AddSession`** registra el servicio y configure su galleta: `IdleTimeout` decide cuánto puede estar un visitante sin actividad antes de que sus datos se borren; `IsEssential` marca la galleta como necesaria para que el sitio funcione.
-- **`UseSession`** es el middleware que, en cada petición, lee la galleta, busca los datos y los pone a disposición de la página o de la acción. Si falta, `HttpContext.Session` llega vacío.
+- **`AddDistributedMemoryCache`** es el requisito técnico: la cookie solo lleva el identificador, así que hace falta un sitio donde poner los datos. Este es un almacén en memoria de un solo servidor.
+- **`AddSession`** registra el servicio y configura su cookie: `IdleTimeout` decide cuánto puede estar un visitante sin actividad antes de que sus datos se borren; `IsEssential` marca la cookie como necesaria para que el sitio funcione.
+- **`UseSession`** es el middleware que, en cada petición, lee la cookie, busca los datos y los pone a disposición de la página o de la acción. Si falta, `HttpContext.Session` llega vacío.
 
 > 📝 **Nota:** `IdleTimeout` por defecto son 20 minutos de inactividad. Puedes bajarlo para una prueba, pero el valor real de una aplicación es una decisión de negocio, no una casualidad.
 
@@ -282,6 +327,8 @@ int visitas = HttpContext.Session.GetInt32("Visitas") ?? 0;
 ```
 
 Con tres peticiones seguidas desde el mismo navegador, el contador ve `1`, `2`, `3`: la sesión recuerda entre peticiones de verdad. Si esperas más de lo que marca `IdleTimeout`, los datos se borran y la siguiente petición vuelve a `1`, porque el servidor ya no encuentra a nadie detrás de esa llave.
+
+> 🔧 **Truco:** para volver a empezar sin esperar a que caduque, borra la cookie `.AspNetCore.Session` desde **F12** (Application > Cookies) y recarga: la siguiente petición ya llega con la llave nueva y el contador arranca otra vez en `1`.
 
 > ⚠️ **Advertencia:** el `??` de la lectura no es opcional. La primera visita de cualquier visitante no tiene nada escrito y, sin el valor por defecto, la vista recibiría `null`.
 
@@ -314,11 +361,19 @@ HttpContext.Session.SetJson("Cesta", new List<string> { "Teclado", "Raton" });
 var cesta = HttpContext.Session.GetJson<List<string>>("Cesta") ?? new();
 ```
 
-📌 **Ejemplo real:** cualquier carrito de compra real guarda así la lista entera de artículos con sus cantidades: un solo objeto, un solo paso de ida y vuelta.
+📌 **Ejemplo real:** Cualquier carrito de compra real guarda así la lista entera de artículos con sus cantidades: un solo objeto, un solo paso de ida y vuelta.
 
 ### 18.2.6. La Sesión en las Dos Visiones
 
 Las dos visiones piden la sesión del mismo sitio: a `HttpContext`. `PageModel` no expone una propiedad `Session` y escribir `Session.SetString(...)` en una página no compila, el compilador para con `error CS0103`. Con `HttpContext.Session` el código es idéntico en página y en acción.
+
+```csharp
+// ❌ MALO: en PageModel no hay propiedad Session (no compila, error CS0103)
+Visitas = (Session.GetInt32("Visitas") ?? 0) + 1;
+
+// ✅ BUENO: las dos visiones piden la sesión a HttpContext
+Visitas = (HttpContext.Session.GetInt32("Visitas") ?? 0) + 1;
+```
 
 **Visión Razor Pages:**
 
@@ -371,6 +426,26 @@ El reparto hasta la vista también sigue el patrón del punto 17: en página, pr
 | **A la vista** | Propiedades del modelo | `ViewBag` o modelo |
 | **Configuración** | Misma en `Program.cs` | Misma en `Program.cs` |
 
+### 18.2.7. Sesiones Distribuidas (Redis)
+
+**El almacén de `AddDistributedMemoryCache` vive en la memoria de un solo servidor.** Con una sola instancia no pasa nada, pero en cuanto la aplicación se publica con varias copias detrás de un equilibrador de carga, cada copia guarda sus propias sesiones: el visitante cambia de copia entre petición y petición y su cesta desaparece.
+
+La solución es mover el almacén a un sitio al que lleguen todas las copias, por ejemplo Redis:
+
+```csharp
+// Program.cs, en lugar de AddDistributedMemoryCache
+builder.Services.AddStackExchangeRedisCache(options =>
+{
+    options.Configuration = "localhost:6379";
+});
+```
+
+Ese método de extensión viene del paquete `Microsoft.Extensions.Caching.StackExchangeRedis`. El cambio es solo de almacén: `HttpContext.Session.SetString(...)` y todo lo demás siguen igual, porque la API de sesión no se entera de dónde viven los datos.
+
+📌 **Ejemplo real:** Amazon no puede perder tu cesta al segundo de entrar; con miles de servidores atendiendo a la vez, la sesión tiene que vivir en un sitio al que todos llegan, no en la memoria de uno solo.
+
+> 💡 **Consejo:** mientras la aplicación corra en una sola instancia, la memoria es lo más simple; el salto a Redis se hace cambiando esa línea del arranque, sin tocar el código que usa la sesión.
+
 ## 18.3. Cookies o Sesión: Cómo Elegir
 
 Las dos resuelven lo mismo, recordar, y lo resuelven en sitios opuestos. La elección no es de gusto: depende de quién deba leer el dato y de cuánto debe durar.
@@ -386,7 +461,7 @@ Las dos resuelven lo mismo, recordar, y lo resuelven en sitios opuestos. La elec
 ```mermaid
 graph TD
     D["Tienes un dato que recordar"] --> P["¿Quien debe leerlo?"]
-    P -->|El servidor| S["Sesion: datos del usuario<br/>llave en la galleta, datos en el servidor"]
+    P -->|El servidor| S["Sesion: datos del usuario<br/>llave en la cookie, datos en el servidor"]
     P -->|Las dos partes| C["Cookie: preferencias<br/>el dato viaja en cada peticion"]
     P -->|Solo el navegador| L["localStorage: dato de interfaz<br/>lo lee y escribe JavaScript"]
     style D fill:#2196F3,color:#fff
@@ -427,8 +502,8 @@ Las diferencias con una cookie son claras:
 
 - **Los datos de una cuenta van a la sesión**: en una cookie viajan en texto en cada petición y cualquier proxy intermedio las ve; la sesión solo deja salir un identificador.
 - **`HttpOnly` en todo lo que no deba tocar JavaScript**: es la marca que hace que `document.cookie` no muestre la cookie; sin ella, un script inyectado en la página se lleva el valor.
-- **`Secure` para producción**: en un dominio real solo debe viajar por HTTPS; en local, `localhost` cuenta como origen de confianza y la galleta se envía por HTTP igual, así que en pruebas no se nota si falta.
-- **La galleta de sesión es del servidor**: quien la copia, es ese usuario; por eso su valor es opaco, vive en `HttpOnly` y caduca por inactividad.
+- **`Secure` para producción**: en un dominio real solo debe viajar por HTTPS; en local, `localhost` cuenta como origen de confianza y la cookie se envía por HTTP igual, así que en pruebas no se nota si falta.
+- **La cookie de sesión es del servidor**: quien la copia se hace pasar por ese usuario; por eso su valor es opaco, vive en `HttpOnly` y muere al cerrar el navegador, mientras sus datos caducan por inactividad.
 - **`SameSite` se deja como viene**: `Lax` es el comportamiento por defecto y el que conviene mantener mientras no haya una razón para cambiarlo.
 - **Nada sensible en `localStorage`**: su contenido lo ve cualquier script de la página y no caduca solo.
 - **Borra el recuerdo al cerrar sesión**: `Response.Cookies.Delete` para las cookies del usuario y `HttpContext.Session.Clear()` para los datos de la sesión.
@@ -493,7 +568,7 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 5. Monta la sesión en `Program.cs` con `AddDistributedMemoryCache`, `AddSession` y `UseSession`; escribe un contador de visitas y comprueba que tres peticiones seguidas ven `1`, `2`, `3`
 6. Espera más de lo que marca `IdleTimeout` sin tocar nada y comprueba que la siguiente petición vuelve a `1`
 7. Guarda la cesta con `SetJson` y recupérala con `GetJson`; añade un producto a la cesta, recarga y comprueba que la cesta se completa entre peticiones
-8. Abre la aplicación en una ventana de incógnito y comprueba que el contador de visitas empieza en `1`: sin la galleta ni la sesión del primer navegador, el servidor no reconoce a nadie
+8. Abre la aplicación en una ventana de incógnito y comprueba que el contador de visitas empieza en `1`: sin la cookie ni la sesión del primer navegador, el servidor no reconoce a nadie
 
 **Visión Razor Pages:**
 
@@ -503,13 +578,13 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 **Visión MVC:**
 
 11. Escribe la cookie en la acción con `[HttpGet("cookies")]` y léela con `Request.Cookies`; en la vista, usa `Context.Request.Cookies`
-12. Pasa la cesta de la sesión a la vista con `ViewBag` y comprueba en **F12** (Application > Cookies) que la galleta `.AspNetCore.Session` no cambia de valor entre peticiones
+12. Pasa la cesta de la sesión a la vista con `ViewBag` y comprueba en **F12** (Application > Cookies) que la cookie `.AspNetCore.Session` no cambia de valor entre peticiones
 
 **Puntos extra:**
 
 - Escribe en `document.cookie` desde la consola del navegador y comprueba que la cookie marcada como `HttpOnly` no aparece en la lista
-- Cambia la galleta de sesión por una propia con `options.Cookie.Name = ".Funkos.Session"` y comprueba en **F12** que el navegador ahora guarda ese nombre
-- Toca el valor de la galleta de sesión desde **F12**, recarga y comprueba que el contador empieza en `1`: el servidor ya no reconoce a nadie
+- Cambia la cookie de sesión por una propia con `options.Cookie.Name = ".Funkos.Session"` y comprueba en **F12** que el navegador ahora guarda ese nombre
+- Toca el valor de la cookie de sesión desde **F12**, recarga y comprueba que el contador empieza en `1`: el servidor ya no reconoce a nadie
 - Escribe en el repositorio por qué un token de acceso no puede vivir en `localStorage`
 
 ---
@@ -529,6 +604,7 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 | **`AddSession` + `UseSession`** | Registro y middleware de la sesión en `Program.cs` |
 | **`IdleTimeout`** | Inactividad máxima antes de que la sesión caduque |
 | **`SetJson` / `GetJson`** | Métodos de extensión para objetos completos en la sesión |
+| **Sesión distribuida** | `AddStackExchangeRedisCache` cuando hay varias copias de la aplicación |
 | **`HttpContext.Session`** | La única vía en las dos visiones (`PageModel` no expone `Session`) |
 | **`localStorage`** | Almacén del navegador, solo para JavaScript, nunca viaja |
 | **Elegir dónde vive** | Cuenta → sesión; preferencia → cookie; interfaz → `localStorage` |

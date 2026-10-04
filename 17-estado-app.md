@@ -45,7 +45,7 @@ En este tema empezamos por el principio: recordamos qué es HTTP y por qué es u
 - Repartir el estado compartido con singleton, scoped y transient sin romper el aislamiento
 - Pasar datos entre vistas con la herramienta que corresponde a cada caso
 
-> 📝 **Nota:** seguimos con `ProductosApp` en sus dos visiones. Las dos comparten el proveedor de `TempData`: mismas galletas y mismos resultados en página y en acción.
+> 📝 **Nota:** seguimos con `ProductosApp` en sus dos visiones. Las dos comparten el proveedor de `TempData`: mismas cookies y mismos resultados en página y en acción.
 
 ## 17.1. HTTP: el Protocolo que Olvida
 
@@ -77,15 +77,15 @@ Lo que se pierde es la sensación de "estamos continuando". Sin trucos, cada cli
 |-------|-------------|------------|----------|
 | **ViewData y ViewBag** | La respuesta actual | En la petición, en el servidor | Pasar datos de la acción a su vista |
 | **ModelState** | Hasta la vista | En la petición, en el servidor | Los errores del último envío |
-| **TempData** | Una petición más | En una galleta del navegador | El aviso que acompaña a un redirect |
+| **TempData** | Una petición más | En una cookie del navegador | El aviso que acompaña a un redirect |
 | **Estado compartido** | Toda la aplicación | En el servidor | Datos de todos: contadores, categorías |
-| **Cookies y sesión** | Lo que se decida | Galleta en el cliente y datos en el servidor | Quién eres y tus datos (punto 18) |
+| **Cookies y sesión** | Lo que se decida | Cookie en el cliente y datos en el servidor | Quién eres y tus datos (punto 18) |
 
 ```mermaid
 graph TD
     P["El cliente manda una peticion"] --> R["El servidor contesta<br/>y se olvida: es sin estado"]
     R --> T1["Dentro de la misma respuesta<br/>ViewData, ViewBag, ModelState"]
-    R --> T2["En una galleta que vuelve<br/>TempData (cookies, punto 18)"]
+    R --> T2["En una cookie que vuelve<br/>TempData (cookies, punto 18)"]
     R --> T3["En el servidor, para todos<br/>estaticos y singleton"]
     style P fill:#2196F3,color:#fff
     style R fill:#607D8B,color:#fff
@@ -259,9 +259,9 @@ La vista de destino lleva el mismo `@if` y el comportamiento es idéntico: **302
 Leer con `TempData["Mensaje"]` consume el valor: quien lo pinta, lo borra. Para mirar sin gastar hay dos métodos:
 
 - `TempData.Peek("Mensaje")`: lee sin consumir. El listado puede pintar el aviso con `Peek` y el aviso sigue ahí; cuando después se lee con la llave normal, la que consume, el `Peek` pasa a devolver vacío.
-- `TempData.Keep("Mensaje")`: conserva el valor para la petición siguiente. Si lo llamas dentro del `@if`, tres GET seguidos pintan el aviso y la galleta sigue con sus 176 caracteres.
+- `TempData.Keep("Mensaje")`: conserva el valor para la petición siguiente. Si lo llamas dentro del `@if`, tres GET seguidos pintan el aviso y la cookie sigue con sus 176 caracteres.
 
-> ⚠️ **Advertencia:** si conservas en cada petición, el aviso no muere nunca: deja de ser un aviso y la galleta viaja siempre cargada.
+> ⚠️ **Advertencia:** si conservas en cada petición, el aviso no muere nunca: deja de ser un aviso y la cookie viaja siempre cargada.
 
 > 🔧 **Truco:** dentro de un bloque `@if` ya estás en código: las sentencias se escriben sin `@{ }`. Si lo envuelves, el compilador devuelve `RZ1010`.
 
@@ -274,11 +274,11 @@ Leer con `TempData["Mensaje"]` consume el valor: quien lo pinta, lo borra. Para 
 | **Lee** | La vista de la página de destino | La vista de la acción de destino |
 | **Resultado** | **302**, aviso una vez, después vacío | **302**, aviso una vez, después vacío |
 
-El mecanismo por debajo es el mismo en las dos: `TempData` viaja en una galleta del navegador (`.AspNetCore.Mvc.CookieTempDataProvider`), con marca `HttpOnly`, el aviso del alta metido en 176 caracteres y el valor cifrado: el texto no aparece por ninguna parte, la cadena empieza por `CfDJ`. Y la galleta no se perdona: si alguien la toca, la aplicación prefiere no leer nada a leer basura, así que responde **200** sin aviso y descarta la galleta.
+El mecanismo por debajo es el mismo en las dos: `TempData` viaja en una cookie del navegador (`.AspNetCore.Mvc.CookieTempDataProvider`), con marca `HttpOnly`, el aviso del alta metido en 176 caracteres y el valor cifrado: el texto no aparece por ninguna parte, la cadena empieza por `CfDJ`. Y la cookie no se perdona: si alguien la toca, la aplicación prefiere no leer nada a leer basura, así que responde **200** sin aviso y descarta la cookie.
 
-📌 **Ejemplo real:** Netflix. El aviso "Tu idioma se ha actualizado" del punto de partida vive en una galleta así: se escribe en un redirect, se pinta una vez y, si se manipula, no se pinta nada.
+📌 **Ejemplo real:** Netflix. El aviso "Tu idioma se ha actualizado" del punto de partida vive en una cookie así: se escribe en un redirect, se pinta una vez y, si se manipula, no se pinta nada.
 
-> 📝 **Nota:** `TempData` no necesita configurar la sesión: el proveedor por defecto es la galleta del navegador. Por eso el aviso viaja hasta el equipo y vuelve en la petición siguiente. La galleta completa y la sesión son el tema 18.
+> 📝 **Nota:** `TempData` no necesita configurar la sesión: el proveedor por defecto es la cookie del navegador. Por eso el aviso viaja hasta el equipo y vuelve en la petición siguiente. La cookie completa y la sesión son el tema 18.
 
 ## 17.4. ModelState: el Estado de la Última Validación
 
@@ -379,7 +379,7 @@ Dos apuntes de la casa: dentro de una misma petición no hay que pasar nada a ma
 ## 17.7. Reglas de Seguridad del Estado
 
 - **Nada sensible en `ViewData` ni `ViewBag`**: lo que metes ahí puede acabar pintado en cualquier vista que cuelgue de la petición, layout y parciales incluidos; una contraseña o un DNI completo no son un título de página.
-- **`TempData`, solo mensajes públicos**: el aviso sale en una galleta del navegador (`.AspNetCore.Mvc.CookieTempDataProvider`, `HttpOnly`, 176 caracteres con el texto dentro). Quien comparte el equipo lo lee; si la galleta se manipula, la respuesta es **200** sin aviso.
+- **`TempData`, solo mensajes públicos**: el aviso sale en una cookie del navegador (`.AspNetCore.Mvc.CookieTempDataProvider`, `HttpOnly`, 176 caracteres con el texto dentro). Quien comparte el equipo lo lee; si la cookie se manipula, la respuesta es **200** sin aviso.
 - **Los datos de un usuario, nunca en estado compartido**: una lista estática muestra a un cliente lo que dio de alta otro. La fuga no avisa: nadie recibe ningún error y los dos usuarios se quedan con la misma vista.
 - **`ViewData` no avisa de claves malas**: la clave equivocada pinta vacío en **200** y la conversión equivocada rompe con **500** y `RuntimeBinderException`. Revisa los nombres a mano.
 - **`Keep` no convierte un aviso en mensaje fijo**: con `Keep` conservado en cada petición, tres GET seguidos pintan el aviso tres veces.
@@ -456,7 +456,7 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 
 **Puntos extra:**
 
-- Toca la galleta del aviso con **F12** (Application > Cookies): añade una letra al valor y comprueba que la página responde **200** sin aviso
+- Toca la cookie del aviso con **F12** (Application > Cookies): añade una letra al valor y comprueba que la página responde **200** sin aviso
 - Escribe en `ViewData` una clave que la vista no lee y comprueba que la página responde **200** con esa clave vacía; después intenta `@((int)ViewBag.Marcador)` con un texto y comprueba el **500**
 - Deja el `Keep` fijo y explica en un comentario por qué deja de ser un aviso
 - Escribe en el repositorio por qué los datos de un usuario no pueden vivir en la lista compartida
@@ -470,7 +470,7 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 | **HTTP sin estado** | Cada petición es un mundo; el recuerdo es un truco de la aplicación |
 | **`ViewData`** | Diccionario de objetos que muere con la vista actual |
 | **`ViewBag`** | Envoltorio `dynamic` del mismo almacén; no existe en el `PageModel` |
-| **`TempData`** | Aviso que cruza el redirect en una galleta y se borra al leerse |
+| **`TempData`** | Aviso que cruza el redirect en una cookie y se borra al leerse |
 | **`Peek` y `Keep`** | Leer sin consumir y conservar una petición más |
 | **`ModelState`** | Los errores del último envío, vive hasta la vista |
 | **Estado compartido** | Estáticos y `AddSingleton`: lo ven todas las peticiones |
@@ -484,4 +484,4 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 
 **¿Qué viene después?**
 
-En el siguiente punto toca el segundo truco de la tabla del apartado 17.1.3: cookies y sesión, el estado que viaja hasta el navegador y el que espera en el servidor con un identificador en la galleta.
+En el siguiente punto toca el segundo truco de la tabla del apartado 17.1.3: cookies y sesión, el estado que viaja hasta el navegador y el que espera en el servidor con un identificador en la cookie.
