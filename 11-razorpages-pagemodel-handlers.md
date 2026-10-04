@@ -389,7 +389,7 @@ Para el alta, añade una lista estática de nombres dados de alta en la sesión,
 | **`NotFound()` y `BadRequest()`** | **404** y **400** sin pasar por ninguna vista |
 | **PRG** | Post/Redirect/Get: guarda, redirige y evita el reenvío del formulario |
 | **`asp-page-handler`** | Convierte el nombre del handler en `?handler=Nombre` en la URL |
-| **Fallback del handler** | Un `?handler` inexistente cae en el por defecto del verbo, con **200** |
+| **Handler por defecto** | Un `?handler` inexistente cae en el por defecto del verbo, con **200** |
 | **Sufijo `Async`** | Convención de nombrado; el motor invoca igual `OnPostAsync` que `OnPost` |
 | **Token antiforgery** | El FormTagHelper lo inyecta solo; sin él, el POST da **400** |
 | **En el navegador** | `?handler=Actualizar` ejecuta su handler, `?accion=fuera` da **404** |
