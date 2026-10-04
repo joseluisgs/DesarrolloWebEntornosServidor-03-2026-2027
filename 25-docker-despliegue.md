@@ -13,7 +13,8 @@
     - [25.3.2. Datos Fuera del Contenedor](#2532-datos-fuera-del-contenedor)
   - [25.4. De la Imagen a la Nube](#254-de-la-imagen-a-la-nube)
     - [25.4.1. Registro, Servicio y Escala](#2541-registro-servicio-y-escala)
-    - [25.4.2. El Flujo Automatizado de Publicación](#2542-el-flujo-automatizado-de-publicación)
+    - [25.4.2. GitHub Actions: Quién Ejecuta las Órdenes](#2542-github-actions-quién-ejecuta-las-órdenes)
+    - [25.4.3. Despliegue en Servicios Concretos: Render y Otros](#2543-despliegue-en-servicios-concretos-render-y-otros)
   - [25.5. Reglas de Seguridad](#255-reglas-de-seguridad)
   - [25.6. Buenas Prácticas](#256-buenas-prácticas)
   - [25.7. Reto: El Despliegue de la Tienda de Funkos](#257-reto-el-despliegue-de-la-tienda-de-funkos)
@@ -28,14 +29,15 @@
 
 > 💡 **Punto de partida:** usas Spotify en el móvil y, sin aviso, la app se actualiza sola y sigue sonando exactamente igual; nadie ha reinstalado nada a mano y el servicio no se ha cortado. Tu aplicación, en cambio, solo vive en tu máquina: funciona porque tú tienes .NET instalado y la carpeta en su sitio. ¿Cómo se empaqueta una aplicación para que corra igual en cualquier máquina, qué contiene ese paquete y cómo se publica sin instalar nada en el servidor?
 
-En este punto aprenderás a llevar una aplicación desde tu carpeta hasta un servidor: qué entrega la publicación de .NET, qué es un contenedor, cómo se escribe un Dockerfile por fases, cómo se configura el contenedor con variables de entorno y por dónde sale la imagen hacia la nube. Todo practicado con la misma aplicación en las dos visiones.
+En este punto aprenderás a llevar una aplicación desde tu carpeta hasta un servidor: qué entrega la publicación de .NET, qué es un contenedor, cómo se escribe un Dockerfile por fases, cómo se configura el contenedor con variables de entorno, quién ejecuta las órdenes por ti con GitHub Actions y en qué servicios concretos acaba la imagen, como Render. Todo practicado con la misma aplicación en las dos visiones.
 
 **Objetivos de aprendizaje:**
 
 - Saber qué significa desplegar y qué entrega `dotnet publish`
 - Entender qué es una imagen y qué es un contenedor, y escribir un Dockerfile por fases
 - Construir, configurar y ejecutar la aplicación en un contenedor con variables de entorno
-- Conocer el camino de una imagen a la nube y el flujo automatizado de publicación
+- Escribir un flujo de GitHub Actions que pruebe antes de construir y publicar
+- Desplegar en un servicio gestionado como Render, con sus variables en el panel
 - Aplicar las reglas de seguridad del despliegue sin perder de vista las dos visiones
 
 ## 25.1. De la Máquina al Servidor
@@ -279,26 +281,100 @@ graph TD
 
 📌 **Ejemplo real:** GitHub, Docker Hub o Azure Container Registry son los almacenes de imágenes: una vez guardada, la imagen sale hacia cualquier servidor sin reconstruirse.
 
-### 25.4.2. El Flujo Automatizado de Publicación
+### 25.4.2. GitHub Actions: Quién Ejecuta las Órdenes
 
-**El flujo moderno de publicación encadena lo aprendido en los puntos anteriores: las pruebas del punto 24 aprueban, el Dockerfile construye y el registro recibe; nadie ejecuta órdenes a mano.**
+**GitHub Actions es el servicio de automatización de GitHub: los flujos se guardan como ficheros YAML dentro del repositorio y se ejecutan en servidores limpios cada vez que pasa algo, como un empujón a la rama principal.** El flujo de un proyecto real encadena lo que ya sabes hacer a mano: compilar, probar, construir la imagen y publicarla.
+
+```yaml
+# .github/workflows/despliegue.yml
+name: Despliegue
+
+on:
+  push:
+    branches: [main]
+
+env:
+  DOTNET_VERSION: '10.0.x'
+  IMAGEN: despliegueapp:1.0
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - run: dotnet restore
+      - run: dotnet build --no-restore --configuration Release
+      - run: dotnet test --configuration Release --no-build
+
+  publicar:
+    needs: pruebas
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USER }}
+          password: ${{ secrets.DOCKERHUB_PASS }}
+      - run: docker build -t ${{ env.IMAGEN }} .
+      - run: docker push ${{ env.IMAGEN }}
+```
+
+Cada pieza del fichero tiene su porqué:
+
+- **`on: push: branches: [main]`**: el flujo se dispara solo al llegar código a la rama principal
+- **Dos trabajos con `needs`**: el segundo no empieza si el primero falla; las pruebas mandan
+- **Acciones de GitHub**: `checkout` baja el código, `setup-dotnet` monta el marco y `docker/login-action` entra en el registro con credenciales
+- **`secrets`**: el usuario y la clave del registro viven en los secretos del repositorio, nunca en el fichero YAML
 
 ```mermaid
 graph LR
-    C["El codigo cambia"] --> P["Pruebas:<br/>NUnit y Playwright"]
-    P -->|todas en verde| B["docker build"]
-    B --> R["docker push<br/>al registro"]
-    R --> S["El servicio la despliega"]
-    P -->|alguna falla| N["No se publica nada"]
+    C["Empujas a main"] --> A["GitHub Actions<br/>lee tu YAML"]
+    A --> P["Trabajo pruebas:<br/>restore, build y test"]
+    P -->|"en verde"| D["Trabajo publicar:<br/>docker build y push"]
+    P -->|"en rojo"| N["Se corta:<br/>no se publica nada"]
+    D --> R["La imagen, en el registro"]
     style C fill:#2196F3,color:#fff
+    style A fill:#607D8B,color:#fff
     style P fill:#FF9800,color:#fff
-    style B fill:#9C27B0,color:#fff
-    style R fill:#607D8B,color:#fff
-    style S fill:#4CAF50,color:#fff
+    style D fill:#9C27B0,color:#fff
     style N fill:#f44336,color:#fff
+    style R fill:#4CAF50,color:#fff
 ```
 
+Las órdenes del flujo son exactamente las que has ejecutado a mano en este punto: `dotnet publish`, `docker build` y `docker push`. La única diferencia es el sitio donde se ejecutan: servidores limpios de GitHub que solo tienen lo que el propio flujo instala.
+
+> ⚠️ **Advertencia:** las pruebas de navegador con Playwright dentro de un flujo exigen instalar los navegadores con el script que genera el propio proyecto (`playwright.ps1 install chromium`); instalarlos por otra vía trae una versión que no cuadra con los paquetes y las pruebas fallan sin motivo aparente.
+
 📌 **Ejemplo real:** Netflix publica cientos de veces al día con un flujo automatizado: el código pasa sus pruebas y solo entonces se construye y se publica la imagen.
+
+### 25.4.3. Despliegue en Servicios Concretos: Render y Otros
+
+**Las plataformas de servicio gestionado hacen el último tramo: conectas tu repositorio, el servicio construye con tu Dockerfile y te devuelve una aplicación en internet con su dominio y su panel de variables.** El despliegue deja de ser una orden que tú ejecutas y pasa a ser algo que el servicio hace por ti.
+
+| Servicio | Desde dónde despliega | Variables de entorno | Dominio de prueba |
+|----------|----------------------|---------------------|-------------------|
+| **Render** | Repositorio de GitHub; usa tu `Dockerfile` si existe | Panel del servicio | `*.onrender.com` |
+| **Railway** | Repositorio o imagen; detecta .NET o Docker | Panel del proyecto | Dominio asignado o propio |
+| **Azure App Service** | Repositorio o contenedor | Ajustes de la aplicación | `*.azurewebsites.net` |
+| **Fly.io** | Imagen con su fichero `fly.toml` | Fichero y panel | Dominio del servicio |
+
+El camino en Render, que es el que se sigue en clase, tiene cinco pasos:
+
+1. **El código está en GitHub**, con su Dockerfile en la raíz
+2. **Creas un servicio web** y le apuntas tu repositorio
+3. **El servicio detecta el Dockerfile** y construye la imagen en su servidor
+4. **Las variables de entorno se pegan en el panel**, igual que las de tu `--env-file`
+5. **El servicio responde en su dominio** y cada empujón a `main` vuelve a desplegar
+
+> 💡 **Consejo:** los secretos van en el panel del servicio o en los secretos del flujo, nunca en el repositorio; la misma regla del punto 20, con otro sitio donde escribirlos.
+
+📌 **Ejemplo real:** Cualquier proyecto pequeño que quiera estar en internet hoy se publica en un servicio como Render: se conecta el repositorio y la aplicación está en un dominio con HTTPS sin tocar un servidor.
 
 ## 25.5. Reglas de Seguridad
 
@@ -309,6 +385,8 @@ graph LR
 - **HTTPS en el borde**: el contenedor escucha en interno y la terminación segura la pone el servicio o el balanceador
 - **Etiquetas de versión**: `:1.0` y no `:latest`, para saber siempre qué corre en cada sitio
 - **Sin herramientas de depuración en producción**: la imagen de ejecución no trae consola de desarrollo
+- **Credenciales del flujo en el gestor de GitHub**: el YAML solo nombra los secretos, nunca los contiene
+- **El registro con acceso mínimo**: la cuenta del flujo solo puede escribir en la imagen que toca
 
 ## 25.6. Buenas Prácticas
 
@@ -320,6 +398,9 @@ graph LR
 - **Comprobar con `curl` tras cada construcción**: la imagen nueva responde como la anterior
 - **Publicar lo probado**: la imagen sale del flujo de pruebas, no de la carpeta de nadie
 - **Versionar la imagen**: etiqueta con la versión de la aplicación, no solo con la fecha
+- **Flujo versionado**: el YAML vive en `.github/workflows` y se revisa como el resto del código
+- **Un flujo que no publica sin pruebas verdes**, con los trabajos encadenados por `needs`
+- **Las mismas órdenes a mano y en el flujo**: lo que pruebas en local es lo que publica GitHub
 
 ## 25.7. Reto: El Despliegue de la Tienda de Funkos
 
@@ -367,19 +448,22 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 5. Arranca el contenedor con `-p` y `-e`; comprueba con `curl` que responde en el puerto publicado y que muestra el valor de la variable
 6. Comprueba qué cambios exigen reconstruir la imagen (código, `.csproj`, Dockerfile) y cuáles no (variables de entorno, configuración externa)
 7. Revisa que la imagen de ejecución no contiene fuentes ni secretos; comprueba el tamaño de la imagen y anótalo
+8. Crea `.github/workflows/despliegue.yml` con dos trabajos encadenados por `needs`, pruebas y publicación; comprueba que las órdenes del YAML son las mismas que has ejecutado a mano
+9. Conecta tu repositorio a un servicio como Render; comprueba que el servicio construye con tu Dockerfile, que las variables del panel sustituyen a las tuyas y que la aplicación responde en su dominio
 
 **Visión Razor Pages:**
 
-8. El Dockerfile de tu `FunkoApp` con su `ENTRYPOINT` del proyecto de páginas; comprueba que el contenedor sirve la portada con la cesta en sesión
+10. El Dockerfile de tu `FunkoApp` con su `ENTRYPOINT` del proyecto de páginas; comprueba que el contenedor sirve la portada con la cesta en sesión
 
 **Visión MVC:**
 
-9. El mismo Dockerfile para `FunkoAppMvc` cambiando el `.csproj` y el ensamblado; comprueba que el contenedor sirve la portada con la misma configuración
+11. El mismo Dockerfile para `FunkoAppMvc` cambiando el `.csproj` y el ensamblado; comprueba que el contenedor sirve la portada con la misma configuración
 
 **Puntos extra:**
 
 - Añade un `HEALTHCHECK` al Dockerfile y comprueba con `docker ps` que el contenedor sale como sano
 - Publica la imagen en un registro y comprueba que otra máquina la baja y la arranca sin tener el código fuente
+- Guarda las credenciales del registro en los secretos de GitHub y comprueba que el flujo publica sin que aparezcan en el YAML
 - Escribe en el repositorio por qué el servidor no necesita tener .NET instalado si la imagen lo trae dentro
 
 ---
@@ -398,7 +482,10 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 | **Variables de entorno** | La configuración llega por fuera, con `-e` o `--env-file` |
 | **Volumen** | Los datos que duran se montan fuera del contenedor |
 | **Registro** | El almacén de imágenes por versión |
-| **Comprobado** | `dotnet publish` deja 0,2 MB en 9 ficheros, la carpeta publicada responde en Production con `MENSAJE-PROD` y con `MENSAJE-ENV` cuando la variable de entorno lo cambia, el contenedor construido con el Dockerfile por fases responde en su puerto con `MENSAJE-DOCKER` y la imagen pesa 230 MB, todo con la misma aplicación |
+| **GitHub Actions** | Flujos YAML en el repositorio que compilan, prueban y publican solos |
+| **Secretos del flujo** | Credenciales guardadas en GitHub, nombradas en el YAML |
+| **Servicio gestionado** | Plataforma como Render: conectas el repositorio y despliega por ti |
+| **Comprobado** | `dotnet publish` deja 0,2 MB en 9 ficheros, la carpeta publicada responde en Production con `MENSAJE-PROD` y con `MENSAJE-ENV` cuando la variable de entorno lo cambia, el contenedor construido con el Dockerfile por fases responde en su puerto con `MENSAJE-DOCKER` y la imagen pesa 230 MB, el flujo de GitHub Actions encadena las mismas órdenes medidas con las pruebas antes de publicar, y las plataformas como Render construyen con el mismo Dockerfile y reciben las variables por su panel |
 
 **¿Qué viene después?**
 
