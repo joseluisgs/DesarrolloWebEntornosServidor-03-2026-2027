@@ -32,9 +32,9 @@
 
 # 20. Configuración de la Aplicación Web
 
-> 💡 **Punto de partida:** subes tu proyecto al servidor del centro y, de repente, la aplicación busca la base de datos en un sitio que no existe: en tu máquina apuntaba a una de mentira y allí sigue buscando. El código es idéntico al que funcionaba — lo que cambió fue dónde mira cada valor. WordPress guarda esa decisión en su `wp-config.php` y las plataformas serias en ficheros por entorno. ¿Dónde se guarda la configuración de una aplicación web, en qué orden se leen las fuentes que la contienen y cómo se hace para que el mismo programa se comporte distinto según dónde corra?
+> 💡 **Punto de partida:** Abres Netflix en el móvil de tu primo y, en su catálogo, hay una serie que en el tuyo no aparece. El programa que sirve las dos peticiones es el mismo — lo que cambia es la configuración con la que arranca cada servidor. Le pasa a Amazon, que enseña un precio u otro según el país y la cuenta. Y le pasará a tu proyecto en cuanto lo subas al servidor del centro: el código será idéntico, pero la base de datos, el correo y las rutas tienen que mirar a otro sitio, y si nadie lo dice, todo sigue buscando donde estaba en tu máquina. ¿Dónde se guarda esa configuración, en qué orden se leen las fuentes que la contienen y cómo se hace para que el mismo programa se comporte distinto según dónde corra?
 
-En este tema montas la configuración completa de una aplicación: el fichero base y sus variantes por entorno, las fuentes que lo superponen, el patrón de opciones con `IOptions<T>`, la carpeta `Infrastructure` que mantiene el `Program.cs` legible, y los secretos que no pueden pisar un repositorio. Todo se hace en las dos visiones y con las mismas medidas en las dos.
+En este tema montas la configuración completa de una aplicación: el fichero base y sus variantes por entorno, las fuentes que lo superponen, el patrón de opciones con `IOptions<T>`, la carpeta `Infrastructure` que mantiene el `Program.cs` legible, y los secretos que no pueden pisar un repositorio. Todo se hace en las dos visiones y con los mismos resultados en las dos.
 
 **Objetivos de aprendizaje:**
 
