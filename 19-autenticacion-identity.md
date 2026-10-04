@@ -3,6 +3,8 @@
     - [19.1.1. Autenticarse y Autorizarse](#1911-autenticarse-y-autorizarse)
     - [19.1.2. Claims: el Pasaporte Digital](#1912-claims-el-pasaporte-digital)
     - [19.1.3. Qué Viaja en la Cookie de Identidad](#1913-qué-viaja-en-la-cookie-de-identidad)
+    - [19.1.4. Por Debajo de la Cookie de Identidad](#1914-por-debajo-de-la-cookie-de-identidad)
+    - [19.1.5. Identidad y Sesión: Las Dos Cookies](#1915-identidad-y-sesión-las-dos-cookies)
   - [19.2. ASP.NET Core Identity: el Framework Oficial](#192-aspnet-core-identity-el-framework-oficial)
     - [19.2.1. Qué es y Qué Aporta](#1921-qué-es-y-qué-aporta)
     - [19.2.2. Modelos y Contexto de Datos](#1922-modelos-y-contexto-de-datos)
@@ -94,6 +96,8 @@ var usuario = new ClaimsPrincipal(identidad);
 
 Las vistas lo tienen preparado en `User`: `@User.Identity?.Name` pinta el correo con el que entraste y `@User.IsInRole("Admin")` devuelve `true` solo si el claim de rol lo dice. Tras un acceso correcto, la zona privada pinta `ana@prueba.com`; el mismo formulario con la clave equivocada no llega a pintar nada de eso.
 
+Cada petición vuelve a montar esa identidad desde cero con lo que trae la cookie, sin dejar nada propio en el servidor. Por eso el correo o el rol que aparecen en la vista son los que venían escritos en la carga, y un cambio de datos solo se refleja cuando se emite la cookie siguiente.
+
 ### 19.1.3. Qué Viaja en la Cookie de Identidad
 
 Identity se apoya en las cookies del punto 18: el servidor crea la identidad y devuelve una cookie de autenticación; las peticiones siguientes la llevan y el servidor reconstruye el `ClaimsPrincipal` antes de que la acción o la página empiecen a trabajar. Por eso una zona protegida sabe quién eres sin preguntártelo en cada petición.
@@ -113,6 +117,80 @@ sequenceDiagram
 ```
 
 La cookie de identidad nace cifrada y con `HttpOnly`: quien la manipula desde el navegador deja de coincidir con la firma y el servidor la ignora. Ese es el mismo truco que ya viste guardando datos en el cliente — la diferencia es que aquí viaja la respuesta a "quién eres".
+
+El servidor no lleva ninguna lista de quién ha entrado: no hay una colección de identidades esperando en memoria. Cada petición trae su propia prueba y el servidor la revisa al pasar, sin guardar nada de nadie entre petición y petición.
+
+### 19.1.4. Por Debajo de la Cookie de Identidad
+
+**El valor que viaja en la cookie no es texto: es una carga protegida con las claves del servidor.** La cookie de identidad sale con unos 750 caracteres, con `path=/`, `SameSite=Lax` y `HttpOnly`, y sin fecha de caducidad, así que muere al cerrar el navegador. Si le cambias un solo carácter, el servidor deja de aceptarla.
+
+Ese desproteger y montar la identidad pasa en cada petición, antes de que tu código se entere:
+
+```mermaid
+sequenceDiagram
+    participant N as Navegador
+    participant S as Servidor
+    participant H as UseAuthentication
+    Note over N,H: Una peticion a la zona privada
+    N->>S: GET /protegida + Cookie de identidad
+    S->>H: El esquema de cookies coge el valor
+    alt la carga se desprotege bien
+        H->>H: Reconstruye el ClaimsPrincipal
+        H->>S: HttpContext.User queda montado
+        S-->>N: 200 con la vista
+    else valor tocado o caducado
+        H->>S: User sigue anonimo
+        S-->>N: 302 a /Account/Login
+    end
+```
+
+Dentro de esa carga lo que hay lo ha escrito el servidor: tus claims (nombre, identificador y roles), cuándo se emitió esa identidad y hasta cuándo vale, y el sello de seguridad del usuario. El navegador solo guarda el papel sellado y lo devuelve tal cual en la cabecera `Cookie`; quien lo abre y lo comprueba es el servidor. Por eso mirar la cookie con **F12** no sirve para añadirse un rol: lo que ves ahí es una secuencia de caracteres que no puedes editar a tu favor.
+
+Tres piezas de este proceso no aparecen en tu código y deciden igual:
+
+- **El `302` a `/Account/Login` no lo escribes tú**: lo emite el esquema de cookies con su `LoginPath` de fábrica; lo mismo con el `302` a `/Account/AccessDenied`
+- **Las claves de protección viven en el servidor**: si la aplicación corre en varias máquinas, las claves se guardan en un sitio común, o la cookie emitida por una máquina no la acepta otra
+- **La identidad lleva su sello de seguridad dentro**: de fábrica el servidor lo revisa cada 30 minutos, y si cambias la clave o echas al usuario, las cookies emitidas antes dejan de valer
+
+> 💡 **Analogía:** es una entrada de concierto con holograma. El papel no dice quién eres: lo dicen el sello y la tinta del organizador. Quien rehaga la entrada con bolígrafo no pasa el control, y es justo lo que ocurre con un valor tocado.
+
+### 19.1.5. Identidad y Sesión: Las Dos Cookies
+
+**La identidad y la sesión son paralelas, no alternativas: cada una responde a una pregunta distinta y las dos pueden viajar juntas.** Identity ni siquiera necesita la sesión para funcionar: se apoya en su propia cookie.
+
+```mermaid
+graph TD
+    P["Una peticion tuya con las dos cookies"] --> CI["Cookie de identidad<br/>quien eres y tus roles"]
+    P --> CS["Cookie de sesion<br/>donde estan tus datos"]
+    CI --> U["HttpContext.User<br/>ClaimsPrincipal montado"]
+    CS --> D["HttpContext.Session<br/>cesta y visitas cargadas"]
+    U --> R["La vista se pinta<br/>con tu nombre y tus datos"]
+    D --> R
+    style P fill:#2196F3,color:#fff
+    style CI fill:#9C27B0,color:#fff
+    style CS fill:#FF9800,color:#fff
+    style U fill:#607D8B,color:#fff
+    style D fill:#607D8B,color:#fff
+    style R fill:#4CAF50,color:#fff
+```
+
+Las dos se distinguen por su nombre y por lo que pasa cuando una falta o alguien toca su valor:
+
+| | Cookie de identidad | Cookie de sesión |
+|--|---------------------|------------------|
+| **Nombre** | `.AspNetCore.Identity.Application` | `.AspNetCore.Session` |
+| **Qué lleva** | Tus claims protegidos (unos 750 caracteres) | Un identificador protegido (unos 180) |
+| **Nace** | Al entrar con `PasswordSignInAsync` o `SignInAsync` | Al escribir por primera vez en la sesión |
+| **Quién la interpreta** | El esquema de autenticación en `UseAuthentication` | El middleware `UseSession` |
+| **Si le falta a la petición** | **302** al acceso: no saben quién eres | Los datos no existen, pero sigues identificado |
+| **Si le cambias el valor** | **302** al acceso: la carga ya no valida | Datos nuevos: el contador de visitas vuelve a `1` |
+| **Para qué** | Quién eres y qué rol traes | Tu cesta, tus visitas y tu progreso |
+
+La comprobación con la misma petición a la zona privada, en las dos visiones: solo con la cookie de identidad entra (**200**); con la de sesión sola no entra (**302**); con ninguna, tampoco (**302**). Y al revés funciona igual: sin sesión, la identidad sigue su curso, porque `SignInManager` escribe su propia cookie y no pide permiso a nadie.
+
+📌 **Ejemplo real:** Una tienda que te saluda con tu nombre y además recuerda tu carrito abierto usa las dos a la vez: la identidad pone el saludo y la sesión guarda el carrito.
+
+> 📝 **Nota:** en una web con Identity hay una tercera cookie en juego: la antifalsificación que el formulario de acceso emite en su GET (`.AspNetCore.Antiforgery.*`). Protege los `POST` y no dice nada de quién eres.
 
 ## 19.2. ASP.NET Core Identity: el Framework Oficial
 
@@ -150,6 +228,8 @@ Lo que aporta sobre una autenticación propia:
 | **Roles** | La relación usuario-rol con sus tablas |
 | **Tokens** | Correo de confirmación y recuperación de clave |
 
+Detrás de esa tabla, `AddIdentity` hace el montaje entero en el arranque de la aplicación: registra los dos gestores, les pone almacén, hash de claves, esquema de cookie con su ruta de acceso y proveedores de token. Tus páginas y tus controladores no ensamblan nada: piden el gestor que necesitan y devuelven el resultado que les devuelve.
+
 ### 19.2.2. Modelos y Contexto de Datos
 
 Con `IdentityUser` no hace falta definir entidad de usuario: la clase oficial ya trae correo, hash de clave, sello de seguridad y las marcas de bloqueo. Para añadir campos propios se hereda de ella:
@@ -186,6 +266,8 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
 
 Si la identidad y los datos de negocio comparten `DbContext`, hay que dejar una sola clase y registrarla una vez: dos contextos para la misma base dan nombres de tabla y migraciones en guerra.
 
+Los gestores no hablan de tablas ni de Entity Framework: hablan con interfaces de almacén, `IUserStore` para usuarios y `IRoleStore` para roles. Lo que hace `AddEntityFrameworkStores` es enchufar las implementaciones que trabajan sobre tu `AppDbContext`, de modo que cada `CreateAsync` o `FindByEmailAsync` acabe en una consulta a las tablas de arriba. Si algún día cambias la base de datos, tocas el almacén y lo demás, gestores, páginas y controladores, sigue pidiendo exactamente lo mismo.
+
 ### 19.2.3. Configuración en Program.cs
 
 Identity se monta en tres piezas: el contexto de datos, el servicio con sus políticas y el conducto de peticiones.
@@ -214,11 +296,28 @@ app.UseAuthentication();   // primero se identifica
 app.UseAuthorization();    // después se decide qué puede
 ```
 
+Ese orden es el conducto por el que pasa cada petición, y en cada tramo ocurre una cosa:
+
+```mermaid
+graph LR
+    P["Peticion entrante"] --> R["UseRouting<br/>que ruta es"]
+    R --> A["UseAuthentication<br/>desprotege la cookie"]
+    A --> U["HttpContext.User<br/>con tus claims"]
+    U --> Z["UseAuthorization<br/>evalua el atributo"]
+    Z --> F["Tu pagina o tu accion<br/>ya no pregunta nada"]
+    style P fill:#2196F3,color:#fff
+    style R fill:#607D8B,color:#fff
+    style A fill:#FF9800,color:#fff
+    style U fill:#9C27B0,color:#fff
+    style Z fill:#607D8B,color:#fff
+    style F fill:#4CAF50,color:#fff
+```
+
 Cada bloque tiene su porqué:
 
 - **`AddIdentity`** registra los gestores y su cookie de identidad; las opciones de `Password`, `Lockout` y `User` son la política de la casa: la clave "123" ni llega a la base y Identity contesta con su propio mensaje, `Passwords must be at least 8 characters.`, que aparece en el resumen del formulario con **200**.
 - **`AddEntityFrameworkStores`** ata los gestores a tu contexto; **`AddDefaultTokenProviders`** habilita los tokens para confirmar correos y recuperar claves.
-- **`UseAuthentication` antes de `UseAuthorization`** no es una preferencia: si la identidad se reconstruye después de decidir, todas las rutas se evalúan como anónimas.
+- **`UseAuthentication` antes de `UseAuthorization`** no es una preferencia: es quien coge la cookie de identidad de la cabecera, la desprotege y monta `HttpContext.User`; si la identidad se reconstruye después de decidir, o no se reconstruye, todas las rutas se evalúan como anónimas.
 
 > ⚠️ **Advertencia:** un `[Authorize]` sin `UseAuthentication` en el conducto no identifica a nadie; el orden de los middlewares es parte de la configuración de seguridad.
 
@@ -361,6 +460,8 @@ El alta es la misma que en Pages, con `CreateAsync` y sus errores al `ModelState
 
 > 📝 **Nota:** cambian el sitio donde escribes las cosas, no las cosas: los dos gestores, sus resultados y sus errores son los mismos en las dos visiones.
 
+El recorrido completo cabe en cinco pasos: el formulario pide su token, el servidor valida las credenciales contra el hash de la clave, `SignInManager` escribe la cookie de identidad y responde con un `302`, el navegador devuelve la cookie en cada petición siguiente, y `UseAuthentication` la desprotege en cada una para montar `User`. Las dos visiones recorren los mismos cinco pasos; cambia quién recibe la petición, una página o una acción, no el conducto.
+
 ### 19.2.7. Cerrar la Sesión
 
 **Salir es una sola llamada: `SignInManager.SignOutAsync()` borra la cookie de identidad.** En Pages va en un `OnPostAsync` de la página de salida:
@@ -389,6 +490,8 @@ public async Task<IActionResult> Salir()
 
 El resultado se ve en la siguiente petición: quien cierra sesión recibe **302** de vuelta al acceso y, si después pide la zona privada de nuevo, responde **302** con `Location: /Account/Login?ReturnUrl=%2Fprotegida`, igual que si nunca hubiera entrado. La cookie no avisa de nada — desaparece y la petición siguiente llega anónima.
 
+Salir no vacía, además, la sesión de la aplicación: `SignOutAsync` se lleva la cookie de identidad y solo esa. La cookie de sesión se queda en el navegador con sus datos dentro, y las visitas siguen sumando después de salir hasta que la inactividad las caduca. Si la aplicación usa sesión, la salida se monta en dos tiempos: primero la identidad con `SignOutAsync` y después los datos con `HttpContext.Session.Clear()`. Salir solo de la identidad deja el carrito de antes abierto en el mismo navegador.
+
 > 📝 **Nota:** el token antifalsificación va ligado a la identidad de quien lo pidió: el que se emite en el formulario de acceso deja de valer en cuanto entras, y un cierre de sesión montado a mano con ese token viejo responde **400**. Si pides el token de nuevo en el formulario de salida, se cierra sin ruido.
 
 ## 19.3. Autorización: Qué Puede Ver Cada Uno
@@ -414,6 +517,8 @@ app.UseAuthentication();
 app.UseAuthentication();
 app.UseAuthorization();
 ```
+
+Las dos líneas cambian el resultado de la misma petición. Si la llega sin identidad, el esquema de cookies lanza su `Challenge` y redirige a `/Account/Login`; si llega identificada pero sin el permiso que pide el atributo, la autorización lanza su `Forbid` y el esquema la manda a `/Account/AccessDenied`. Ninguna de las dos salidas pasa por tu código, y por eso el orden de arriba no admite discusión.
 
 ### 19.3.2. Visión Razor Pages: Atributos y Convenciones
 
@@ -589,6 +694,8 @@ La política vive en `AddIdentity` y se hace valer en el alta: la clave `123` de
 
 Junto a la política de claves va el bloqueo por intentos: `MaxFailedAccessAttempts = 5` con `DefaultLockoutTimeSpan = 5 minutos` cierra el paso a quien prueba claves a la carrera, que es la diferencia entre un despiste y un ataque de fuerza bruta.
 
+Comprobar la clave no significa deshacer el hash: no hay operación inversa. El servidor vuelve a calcular el hash de lo que acabas de escribir y compara los dos; si coinciden, entras, y si no, la puerta sigue cerrada.
+
 > ⚠️ **Advertencia:** el aviso de acceso fallido debe ser genérico. Decir "ese correo no existe" o "esa clave no coincide" le ahorra trabajo al atacante, porque ya sabe cuál de los dos datos es el bueno.
 
 📌 **Ejemplo real:** LinkedIn. Cuando en 2012 se filtraron las contraseñas de sus usuarios, lo que circuló fue un listado de hashes: para reventar cada una hubo que adivinarla una a una.
@@ -612,6 +719,8 @@ La defensa es el token antifalsificación, un secreto que el servidor emite en e
 
 - **Razor Pages**: el `<form>` de Tag Helper escribe el token solo y la página lo valida en el posteo
 - **MVC**: el token viaja igual en el formulario y la acción lo declara con `[ValidateAntiForgeryToken]`
+
+El token funciona porque una web ajena no puede leerlo: la política del mismo origen le impide abrir tu página, mirar el formulario y copiar el valor. Solo quien carga tu formulario de verdad puede devolverlo en el envío.
 
 📌 **Ejemplo real:** Un banco online no acepta transferencias por cualquier enlace: exige un segundo factor que el navegador no puede mandar solo. El token antifalsificación es la versión mínima de esa misma idea.
 

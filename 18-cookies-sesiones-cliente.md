@@ -12,7 +12,8 @@
     - [18.2.4. Escribir y Leer Datos](#1824-escribir-y-leer-datos)
     - [18.2.5. Objetos Completos con JSON](#1825-objetos-completos-con-json)
     - [18.2.6. La Sesión en las Dos Visiones](#1826-la-sesión-en-las-dos-visiones)
-    - [18.2.7. Sesiones Distribuidas (Redis)](#1827-sesiones-distribuidas-redis)
+    - [18.2.7. Por Dentro de la Sesión](#1827-por-dentro-de-la-sesión)
+    - [18.2.8. Sesiones Distribuidas (Redis)](#1828-sesiones-distribuidas-redis)
   - [18.3. Cookies o Sesión: Cómo Elegir](#183-cookies-o-sesión-cómo-elegir)
   - [18.4. Almacenamiento en el Cliente: localStorage](#184-almacenamiento-en-el-cliente-localstorage)
   - [18.5. Reglas de Seguridad](#185-reglas-de-seguridad)
@@ -66,6 +67,21 @@ sequenceDiagram
     N->>S: GET /catalogo (Cookie: tema=oscuro)
     Note left of S: Request.Cookies lee el tema<br/>y pinta el catalogo oscuro
     S-->>N: 200 OK
+```
+
+El navegador, además, no las guarda todas en el mismo sitio: sin fecha de caducidad viven en memoria y mueren con el navegador; con `Expires` se escriben en el disco del equipo y sobreviven a cerrarlo.
+
+```mermaid
+graph TD
+    S["El servidor escribe<br/>Response.Cookies.Append"] -->|Set-Cookie en la respuesta| N["El navegador las guarda<br/>por dominio"]
+    N --> M["Sin Expires: en memoria<br/>mueren al cerrar el navegador"]
+    N --> D["Con Expires: en disco<br/>viven hasta su fecha"]
+    M -->|Cookie: en cada peticion| S
+    D -->|Cookie: en cada peticion| S
+    style S fill:#2196F3,color:#fff
+    style N fill:#607D8B,color:#fff
+    style M fill:#FF9800,color:#fff
+    style D fill:#9C27B0,color:#fff
 ```
 
 ### 18.1.2. Ciclo de Vida: Escribir, Leer y Borrar
@@ -277,10 +293,11 @@ La cabecera de esa cookie es siempre la misma en las dos visiones y en ambos pro
 Set-Cookie: .AspNetCore.Session=CfDJ8L67p8Wi4htHqtY2m8i...; path=/; samesite=lax; httponly
 ```
 
-Tres consecuencias se deducen de esa línea:
+Cuatro consecuencias se deducen de esa línea:
 
 - **Dentro no hay datos**, solo un identificador cifrado; el valor entero es opaco y corto, la cesta y los contadores viven en el servidor.
 - **Sin cookie no hay sesión**: si el navegador no la manda, el servidor no reconoce a nadie y monta datos nuevos; por eso, cuando la cookie caduca, el contador de visitas vuelve a empezar en `1`.
+- **Si cambias un carácter del valor**, el servidor no encuentra datos detrás de esa llave y monta otra sesión nueva: el contador vuelve a empezar en `1`, como si te hubieran dado una llave de taquilla que no es de ningún casillero.
 - **Viene marcada como `HttpOnly` y `SameSite=Lax`**; no lleva `secure` por defecto, ni siquiera cuando la petición llega por HTTPS, así que esa marca hay que pedirla en la configuración.
 
 ### 18.2.3. Configuración en Program.cs
@@ -426,7 +443,34 @@ El reparto hasta la vista también sigue el patrón del punto 17: en página, pr
 | **A la vista** | Propiedades del modelo | `ViewBag` o modelo |
 | **Configuración** | Misma en `Program.cs` | Misma en `Program.cs` |
 
-### 18.2.7. Sesiones Distribuidas (Redis)
+### 18.2.7. Por Dentro de la Sesión
+
+**La sesión se monta sobre un middleware que trabaja en los dos bordes de tu código: carga antes y guarda después.** Ese es todo el truco; tú solo llamas a `SetString` y `GetString`.
+
+```mermaid
+graph TD
+    P["Peticion entrante"] --> R["UseRouting<br/>resuelve la ruta"]
+    R --> C["UseSession: lee la cookie<br/>y trae los datos del almacen"]
+    C --> T["Tu pagina o tu accion<br/>lee y escribe con HttpContext.Session"]
+    T --> G["Al terminar la peticion,<br/>la sesion se guarda sola"]
+    G --> S["Respuesta al navegador"]
+    style P fill:#2196F3,color:#fff
+    style R fill:#607D8B,color:#fff
+    style C fill:#FF9800,color:#fff
+    style T fill:#4CAF50,color:#fff
+    style G fill:#9C27B0,color:#fff
+    style S fill:#607D8B,color:#fff
+```
+
+Tres consecuencias prácticas de ese esquema:
+
+- **Se carga una sola vez por petición**: el middleware lee la cookie al principio y trae el bloque entero; no hay una consulta al almacén por cada `GetString`
+- **Se guarda al salir**: si escribes algo durante la petición, el middleware lo graba cuando tu código ya ha terminado, así que no existe ningún `Save` que llamar
+- **Sin `UseSession` no hay sesión**: `HttpContext.Session` no tiene nada detrás y la llamada lanza una excepción en cuanto la tocas, en lugar de devolver un valor
+
+> 💡 **Consejo:** el conducto se lee de arriba abajo: `UseRouting` decide la ruta, `UseSession` trae los datos y después entra tu código. Si al tocar `HttpContext.Session` te sale una excepción, el tramo que falta está justo ahí.
+
+### 18.2.8. Sesiones Distribuidas (Redis)
 
 **El almacén de `AddDistributedMemoryCache` vive en la memoria de un solo servidor.** Con una sola instancia no pasa nada, pero en cuanto la aplicación se publica con varias copias detrás de un equilibrador de carga, cada copia guarda sus propias sesiones: el visitante cambia de copia entre petición y petición y su cesta desaparece.
 
@@ -471,6 +515,24 @@ graph TD
     style L fill:#4CAF50,color:#fff
 ```
 
+La sesión, además, no compite con la cookie: se apoya en ella. Sin cookie no hay sesión posible, porque el servidor solo recibe peticiones anónimas y no sabe a qué datos ir. Lo que cambia de una a otra es quién se queda con el peso: el dato entero viaja en la cookie y en la sesión solo va la llave.
+
+```mermaid
+graph TD
+    N["El navegador manda<br/>en cada peticion"] --> C1["Cookie de preferencias<br/>con el dato entero"]
+    N --> C2["Cookie de sesion<br/>solo el identificador"]
+    C1 --> L1["El servidor la lee<br/>y ya sabe tu tema"]
+    C2 --> L2["El servidor busca los datos<br/>detras de esa llave"]
+    L1 --> R["La respuesta sale<br/>montada con las dos"]
+    L2 --> R
+    style N fill:#2196F3,color:#fff
+    style C1 fill:#FF9800,color:#fff
+    style C2 fill:#9C27B0,color:#fff
+    style L1 fill:#607D8B,color:#fff
+    style L2 fill:#607D8B,color:#fff
+    style R fill:#4CAF50,color:#fff
+```
+
 La regla que se repite en la práctica: si el dato le pertenece a una cuenta va a la sesión — si es una preferencia que debe sobrevivir a cerrar el navegador, va a una cookie; y si solo lo usa el código de la propia página, no hace falta que viaje nada.
 
 📌 **Ejemplo real:** Booking guarda en cookies el idioma y las fechas de tu búsqueda para enseñártelas otra vez la semana que viene, y en sesión el carrito y el usuario que ha iniciado sesión.
@@ -484,6 +546,8 @@ Hay un tercer sitio donde poner datos — y este sí vive enteramente en el nave
 localStorage.setItem("tema", "oscuro");
 const tema = localStorage.getItem("tema");
 ```
+
+Por debajo, el navegador lo guarda como ficheros por origen en el perfil del equipo: no está cifrado, no caduca y no viaja en ninguna cabecera; solo el JavaScript de esa página lo toca.
 
 📌 **Ejemplo real:** Spotify Web guarda en `localStorage` el nivel de volumen del reproductor; subes el volumen, recargas y sigue igual, sin cookie y sin sesión por medio.
 
