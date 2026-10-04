@@ -459,7 +459,7 @@ graph LR
     UD01 -.->|HTTP, arquitecturas y C#| UD02
     UD02 -.->|servicios, EF Core y configuración| UD03
     UD03 -.->|Razor, MVC, páginas y despliegue| UD04
-    UD04 -.->|componentes e interacción con JavaScript| UD05
+    UD04 -.->|componentes e interacción en la web| UD05
 
     style UD01 fill:#4CAF50,color:#fff
     style UD02 fill:#2196F3,color:#fff
