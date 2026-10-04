@@ -1,30 +1,30 @@
-- [6. Tag Helpers: Controles en el Servidor](#6-tag-helpers-controles-en-el-servidor)
-  - [6.1. Qué es un Tag Helper](#61-qué-es-un-tag-helper)
-    - [6.1.1. HTML que Decide el Servidor](#611-html-que-decide-el-servidor)
-    - [6.1.2. Del Origen al Navegador](#612-del-origen-al-navegador)
-  - [6.2. Enlaces Dinámicos con asp-page](#62-enlaces-dinámicos-con-asp-page)
-    - [6.2.1. Enlaces a Otras Páginas](#621-enlaces-a-otras-páginas)
-    - [6.2.2. Parámetros de Ruta](#622-parámetros-de-ruta)
-  - [6.3. Recursos Estáticos y la Huella](#63-recursos-estáticos-y-la-huella)
-    - [6.3.1. La Ruta del Proyecto](#631-la-ruta-del-proyecto)
-    - [6.3.2. Huella en el Nombre del Fichero](#632-huella-en-el-nombre-del-fichero)
+- [6. Tag Helpers: controles en el servidor](#6-tag-helpers-controles-en-el-servidor)
+  - [6.1. Qué es un tag helper](#61-qué-es-un-tag-helper)
+    - [6.1.1. HTML que decide el servidor](#611-html-que-decide-el-servidor)
+    - [6.1.2. Del origen al navegador](#612-del-origen-al-navegador)
+  - [6.2. Enlaces dinámicos con asp-page](#62-enlaces-dinámicos-con-asp-page)
+    - [6.2.1. Enlaces a otras páginas](#621-enlaces-a-otras-páginas)
+    - [6.2.2. Parámetros de ruta](#622-parámetros-de-ruta)
+  - [6.3. Recursos estáticos y la huella](#63-recursos-estáticos-y-la-huella)
+    - [6.3.1. La ruta del proyecto](#631-la-ruta-del-proyecto)
+    - [6.3.2. Huella en el nombre del fichero](#632-huella-en-el-nombre-del-fichero)
     - [6.3.3. asp-append-version](#633-asp-append-version)
-  - [6.4. Etiquetas Condicionales](#64-etiquetas-condicionales)
-    - [6.4.1. La Etiqueta cache](#641-la-etiqueta-cache)
-    - [6.4.2. La Etiqueta environment](#642-la-etiqueta-environment)
-  - [6.5. Crear tu Propio Tag Helper](#65-crear-tu-propio-tag-helper)
-    - [6.5.1. La Clase y el Atributo](#651-la-clase-y-el-atributo)
-    - [6.5.2. El Proceso de Transformación](#652-el-proceso-de-transformación)
-    - [6.5.3. La Trampa del TagMode](#653-la-trampa-del-tagmode)
-    - [6.5.4. Dos Formas de Engancharse](#654-dos-formas-de-engancharse)
-  - [6.6. Buenas Prácticas](#66-buenas-prácticas)
-  - [6.7. Reto: Controles de servidor en FunkoApp con Tag Helpers](#67-reto-controles-de-servidor-en-funkoapp-con-tag-helpers)
+  - [6.4. Etiquetas condicionales](#64-etiquetas-condicionales)
+    - [6.4.1. La etiqueta cache](#641-la-etiqueta-cache)
+    - [6.4.2. La etiqueta environment](#642-la-etiqueta-environment)
+  - [6.5. Crear tu propio tag helper](#65-crear-tu-propio-tag-helper)
+    - [6.5.1. La clase y el atributo](#651-la-clase-y-el-atributo)
+    - [6.5.2. El proceso de transformación](#652-el-proceso-de-transformación)
+    - [6.5.3. La trampa del TagMode](#653-la-trampa-del-tagmode)
+    - [6.5.4. Dos formas de engancharse](#654-dos-formas-de-engancharse)
+  - [6.6. Buenas prácticas](#66-buenas-prácticas)
+  - [6.7. Reto: controles de servidor en FunkoApp con Tag Helpers](#67-reto-controles-de-servidor-en-funkoapp-con-tag-helpers)
     - [6.7.1. Contexto](#671-contexto)
     - [6.7.2. Retos](#672-retos)
 
 
 
-# 6. Tag Helpers: Controles en el Servidor
+# 6. Tag Helpers: controles en el servidor
 
 > 💡 **Punto de partida:** Cuando navegas por Booking y pasas el ratón por un enlace de hotel, la URL que ves no la escribió nadie a mano: el servidor la calculó en el momento de pintar la página, y si mañana cambia el patrón de direcciones, el enlace se arregla solo. Los Tag Helpers son ese servidor dentro de la etiqueta: las escribes como HTML y el servidor las transforma antes de mandarlas al navegador.
 
@@ -40,9 +40,9 @@ En este punto conocerás los Tag Helpers: etiquetas que escribes como HTML pero 
 
 > 📝 **Nota:** seguimos en ProductosApp, sin base de datos y sin controladores. Los Tag Helpers que usamos no necesitan modelo: por eso pueden ir en este punto y no más adelante.
 
-## 6.1. Qué es un Tag Helper
+## 6.1. Qué es un tag helper
 
-### 6.1.1. HTML que Decide el Servidor
+### 6.1.1. HTML que decide el servidor
 
 Un Tag Helper es una **clase C#** que se asocia a una etiqueta HTML. Cuando el servidor pinta la página, esa etiqueta se reescribe: cambia, desaparece, gana atributos o cambia de contenido.
 
@@ -55,13 +55,13 @@ graph LR
     E["Etiqueta normal<br/>&lt;span class=...&gt;"] --> F["El servidor<br/>NO la toca"]
     F --> G["Misma etiqueta<br/>al navegador"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#2196F3,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#4CAF50,color:#fff
-    style E fill:#FF9800,color:#fff
-    style F fill:#FF9800,color:#fff
-    style G fill:#FF9800,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
+    style E fill:#FF980,color:#fff0,color:#fff
+    style F fill:#FF980,color:#fff0,color:#fff
+    style G fill:#FF980,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Instagram no escribe en su HTML *"esta foto tiene 1.204 likes"*. Alguien decide eso en el servidor antes de mandar la página. Un Tag Helper hace lo mismo, pero a nivel de etiqueta: el servidor decide qué etiqueta sale y con qué.
@@ -76,7 +76,7 @@ La diferencia con lo que ya sabes:
 
 > 💡 **Analogía:** Un Tag Helper es una etiqueta con instrucciones al reverso. Por delante se lee como HTML; por detrás dice *"cuando me imprimas, conviérteme en esto otro"*. Quien lo convierte es la imprenta (el servidor), no el lector (el navegador).
 
-### 6.1.2. Del Origen al Navegador
+### 6.1.2. Del origen al navegador
 
 Es fundamental entender que el navegador nunca ve el Tag Helper: solo ve el resultado.
 
@@ -91,9 +91,9 @@ Es fundamental entender que el navegador nunca ve el Tag Helper: solo ve el resu
 
 > ⚠️ **Advertencia:** Si una etiqueta especial sale literalmente en el navegador, no la ha reconocido el servidor. Casi siempre es porque **falta `@addTagHelper`** en `_ViewImports.cshtml`. Ese error lo viste en el apartado 5.5 y se repite aquí.
 
-## 6.2. Enlaces Dinámicos con asp-page
+## 6.2. Enlaces dinámicos con asp-page
 
-### 6.2.1. Enlaces a Otras Páginas
+### 6.2.1. Enlaces a otras páginas
 
 El Tag Helper **`AnchorTagHelper`** se activa con el atributo `asp-page`. Escribe la ruta de la vista de destino (no la URL final) y deja que el servidor la resuelva.
 
@@ -116,7 +116,7 @@ Fíjate en el detalle: la página se llama `Index.cshtml`, pero la URL generada 
 
 > 💡 **Consejo:** Escribe siempre la ruta de la vista (`/Productos/Detalle`) y no la URL (`/Productos/Detalle/7`). Si mañana cambia el patrón de URL, el enlace se arregla solo.
 
-### 6.2.2. Parámetros de Ruta
+### 6.2.2. Parámetros de ruta
 
 El atributo `asp-route-nombre` rellena un hueco de la ruta. El nombre tiene que coincidir con el que declares en `@page`.
 
@@ -144,15 +144,15 @@ graph LR
     G -->|Sí| H["HTTP 200<br/>Detalle del Producto 7"]
     G -->|No| I["HTTP 404"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#2196F3,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#607D8B,color:#fff
-    style E fill:#4CAF50,color:#fff
-    style F fill:#FF9800,color:#fff
-    style G fill:#FF9800,color:#fff
-    style H fill:#4CAF50,color:#fff
-    style I fill:#f44336,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#607D8,color:#fffB,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#FF980,color:#fff0,color:#fff
+    style G fill:#FF980,color:#fff0,color:#fff
+    style H fill:#4CAF5,color:#fff0,color:#fff
+    style I fill:#f4433,color:#fff6,color:#fff
 ```
 
 
@@ -168,9 +168,9 @@ graph LR
 
 > 📝 **Nota:** `RouteData.Values["id"]` devuelve un `object`. Para convertirlo a número, cuando llegue el momento usarás *model binding* (el punto **14**). Aquí nos basta para mostrarlo en la vista.
 
-## 6.3. Recursos Estáticos y la Huella
+## 6.3. Recursos estáticos y la huella
 
-### 6.3.1. La Ruta del Proyecto
+### 6.3.1. La ruta del proyecto
 
 Las rutas que empiezan por **`~`** significan *"desde la raíz del sitio"*. El servidor las convierte en rutas absolutas reales.
 
@@ -190,7 +190,7 @@ El HTML final es:
 
 El `~` ha desaparecido... pero además ha cambiado el nombre del fichero.
 
-### 6.3.2. Huella en el Nombre del Fichero
+### 6.3.2. Huella en el nombre del fichero
 
 A esa cadena de letras y números del medio la llamamos huella (*fingerprint*). Sirve para la caché: si el contenido del fichero cambia, cambia la huella, y el navegador se ve obligado a descargar la versión nueva.
 
@@ -216,14 +216,14 @@ graph TD
     F --> G["Si cambia el contenido<br/>cambia la URL"]
     G --> H["El navegador<br/>descarga lo nuevo"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#FF9800,color:#fff
-    style C fill:#f44336,color:#fff
-    style D fill:#FF9800,color:#fff
-    style E fill:#f44336,color:#fff
-    style F fill:#4CAF50,color:#fff
-    style G fill:#2196F3,color:#fff
-    style H fill:#4CAF50,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#FF980,color:#fff0,color:#fff
+    style C fill:#f4433,color:#fff6,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style E fill:#f4433,color:#fff6,color:#fff
+    style F fill:#4CAF5,color:#fff0,color:#fff
+    style G fill:#2196F,color:#fff3,color:#fff
+    style H fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Netflix cambia su código varias veces al día. Si el navegador guardara `app.js` en caché para siempre, los usuarios verían una versión vieja. Con huella, la dirección cambia en cada despliegue y todo el mundo recibe lo nuevo sin limpiar caché.
@@ -244,11 +244,11 @@ Existe el atributo `asp-append-version="true"`, que es la forma clásica de forz
 
 > 📝 **Nota:** Si en tu equipo el resultado fuera distinto (por ejemplo, `/js/site.js?v=abc123`), significa que la huella automática no está activa y entonces `asp-append-version` sí haría falta. El F12 manda.
 
-## 6.4. Etiquetas Condicionales
+## 6.4. Etiquetas condicionales
 
 Además de generar HTML, hay Tag Helpers que deciden si el HTML entra o no.
 
-### 6.4.1. La Etiqueta cache
+### 6.4.1. La etiqueta cache
 
 `<cache>` guarda el resultado en el servidor durante un tiempo. Si dos personas piden la página seguidas, la segunda no vuelve a calcular nada.
 
@@ -271,22 +271,22 @@ graph TD
     C --> F
     G --> I["El servidor<br/>NO ha trabajado"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#2196F3,color:#fff
-    style C fill:#FF9800,color:#fff
-    style D fill:#4CAF50,color:#fff
-    style E fill:#607D8B,color:#fff
-    style F fill:#FF9800,color:#fff
-    style G fill:#4CAF50,color:#fff
-    style H fill:#f44336,color:#fff
-    style I fill:#4CAF50,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
+    style E fill:#607D8,color:#fffB,color:#fff
+    style F fill:#FF980,color:#fff0,color:#fff
+    style G fill:#4CAF5,color:#fff0,color:#fff
+    style H fill:#f4433,color:#fff6,color:#fff
+    style I fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** El panel de estadísticas de cualquier red social. No se recalculan los seguidores globales en cada visita: se guardan un rato y se sirven tal cual. Si no, con millones de peticiones el servidor no daría abasto.
 
 > ⚠️ **Advertencia:** No cachees nada que sea personal. Si guardas dentro de `<cache>` el nombre del usuario, la primera persona en entrar lo verá solo ella y las demás recibirán sus datos. Caché para lo igual para todos; datos personales, jamás.
 
-### 6.4.2. La Etiqueta environment
+### 6.4.2. La etiqueta environment
 
 `<environment>` muestra su contenido solo en los entornos que tú indiques.
 
@@ -309,11 +309,11 @@ En entorno de producción, el párrafo `prod` sí aparece y el `dev` no.
 
 > 💡 **Consejo:** Es el lugar natural para el script de depuración, los errores detallados o el mensaje *"entorno de pruebas"*. Lo que no debe salir a producción, no debe estar en producción.
 
-## 6.5. Crear tu Propio Tag Helper
+## 6.5. Crear tu propio tag helper
 
 Hasta aquí hemos usado los de ASP.NET Core. Lo interesante es que puedes escribir los tuyos: son clases C# como cualquier otra.
 
-### 6.5.1. La Clase y el Atributo
+### 6.5.1. La clase y el atributo
 
 **`TagHelpers/EstadoProductoTagHelper.cs`:**
 
@@ -367,7 +367,7 @@ Las piezas:
 
 > 🔧 **Truco:** El enlace entre atributo y propiedad es automático y no distingue mayúsculas: `texto="Novedad"` rellena `Texto`. Si el atributo tiene guiones (`mi-texto`), la propiedad se llama `MiTexto`.
 
-### 6.5.2. El Proceso de Transformación
+### 6.5.2. El proceso de transformación
 
 Cuando Razor encuentra tu etiqueta, ocurre esto:
 
@@ -386,22 +386,22 @@ graph TD
     F3 --> G
     G --> H["&lt;span class=&quot;badge bg-primary&quot;&gt;<br/>Novedad&lt;/span&gt;"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#2196F3,color:#fff
-    style C fill:#2196F3,color:#fff
-    style D fill:#FF9800,color:#fff
-    style E fill:#9C27B0,color:#fff
-    style F fill:#9C27B0,color:#fff
-    style F1 fill:#2196F3,color:#fff
-    style F2 fill:#2196F3,color:#fff
-    style F3 fill:#4CAF50,color:#fff
-    style G fill:#FF9800,color:#fff
-    style H fill:#4CAF50,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style E fill:#9C27B,color:#fff0,color:#fff
+    style F fill:#9C27B,color:#fff0,color:#fff
+    style F1 fill:#2196F,color:#fff3,color:#fff
+    style F2 fill:#2196F,color:#fff3,color:#fff
+    style F3 fill:#4CAF5,color:#fff0,color:#fff
+    style G fill:#FF980,color:#fff0,color:#fff
+    style H fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 No toques `context`: sirve para saber de dónde vienes (qué atributos originales había). Lo que tú editas es siempre **`output`**: adónde vas.
 
-### 6.5.3. La Trampa del TagMode
+### 6.5.3. La trampa del TagMode
 
 Este es el error que más vueltas da. Si escribes la etiqueta sin etiqueta de cierre:
 
@@ -430,7 +430,7 @@ output.TagMode = TagMode.StartTagAndEndTag;   // <- añádela SIEMPRE
 
 > ⚠️ **Advertencia:** Si tu Tag Helper pinta texto y sale siempre vacío, nunca empieces a buscar en los atributos. El 99% de las veces es el `TagMode`. Con la línea aparece `Novedad`; sin ella, no.
 
-### 6.5.4. Dos Formas de Engancharse
+### 6.5.4. Dos formas de engancharse
 
 Hasta ahora la etiqueta es nuestra (`estado-producto`). Pero también puedes engancharte a etiquetas que ya existen declarando un atributo.
 
@@ -469,7 +469,7 @@ Y fíjate en el resultado: el contenido original (`x`, `y`) desaparece. `output.
 
 > ⚠️ **Advertencia:** `TagHelperContent` no tiene `SetHtmlContentAsync`: te daría **`CS1061`**. Se pone el contenido con `output.Content.SetHtmlContent(...)` (síncrono) dentro del método asíncrono.
 
-## 6.6. Buenas Prácticas
+## 6.6. Buenas prácticas
 
 - Escribe la ruta de la vista en `asp-page`, no la URL final: si cambia el patrón, se arregla solo
 - Añade **`output.TagMode = TagMode.StartTagAndEndTag;`** siempre que tu etiqueta pinte contenido
@@ -483,7 +483,7 @@ Y fíjate en el resultado: el contenido original (`x`, `y`) desaparece. `output.
 - **No olvides `@addTagHelper *, TuProyecto`**: sin él, tu etiqueta sale como texto
 - **No uses `SetHtmlContentAsync`** en `TagHelperContent`: no existe (`CS1061`)
 
-## 6.7. Reto: Controles de servidor en FunkoApp con Tag Helpers
+## 6.7. Reto: controles de servidor en FunkoApp con Tag Helpers
 
 > Pónle controles de servidor a FunkoApp: enlaces que se generan solos y dos Tag Helpers propios.
 

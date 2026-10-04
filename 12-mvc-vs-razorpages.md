@@ -1,15 +1,15 @@
-- [12. MVC vs Razor Pages: Comparativa y Migración](#12-mvc-vs-razor-pages-comparativa-y-migración)
-  - [12.1. Las Dos Arquitecturas en Paralelo](#121-las-dos-arquitecturas-en-paralelo)
-  - [12.2. Qué elige Cada Una](#122-qué-elige-cada-una)
-  - [12.3. Convivir en la Misma Aplicación](#123-convivir-en-la-misma-aplicación)
-  - [12.4. Migrar una Vista de MVC a Razor Pages](#124-migrar-una-vista-de-mvc-a-razor-pages)
-    - [12.4.1. El Punto de Partida: la Acción Ficha](#1241-el-punto-de-partida-la-acción-ficha)
-    - [12.4.2. La Página Equivalente](#1242-la-página-equivalente)
-    - [12.4.3. La Colisión de Rutas](#1243-la-colisión-de-rutas)
-    - [12.4.4. Completar la Migración](#1244-completar-la-migración)
+- [12. MVC vs Razor Pages: comparativa y migración](#12-mvc-vs-razor-pages-comparativa-y-migración)
+  - [12.1. Las dos arquitecturas en paralelo](#121-las-dos-arquitecturas-en-paralelo)
+  - [12.2. Qué elige cada una](#122-qué-elige-cada-una)
+  - [12.3. Convivir en la misma aplicación](#123-convivir-en-la-misma-aplicación)
+  - [12.4. Migrar una vista de MVC a Razor Pages](#124-migrar-una-vista-de-mvc-a-razor-pages)
+    - [12.4.1. El punto de partida: la acción ficha](#1241-el-punto-de-partida-la-acción-ficha)
+    - [12.4.2. La página equivalente](#1242-la-página-equivalente)
+    - [12.4.3. La colisión de rutas](#1243-la-colisión-de-rutas)
+    - [12.4.4. Completar la migración](#1244-completar-la-migración)
   - [12.5. Tabla de decisión](#125-tabla-de-decision)
-  - [12.6. Buenas Prácticas](#126-buenas-prácticas)
-  - [12.7. Reto: Migra la Tienda de Funkos](#127-reto-migra-la-tienda-de-funkos)
+  - [12.6. Buenas prácticas](#126-buenas-prácticas)
+  - [12.7. Reto: migra la tienda de Funkos](#127-reto-migra-la-tienda-de-funkos)
     - [12.7.1. Contexto](#1271-contexto)
     - [12.7.2. Modelo de datos](#1272-modelo-de-datos)
     - [12.7.3. Almacenamiento](#1273-almacenamiento)
@@ -17,7 +17,7 @@
 
 
 
-# 12. MVC vs Razor Pages: Comparativa y Migración
+# 12. MVC vs Razor Pages: comparativa y migración
 
 > 💡 **Punto de partida:** Cuando Netflix decide modernizar su web, no la reescribe entera: migra vista a vista mientras el resto sigue sirviendo millones de peticiones sin caerse. Migrar de una arquitectura a otra sin romper la aplicación es un oficio, y en este punto lo practicas: comparar MVC y Razor Pages por dentro, convivirlas en el mismo proyecto y mover una vista de una a la otra sin caídas.
 
@@ -33,7 +33,7 @@ En este punto aprenderás a comparar las dos visiones por dentro, a convivirlas 
 
 > 📝 **Nota:** los fragmentos de este punto salen del proyecto MVC que llevas montando desde el punto 07 y de una copia suya donde conviven las dos visiones y donde se hace la migración.
 
-## 12.1. Las Dos Arquitecturas en Paralelo
+## 12.1. Las dos arquitecturas en paralelo
 
 Las dos comparten motor, lenguaje y resultados — lo que cambia es quién manda.
 
@@ -53,16 +53,16 @@ graph LR
     B --> D["ProductosController<br/>+ Detalle(1)"]
     C --> E["HTML con layout"]
     D --> E
-    style A fill:#2196F3,color:#fff
-    style B fill:#FF9800,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#f44336,color:#fff
-    style E fill:#607D8B,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#FF980,color:#fff0,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#f4433,color:#fff6,color:#fff
+    style E fill:#607D8,color:#fffB,color:#fff
 ```
 
 📌 **Ejemplo real:** Los dos enfoques conviven en la industria. Los paneles de gestión y las páginas de trámite suelen ir en Razor Pages, una vista por archivo; las aplicaciones que mezclan vistas con servicios de datos van en MVC, donde un mismo controlador puede devolver una vista a un navegador y JSON a una app móvil.
 
-## 12.2. Qué elige Cada Una
+## 12.2. Qué elige cada una
 
 La propia Microsoft recomienda Razor Pages para desarrollo nuevo por encima de MVC con controladores y vistas. Eso no entierra a MVC: son vistas distintas.
 
@@ -81,16 +81,16 @@ graph TD
     C --> E["MVC"]
     D --> F["Añade también:<br/>un par de acciones MVC si necesitas JSON"]
     E --> G["Añade también:<br/>páginas sueltas si una vista no crece"]
-    style A fill:#2196F3,color:#fff
-    style B fill:#4CAF50,color:#fff
-    style C fill:#FF9800,color:#fff
-    style D fill:#4CAF50,color:#fff
-    style E fill:#f44336,color:#fff
-    style F fill:#607D8B,color:#fff
-    style G fill:#607D8B,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#4CAF5,color:#fff0,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
+    style E fill:#f4433,color:#fff6,color:#fff
+    style F fill:#607D8,color:#fffB,color:#fff
+    style G fill:#607D8,color:#fffB,color:#fff
 ```
 
-## 12.3. Convivir en la Misma Aplicación
+## 12.3. Convivir en la misma aplicación
 
 Las dos no son rivales: son vecinas. La prueba es un `Program.cs` con los cuatro registros, dos por mundo:
 
@@ -143,22 +143,22 @@ graph TD
     C --> E["Pages/<br/>con su _ViewImports (con @namespace) y _Layout"]
     D --> F["HTML con layout MVC"]
     E --> G["HTML con layout Pages"]
-    style A fill:#FF9800,color:#fff
-    style B fill:#f44336,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#f44336,color:#fff
-    style E fill:#4CAF50,color:#fff
-    style F fill:#607D8B,color:#fff
-    style G fill:#607D8B,color:#fff
+    style A fill:#FF980,color:#fff0,color:#fff
+    style B fill:#f4433,color:#fff6,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#f4433,color:#fff6,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#607D8,color:#fffB,color:#fff
+    style G fill:#607D8,color:#fffB,color:#fff
 ```
 
 > 💡 **Consejo:** si vas a convivir, convive de verdad: no mezcles carpetas. Las páginas van en `Pages/`, las vistas en `Views/`, y cada una con sus propios `_ViewImports` y `_Layout`.
 
-## 12.4. Migrar una Vista de MVC a Razor Pages
+## 12.4. Migrar una vista de MVC a Razor Pages
 
 Migrar no es reescribir el proyecto: es mover vista a vista, dejando cada cambio funcionando antes de pasar al siguiente.
 
-### 12.4.1. El Punto de Partida: la Acción Ficha
+### 12.4.1. El punto de partida: la acción ficha
 
 Esto es lo que hay que mover, tal como está en `ProductosApp`:
 
@@ -187,7 +187,7 @@ public IActionResult Ficha(int id)
 <span id="sello">@Model.Sello</span>
 ```
 
-### 12.4.2. La Página Equivalente
+### 12.4.2. La página equivalente
 
 La migración tiene cuatro pasos, y el orden importa:
 
@@ -243,14 +243,14 @@ graph LR
     C --> D["3. Ruta propia<br/>/ficha/{id:int}"]
     B --> E["4. Comprobar<br/>mismo título, mismo h1"]
     D --> E
-    style A fill:#f44336,color:#fff
-    style B fill:#9C27B0,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#2196F3,color:#fff
-    style E fill:#607D8B,color:#fff
+    style A fill:#f4433,color:#fff6,color:#fff
+    style B fill:#9C27B,color:#fff0,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#2196F,color:#fff3,color:#fff
+    style E fill:#607D8,color:#fffB,color:#fff
 ```
 
-### 12.4.3. La Colisión de Rutas
+### 12.4.3. La colisión de rutas
 
 El error clásico de la migración es darle a la página la misma URL que la acción. Esto es lo que pasa si lo haces: deja la página en `@page "/Productos/Ficha/{id:int}"` mientras la acción sigue escuchando por `{controller}/{action}/{id?}`:
 
@@ -259,7 +259,7 @@ El error clásico de la migración es darle a la página la misma URL que la acc
 
 Por eso el paso 3 lleva ruta propia: mientras la acción exista, la página no debe pisar su dirección.
 
-### 12.4.4. Completar la Migración
+### 12.4.4. Completar la migración
 
 Cuando la página responde como la acción, toca quitar lo viejo. En la copia se borraron la acción `Ficha` y su vista `Views/Productos/Ficha.cshtml`:
 
@@ -292,7 +292,7 @@ Checklist para decidir hoy y para revisar mañana:
 - [ ] ¿Hay que migrar? → vista a vista, con ruta propia y sin colisiones
 - [ ] ¿Las dos conviven? → cuatro registros en `Program.cs`, dos `_ViewImports`, dos layouts
 
-## 12.6. Buenas Prácticas
+## 12.6. Buenas prácticas
 
 - **Elige por vista, no por proyecto**: una app puede empezar en Pages y crecer con un par de controladores
 - **Cuatro registros, cero medias tintas**: si conviven, `Program.cs` lleva las dos parejas completas
@@ -303,7 +303,7 @@ Checklist para decidir hoy y para revisar mañana:
 - **No dupliques URLs**: si dos endpoints responden lo mismo, la prioridad de rutas decide por ti, y no siempre hacia donde crees
 - **Migra de una en una**: vista, equivalencia, borrado, enlaces; después la siguiente
 
-## 12.7. Reto: Migra la Tienda de Funkos
+## 12.7. Reto: migra la tienda de Funkos
 
 > Migra vista a página sobre una copia del proyecto — y sin romper lo que ya funciona.
 

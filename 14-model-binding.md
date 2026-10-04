@@ -1,16 +1,16 @@
-- [14. Model Binding: Del Formulario al Servidor](#14-model-binding-del-formulario-al-servidor)
-  - [14.1. El Traductor: Qué es el Model Binding](#141-el-traductor-qué-es-el-model-binding)
-  - [14.2. Las Tres Fuentes de un Valor](#142-las-tres-fuentes-de-un-valor)
-  - [14.3. La Misma Edición en las Dos Visiones](#143-la-misma-edición-en-las-dos-visiones)
-    - [14.3.1. Visión Razor Pages: La Página de Edición](#1431-visión-razor-pages-la-página-de-edición)
-    - [14.3.2. Visión MVC: La Acción de Edición](#1432-visión-mvc-la-acción-de-edición)
-    - [14.3.3. La Misma Edición, Comparada](#1433-la-misma-edición-comparada)
-  - [14.4. Objetos Complejos: El Prefijo](#144-objetos-complejos-el-prefijo)
-  - [14.5. Colecciones y Casillas](#145-colecciones-y-casillas)
-  - [14.6. Conversión de Tipos y Valores por Defecto](#146-conversión-de-tipos-y-valores-por-defecto)
-  - [14.7. Búsqueda y Paginación por Query String](#147-búsqueda-y-paginación-por-query-string)
-  - [14.8. Buenas Prácticas](#148-buenas-prácticas)
-  - [14.9. Reto: Edición de Funkos con Enlazado de Modelos](#149-reto-edición-de-funkos-con-enlazado-de-modelos)
+- [14. Model Binding: del formulario al servidor](#14-model-binding-del-formulario-al-servidor)
+  - [14.1. El traductor: qué es el Model Binding](#141-el-traductor-qué-es-el-model-binding)
+  - [14.2. Las tres fuentes de un valor](#142-las-tres-fuentes-de-un-valor)
+  - [14.3. La misma edición en las dos visiones](#143-la-misma-edición-en-las-dos-visiones)
+    - [14.3.1. Visión Razor Pages: la página de edición](#1431-visión-razor-pages-la-página-de-edición)
+    - [14.3.2. Visión MVC: la acción de edición](#1432-visión-mvc-la-acción-de-edición)
+    - [14.3.3. La misma edición, comparada](#1433-la-misma-edición-comparada)
+  - [14.4. Objetos complejos: el prefijo](#144-objetos-complejos-el-prefijo)
+  - [14.5. Colecciones y casillas](#145-colecciones-y-casillas)
+  - [14.6. Conversión de tipos y valores por defecto](#146-conversión-de-tipos-y-valores-por-defecto)
+  - [14.7. Búsqueda y paginación por query string](#147-búsqueda-y-paginación-por-query-string)
+  - [14.8. Buenas prácticas](#148-buenas-prácticas)
+  - [14.9. Reto: edición de Funkos con enlazado de modelos](#149-reto-edición-de-funkos-con-enlazado-de-modelos)
     - [14.9.1. Contexto](#1491-contexto)
     - [14.9.2. Modelo de datos](#1492-modelo-de-datos)
     - [14.9.3. Almacenamiento](#1493-almacenamiento)
@@ -18,7 +18,7 @@
 
 
 
-# 14. Model Binding: Del Formulario al Servidor
+# 14. Model Binding: del formulario al servidor
 
 > 💡 **Punto de partida:** Cuando confirmas un pedido en Amazon, el servidor recibe texto: referencias, cantidades y direcciones, todo en pares `clave=valor`. Pero en C# no hay texto: hay objetos con propiedades tipadas. Alguien tiene que traducir, campo a campo y sin equivocarse de nombre. Ese traductor es el model binding, y en este punto lo abrimos: de dónde sale cada valor, a dónde llega y qué pasa cuando falta.
 
@@ -34,7 +34,7 @@ En este punto aprenderás las fuentes de un valor (ruta, query y formulario), el
 
 > 📝 **Nota:** seguimos con el repositorio en memoria del punto 03 y con `ProductosApp` en sus dos visiones: la edición vive como página en `Pages/Productos/` y como acción con su vista en `Views/Productos/`.
 
-## 14.1. El Traductor: Qué es el Model Binding
+## 14.1. El traductor: qué es el Model Binding
 
 El **model binding** es el mecanismo que convierte la petición HTTP en objetos C#. Recibe el texto que viaja en la ruta, la query o el cuerpo del formulario, y va emparejando cada pieza con el destino que tiene nombre para ello: un parámetro de un handler o de una acción, o una propiedad con `[BindProperty]`. El emparejamiento es por nombre — y esa es toda la clave del asunto.
 
@@ -48,20 +48,20 @@ graph LR
     D --> F
     E --> F
     F --> G["Objeto C# listo<br/>int, string, InputModel, List"]
-    style A fill:#2196F3,color:#fff
-    style B fill:#FF9800,color:#fff
-    style C fill:#607D8B,color:#fff
-    style D fill:#607D8B,color:#fff
-    style E fill:#607D8B,color:#fff
-    style F fill:#9C27B0,color:#fff
-    style G fill:#4CAF50,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#FF980,color:#fff0,color:#fff
+    style C fill:#607D8,color:#fffB,color:#fff
+    style D fill:#607D8,color:#fffB,color:#fff
+    style E fill:#607D8,color:#fffB,color:#fff
+    style F fill:#9C27B,color:#fff0,color:#fff
+    style G fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** El buscador de cualquier biblioteca online funciona por query string: tecleas `?q=cervantes` en la dirección y el servidor recibe un texto que traduce en una consulta. Quien hace esa traducción, campo a campo, es el binding; sin él, tendrías que leer la URL a mano con `Request.Query["q"]`.
 
 La buena noticia del punto 12 se cumple aquí también: el binding funciona igual en páginas y en controladores. Lo que cambia es dónde declaras el destino.
 
-## 14.2. Las Tres Fuentes de un Valor
+## 14.2. Las tres fuentes de un valor
 
 Ya las has usado las tres; ahora tienen nombre:
 
@@ -81,11 +81,11 @@ Y el destino, en cada visión:
 
 El orden de búsqueda lo fija el binding: la ruta manda sobre la query, y el cuerpo del formulario es la fuente de los POST. Si un mismo nombre aparece en dos sitios, gana la fuente de mayor prioridad; si no aparece en ninguna, el destino se queda en su valor por defecto (lo vemos en el apartado 14.6).
 
-## 14.3. La Misma Edición en las Dos Visiones
+## 14.3. La misma edición en las dos visiones
 
 El corazón del punto: la misma vista de edición, montada dos veces. El formulario trae tres campos con prefijo (`Input.Nombre`, `Input.Anio`, `Input.Precio`) y una colección de casillas (`etiquetas`).
 
-### 14.3.1. Visión Razor Pages: La Página de Edición
+### 14.3.1. Visión Razor Pages: la página de edición
 
 La página vive en `Pages/Productos/Edicion.cshtml` con su `PageModel` al lado. Los campos llevan el prefijo `Input.` porque el destino es la propiedad `Input` del modelo:
 
@@ -148,7 +148,7 @@ public class EdicionModel : PageModel
 }
 ```
 
-### 14.3.2. Visión MVC: La Acción de Edición
+### 14.3.2. Visión MVC: la acción de edición
 
 La misma vista como `Views/Productos/Edicion.cshtml`: el formulario lleva `asp-controller` y `asp-action`, y los campos son idénticos, prefijo incluido:
 
@@ -178,7 +178,7 @@ public IActionResult Edicion(ProductoInput input, List<string> etiquetas)
 }
 ```
 
-### 14.3.3. La Misma Edición, Comparada
+### 14.3.3. La misma edición, comparada
 
 La comparación, pieza a pieza:
 
@@ -192,7 +192,7 @@ La comparación, pieza a pieza:
 
 El resultado del binding es el mismo en las dos visiones: un `ProductoInput` con sus tres propiedades rellenadas y una `List<string>` con las casillas marcadas. El navegador no distingue; para el binding, páginas y controladores son la misma máquina — solo cambia dónde declaraste el destino.
 
-## 14.4. Objetos Complejos: El Prefijo
+## 14.4. Objetos complejos: el prefijo
 
 Cuando el destino es un objeto, entra en juego el **prefijo**: el nombre del campo se parte en trozos por puntos. `Input.Nombre` significa *"busca el parámetro o la propiedad llamado `Input` y dentro de él, la propiedad `Nombre`"*. En la página, `Input` es la propiedad del `PageModel`; en la acción, el parámetro `input` (el emparejamiento no distingue mayúsculas).
 
@@ -200,7 +200,7 @@ Cuando el destino es un objeto, entra en juego el **prefijo**: el nombre del cam
 
 📌 **Ejemplo real:** Los formularios de edición de cualquier CMS trabajan con un objeto de entrada: título, resumen, cuerpo y categorías viajan juntos bajo un mismo prefijo, y el servidor recibe un único objeto que puede validar y guardar de una sentada.
 
-## 14.5. Colecciones y Casillas
+## 14.5. Colecciones y casillas
 
 Para enlazar una lista hace falta **campos repetidos**: el formulario repite el mismo `name` en varios campos y el binding junta los valores en una colección. Con las casillas de etiquetas, cada casilla marcada aporta su `value`:
 
@@ -214,7 +214,7 @@ Si marcas las dos primeras, la colección llega como `["oferta", "nuevo"]`; si n
 
 Para listas editables campo a campo existe el patrón de índices: campos con `name="etiquetas[0]"`, `name="etiquetas[1]"`... enlazan con una `List<string>` o con una lista de objetos cuyas propiedades se escriben como `items[0].Nombre`. Es el mismo punto y coma mental — el índice ordena y el binding rellena.
 
-## 14.6. Conversión de Tipos y Valores por Defecto
+## 14.6. Conversión de tipos y valores por defecto
 
 El binding no solo empareja nombres: convierte. El texto `2018` se convierte en `int`, `true` en `bool` y `14,99` en `decimal`. Y cuando un campo no llega, el destino se queda en su valor por defecto, sin error:
 
@@ -230,7 +230,7 @@ Esto es lo que vimos en las dos ediciones: un POST con solo `Input.Nombre=Mochil
 
 > ⚠️ **Advertencia:** el `decimal` se convierte con la cultura del servidor. En un equipo con cultura `es-ES`, el texto `14,99` se entiende como catorce con noventa y nueve; en un equipo `en-US`, ese mismo texto se leería de otra forma. Por eso las cantidades sensibles se validan y se fija la cultura de la aplicación (puntos 15 y 22).
 
-## 14.7. Búsqueda y Paginación por Query String
+## 14.7. Búsqueda y paginación por query string
 
 La query string también enlaza, y es la fuente natural de los listados: **filtros, ordenaciones y páginas**. Ya lo viste en el punto 08 con `Buscar`, cuya acción recibía `string? q` desde `?q=o`; el patrón se multiplica sin cambiar de mecanismo:
 
@@ -250,7 +250,7 @@ public IActionResult Buscar(string? q, int pagina = 1) { /* filtra y pagina */ }
 
 > 💡 **Consejo:** los valores por defecto de los parámetros (`int pagina = 1`) y los del binding (`0`, `""`, lista vacía) conviven: si la query no trae `pagina`, manda tu defecto; si la query trae `pagina=abc`, la conversión falla y manda el defecto del tipo. En el punto 15 veremos a rechazar eso con una restricción o una validación en vez de aceptarlo en silencio.
 
-## 14.8. Buenas Prácticas
+## 14.8. Buenas prácticas
 
 - **El `name` es la llave**: el campo y el destino tienen que hablar el mismo idioma, carácter a carácter
 - **Un modelo de entrada para cada formulario**: `InputModel` con prefijo, no una firma llena de parámetros
@@ -260,7 +260,7 @@ public IActionResult Buscar(string? q, int pagina = 1) { /* filtra y pagina */ }
 - **Cultura bajo control**: los decimales se convierten con la cultura del servidor; fíjala antes de confiar en los importes
 - **La misma vista, los dos destinos**: si el formulario es idéntico, el binding es idéntico; no reescribas la lógica por cambiar de visión
 
-## 14.9. Reto: Edición de Funkos con Enlazado de Modelos
+## 14.9. Reto: edición de Funkos con enlazado de modelos
 
 > Edita un Funko a través del enlazado de modelos, en página y en acción, y comprueba que los dos destinos reciben el mismo objeto.
 

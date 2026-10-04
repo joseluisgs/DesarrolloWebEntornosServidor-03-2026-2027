@@ -1,26 +1,26 @@
-- [8. Controladores y Vistas en MVC](#8-controladores-y-vistas-en-mvc)
-  - [8.1. Rutas de Acción: Convención y Atributos](#81-rutas-de-acción-convención-y-atributos)
-    - [8.1.1. La Ruta por Atributo](#811-la-ruta-por-atributo)
-    - [8.1.2. Restricciones de Ruta](#812-restricciones-de-ruta)
-    - [8.1.3. El Verbo También Cuenta](#813-el-verbo-también-cuenta)
-  - [8.2. Los Parámetros de una Acción](#82-los-parámetros-de-una-acción)
-    - [8.2.1. Por Ruta o por Query String](#821-por-ruta-o-por-query-string)
-    - [8.2.2. Cuando el Parámetro no Encaja](#822-cuando-el-parámetro-no-encaja)
-  - [8.3. Qué Devuelve una Acción](#83-qué-devuelve-una-acción)
-    - [8.3.1. El Catálogo de Resultados](#831-el-catálogo-de-resultados)
-    - [8.3.2. En Ejecución](#832-en-ejecución)
-    - [8.3.3. Los 404 Bajo Control](#833-los-404-bajo-control)
+- [8. Controladores y vistas en MVC](#8-controladores-y-vistas-en-mvc)
+  - [8.1. Rutas de acción: convención y atributos](#81-rutas-de-acción-convención-y-atributos)
+    - [8.1.1. La ruta por atributo](#811-la-ruta-por-atributo)
+    - [8.1.2. Restricciones de ruta](#812-restricciones-de-ruta)
+    - [8.1.3. El verbo también cuenta](#813-el-verbo-también-cuenta)
+  - [8.2. Los parámetros de una acción](#82-los-parámetros-de-una-acción)
+    - [8.2.1. Por ruta o por query string](#821-por-ruta-o-por-query-string)
+    - [8.2.2. Cuando el parámetro no encaja](#822-cuando-el-parámetro-no-encaja)
+  - [8.3. Qué devuelve una acción](#83-qué-devuelve-una-acción)
+    - [8.3.1. El catálogo de resultados](#831-el-catálogo-de-resultados)
+    - [8.3.2. En ejecución](#832-en-ejecución)
+    - [8.3.3. Los 404 bajo control](#833-los-404-bajo-control)
     - [8.3.4. Redirigir con RedirectToAction](#834-redirigir-con-redirecttoaction)
   - [8.4. ViewData, ViewBag y TempData](#84-viewdata-viewbag-y-tempdata)
-    - [8.4.1. Dos Nombres para la Misma Caja](#841-dos-nombres-para-la-misma-caja)
-    - [8.4.2. TempData: el Aviso que Cruza un Redirect](#842-tempdata-el-aviso-que-cruza-un-redirect)
-  - [8.5. La Vista que Elige el Controlador](#85-la-vista-que-elige-el-controlador)
-    - [8.5.1. View con Otro Nombre](#851-view-con-otro-nombre)
-    - [8.5.2. PartialView: Devolver Solo la Pieza](#852-partialview-devolver-solo-la-pieza)
-    - [8.5.3. Cuando Falta la Vista](#853-cuando-falta-la-vista)
-  - [8.6. El Flujo Completo con el Repositorio](#86-el-flujo-completo-con-el-repositorio)
-  - [8.7. Buenas Prácticas](#87-buenas-prácticas)
-  - [8.8. Reto: Monta el catálogo de FunkoApp tras un controlador](#88-reto-monta-el-catálogo-de-funkoapp-tras-un-controlador)
+    - [8.4.1. Dos nombres para la misma caja](#841-dos-nombres-para-la-misma-caja)
+    - [8.4.2. TempData: el aviso que cruza un redirect](#842-tempdata-el-aviso-que-cruza-un-redirect)
+  - [8.5. La vista que elige el controlador](#85-la-vista-que-elige-el-controlador)
+    - [8.5.1. View con otro nombre](#851-view-con-otro-nombre)
+    - [8.5.2. PartialView: devolver solo la pieza](#852-partialview-devolver-solo-la-pieza)
+    - [8.5.3. Cuando falta la vista](#853-cuando-falta-la-vista)
+  - [8.6. El flujo completo con el repositorio](#86-el-flujo-completo-con-el-repositorio)
+  - [8.7. Buenas prácticas](#87-buenas-prácticas)
+  - [8.8. Reto: monta el catálogo de FunkoApp tras un controlador](#88-reto-monta-el-catálogo-de-funkoapp-tras-un-controlador)
     - [8.8.1. Contexto](#881-contexto)
     - [8.8.2. Modelo de datos](#882-modelo-de-datos)
     - [8.8.3. Almacenamiento](#883-almacenamiento)
@@ -28,7 +28,7 @@
 
 
 
-# 8. Controladores y Vistas en MVC
+# 8. Controladores y vistas en MVC
 
 > 💡 **Punto de partida:** Cuando tecleas `youtube.com/watch?v=abc123`, no existe ningún fichero llamado así: alguien recibe ese texto, lo parte en trozos, encuentra la acción que sabe tratar el vídeo y decide qué responder. Si en vez de `abc123` pones letras imposibles, ese mismo alguien decide otra cosa: un error. Ese alguien es el controlador de MVC; en este punto lo programas de verdad, con rutas, parámetros y resultados.
 
@@ -44,7 +44,7 @@ En el punto 07 diseñaste el flujo MVC en el papel. En este punto aprenderás a 
 
 > 📝 **Nota:** seguimos con el proyecto MVC del punto 07 (creado con `dotnet new mvc`, con namespaces `ProductosApp`). Lo ampliamos con más acciones.
 
-## 8.1. Rutas de Acción: Convención y Atributos
+## 8.1. Rutas de acción: convención y atributos
 
 En el punto 07 vimos la ruta que gobierna el proyecto entero:
 
@@ -56,7 +56,7 @@ app.MapControllerRoute(
 
 Esa convención lee la URL de izquierda a derecha: primer trozo, controlador; segundo, acción; tercero, identificador opcional. Con ella funcionan `/Productos` o `/Home/Acerca`, pero sus direcciones son hijas del patrón: para llegar a un detalle hay que escribir `/Productos/Detalle/7`, con el controlador y la acción delante. Cuando quieres una dirección corta, fija y legible, la convención no manda — manda el atributo.
 
-### 8.1.1. La Ruta por Atributo
+### 8.1.1. La ruta por atributo
 
 Una acción puede declarar su propia dirección directamente en el método:
 
@@ -95,17 +95,17 @@ graph TD
     B -->|"No"| D{"¿Encaja en la<br/>ruta convencional?"}
     D -->|"Sí"| E["La acción que toque:<br/>ProductosController.Index()"]
     D -->|"No"| F["HTTP 404<br/>no hay destino"]
-    style A fill:#2196F3,color:#fff
-    style B fill:#FF9800,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#FF9800,color:#fff
-    style E fill:#4CAF50,color:#fff
-    style F fill:#f44336,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#FF980,color:#fff0,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#f4433,color:#fff6,color:#fff
 ```
 
 📌 **Ejemplo real:** En GitHub, cada repositorio tiene su propia dirección (`github.com/usuario/proyecto`) y esa misma plantilla encaja con millones de combinaciones. Eso es una ruta con huecos: el patrón es único, los datos cambian en cada visita.
 
-### 8.1.2. Restricciones de Ruta
+### 8.1.2. Restricciones de ruta
 
 La restricción es un filtro que decide qué valores admiten los huecos de la URL. Las más usadas:
 
@@ -145,7 +145,7 @@ Sin la restricción, `{id}` acepta cualquier texto: o la acción se invoca con u
 
 📌 **Ejemplo real:** Un banco no acepta cualquier cosa en la URL de una transferencia: la referencia tiene un formato y una longitud concretos. Si no encaja, ni siquiera se procesa la petición. La restricción de ruta es la misma idea: el formato se decide antes de ejecutar tu código.
 
-### 8.1.3. El Verbo También Cuenta
+### 8.1.3. El verbo también cuenta
 
 Una petición HTTP no es solo una dirección: también lleva un verbo (`GET`, `POST`, `PUT`, `DELETE`). El atributo `[HttpGet]` restringe la acción a ese verbo.
 
@@ -160,11 +160,11 @@ El **405** y el **404** dicen cosas distintas: 404 es "aquí no hay nada", 405 e
 
 > 📝 **Nota:** las acciones con `POST` y sus formularios llegan pronto: los puntos 13 y 14 les dedican el bloque completo. Aquí solo nos importa que el verbo también decide qué acción responde.
 
-## 8.2. Los Parámetros de una Acción
+## 8.2. Los parámetros de una acción
 
 Una acción no solo recibe la URL: recibe valores. Hay dos puertas por las que pueden entrar.
 
-### 8.2.1. Por Ruta o por Query String
+### 8.2.1. Por ruta o por query string
 
 La primera puerta es la ruta, que ya vimos: el hueco `{id}` se convierte en el argumento `id`. La segunda es el query string, esa parte que va después de `?` en la dirección:
 
@@ -198,7 +198,7 @@ Las dos puertas conviven: `Detalle` recibe por ruta y `Buscar` por query string,
 
 > 💡 **Truco:** para saber qué puerta usa una acción, mira su firma: argumentos que salen de la ruta aparecen en la plantilla `{id}`; los de query string aparecen en la URL tras `?` y no están en ninguna plantilla.
 
-### 8.2.2. Cuando el Parámetro no Encaja
+### 8.2.2. Cuando el parámetro no encaja
 
 No todos los caminos llegan a una acción, y cada uno falla a su manera:
 
@@ -215,11 +215,11 @@ La regla para leer la consola del navegador: `404` cuando no hay destino (ruta, 
 
 > 💡 **Consejo:** cuando una URL falle, pregúntate siempre en este orden: ¿la ruta encaja? ¿la acción existe? ¿el parámetro tiene sentido? ¿la vista está? Son cuatro fallos distintos con cuatro soluciones distintas.
 
-## 8.3. Qué Devuelve una Acción
+## 8.3. Qué devuelve una acción
 
 Todas las acciones firman con `IActionResult`: *"devuelvo un resultado de acción"*. Ese resultado puede ser de muchas formas, y elegirlo es la decisión de diseño de este punto.
 
-### 8.3.1. El Catálogo de Resultados
+### 8.3.1. El catálogo de resultados
 
 | Resultado | Método | Qué entrega al cliente |
 |-----------|--------|------------------------|
@@ -244,23 +244,23 @@ graph TD
     D --> R3["text/plain"]
     E --> R4["HTTP 404"]
     F --> R5["HTTP 302 + Location"]
-    style Q fill:#2196F3,color:#fff
-    style A fill:#4CAF50,color:#fff
-    style B fill:#4CAF50,color:#fff
-    style C fill:#9C27B0,color:#fff
-    style D fill:#9C27B0,color:#fff
-    style E fill:#f44336,color:#fff
-    style F fill:#FF9800,color:#fff
-    style R1 fill:#607D8B,color:#fff
-    style R2 fill:#607D8B,color:#fff
-    style R3 fill:#607D8B,color:#fff
-    style R4 fill:#f44336,color:#fff
-    style R5 fill:#FF9800,color:#fff
+    style Q fill:#2196F,color:#fff3,color:#fff
+    style A fill:#4CAF5,color:#fff0,color:#fff
+    style B fill:#4CAF5,color:#fff0,color:#fff
+    style C fill:#9C27B,color:#fff0,color:#fff
+    style D fill:#9C27B,color:#fff0,color:#fff
+    style E fill:#f4433,color:#fff6,color:#fff
+    style F fill:#FF980,color:#fff0,color:#fff
+    style R1 fill:#607D8,color:#fffB,color:#fff
+    style R2 fill:#607D8,color:#fffB,color:#fff
+    style R3 fill:#607D8,color:#fffB,color:#fff
+    style R4 fill:#f4433,color:#fff6,color:#fff
+    style R5 fill:#FF980,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Netflix es una web y a la vez una app. La web recibe `text/html` porque alguien tiene que pintarla en un navegador; la tele y el móvil piden `application/json` a las mismas acciones del servidor. El dato es el mismo; cambia el resultado que se le devuelve a cada cliente.
 
-### 8.3.2. En Ejecución
+### 8.3.2. En ejecución
 
 Esta es la hoja de resultados de las acciones del `ProductosController` que llevamos en este punto:
 
@@ -283,7 +283,7 @@ Esta es la hoja de resultados de las acciones del `ProductosController` que llev
 
 > 🔧 **Truco:** en **F12**, la pestaña *Network* te da dos claves de cada petición: el código de estado (la decisión) y el `Content-Type` (el formato). Si pedías JSON y te llega `text/html`, el error está en el resultado de la acción, no en el front-end.
 
-### 8.3.3. Los 404 Bajo Control
+### 8.3.3. Los 404 bajo control
 
 Hay dos maneras de que salga un 404: porque la ruta no encuentra destino (ya lo vimos) o porque tú lo decides:
 
@@ -325,7 +325,7 @@ Es el mismo truco del 07 (`/Home/Volver`), pero ahora con un motivo real: la acc
 
 Elegir el resultado no basta: a veces la acción necesita dejar un mensaje suelto para la vista. En el punto 07 aparecieron `ViewData` y `ViewData["Titulo"]`; ahora les damos sitio junto a `TempData`.
 
-### 8.4.1. Dos Nombres para la Misma Caja
+### 8.4.1. Dos nombres para la misma caja
 
 `ViewData` y `ViewBag` son dos puertas al mismo almacén: `ViewData` es un diccionario de objetos y `ViewBag` un envoltorio dinámico sobre él. Lo que metes por una puerta lo ves por la otra.
 
@@ -349,7 +349,7 @@ ViewData["Encontrados"] = res.Count;  // controlador escribe
 
 > ⚠️ **Advertencia:** `ViewData` guarda `object?`. Si metes un `int` y en la vista lo lees como `string`, no falla al escribir: falla al leer, en tiempo de ejecución. El modelo tipado existe precisamente para eso; el `ViewData` es para mensajes sueltos, no para el catálogo.
 
-### 8.4.2. TempData: el Aviso que Cruza un Redirect
+### 8.4.2. TempData: el aviso que cruza un redirect
 
 `ViewData` vive una sola petición, pero un redirect son dos peticiones: `Cargar` escribe, `Ver` es quien pinta. `TempData` es la solución: un almacén que sobrevive exactamente una petición y se borra al leerse.
 
@@ -379,11 +379,11 @@ La vista `Ver` no hace más que leerlo: `<p id="aviso">@TempData["Aviso"]</p>`.
 
 > 💡 **Consejo:** `TempData` es para el aviso del redirect, nada más. La persistencia de verdad entre peticiones (cookies, sesión) tiene su sitio: el punto 18. El patrón que lo lleva a los formularios, PRG, llega en los puntos 13 y 14.
 
-## 8.5. La Vista que Elige el Controlador
+## 8.5. La vista que elige el controlador
 
 El punto 07 dejó anotado que `return View()` busca la vista por convención: primero `Views/<Controlador>/<Acción>.cshtml` y después `Views/Shared/`. Aquí vemos lo que pasa cuando te sales del camino normal.
 
-### 8.5.1. View con Otro Nombre
+### 8.5.1. View con otro nombre
 
 Una acción no tiene por qué tener vista propia: puede pedir otra por nombre.
 
@@ -402,7 +402,7 @@ public IActionResult Novedades()
 
 > 📝 **Nota:** si el nombre no corresponde a ninguna vista, el resultado es el del punto 07: **HTTP 500**. Nombrar mal una vista es un error de programación, no un "no encontrado".
 
-### 8.5.2. PartialView: Devolver Solo la Pieza
+### 8.5.2. PartialView: devolver solo la pieza
 
 En el punto 05 invocaste una parcial desde otra vista con `<partial name="_FichaProducto" />`. El controlador puede devolverla directamente como resultado:
 
@@ -423,7 +423,7 @@ La pieza vive en `Views/Shared/_FichaProducto.cshtml`, igual que las demás. `GE
 
 > 💡 **Consejo:** si la respuesta es un `Json`, un `Content` o un `PartialView`, no crees la vista: esos resultados no buscan `.cshtml`. Una carpeta de vistas con ficheros que nadie pide es deuda muerta.
 
-### 8.5.3. Cuando Falta la Vista
+### 8.5.3. Cuando falta la vista
 
 Resumen de la búsqueda de la vista para una acción que hace `return View(...)`:
 
@@ -436,7 +436,7 @@ Resumen de la búsqueda de la vista para una acción que hace `return View(...)`
 
 > 💡 **Consejo:** el orden de búsqueda es el mismo que describió el punto 07; lo que cambia aquí es quién lo provoca: la acción decide qué nombre se busca y, si se sale de la convención, tú firmas el nombre.
 
-## 8.6. El Flujo Completo con el Repositorio
+## 8.6. El flujo completo con el repositorio
 
 Ya están todas las piezas: este es el recorrido entero de `GET /productos/1`, desde la barra de direcciones hasta el HTML, con el repositorio enchufado en el medio:
 
@@ -452,17 +452,17 @@ graph LR
     H --> I["_Layout.cshtml"]
     I --> J["HTML con HTTP 200"]
     G --> K["HTTP 404"]
-    style A fill:#2196F3,color:#fff
-    style B fill:#607D8B,color:#fff
-    style C fill:#f44336,color:#fff
-    style D fill:#607D8B,color:#fff
-    style E fill:#FF9800,color:#fff
-    style F fill:#4CAF50,color:#fff
-    style G fill:#f44336,color:#fff
-    style H fill:#4CAF50,color:#fff
-    style I fill:#4CAF50,color:#fff
-    style J fill:#4CAF50,color:#fff
-    style K fill:#f44336,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#607D8,color:#fffB,color:#fff
+    style C fill:#f4433,color:#fff6,color:#fff
+    style D fill:#607D8,color:#fffB,color:#fff
+    style E fill:#FF980,color:#fff0,color:#fff
+    style F fill:#4CAF5,color:#fff0,color:#fff
+    style G fill:#f4433,color:#fff6,color:#fff
+    style H fill:#4CAF5,color:#fff0,color:#fff
+    style I fill:#4CAF5,color:#fff0,color:#fff
+    style J fill:#4CAF5,color:#fff0,color:#fff
+    style K fill:#f4433,color:#fff6,color:#fff
 ```
 
 | Paso | Quién | Qué hace |
@@ -478,7 +478,7 @@ Fíjate en la dirección de la flecha: el controlador habla con el repositorio y
 
 📌 **Ejemplo real:** Es el mismo flujo que un repartidor de comida: el pedido entra por una dirección (la URL), alguien lo interpreta (el enrutador), la cocina consulta sus armarios (el repositorio), decide qué llevar o qué decir si no hay (el resultado) y el empaque final es lo que llega a tu puerta.
 
-## 8.7. Buenas Prácticas
+## 8.7. Buenas prácticas
 
 - **Rutas especiales con atributo**: usa la ruta convencional para el sitio y los atributos solo donde la convención no llega
 - **Restricción en todos los huecos**: `{id:int}` donde esperas números; es una línea que evita decisiones ambiguas
@@ -489,7 +489,7 @@ Fíjate en la dirección de la flecha: el controlador habla con el repositorio y
 - **Resultado coherente con el cliente**: JSON para datos, `View` para vistas, `PartialView` para trozos
 - **Comprueba con F12**: código de estado y `Content-Type` dicen en una línea si la acción hizo lo que querías
 
-## 8.8. Reto: Monta el catálogo de FunkoApp tras un controlador
+## 8.8. Reto: monta el catálogo de FunkoApp tras un controlador
 
 > Monta el catálogo de FunkoApp tras un controlador — con rutas, parámetros y resultados, hasta el último detalle.
 

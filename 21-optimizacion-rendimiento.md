@@ -1,24 +1,24 @@
-- [21. Optimización y Rendimiento](#21-optimización-y-rendimiento)
-  - [21.1. Rendimiento: Por Dónde se Va el Tiempo](#211-rendimiento-por-dónde-se-va-el-tiempo)
-    - [21.1.1. El Viaje de una Petición](#2111-el-viaje-de-una-petición)
-    - [21.1.2. Medir Antes de Optimizar](#2112-medir-antes-de-optimizar)
-  - [21.2. Caché en el Servidor](#212-caché-en-el-servidor)
-    - [21.2.1. IMemoryCache: el Almacén Rápido](#2121-imemorycache-el-almacén-rápido)
-    - [21.2.2. Visión Razor Pages: la Caché en un PageModel](#2122-visión-razor-pages-la-caché-en-un-pagemodel)
-    - [21.2.3. Visión MVC: la Caché en un Controlador](#2123-visión-mvc-la-caché-en-un-controlador)
-    - [21.2.4. Output Cache: Cachear la Respuesta Entera](#2124-output-cache-cachear-la-respuesta-entera)
-    - [21.2.5. Cuándo Cachear y Cuándo No](#2125-cuándo-cachear-y-cuándo-no)
-  - [21.3. Compresión de las Respuestas](#213-compresión-de-las-respuestas)
-    - [21.3.1. gzip y Brotli](#2131-gzip-y-brotli)
-    - [21.3.2. Qué se Comprime y Qué No](#2132-qué-se-comprime-y-qué-no)
-  - [21.4. Infrastructure de Rendimiento](#214-infrastructure-de-rendimiento)
+- [21. Optimización y rendimiento](#21-optimización-y-rendimiento)
+  - [21.1. Rendimiento: por dónde se va el tiempo](#211-rendimiento-por-dónde-se-va-el-tiempo)
+    - [21.1.1. El viaje de una petición](#2111-el-viaje-de-una-petición)
+    - [21.1.2. Medir antes de optimizar](#2112-medir-antes-de-optimizar)
+  - [21.2. Caché en el servidor](#212-caché-en-el-servidor)
+    - [21.2.1. IMemoryCache: el almacén rápido](#2121-imemorycache-el-almacén-rápido)
+    - [21.2.2. Visión Razor Pages: la caché en un PageModel](#2122-visión-razor-pages-la-caché-en-un-pagemodel)
+    - [21.2.3. Visión MVC: la caché en un controlador](#2123-visión-mvc-la-caché-en-un-controlador)
+    - [21.2.4. Output Cache: cachear la respuesta entera](#2124-output-cache-cachear-la-respuesta-entera)
+    - [21.2.5. Cuándo cachear y cuándo no](#2125-cuándo-cachear-y-cuándo-no)
+  - [21.3. Compresión de las respuestas](#213-compresión-de-las-respuestas)
+    - [21.3.1. gzip y brotli](#2131-gzip-y-brotli)
+    - [21.3.2. Qué se comprime y qué no](#2132-qué-se-comprime-y-qué-no)
+  - [21.4. Infrastructure de rendimiento](#214-infrastructure-de-rendimiento)
     - [21.4.1. CacheConfig, CompressionConfig y OutputCacheConfig](#2141-cacheconfig-compressionconfig-y-outputcacheconfig)
     - [21.4.2. Visión Razor Pages: el Program.cs](#2142-visión-razor-pages-el-programcs)
     - [21.4.3. Visión MVC: el Program.cs](#2143-visión-mvc-el-programcs)
-  - [21.5. Otras Formas de Ganar Velocidad](#215-otras-formas-de-ganar-velocidad)
-  - [21.6. Reglas de Seguridad](#216-reglas-de-seguridad)
-  - [21.7. Buenas Prácticas](#217-buenas-prácticas)
-  - [21.8. Reto: El Rendimiento de la Tienda de Funkos](#218-reto-el-rendimiento-de-la-tienda-de-funkos)
+  - [21.5. Otras formas de ganar velocidad](#215-otras-formas-de-ganar-velocidad)
+  - [21.6. Reglas de seguridad](#216-reglas-de-seguridad)
+  - [21.7. Buenas prácticas](#217-buenas-prácticas)
+  - [21.8. Reto: el rendimiento de la tienda de Funkos](#218-reto-el-rendimiento-de-la-tienda-de-funkos)
     - [21.8.1. Contexto](#2181-contexto)
     - [21.8.2. Modelo de datos](#2182-modelo-de-datos)
     - [21.8.3. Almacenamiento](#2183-almacenamiento)
@@ -26,7 +26,7 @@
 
 
 
-# 21. Optimización y Rendimiento
+# 21. Optimización y rendimiento
 
 > 💡 **Punto de partida:** pones un vídeo en YouTube y arranca al instante; vuelves al principio y ya no vuelve a cargar — el segundo visionado es inmediato. La web del centro, en cambio, tarda lo mismo en enseñar el listado la primera vez que la centésima. Detrás de esa diferencia no hay magia: alguien decidió qué trabajo se repetía sin sentido y qué respuesta se podía guardar. ¿Dónde se va el tiempo de una petición, qué se puede guardar para no repetir el trabajo y cómo se mide de verdad si una web es rápida o lenta?
 
@@ -40,9 +40,9 @@ En este punto aprenderás a montar las tres técnicas para ganar velocidad en un
 - Comprimir las respuestas de texto y saber qué no se comprime
 - Organizar el cableado de rendimiento en `Infrastructure`, una clase por concern
 
-## 21.1. Rendimiento: Por Dónde se Va el Tiempo
+## 21.1. Rendimiento: por dónde se va el tiempo
 
-### 21.1.1. El Viaje de una Petición
+### 21.1.1. El viaje de una petición
 
 **Una petición no es un salto: es un viaje con varios tramos, y en cada uno se puede perder tiempo.** El navegador la manda, la red la transporta, el servidor la recibe, consulta datos, calcula, monta la respuesta y se la devuelve; el navegador la pinta. Ese viaje entero es el que mides cuando dices que una web va rápida o lenta:
 
@@ -57,23 +57,23 @@ graph TD
     K --> N2["El navegador la pinta"]
     C -.->|"aqui gana la cache de valores"| G1["Valores calculados"]
     H -.->|"aqui gana la cache de salida"| G2["Respuestas guardadas"]
-    style N fill:#2196F3,color:#fff
-    style R fill:#607D8B,color:#fff
-    style S fill:#2196F3,color:#fff
-    style B fill:#9C27B0,color:#fff
-    style C fill:#FF9800,color:#fff
-    style H fill:#FF9800,color:#fff
-    style K fill:#4CAF50,color:#fff
-    style N2 fill:#4CAF50,color:#fff
-    style G1 fill:#607D8B,color:#fff
-    style G2 fill:#607D8B,color:#fff
+    style N fill:#2196F,color:#fff3,color:#fff
+    style R fill:#607D8,color:#fffB,color:#fff
+    style S fill:#2196F,color:#fff3,color:#fff
+    style B fill:#9C27B,color:#fff0,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style H fill:#FF980,color:#fff0,color:#fff
+    style K fill:#4CAF5,color:#fff0,color:#fff
+    style N2 fill:#4CAF5,color:#fff0,color:#fff
+    style G1 fill:#607D8,color:#fffB,color:#fff
+    style G2 fill:#607D8,color:#fffB,color:#fff
 ```
 
 Cada tramo tiene su propio culpable cuando la petición tarda: la red no la controlas — la base de datos se arregla con consultas bien hechas y con caché, el cálculo se arregla con no repetir trabajo, y la respuesta se arregla con caché de salida y compresión. Antes de culpar a nadie, la única forma honesta es saber en qué tramo se queda el tiempo.
 
 📌 **Ejemplo real:** YouTube. El vídeo que ves dos veces seguidas no vuelve a bajar entero de su servidor: el segundo visionado arranca antes porque una caché intermedia ya lo tenía.
 
-### 21.1.2. Medir Antes de Optimizar
+### 21.1.2. Medir antes de optimizar
 
 **Optimizar sin medir es cambiar cosas a ciegas y quedarse con la sensación de que ha mejorado.** El mismo código puede tardar distinto según la hora, la máquina y la red, así que la comparación solo es válida si se hace con la misma petición y la misma herramienta:
 
@@ -104,20 +104,20 @@ graph TD
     A --> F["Comparas antes y despues<br/>con la misma peticion"]
     B --> F
     C --> F
-    style M fill:#2196F3,color:#fff
-    style A fill:#FF9800,color:#fff
-    style B fill:#9C27B0,color:#fff
-    style C fill:#607D8B,color:#fff
-    style F fill:#4CAF50,color:#fff
+    style M fill:#2196F,color:#fff3,color:#fff
+    style A fill:#FF980,color:#fff0,color:#fff
+    style B fill:#9C27B,color:#fff0,color:#fff
+    style C fill:#607D8,color:#fffB,color:#fff
+    style F fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Netflix mide cada reproducción con sus propios cronómetros; nadie optimiza a ciegas: primero saben cuánto tarda y dónde.
 
 > 🔧 **Truco:** pide la misma página dos veces seguidas con `curl -w "time_starttransfer"` y anota los dos números: si la segunda es muy inferior, ya tienes una caché trabajando; si son iguales, sabes que aún no hay nada guardado.
 
-## 21.2. Caché en el Servidor
+## 21.2. Caché en el servidor
 
-### 21.2.1. IMemoryCache: el Almacén Rápido
+### 21.2.1. IMemoryCache: el almacén rápido
 
 **`IMemoryCache` es un almacén clave-valor que vive en la memoria del proceso y se consulta en nanosegundos.** La idea es la de siempre con la caché: si el valor no ha cambiado, no hay por qué calcularlo otra vez. Se registra en un concern y se usa con `GetOrCreateAsync`, que solo ejecuta el cálculo cuando la clave no está:
 
@@ -158,11 +158,11 @@ graph TD
     Q -->|no| C["Calcula el valor"]
     C --> G["Lo guarda con caducidad"]
     G --> R
-    style P fill:#2196F3,color:#fff
-    style Q fill:#607D8B,color:#fff
-    style R fill:#4CAF50,color:#fff
-    style C fill:#FF9800,color:#fff
-    style G fill:#9C27B0,color:#fff
+    style P fill:#2196F,color:#fff3,color:#fff
+    style Q fill:#607D8,color:#fffB,color:#fff
+    style R fill:#4CAF5,color:#fff0,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style G fill:#9C27B,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Booking pide decenas de veces por segundo la lista de ciudades de su buscador; ese listado no cambia cada minuto y vive en caché, mientras que el precio del día se consulta cada vez.
@@ -171,7 +171,7 @@ graph TD
 
 > 📝 **Nota:** la caché vive en la memoria del proceso: al reiniciar la aplicación se vacía, y con varias copias del servidor cada una tiene la suya. Cuando los datos tienen que compartirse entre copias, el almacén se mueve a Redis, como ya viste con las sesiones en el punto 18.
 
-### 21.2.2. Visión Razor Pages: la Caché en un PageModel
+### 21.2.2. Visión Razor Pages: la caché en un PageModel
 
 **En páginas, el `PageModel` inyecta el servicio que ya trae la caché dentro y la vista no se entera de nada:**
 
@@ -190,7 +190,7 @@ public class PrecioModel(IPrecioService precios) : PageModel
 
 La comprobación en la visión de páginas es la del servicio: la página pinta `peticion 1 | calculos: 1` la primera vez y `peticion 2 | calculos: 1` la segunda.
 
-### 21.2.3. Visión MVC: la Caché en un Controlador
+### 21.2.3. Visión MVC: la caché en un controlador
 
 **En MVC el patrón es el mismo: el controlador inyecta el servicio y la vista pinta lo que el servicio devuelve:**
 
@@ -208,7 +208,7 @@ public class PerfController(IPrecioService precios) : Controller
 
 > 📝 **Nota:** cambia el sitio donde escribes las cosas, no las cosas: el servicio con su caché es el mismo en las dos visiones, y por eso los dos contadores dicen lo mismo.
 
-### 21.2.4. Output Cache: Cachear la Respuesta Entera
+### 21.2.4. Output Cache: cachear la respuesta entera
 
 **La caché de salida guarda la respuesta HTML completa y la devuelve sin ejecutar la página ni la acción.** Es la técnica que más se nota: si la respuesta es pública y no ha cambiado, el servidor ni siquiera monta el modelo. Se registra en su concern y se declara en cada lectura que merezca caché:
 
@@ -241,7 +241,7 @@ Y el efecto en el tiempo es el del trío de la medida: `/lenta`, que tarda 300 m
 
 > ⚠️ **Advertencia:** la caché de salida no mira cookies: guarda una respuesta y se la sirve a cualquiera. Una página que pinta datos del usuario identificado no se cachea tal cual, o el segundo visitante recibe la respuesta que era del primero.
 
-### 21.2.5. Cuándo Cachear y Cuándo No
+### 21.2.5. Cuándo cachear y cuándo no
 
 **No se cachea lo mismo según quién pueda verlo y cuánto tarde en dejar de ser cierto.** Esta es la tabla que se usa en el día a día:
 
@@ -257,9 +257,9 @@ La invalidación es la otra mitad del asunto: cuando se escribe un dato que una 
 
 > 💡 **Consejo:** la caducidad se elige pensando en el peor dato viejo que toleras, no en la comodidad de no tener que invalidar: cinco segundos de retraso en un stock puede ser un problema; cinco minutos en una categoría, no.
 
-## 21.3. Compresión de las Respuestas
+## 21.3. Compresión de las respuestas
 
-### 21.3.1. gzip y Brotli
+### 21.3.1. Gzip y brotli
 
 **La compresión convierte el texto de la respuesta en uno más pequeño sin perder una sola letra, y el navegador lo deshace en su sitio.** El navegador manda `Accept-Encoding` y el servidor responde con `Content-Encoding` y el cuerpo comprimido. En la medida de las dos visiones, la misma página `/texto` pesa **2591 bytes** sin cabecera, **1753 bytes** con `gzip` y **1330 bytes** con `brotli`, con sus cabeceras `Content-Encoding: gzip` y `Content-Encoding: br` respectivamente.
 
@@ -270,12 +270,12 @@ graph LR
     G --> N["El navegador lo deshace"]
     B --> N
     I["Una imagen ya comprimida"] --> S["Se queda igual"]
-    style T fill:#2196F3,color:#fff
-    style G fill:#FF9800,color:#fff
-    style B fill:#9C27B0,color:#fff
-    style N fill:#4CAF50,color:#fff
-    style I fill:#607D8B,color:#fff
-    style S fill:#607D8B,color:#fff
+    style T fill:#2196F,color:#fff3,color:#fff
+    style G fill:#FF980,color:#fff0,color:#fff
+    style B fill:#9C27B,color:#fff0,color:#fff
+    style N fill:#4CAF5,color:#fff0,color:#fff
+    style I fill:#607D8,color:#fffB,color:#fff
+    style S fill:#607D8,color:#fffB,color:#fff
 ```
 
 El registro es doble: `AddResponseCompression` en los servicios y `UseResponseCompression` en el conducto, lo más arriba posible, para que comprima todo lo que venga detrás. En el laboratorio se habilita también para HTTPS con `EnableForHttps = true`.
@@ -284,7 +284,7 @@ El registro es doble: `AddResponseCompression` en los servicios y `UseResponseCo
 
 > 📝 **Nota:** si el navegador no manda `Accept-Encoding`, no se comprime nada: la compresión es una conversación, no una decisión unilateral del servidor.
 
-### 21.3.2. Qué se Comprime y Qué No
+### 21.3.2. Qué se comprime y qué no
 
 **Se comprime texto; lo que ya viene comprimido, no.** Volver a comprimir una imagen o un vídeo solo gasta tiempo del procesador y no ahorra un solo byte en la red.
 
@@ -295,7 +295,7 @@ El registro es doble: `AddResponseCompression` en los servicios y `UseResponseCo
 | **PNG, JPEG, MP4** | No | Ya vienen comprimidos; repetir el proceso no ahorra nada |
 | **Ficheros ya en gzip o br** | No | El servidor no vuelve a tocarlos |
 
-## 21.4. Infrastructure de Rendimiento
+## 21.4. Infrastructure de rendimiento
 
 ### 21.4.1. CacheConfig, CompressionConfig y OutputCacheConfig
 
@@ -339,11 +339,11 @@ graph LR
     C --> B["Tres concerns<br/>tres ficheros"]
     K --> B
     O --> B
-    style P fill:#2196F3,color:#fff
-    style C fill:#FF9800,color:#fff
-    style K fill:#9C27B0,color:#fff
-    style O fill:#607D8B,color:#fff
-    style B fill:#4CAF50,color:#fff
+    style P fill:#2196F,color:#fff3,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style K fill:#9C27B,color:#fff0,color:#fff
+    style O fill:#607D8,color:#fffB,color:#fff
+    style B fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Una plataforma de cursos separa su cableado de rendimiento en bloques: caché, compresión y caché de salida; cada bloque se configura en un sitio y el arranque solo los encadena.
@@ -405,7 +405,7 @@ app.Run();
 
 > 📝 **Nota:** los tres concerns son del proyecto, no de la visión: las dos aplicaciones comparten la carpeta `Infrastructure` y solo cambian las líneas de su capa web.
 
-## 21.5. Otras Formas de Ganar Velocidad
+## 21.5. Otras formas de ganar velocidad
 
 **Las cachés y la compresión son las dos que más se notan; detrás vienen cinco que también ayudan:**
 
@@ -415,7 +415,7 @@ app.Run();
 - **CDN**: servir el HTML y los estáticos desde servidores cercanos al visitante, sin tocar tu código
 - **Sin trabajo duplicado entre peticiones**: lo que se calcula igual en todas, se calcula una vez y se comparte
 
-## 21.6. Reglas de Seguridad
+## 21.6. Reglas de seguridad
 
 - **Output cache solo en lecturas públicas**: la caché de salida no distingue usuarios; una zona privada cacheada se sirve igual a todos
 - **Invalidar al escribir**: alta, edición o borrado vacían la caché que enseña esos datos
@@ -425,7 +425,7 @@ app.Run();
 - **Claves de caché por usuario** si algún día cacheas datos personales dentro de una petición identificada
 - **Medir en un entorno parecido al real**: el portátil con el servidor en local no es la red de verdad
 
-## 21.7. Buenas Prácticas
+## 21.7. Buenas prácticas
 
 - **Medir antes y después** con la misma petición y el mismo equipo
 - **`IMemoryCache` para cálculos caros** con caducidad corta y sentido
@@ -438,7 +438,7 @@ app.Run();
 - **Orden del conducto**: compresión arriba del todo, caché de salida antes de los endpoints
 - **Paginar los listados** en lugar de enseñarlos enteros
 
-## 21.8. Reto: El Rendimiento de la Tienda de Funkos
+## 21.8. Reto: el rendimiento de la tienda de Funkos
 
 > Haz que tu tienda conteste al instante: caché de valores, caché de salida y compresión, sin que nadie note el trabajo que no se repite, en las dos visiones.
 

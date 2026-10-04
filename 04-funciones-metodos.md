@@ -1,27 +1,27 @@
-- [4. Funciones y Métodos en las Vistas](#4-funciones-y-métodos-en-las-vistas)
-  - [4.1. Por qué Sacar la Lógica de la Vista](#41-por-qué-sacar-la-lógica-de-la-vista)
-    - [4.1.1. El Código Repetido](#411-el-código-repetido)
-    - [4.1.2. Tres Lugares donde Vive la Lógica](#412-tres-lugares-donde-vive-la-lógica)
+- [4. Funciones y métodos en las vistas](#4-funciones-y-métodos-en-las-vistas)
+  - [4.1. Por qué sacar la lógica de la vista](#41-por-qué-sacar-la-lógica-de-la-vista)
+    - [4.1.1. El código repetido](#411-el-código-repetido)
+    - [4.1.2. Tres lugares donde vive la lógica](#412-tres-lugares-donde-vive-la-lógica)
   - [4.2. Funciones con @functions](#42-funciones-con-functions)
-    - [4.2.1. Métodos y Propiedades](#421-métodos-y-propiedades)
-    - [4.2.2. Funciones Asíncronas](#422-funciones-asíncronas)
-    - [4.2.3. Funciones que Devuelven HTML](#423-funciones-que-devuelven-html)
-    - [4.2.4. Funciones Locales en un Bloque de Código](#424-funciones-locales-en-un-bloque-de-código)
-  - [4.3. Funciones Anónimas y Lambdas](#43-funciones-anónimas-y-lambdas)
-    - [4.3.1. Lambdas como Argumento](#431-lambdas-como-argumento)
-    - [4.3.2. Variables de Tipo Func](#432-variables-de-tipo-func)
-    - [4.3.3. Pasar Funciones como Valores](#433-pasar-funciones-como-valores)
-  - [4.4. Lo que NO Existe en Razor](#44-lo-que-no-existe-en-razor)
-    - [4.4.1. El helper no está Soportado](#441-el-helper-no-está-soportado)
-    - [4.4.2. Plantillas Razor no se Deducen](#442-plantillas-razor-no-se-deducen)
-  - [4.5. Buenas Prácticas](#45-buenas-prácticas)
-  - [4.6. Reto: Saca la lógica del listado de Funkos a funciones](#46-reto-saca-la-lógica-del-listado-de-funkos-a-funciones)
+    - [4.2.1. Métodos y propiedades](#421-métodos-y-propiedades)
+    - [4.2.2. Funciones asíncronas](#422-funciones-asíncronas)
+    - [4.2.3. Funciones que devuelven HTML](#423-funciones-que-devuelven-html)
+    - [4.2.4. Funciones locales en un bloque de código](#424-funciones-locales-en-un-bloque-de-código)
+  - [4.3. Funciones anónimas y lambdas](#43-funciones-anónimas-y-lambdas)
+    - [4.3.1. Lambdas como argumento](#431-lambdas-como-argumento)
+    - [4.3.2. Variables de tipo func](#432-variables-de-tipo-func)
+    - [4.3.3. Pasar funciones como valores](#433-pasar-funciones-como-valores)
+  - [4.4. Lo que NO existe en Razor](#44-lo-que-no-existe-en-razor)
+    - [4.4.1. El helper no está soportado](#441-el-helper-no-está-soportado)
+    - [4.4.2. Plantillas Razor no se deducen](#442-plantillas-razor-no-se-deducen)
+  - [4.5. Buenas prácticas](#45-buenas-prácticas)
+  - [4.6. Reto: saca la lógica del listado de Funkos a funciones](#46-reto-saca-la-lógica-del-listado-de-funkos-a-funciones)
     - [4.6.1. Contexto](#461-contexto)
     - [4.6.2. Retos](#462-retos)
 
 
 
-# 4. Funciones y Métodos en las Vistas
+# 4. Funciones y métodos en las vistas
 
 > 💡 **Punto de partida:** Cuando Spotify pinta tu lista de reproducción, el sello de *descargado* no está escrito a mano en cada canción: una función decide, una sola vez, qué sello le toca a cada una. Si mañana la regla cambia, se toca la función y cambian todas las canciones a la vez. En este punto aprendes a sacar esa lógica repetida de la vista a funciones con `@functions` y lambdas, y a distinguir lo que una función devuelve: un valor o HTML.
 
@@ -37,9 +37,9 @@ En este punto aprenderás a crear y utilizar funciones dentro de la vista con `@
 
 > 📝 **Nota:** seguimos con el repositorio en memoria del punto anterior. Todavía sin base de datos y sin controlador: todo vive en la vista.
 
-## 4.1. Por qué Sacar la Lógica de la Vista
+## 4.1. Por qué sacar la lógica de la vista
 
-### 4.1.1. El Código Repetido
+### 4.1.1. El código repetido
 
 Compara. Es el mismo listado, antes y después de aplicar una función.
 
@@ -100,7 +100,7 @@ Compara. Es el mismo listado, antes y después de aplicar una función.
 
 > 💡 **Analogía:** Es la diferencia entre recitar el menú de memoria en cada mesa y tenerlo escrito en una cartilla. Si el precio del plato cambia, en el primer caso tienes que corregir cien mesas; en el segundo, una sola cartilla.
 
-### 4.1.2. Tres Lugares donde Vive la Lógica
+### 4.1.2. Tres lugares donde vive la lógica
 
 No toda la lógica pertenece al mismo sitio. Esta es la escala, de más cercana a más alejada de la vista:
 
@@ -116,15 +116,15 @@ graph TD
     D --> D1["Se usa en varias vistas<br/>y se puede testear"]
     E --> E1["Decisión de negocio<br/>no es cosa de la vista"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#FF9800,color:#fff
-    style C fill:#2196F3,color:#fff
-    style D fill:#4CAF50,color:#fff
-    style E fill:#9C27B0,color:#fff
-    style B1 fill:#FF9800,color:#fff
-    style C1 fill:#2196F3,color:#fff
-    style D1 fill:#4CAF50,color:#fff
-    style E1 fill:#9C27B0,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#FF980,color:#fff0,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
+    style E fill:#9C27B,color:#fff0,color:#fff
+    style B1 fill:#FF980,color:#fff0,color:#fff
+    style C1 fill:#2196F,color:#fff3,color:#fff
+    style D1 fill:#4CAF5,color:#fff0,color:#fff
+    style E1 fill:#9C27B,color:#fff0,color:#fff
 ```
 
 | Situación | Dónde va | Ejemplo |
@@ -155,17 +155,17 @@ graph TD
     F --> H["HTML + datos<br/>al navegador"]
     G --> H
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#2196F3,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#FF9800,color:#fff
-    style E fill:#9C27B0,color:#fff
-    style F fill:#2196F3,color:#fff
-    style G fill:#FF9800,color:#fff
-    style H fill:#4CAF50,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style E fill:#9C27B,color:#fff0,color:#fff
+    style F fill:#2196F,color:#fff3,color:#fff
+    style G fill:#FF980,color:#fff0,color:#fff
+    style H fill:#4CAF5,color:#fff0,color:#fff
 ```
 
-### 4.2.1. Métodos y Propiedades
+### 4.2.1. Métodos y propiedades
 
 ```cshtml
 @using ProductosApp.Models
@@ -225,7 +225,7 @@ graph TD
 
 📌 **Ejemplo real:** Glovo calcula el tiempo estimado de entrega con funciones de este tipo: recibe un restaurante y devuelve un número. El HTML solo pinta el número. La lógica está en una función, no en la plantilla.
 
-### 4.2.2. Funciones Asíncronas
+### 4.2.2. Funciones asíncronas
 
 Si una función tiene que esperar a algo (una consulta, una llamada HTTP) se declara `async` y se devuelve `Task<T>`. Luego se llama con `await`.
 
@@ -250,7 +250,7 @@ Si una función tiene que esperar a algo (una consulta, una llamada HTTP) se dec
 
 > ⚠️ **Advertencia:** Si llamas a una función `async` **sin `await`**, el compilador te avisa (CS4014) y la tarea se queda huérfana: la página continúa sin esperar y el dato sale vacío. **`await` siempre.**
 
-### 4.2.3. Funciones que Devuelven HTML
+### 4.2.3. Funciones que devuelven HTML
 
 Aquí está la pregunta de oro: *¿y si quiero que la función devuelva etiquetas y no texto?*
 
@@ -294,7 +294,7 @@ El HTML resultante es:
 
 > 💡 **Consejo:** Si lo que quieres es reutilizar HTML (una tarjeta, un pie, un listado), la respuesta correcta no es una función que devuelva `IHtmlContent`: es una vista parcial. Esa es exactamente la razón de ser del punto **05** · Layouts, Partials y Componentes de Vista.
 
-### 4.2.4. Funciones Locales en un Bloque de Código
+### 4.2.4. Funciones locales en un bloque de código
 
 Dentro de un `@{ }` puedes declarar funciones como si fueran variables. Se llaman funciones locales.
 
@@ -350,11 +350,11 @@ Ahí sí hay llaves, y la función se queda dentro sin salir.
 
 > 💡 **Analogía:** Una función local es una herramienta que sacas del cajón, la usas y la guardas. `@functions` es una herramienta atornillada a la vista: se queda montada mientras dure la página.
 
-## 4.3. Funciones Anónimas y Lambdas
+## 4.3. Funciones anónimas y lambdas
 
 Una lambda (o función anónima) es una función sin nombre, escrita al vuelo: `x => expresión`. Es la base de LINQ y de casi todo lo que hace falta en una vista.
 
-### 4.3.1. Lambdas como Argumento
+### 4.3.1. Lambdas como argumento
 
 ```cshtml
 @using ProductosApp.Repositories
@@ -390,13 +390,13 @@ graph LR
     C --> F["La MISMA lista<br/>en otro orden"]
     D --> G["Sublista<br/>o un elemento"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#2196F3,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#FF9800,color:#fff
-    style E fill:#2196F3,color:#fff
-    style F fill:#4CAF50,color:#fff
-    style G fill:#FF9800,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style E fill:#2196F,color:#fff3,color:#fff
+    style F fill:#4CAF5,color:#fff0,color:#fff
+    style G fill:#FF980,color:#fff0,color:#fff
 ```
 
 | Lambda | Método | Devuelve |
@@ -409,7 +409,7 @@ graph LR
 
 > 📝 **Nota:** El parámetro `f` no tiene nombre fijo: podrías escribir `x => x.Activo` y significaría lo mismo. Convención: nombres cortos y en singular porque representan un elemento de la lista.
 
-### 4.3.2. Variables de Tipo Func
+### 4.3.2. Variables de tipo func
 
 Una lambda también se puede guardar en una variable. El tipo es `Func<..., Retorno>`:
 
@@ -447,7 +447,7 @@ Una lambda también se puede guardar en una variable. El tipo es `Func<..., Reto
 
 > 💡 **Truco:** Cuenta de derecha a izquierda: lo que está al final es lo que devuelve; lo que está antes son los parámetros. `Func<Producto, string>` = *"recibo un Producto y devuelvo un string"*.
 
-### 4.3.3. Pasar Funciones como Valores
+### 4.3.3. Pasar funciones como valores
 
 Lo verdaderamente potente: una función que recibe otra función. Así decides en el sitio de la llamada qué regla aplicar, sin reescribir la función.
 
@@ -483,7 +483,7 @@ Lo verdaderamente potente: una función que recibe otra función. Así decides e
 
 > 💡 **Consejo:** Cuando veas `Func<...>` en un parámetro, léelo así: *"esta función no decide qué buscar, solo cómo recorrer lo que le den"*.
 
-## 4.4. Lo que NO Existe en Razor
+## 4.4. Lo que NO existe en Razor
 
 Nada de esto funciona en Razor, por mucho que te lo parezca. Saberlo ahorra media hora de vida.
 
@@ -497,17 +497,17 @@ graph TD
     E --> G["Vista PARCIAL<br/>reutilizar HTML  →  punto 05"]
     E --> H["TAG HELPER<br/>controles de servidor  →  punto 06"]
 
-    style A fill:#f44336,color:#fff
-    style B fill:#f44336,color:#fff
-    style C fill:#f44336,color:#fff
-    style D fill:#f44336,color:#fff
-    style E fill:#4CAF50,color:#fff
-    style F fill:#4CAF50,color:#fff
-    style G fill:#4CAF50,color:#fff
-    style H fill:#4CAF50,color:#fff
+    style A fill:#f4433,color:#fff6,color:#fff
+    style B fill:#f4433,color:#fff6,color:#fff
+    style C fill:#f4433,color:#fff6,color:#fff
+    style D fill:#f4433,color:#fff6,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#4CAF5,color:#fff0,color:#fff
+    style G fill:#4CAF5,color:#fff0,color:#fff
+    style H fill:#4CAF5,color:#fff0,color:#fff
 ```
 
-### 4.4.1. El helper no está Soportado
+### 4.4.1. El helper no está soportado
 
 Si buscas *"helpers en Razor"* encontrarás cientos de tutoriales con esta sintaxis, de la época de **ASP.NET MVC 3 y WebMatrix**:
 
@@ -529,7 +529,7 @@ error RZ1002: The helper directive is not supported.
 
 > 💡 **Consejo:** Los códigos de error tienen dos familias: **`RZ`** = sintaxis de la plantilla Razor · **`CS`** = C#. Antes de culpar a Razor, mira si el error es `CS`: entonces es C# de siempre.
 
-### 4.4.2. Plantillas Razor no se Deducen
+### 4.4.2. Plantillas Razor no se deducen
 
 Razor sí permite escribir marcado como valor (se llaman plantillas Razor), pero **no se puede guardar en un `var`**: el compilador no deduce el tipo de delegado.
 
@@ -557,7 +557,7 @@ error CS1662: No se puede convertir expresión lambda en el tipo delegado indica
 
 > ⚠️ **Advertencia:** Si vienes de Blazor (UD04), `RenderFragment`, `@code { }` y `CascadingValue` no existen aquí. Son conceptos de componentes de cliente. En `.cshtml` el bloque se llama `@functions`.
 
-## 4.5. Buenas Prácticas
+## 4.5. Buenas prácticas
 
 - **Saca a `@functions`** toda regla que se repita más de una vez dentro de la vista
 - Si la lógica se usa en dos o más vistas, sácala a una clase: `@functions` es temporal
@@ -570,7 +570,7 @@ error CS1662: No se puede convertir expresión lambda en el tipo delegado indica
 - **No guardes marcado en un `var`**: la plantilla Razor no deduce el delegado (`CS8917`)
 - **No olvides `await`** en una función `async`: la tarea queda huérfana (CS4014)
 
-## 4.6. Reto: Saca la lógica del listado de Funkos a funciones
+## 4.6. Reto: saca la lógica del listado de Funkos a funciones
 
 > Saca la lógica del listado de FunkoApp a funciones. Mismo HTML, mucho menos código.
 

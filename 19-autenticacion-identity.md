@@ -1,29 +1,29 @@
-- [19. Autenticación de Usuarios con ASP.NET Core Identity](#19-autenticación-de-usuarios-con-aspnet-core-identity)
-  - [19.1. La Identidad: Quién Eres en una Web](#191-la-identidad-quién-eres-en-una-web)
-    - [19.1.1. Autenticarse y Autorizarse](#1911-autenticarse-y-autorizarse)
-    - [19.1.2. Claims: el Pasaporte Digital](#1912-claims-el-pasaporte-digital)
-    - [19.1.3. Qué Viaja en la Cookie de Identidad](#1913-qué-viaja-en-la-cookie-de-identidad)
-    - [19.1.4. Por Debajo de la Cookie de Identidad](#1914-por-debajo-de-la-cookie-de-identidad)
-    - [19.1.5. Identidad y Sesión: Las Dos Cookies](#1915-identidad-y-sesión-las-dos-cookies)
-  - [19.2. ASP.NET Core Identity: el Framework Oficial](#192-aspnet-core-identity-el-framework-oficial)
-    - [19.2.1. Qué es y Qué Aporta](#1921-qué-es-y-qué-aporta)
-    - [19.2.2. Modelos y Contexto de Datos](#1922-modelos-y-contexto-de-datos)
+- [19. Autenticación de usuarios con ASP.NET Core Identity](#19-autenticación-de-usuarios-con-aspnet-core-identity)
+  - [19.1. La identidad: quién eres en una web](#191-la-identidad-quién-eres-en-una-web)
+    - [19.1.1. Autenticarse y autorizarse](#1911-autenticarse-y-autorizarse)
+    - [19.1.2. Claims: el pasaporte digital](#1912-claims-el-pasaporte-digital)
+    - [19.1.3. Qué viaja en la cookie de identidad](#1913-qué-viaja-en-la-cookie-de-identidad)
+    - [19.1.4. Por debajo de la cookie de identidad](#1914-por-debajo-de-la-cookie-de-identidad)
+    - [19.1.5. Identidad y sesión: las dos cookies](#1915-identidad-y-sesión-las-dos-cookies)
+  - [19.2. ASP.NET Core Identity: el framework oficial](#192-aspnet-core-identity-el-framework-oficial)
+    - [19.2.1. Qué es y qué aporta](#1921-qué-es-y-qué-aporta)
+    - [19.2.2. Modelos y contexto de datos](#1922-modelos-y-contexto-de-datos)
     - [19.2.3. Configuración en Program.cs](#1923-configuración-en-programcs)
-    - [19.2.4. Visión Razor Pages: Registro y Acceso](#1924-visión-razor-pages-registro-y-acceso)
-    - [19.2.5. Visión MVC: Registro y Acceso](#1925-visión-mvc-registro-y-acceso)
-    - [19.2.6. Registro y Acceso, Comparados](#1926-registro-y-acceso-comparados)
-    - [19.2.7. Cerrar la Sesión](#1927-cerrar-la-sesión)
-  - [19.3. Autorización: Qué Puede Ver Cada Uno](#193-autorización-qué-puede-ver-cada-uno)
-    - [19.3.1. La Regla con Atributo](#1931-la-regla-con-atributo)
-    - [19.3.2. Visión Razor Pages: Atributos y Convenciones](#1932-visión-razor-pages-atributos-y-convenciones)
-    - [19.3.3. Visión MVC: Atributos en Controlador y Acción](#1933-visión-mvc-atributos-en-controlador-y-acción)
-    - [19.3.4. Roles y Políticas](#1934-roles-y-políticas)
-    - [19.3.5. Requisitos y Autorización sobre Recursos](#1935-requisitos-y-autorización-sobre-recursos)
-  - [19.4. Las Claves de Acceso](#194-las-claves-de-acceso)
-  - [19.5. Ataques Frecuentes: CSRF y XSS](#195-ataques-frecuentes-csrf-y-xss)
-  - [19.6. Reglas de Seguridad](#196-reglas-de-seguridad)
-  - [19.7. Buenas Prácticas](#197-buenas-prácticas)
-  - [19.8. Reto: El Acceso a la Tienda de Funkos](#198-reto-el-acceso-a-la-tienda-de-funkos)
+    - [19.2.4. Visión Razor Pages: registro y acceso](#1924-visión-razor-pages-registro-y-acceso)
+    - [19.2.5. Visión MVC: registro y acceso](#1925-visión-mvc-registro-y-acceso)
+    - [19.2.6. Registro y acceso, comparados](#1926-registro-y-acceso-comparados)
+    - [19.2.7. Cerrar la sesión](#1927-cerrar-la-sesión)
+  - [19.3. Autorización: qué puede ver cada uno](#193-autorización-qué-puede-ver-cada-uno)
+    - [19.3.1. La regla con atributo](#1931-la-regla-con-atributo)
+    - [19.3.2. Visión Razor Pages: atributos y convenciones](#1932-visión-razor-pages-atributos-y-convenciones)
+    - [19.3.3. Visión MVC: atributos en controlador y acción](#1933-visión-mvc-atributos-en-controlador-y-acción)
+    - [19.3.4. Roles y políticas](#1934-roles-y-políticas)
+    - [19.3.5. Requisitos y autorización sobre recursos](#1935-requisitos-y-autorización-sobre-recursos)
+  - [19.4. Las claves de acceso](#194-las-claves-de-acceso)
+  - [19.5. Ataques frecuentes: CSRF y XSS](#195-ataques-frecuentes-csrf-y-xss)
+  - [19.6. Reglas de seguridad](#196-reglas-de-seguridad)
+  - [19.7. Buenas prácticas](#197-buenas-prácticas)
+  - [19.8. Reto: el acceso a la tienda de Funkos](#198-reto-el-acceso-a-la-tienda-de-funkos)
     - [19.8.1. Contexto](#1981-contexto)
     - [19.8.2. Modelo de datos](#1982-modelo-de-datos)
     - [19.8.3. Almacenamiento](#1983-almacenamiento)
@@ -31,7 +31,7 @@
 
 
 
-# 19. Autenticación de Usuarios con ASP.NET Core Identity
+# 19. Autenticación de usuarios con ASP.NET Core Identity
 
 > 💡 **Punto de partida:** abres Netflix en el ordenador de un amigo y, en cuanto escribes tu correo y tu clave, el catálogo deja de ser el suyo: tus listas, tu progreso, tu idioma. Si solo escribes mal la clave, la web se queda tan tranquila y no te deja pasar; si intentas entrar en la sección de administración, te cortan en seco. Detrás de ese gesto hay dos preguntas que la aplicación contesta en orden: primero, quién eres; después, qué puedes tocar. ¿Qué hay que montar en el servidor para que sepa lo primero en cada petición y para que solo pueda pasar quien cumpla lo segundo? En este punto se responde con el framework oficial de Microsoft, ASP.NET Core Identity, en las dos visiones.
 
@@ -48,9 +48,9 @@ En este punto aprenderás a construir la autenticación completa con Identity of
 
 > 📝 **Nota:** usamos Identity oficial tal y como viene del framework: `AddIdentity`, `IdentityUser`, `IdentityDbContext`, `UserManager` y `SignInManager`. Nada de autenticación escrita a mano: esa es la parte que se repite en todos los proyectos y el framework ya la trae hecha.
 
-## 19.1. La Identidad: Quién Eres en una Web
+## 19.1. La identidad: quién eres en una web
 
-### 19.1.1. Autenticarse y Autorizarse
+### 19.1.1. Autenticarse y autorizarse
 
 **Autenticarse es demostrar quién eres; autorizarse es decidir qué puedes hacer una vez demostrado.** Son dos preguntas y dos momentos — el login responde a la primera y cada ruta protegida responde a la segunda.
 
@@ -58,7 +58,7 @@ En este punto aprenderás a construir la autenticación completa con Identity of
 
 > 💡 **Analogía:** el login es enseñar el DNI en la puerta; la autorización es el carnet que decide si entras al almacén o solo a la tienda.
 
-### 19.1.2. Claims: el Pasaporte Digital
+### 19.1.2. Claims: el pasaporte digital
 
 **La identidad de un usuario en .NET se representa con claims: pares `tipo-valor` que describen algo de quien llega.** El correo, el rol o el identificador interno son claims. Tres capas lo componen:
 
@@ -72,11 +72,11 @@ graph TD
     I --> C1["Claim Name = ana@prueba.com"]
     I --> C2["Claim Role = Admin"]
     I --> C3["Claim sub = identificador interno"]
-    style P fill:#2196F3,color:#fff
-    style I fill:#607D8B,color:#fff
-    style C1 fill:#4CAF50,color:#fff
-    style C2 fill:#FF9800,color:#fff
-    style C3 fill:#9C27B0,color:#fff
+    style P fill:#2196F,color:#fff3,color:#fff
+    style I fill:#607D8,color:#fffB,color:#fff
+    style C1 fill:#4CAF5,color:#fff0,color:#fff
+    style C2 fill:#FF980,color:#fff0,color:#fff
+    style C3 fill:#9C27B,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Netflix. Cuando te saluda por tu nombre en la barra superior, está leyendo el claim `Name` de la identidad que reconstruyó en esa petición.
@@ -98,7 +98,7 @@ Las vistas lo tienen preparado en `User`: `@User.Identity?.Name` pinta el correo
 
 Cada petición vuelve a montar esa identidad desde cero con lo que trae la cookie, sin dejar nada propio en el servidor. Por eso el correo o el rol que aparecen en la vista son los que venían escritos en la carga, y un cambio de datos solo se refleja cuando se emite la cookie siguiente.
 
-### 19.1.3. Qué Viaja en la Cookie de Identidad
+### 19.1.3. Qué viaja en la cookie de identidad
 
 Identity se apoya en las cookies del punto 18: el servidor crea la identidad y devuelve una cookie de autenticación; las peticiones siguientes la llevan y el servidor reconstruye el `ClaimsPrincipal` antes de que la acción o la página empiecen a trabajar. Por eso una zona protegida sabe quién eres sin preguntártelo en cada petición.
 
@@ -120,7 +120,7 @@ La cookie de identidad nace cifrada y con `HttpOnly`: quien la manipula desde el
 
 El servidor no lleva ninguna lista de quién ha entrado: no hay una colección de identidades esperando en memoria. Cada petición trae su propia prueba y el servidor la revisa al pasar, sin guardar nada de nadie entre petición y petición.
 
-### 19.1.4. Por Debajo de la Cookie de Identidad
+### 19.1.4. Por debajo de la cookie de identidad
 
 **El valor que viaja en la cookie no es texto: es una carga protegida con las claves del servidor.** La cookie de identidad sale con unos 750 caracteres, con `path=/`, `SameSite=Lax` y `HttpOnly`, y sin fecha de caducidad, así que muere al cerrar el navegador. Si le cambias un solo carácter, el servidor deja de aceptarla.
 
@@ -154,7 +154,7 @@ Tres piezas de este proceso no aparecen en tu código y deciden igual:
 
 > 💡 **Analogía:** es una entrada de concierto con holograma. El papel no dice quién eres: lo dicen el sello y la tinta del organizador. Quien rehaga la entrada con bolígrafo no pasa el control, y es justo lo que ocurre con un valor tocado.
 
-### 19.1.5. Identidad y Sesión: Las Dos Cookies
+### 19.1.5. Identidad y sesión: las dos cookies
 
 **La identidad y la sesión son paralelas, no alternativas: cada una responde a una pregunta distinta y las dos pueden viajar juntas.** Identity ni siquiera necesita la sesión para funcionar: se apoya en su propia cookie.
 
@@ -166,12 +166,12 @@ graph TD
     CS --> D["HttpContext.Session<br/>cesta y visitas cargadas"]
     U --> R["La vista se pinta<br/>con tu nombre y tus datos"]
     D --> R
-    style P fill:#2196F3,color:#fff
-    style CI fill:#9C27B0,color:#fff
-    style CS fill:#FF9800,color:#fff
-    style U fill:#607D8B,color:#fff
-    style D fill:#607D8B,color:#fff
-    style R fill:#4CAF50,color:#fff
+    style P fill:#2196F,color:#fff3,color:#fff
+    style CI fill:#9C27B,color:#fff0,color:#fff
+    style CS fill:#FF980,color:#fff0,color:#fff
+    style U fill:#607D8,color:#fffB,color:#fff
+    style D fill:#607D8,color:#fffB,color:#fff
+    style R fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 Las dos se distinguen por su nombre y por lo que pasa cuando una falta o alguien toca su valor:
@@ -192,9 +192,9 @@ La comprobación con la misma petición a la zona privada, en las dos visiones: 
 
 > 📝 **Nota:** en una web con Identity hay una tercera cookie en juego: la antifalsificación que el formulario de acceso emite en su GET (`.AspNetCore.Antiforgery.*`). Protege los `POST` y no dice nada de quién eres.
 
-## 19.2. ASP.NET Core Identity: el Framework Oficial
+## 19.2. ASP.NET Core Identity: el framework oficial
 
-### 19.2.1. Qué es y Qué Aporta
+### 19.2.1. Qué es y qué aporta
 
 **ASP.NET Core Identity es el sistema de usuarios, accesos y roles que trae el framework.** Si te pusieras a escribirlo a mano, tocaría resolver el hash de las claves, el bloqueo por intentos, la verificación de correos, los roles y la cookie de identidad; Identity trae todo eso configurado y probado.
 
@@ -209,12 +209,12 @@ graph TD
     UM --> EF["IdentityDbContext<br/>tablas AspNet"]
     SM --> CK["Cookie de identidad<br/>claims firmados"]
     CK --> P2["La peticion siguiente<br/>ya sabe quien eres"]
-    style P fill:#2196F3,color:#fff
-    style P2 fill:#4CAF50,color:#fff
-    style UM fill:#FF9800,color:#fff
-    style SM fill:#FF9800,color:#fff
-    style EF fill:#607D8B,color:#fff
-    style CK fill:#9C27B0,color:#fff
+    style P fill:#2196F,color:#fff3,color:#fff
+    style P2 fill:#4CAF5,color:#fff0,color:#fff
+    style UM fill:#FF980,color:#fff0,color:#fff
+    style SM fill:#FF980,color:#fff0,color:#fff
+    style EF fill:#607D8,color:#fffB,color:#fff
+    style CK fill:#9C27B,color:#fff0,color:#fff
 ```
 
 Lo que aporta sobre una autenticación propia:
@@ -230,7 +230,7 @@ Lo que aporta sobre una autenticación propia:
 
 Detrás de esa tabla, `AddIdentity` hace el montaje entero en el arranque de la aplicación: registra los dos gestores, les pone almacén, hash de claves, esquema de cookie con su ruta de acceso y proveedores de token. Tus páginas y tus controladores no ensamblan nada: piden el gestor que necesitan y devuelven el resultado que les devuelve.
 
-### 19.2.2. Modelos y Contexto de Datos
+### 19.2.2. Modelos y contexto de datos
 
 Con `IdentityUser` no hace falta definir entidad de usuario: la clase oficial ya trae correo, hash de clave, sello de seguridad y las marcas de bloqueo. Para añadir campos propios se hereda de ella:
 
@@ -305,12 +305,12 @@ graph LR
     A --> U["HttpContext.User<br/>con tus claims"]
     U --> Z["UseAuthorization<br/>evalua el atributo"]
     Z --> F["Tu pagina o tu accion<br/>ya no pregunta nada"]
-    style P fill:#2196F3,color:#fff
-    style R fill:#607D8B,color:#fff
-    style A fill:#FF9800,color:#fff
-    style U fill:#9C27B0,color:#fff
-    style Z fill:#607D8B,color:#fff
-    style F fill:#4CAF50,color:#fff
+    style P fill:#2196F,color:#fff3,color:#fff
+    style R fill:#607D8,color:#fffB,color:#fff
+    style A fill:#FF980,color:#fff0,color:#fff
+    style U fill:#9C27B,color:#fff0,color:#fff
+    style Z fill:#607D8,color:#fffB,color:#fff
+    style F fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 Cada bloque tiene su porqué:
@@ -321,7 +321,7 @@ Cada bloque tiene su porqué:
 
 > ⚠️ **Advertencia:** un `[Authorize]` sin `UseAuthentication` en el conducto no identifica a nadie; el orden de los middlewares es parte de la configuración de seguridad.
 
-### 19.2.4. Visión Razor Pages: Registro y Acceso
+### 19.2.4. Visión Razor Pages: registro y acceso
 
 En Razor Pages la lógica entera vive en el `PageModel`: los gestores entran por constructor primario y el posteo hace el trabajo.
 
@@ -400,7 +400,7 @@ Tres detalles que conviene retener:
 
 📌 **Ejemplo real:** Cualquier registro de una plataforma de cursos hace exactamente esto: si la clave es débil devuelve el formulario con los motivos del validador, y si es buena entra directamente en el área personal.
 
-### 19.2.5. Visión MVC: Registro y Acceso
+### 19.2.5. Visión MVC: registro y acceso
 
 En MVC el mismo trabajo se reparte en acciones: una pinta el formulario y otra recibe el envío, con el mismo gestor inyectado por constructor primario.
 
@@ -446,7 +446,7 @@ El alta es la misma que en Pages, con `CreateAsync` y sus errores al `ModelState
 
 📌 **Ejemplo real:** Glovo. El paso de identificación separa igual las dos acciones: una sirve el formulario y otra procesa lo que envías.
 
-### 19.2.6. Registro y Acceso, Comparados
+### 19.2.6. Registro y acceso, comparados
 
 | Tema | Razor Pages | MVC |
 |------|-------------|-----|
@@ -462,7 +462,7 @@ El alta es la misma que en Pages, con `CreateAsync` y sus errores al `ModelState
 
 El recorrido completo cabe en cinco pasos: el formulario pide su token, el servidor valida las credenciales contra el hash de la clave, `SignInManager` escribe la cookie de identidad y responde con un `302`, el navegador devuelve la cookie en cada petición siguiente, y `UseAuthentication` la desprotege en cada una para montar `User`. Las dos visiones recorren los mismos cinco pasos; cambia quién recibe la petición, una página o una acción, no el conducto.
 
-### 19.2.7. Cerrar la Sesión
+### 19.2.7. Cerrar la sesión
 
 **Salir es una sola llamada: `SignInManager.SignOutAsync()` borra la cookie de identidad.** En Pages va en un `OnPostAsync` de la página de salida:
 
@@ -494,9 +494,9 @@ Salir no vacía, además, la sesión de la aplicación: `SignOutAsync` se lleva 
 
 > 📝 **Nota:** el token antifalsificación va ligado a la identidad de quien lo pidió: el que se emite en el formulario de acceso deja de valer en cuanto entras, y un cierre de sesión montado a mano con ese token viejo responde **400**. Si pides el token de nuevo en el formulario de salida, se cierra sin ruido.
 
-## 19.3. Autorización: Qué Puede Ver Cada Uno
+## 19.3. Autorización: qué puede ver cada uno
 
-### 19.3.1. La Regla con Atributo
+### 19.3.1. La regla con atributo
 
 **Una ruta se protege con un atributo: `[Authorize]` en el `PageModel` o en el controlador.** Ese solo atributo cambia la ruta para siempre — lo que antes pintaba, ahora redirige.
 
@@ -520,7 +520,7 @@ app.UseAuthorization();
 
 Las dos líneas cambian el resultado de la misma petición. Si la llega sin identidad, el esquema de cookies lanza su `Challenge` y redirige a `/Account/Login`; si llega identificada pero sin el permiso que pide el atributo, la autorización lanza su `Forbid` y el esquema la manda a `/Account/AccessDenied`. Ninguna de las dos salidas pasa por tu código, y por eso el orden de arriba no admite discusión.
 
-### 19.3.2. Visión Razor Pages: Atributos y Convenciones
+### 19.3.2. Visión Razor Pages: atributos y convenciones
 
 El atributo va en el `PageModel`, que es quien representa la vista:
 
@@ -546,7 +546,7 @@ Lo razonable es combinarlas: convención para la carpeta, atributo para la excep
 
 > 💡 **Consejo:** proteger por convención evita el olvido clásico: una página nueva dentro de una carpeta protegida ya nace protegida.
 
-### 19.3.3. Visión MVC: Atributos en Controlador y Acción
+### 19.3.3. Visión MVC: atributos en controlador y acción
 
 En MVC el mismo atributo se coloca donde más convenga: en la clase protege todas las acciones de esa clase y, suelto, protege solo esa acción.
 
@@ -564,7 +564,7 @@ Puede anidarse con rol en la misma clase y abrirse con `[AllowAnonymous]` en las
 
 📌 **Ejemplo real:** WordPress. Los paneles de gestión funcionan así: el controlador entero pide identificación y las acciones de acceso quedan abiertas.
 
-### 19.3.4. Roles y Políticas
+### 19.3.4. Roles y políticas
 
 **`[Authorize(Roles = "Admin")]` añade una condición más: no basta con estar identificado, hay que traer el rol.** En las dos visiones sale lo mismo: `ana@prueba.com`, identificada pero sin el rol, pide `/admin` y recibe **302** con `Location: /Account/AccessDenied?ReturnUrl=%2Fadmin`; `admin@prueba.com`, con el rol, recibe **200** y la vista pinta su correo.
 
@@ -591,19 +591,19 @@ graph TD
     A -->|Si| R["¿Tiene el rol o la politica?"]
     R -->|No| D["302 a /Account/AccessDenied"]
     R -->|Si| OK["200: la vista se pinta"]
-    style P fill:#2196F3,color:#fff
-    style A fill:#607D8B,color:#fff
-    style L fill:#FF9800,color:#fff
-    style R fill:#607D8B,color:#fff
-    style D fill:#f44336,color:#fff
-    style OK fill:#4CAF50,color:#fff
+    style P fill:#2196F,color:#fff3,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style L fill:#FF980,color:#fff0,color:#fff
+    style R fill:#607D8,color:#fffB,color:#fff
+    style D fill:#f4433,color:#fff6,color:#fff
+    style OK fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 > 📝 **Nota:** el rol viaja como un claim más en la identidad, así que `User.IsInRole("Admin")` en la vista responde sin mirar la base de datos en cada petición.
 
 > 💡 **Consejo:** nombra las políticas por lo que dicen (`EsAdmin`, `PuedeEditar`), no por el archivo donde se usan: el nombre se lee en cada `[Authorize(Policy = "...")]` y en la página de acceso denegado.
 
-### 19.3.5. Requisitos y Autorización sobre Recursos
+### 19.3.5. Requisitos y autorización sobre recursos
 
 **Cuando el rol no basta, la condición se escribe como requisito: una clase que declara qué hace falta y un manejador que lo comprueba.** El caso típico es el dueño del recurso: que solo quien dio de alta un producto pueda editarlo. Para eso el producto lleva un campo con el identificador de su dueño, `DuenoId`, que se rellena en el alta con el claim `NameIdentifier` del usuario que la hace.
 
@@ -676,7 +676,7 @@ Cuándo usar cada versión:
 
 > 💡 **Analogía:** el rol es el carnet de la planta; el requisito sobre el recurso es comprobar en la puerta del despacho, con el papel delante, que ese despacho es tuyo.
 
-## 19.4. Las Claves de Acceso
+## 19.4. Las claves de acceso
 
 **La clave nunca se guarda tal cual la escribe el usuario: se guarda su hash.** Si la tabla de usuarios se cae en manos de alguien, ese alguien debe ganarse cada clave probándola una a una.
 
@@ -700,7 +700,7 @@ Comprobar la clave no significa deshacer el hash: no hay operación inversa. El 
 
 📌 **Ejemplo real:** LinkedIn. Cuando en 2012 se filtraron las contraseñas de sus usuarios, lo que circuló fue un listado de hashes: para reventar cada una hubo que adivinarla una a una.
 
-## 19.5. Ataques Frecuentes: CSRF y XSS
+## 19.5. Ataques frecuentes: CSRF y XSS
 
 **El falso envío de formularios (CSRF) consiste en que otra web dispare un `POST` contra tu aplicación usando la cookie que ya tienes.** La cookie viaja sola, porque el navegador la adjunta sin preguntar a nadie, y esa es justo la pieza que explota el ataque: tu identificación, sin tu intención.
 
@@ -732,7 +732,7 @@ Razor escapa por defecto todo lo que sale de `@`: el mismo producto con `<script
 
 📌 **Ejemplo real:** El buscador de cualquier periódico pinta lo que escribes en la caja de búsqueda: si lo hiciera sin escapar, bastaría un enlace con texto trucado para ejecutar código en quien lo abriera.
 
-## 19.6. Reglas de Seguridad
+## 19.6. Reglas de seguridad
 
 - **`[Authorize]` en cada ruta privada**: una carpeta olvidada devuelve su vista a cualquiera
 - **Valida el `ReturnUrl`** antes de redirigir — viene del navegador y debe apuntar a tu propia web, o la bandera falsa te envía a otro sitio
@@ -745,7 +745,7 @@ Razor escapa por defecto todo lo que sale de `@`: el mismo producto con `<script
 - **Cookie de identidad endurecida**: `HttpOnly` de fábrica y, en producción, `Secure` y `SameSite` en las opciones de la cookie
 - **Página de acceso denegado propia**: quien no tiene rol recibe un aviso claro, no un hueco
 
-## 19.7. Buenas Prácticas
+## 19.7. Buenas prácticas
 
 - **Identity desde el primer día**: la autenticación propia se paga después en mantenimiento y en huecos de seguridad
 - **Constructor primario** para `UserManager` y `SignInManager` en `PageModel` y en controladores
@@ -758,7 +758,7 @@ Razor escapa por defecto todo lo que sale de `@`: el mismo producto con `<script
 - **Política de claves y bloqueo** configurados en `AddIdentity`, no cuando ya están los usuarios
 - **Identidad leída desde `User`**: `User.Identity?.Name` y `User.IsInRole(...)` en la vista
 
-## 19.8. Reto: El Acceso a la Tienda de Funkos
+## 19.8. Reto: el acceso a la tienda de Funkos
 
 > Haz que tu tienda tenga dueños: alta de usuarios con Identity, acceso con correo y clave, y una zona privada que solo entra quien se ha identificado, en las dos visiones.
 

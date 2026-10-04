@@ -1,22 +1,22 @@
-- [9. ViewModels y Programación Orientada a Objetos](#9-viewmodels-y-programación-orientada-a-objetos)
-  - [9.1. La Forma que Pide la Vista](#91-la-forma-que-pide-la-vista)
-    - [9.1.1. La Entidad No Es la Vista](#911-la-entidad-no-es-la-vista)
-    - [9.1.2. Qué Pide la Vista que la Entidad No Da](#912-qué-pide-la-vista-que-la-entidad-no-da)
+- [9. ViewModels y programación orientada a objetos](#9-viewmodels-y-programación-orientada-a-objetos)
+  - [9.1. La forma que pide la vista](#91-la-forma-que-pide-la-vista)
+    - [9.1.1. La entidad no es la vista](#911-la-entidad-no-es-la-vista)
+    - [9.1.2. Qué pide la vista que la entidad no da](#912-qué-pide-la-vista-que-la-entidad-no-da)
   - [9.2. Qué es un ViewModel](#92-qué-es-un-viewmodel)
-    - [9.2.1. Tres Tipos de Modelo](#921-tres-tipos-de-modelo)
-    - [9.2.2. El ViewModel del Detalle](#922-el-viewmodel-del-detalle)
-    - [9.2.3. El Controlador Construye el ViewModel](#923-el-controlador-construye-el-viewmodel)
-  - [9.3. Un ViewModel con Varios Datos](#93-un-viewmodel-con-varios-datos)
-    - [9.3.1. El Panel del Catálogo](#931-el-panel-del-catálogo)
+    - [9.2.1. Tres tipos de modelo](#921-tres-tipos-de-modelo)
+    - [9.2.2. El ViewModel del detalle](#922-el-viewmodel-del-detalle)
+    - [9.2.3. El controlador construye el ViewModel](#923-el-controlador-construye-el-viewmodel)
+  - [9.3. Un ViewModel con varios datos](#93-un-viewmodel-con-varios-datos)
+    - [9.3.1. El panel del catálogo](#931-el-panel-del-catálogo)
     - [9.3.2. ViewData o ViewModel](#932-viewdata-o-viewmodel)
-  - [9.4. Programación Orientada a Objetos en la Vista](#94-programación-orientada-a-objetos-en-la-vista)
-    - [9.4.1. Encapsulación: Solo lo que la Vista Necesita](#941-encapsulación-solo-lo-que-la-vista-necesita)
-    - [9.4.2. Propiedades Calculadas](#942-propiedades-calculadas)
-    - [9.4.3. Inmutabilidad: Records y Solo Lectura](#943-inmutabilidad-records-y-solo-lectura)
-    - [9.4.4. Herencia y Polimorfismo](#944-herencia-y-polimorfismo)
-  - [9.5. Dónde Acaba la Lógica](#95-dónde-acaba-la-lógica)
-  - [9.6. Buenas Prácticas](#96-buenas-prácticas)
-  - [9.7. Reto: Escudos de datos para FunkoApp](#97-reto-escudos-de-datos-para-funkoapp)
+  - [9.4. Programación orientada a objetos en la vista](#94-programación-orientada-a-objetos-en-la-vista)
+    - [9.4.1. Encapsulación: solo lo que la vista necesita](#941-encapsulación-solo-lo-que-la-vista-necesita)
+    - [9.4.2. Propiedades calculadas](#942-propiedades-calculadas)
+    - [9.4.3. Inmutabilidad: records y solo lectura](#943-inmutabilidad-records-y-solo-lectura)
+    - [9.4.4. Herencia y polimorfismo](#944-herencia-y-polimorfismo)
+  - [9.5. Dónde acaba la lógica](#95-dónde-acaba-la-lógica)
+  - [9.6. Buenas prácticas](#96-buenas-prácticas)
+  - [9.7. Reto: escudos de datos para FunkoApp](#97-reto-escudos-de-datos-para-funkoapp)
     - [9.7.1. Contexto](#971-contexto)
     - [9.7.2. Modelo de datos](#972-modelo-de-datos)
     - [9.7.3. Almacenamiento](#973-almacenamiento)
@@ -24,7 +24,7 @@
 
 
 
-# 9. ViewModels y Programación Orientada a Objetos
+# 9. ViewModels y programación orientada a objetos
 
 > 💡 **Punto de partida:** Cuando abres la ficha de un vuelo en Kiwi, ves *Equipaje incluido* y *Cancelación gratis*; detrás hay decenas de campos internos de reservas que esa vista nunca mostrará. La vista pide una cosa y el modelo interno guarda otra: entre los dos hay un objeto pensado justo para la vista, el ViewModel. En este punto lo construyes para tu ficha de productos, con propiedades calculadas y POO aplicada a las vistas.
 
@@ -40,9 +40,9 @@ En este punto aprenderás a construir los **ViewModels**: objetos con la forma e
 
 > 📝 **Nota:** seguimos en el proyecto MVC de los puntos 07 y 08. Aparecen dos carpetas nuevas: `ViewModels/` para los escudos de datos y `Mappers/` para la conversión de entidades.
 
-## 9.1. La Forma que Pide la Vista
+## 9.1. La forma que pide la vista
 
-### 9.1.1. La Entidad No Es la Vista
+### 9.1.1. La entidad no es la vista
 
 Volvemos a la entidad con la que trabajamos desde el punto 03:
 
@@ -66,7 +66,7 @@ Nueve campos, un reflejo fiel de lo que guarda la aplicación. Eso está bien pa
 
 > 💡 **Analogía:** Un camarero lleva a la mesa una bandeja con los platos que tocan. La mesa no consulta la cocina ni sabe de dónde sale cada plato: recibe la bandeja ya preparada. El controlador es el camarero, el ViewModel es la bandeja y la vista es la mesa.
 
-### 9.1.2. Qué Pide la Vista que la Entidad No Da
+### 9.1.2. Qué pide la vista que la entidad no da
 
 Comparemos lo que pinta la ficha con lo que la entidad sabe dar:
 
@@ -87,7 +87,7 @@ Dos problemas enfrentados. Por un lado, faltan textos derivados de los datos. Po
 
 Un **ViewModel** es un objeto con las propiedades exactas que necesita una vista concreta, construido por el controlador y consumido por la vista. No guarda nada nuevo: presenta lo que ya existe con otra forma. La respuesta al hueco del apartado anterior es un objeto a medida — el ViewModel, escudo entre la entidad y la vista.
 
-### 9.2.1. Tres Tipos de Modelo
+### 9.2.1. Tres tipos de modelo
 
 En un proyecto MVC conviven tres clases de modelo, y confundirlas es la fuente de la mayoría de dudas:
 
@@ -103,7 +103,7 @@ El nombre `ViewModels/` como carpeta de "escudos de datos" viene de esa idea: el
 
 > 📝 **Nota:** la cláusula `: IResumen` que verás en la firma del ViewModel del apartado siguiente se explica en el 9.4.4: es el contrato que permite pintar el mismo objeto en otra vista. Por ahora, léela como una etiqueta más.
 
-### 9.2.2. El ViewModel del Detalle
+### 9.2.2. El ViewModel del detalle
 
 Así se ve el ViewModel de la ficha, en su carpeta `ViewModels/ProductoViewModel.cs`:
 
@@ -141,7 +141,7 @@ Dos cambios respecto a la entidad. Se quedan fuera `Imagen` y `Etiquetas` (la fi
 
 Para que `@model ProductoViewModel` funcione sin escribir el namespace completo, `Views/_ViewImports.cshtml` suma una directiva que ya conoces del punto 05: `@using ProductosApp.ViewModels`.
 
-### 9.2.3. El Controlador Construye el ViewModel
+### 9.2.3. El controlador construye el ViewModel
 
 La conversión de entidad a ViewModel se centraliza en `Mappers/ProductoMapper.cs`, con un método de extensión:
 
@@ -185,17 +185,17 @@ graph LR
     A["Repositorio<br/>Producto (9 campos)"] --> B["Controlador<br/>Ficha(id)"]
     B --> C["ProductoViewModel<br/>7 campos + 4 textos"]
     C --> D["Vista Ficha.cshtml<br/>solo pinta"]
-    style A fill:#607D8B,color:#fff
-    style B fill:#f44336,color:#fff
-    style C fill:#9C27B0,color:#fff
-    style D fill:#4CAF50,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#f4433,color:#fff6,color:#fff
+    style C fill:#9C27B,color:#fff0,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 > 💡 **Consejo:** si en la vista escribes `@Model.` y el autocompletado solo ofrece siete campos y cuatro textos, tienes el escudo funcionando. El ViewModel es la lista de lo que la vista tiene permitido conocer.
 
-## 9.3. Un ViewModel con Varios Datos
+## 9.3. Un ViewModel con varios datos
 
-### 9.3.1. El Panel del Catálogo
+### 9.3.1. El panel del catálogo
 
 La segunda vista no es una ficha: es un resumen con título, dos contadores y una lista de nombres. Ahí el ViewModel no mapea campos de uno a uno, sino que guarda los datos de origen en privado y abre solo sus conclusiones:
 
@@ -264,22 +264,22 @@ graph TD
     A --> D["Bien para títulos<br/>y avisos"]
     B --> E["Forma exacta y<br/>errores al compilar"]
     C --> F["Demasiado:<br/>la vista ve de más"]
-    style Q fill:#2196F3,color:#fff
-    style A fill:#FF9800,color:#fff
-    style B fill:#4CAF50,color:#fff
-    style C fill:#f44336,color:#fff
-    style D fill:#FF9800,color:#fff
-    style E fill:#4CAF50,color:#fff
-    style F fill:#f44336,color:#fff
+    style Q fill:#2196F,color:#fff3,color:#fff
+    style A fill:#FF980,color:#fff0,color:#fff
+    style B fill:#4CAF5,color:#fff0,color:#fff
+    style C fill:#f4433,color:#fff6,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#f4433,color:#fff6,color:#fff
 ```
 
 > 💡 **Truco:** el criterio es el tamaño. Un título o un aviso de una petición: `ViewData` o `TempData`. Una vista con lista, contadores y textos derivados: ViewModel. Si vas a escribir tres o más claves seguidas, ya es ViewModel.
 
-## 9.4. Programación Orientada a Objetos en la Vista
+## 9.4. Programación orientada a objetos en la vista
 
 Un ViewModel no es una bolsa de datos: es una clase de C# donde la POO se aplica a la presentación, con encapsulación, propiedades calculadas, inmutabilidad y polimorfismo.
 
-### 9.4.1. Encapsulación: Solo lo que la Vista Necesita
+### 9.4.1. Encapsulación: solo lo que la vista necesita
 
 `CatalogoViewModel` guarda la lista en un campo privado y publica cinco miembros: `Titulo`, `Total`, `Novedades`, `Descatalogados` y `NombresNovedad`. Ese reparto es la encapsulación: lo que se guarda no es lo que se muestra.
 
@@ -299,7 +299,7 @@ argumento del tipo "ProductoViewModel"
 
 📌 **Ejemplo real:** En la app de tu banco, la vista de tu cuenta no puede leer campos internos de riesgo o scoring del cliente, aunque existan en la entidad. El contrato de tipos hace ese trabajo: si no está en la superficie que recibes, no existe para ti.
 
-### 9.4.2. Propiedades Calculadas
+### 9.4.2. Propiedades calculadas
 
 Las propiedades con cuerpo (`=>`) no guardan nada: se recalculan cada vez que alguien las lee. Eso significa que nunca pueden quedar desfasadas respecto a los datos de las que salen.
 
@@ -314,7 +314,7 @@ En `CatalogoViewModel` la misma técnica escala a agregados: `Total`, `Novedades
 
 > 📝 **Nota:** el coste de recalcular se paga en la vista de servidor, sobre listas pequeñas, y solo si alguien lee la propiedad. Si un cálculo se vuelve pesado, deja de ser presentación y toca moverlo a un servicio: eso ya es optimización, no arquitectura.
 
-### 9.4.3. Inmutabilidad: Records y Solo Lectura
+### 9.4.3. Inmutabilidad: records y solo lectura
 
 `ProductoViewModel` es un `record`: sus campos posicionales solo admiten asignación al construirse. La vista recibe el objeto y no tiene manera de reescribirlo. Vamos a comprobarlo intentándolo:
 
@@ -333,7 +333,7 @@ Son dos errores de compilación distintos con el mismo mensaje implícito: *lo q
 
 > ⚠️ **Advertencia:** si una vista necesita "modificar" algo (marcar como leído, incrementar un contador), eso no es pintar: es una acción. Se manda con un `POST` a una acción del controlador, como vimos en el punto 08, no escribiendo sobre el modelo de la vista.
 
-### 9.4.4. Herencia y Polimorfismo
+### 9.4.4. Herencia y polimorfismo
 
 Las vistas también admiten polimorfismo, y se resuelve con un contrato mínimo: la vista declara la interfaz y el controlador decide el tipo concreto.
 
@@ -393,15 +393,15 @@ graph TD
     I --> C["CatalogoViewModel<br/>Productos del catálogo"]
     P --> V["Resumen.cshtml<br/>@model IResumen"]
     C --> V
-    style I fill:#2196F3,color:#fff
-    style P fill:#9C27B0,color:#fff
-    style C fill:#9C27B0,color:#fff
-    style V fill:#4CAF50,color:#fff
+    style I fill:#2196F,color:#fff3,color:#fff
+    style P fill:#9C27B,color:#fff0,color:#fff
+    style C fill:#9C27B,color:#fff0,color:#fff
+    style V fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 > 📝 **Nota:** en vistas, la herencia profunda casi nunca compensa: una jerarquía plana de ViewModels con uno o dos contratos como este cubre casi todos los casos reales. Lo importante es que la vista pida *qué* necesita, no *qué clase* es.
 
-## 9.5. Dónde Acaba la Lógica
+## 9.5. Dónde acaba la lógica
 
 Con las piezas de los puntos 07, 08 y este, la pregunta de siempre tiene respuesta fija:
 
@@ -418,18 +418,18 @@ graph TD
     Q --> B["Textos y conteos<br/>de vista<br/>ViewModel"]
     Q --> C["Reglas de negocio<br/>y datos<br/>Modelo / Repositorio"]
     Q --> D["Busca, convierte<br/>y decide vista<br/>Controlador"]
-    style Q fill:#2196F3,color:#fff
-    style A fill:#4CAF50,color:#fff
-    style B fill:#9C27B0,color:#fff
-    style C fill:#FF9800,color:#fff
-    style D fill:#f44336,color:#fff
+    style Q fill:#2196F,color:#fff3,color:#fff
+    style A fill:#4CAF5,color:#fff0,color:#fff
+    style B fill:#9C27B,color:#fff0,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style D fill:#f4433,color:#fff6,color:#fff
 ```
 
 El criterio es simple — si la respuesta cambia cuando cambian los datos de negocio, no va en la vista.
 
 📌 **Ejemplo real:** En Glovo, el precio final con descuentos y gastos de envío lo calcula el servidor antes de pintar la página. La vista solo muestra la cifra ya cerrada: si el cálculo se equivoca, se arregla en un sitio, no en cuarenta vistas.
 
-## 9.6. Buenas Prácticas
+## 9.6. Buenas prácticas
 
 - **Un ViewModel por vista**: el detalle y el panel tienen formas distintas y cada una tiene su objeto
 - **Carpetas con su propósito**: entidades en `Models/`, escudos en `ViewModels/`, conversión en `Mappers/`
@@ -440,7 +440,7 @@ El criterio es simple — si la respuesta cambia cuando cambian los datos de neg
 - **Toda conversión, en el mapper**: el controlador llama a `ToViewModel()`, no monta objetos a mano
 - **La vista no consulta**: ningún `Where`, ningún `Count` en el `.cshtml`; esos los hizo el ViewModel
 
-## 9.7. Reto: Escudos de datos para FunkoApp
+## 9.7. Reto: escudos de datos para FunkoApp
 
 > Escuda los datos de FunkoApp con ViewModels — y dibuja antes en papel la forma que pide cada vista.
 

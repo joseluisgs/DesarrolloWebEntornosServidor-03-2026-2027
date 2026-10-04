@@ -1,24 +1,24 @@
-- [3. Estructuras de Control en la Interfaz](#3-estructuras-de-control-en-la-interfaz)
-  - [3.1. El Dato Llega a la Vista](#31-el-dato-llega-a-la-vista)
-    - [3.1.1. El Modelo Producto](#311-el-modelo-producto)
-    - [3.1.2. El Repositorio en Memoria](#312-el-repositorio-en-memoria)
-    - [3.1.3. Cómo se Llama desde la Vista](#313-cómo-se-llama-desde-la-vista)
-  - [3.2. Mecanismos de Decisión](#32-mecanismos-de-decisión)
-    - [3.2.1. if, else if y else](#321-if-else-if-y-else)
-    - [3.2.2. Pattern Matching con is](#322-pattern-matching-con-is)
-    - [3.2.3. switch y Switch Expression](#323-switch-y-switch-expression)
+- [3. Estructuras de control en la interfaz](#3-estructuras-de-control-en-la-interfaz)
+  - [3.1. El dato llega a la vista](#31-el-dato-llega-a-la-vista)
+    - [3.1.1. El modelo producto](#311-el-modelo-producto)
+    - [3.1.2. El repositorio en memoria](#312-el-repositorio-en-memoria)
+    - [3.1.3. Cómo se llama desde la vista](#313-cómo-se-llama-desde-la-vista)
+  - [3.2. Mecanismos de decisión](#32-mecanismos-de-decisión)
+    - [3.2.1. If, else if y else](#321-if-else-if-y-else)
+    - [3.2.2. Pattern matching con is](#322-pattern-matching-con-is)
+    - [3.2.3. switch y switch expression](#323-switch-y-switch-expression)
   - [3.3. Bucles](#33-bucles)
-    - [3.3.1. foreach y el Estado Vacío](#331-foreach-y-el-estado-vacío)
+    - [3.3.1. foreach y el estado vacío](#331-foreach-y-el-estado-vacío)
     - [3.3.2. for](#332-for)
     - [3.3.3. while y do-while](#333-while-y-do-while)
-    - [3.3.4. Bucles Anidados, break y continue](#334-bucles-anidados-break-y-continue)
-  - [3.4. Arrays y Matrices](#34-arrays-y-matrices)
-    - [3.4.1. Array Unidimensional](#341-array-unidimensional)
-    - [3.4.2. Matriz Bidimensional](#342-matriz-bidimensional)
-    - [3.4.3. Arrays Irregulares](#343-arrays-irregulares)
-    - [3.4.4. Recuperar Datos con Índices](#344-recuperar-datos-con-índices)
-  - [3.5. Buenas Prácticas](#35-buenas-prácticas)
-  - [3.6. Reto: Listado de Funkos con decisión, bucles y arrays](#36-reto-listado-de-funkos-con-decisión-bucles-y-arrays)
+    - [3.3.4. Bucles anidados, break y continue](#334-bucles-anidados-break-y-continue)
+  - [3.4. Arrays y matrices](#34-arrays-y-matrices)
+    - [3.4.1. Array unidimensional](#341-array-unidimensional)
+    - [3.4.2. Matriz bidimensional](#342-matriz-bidimensional)
+    - [3.4.3. Arrays irregulares](#343-arrays-irregulares)
+    - [3.4.4. Recuperar datos con índices](#344-recuperar-datos-con-índices)
+  - [3.5. Buenas prácticas](#35-buenas-prácticas)
+  - [3.6. Reto: listado de Funkos con decisión, bucles y arrays](#36-reto-listado-de-funkos-con-decisión-bucles-y-arrays)
     - [3.6.1. Contexto](#361-contexto)
     - [3.6.2. Modelo de datos](#362-modelo-de-datos)
     - [3.6.3. Almacenamiento](#363-almacenamiento)
@@ -26,7 +26,7 @@
 
 
 
-# 3. Estructuras de Control en la Interfaz
+# 3. Estructuras de control en la interfaz
 
 > 💡 **Punto de partida:** Cuando bajas por el feed de Instagram, cada tarjeta es distinta: unas llevan el sello de novedad, otras están archivadas, y si no sigues a nadie ves un mensaje avisando de que no hay nada que mostrar. Todo eso son decisiones y bucles dentro de la plantilla: `@if` para lo que se decide, `@foreach` para lo que se repite y un estado vacío para cuando no hay datos. En este punto aprendes las estructuras de control de Razor; y para tener algo que recorrer, entra por fin el repositorio en memoria.
 
@@ -41,9 +41,9 @@ En este punto aprenderás a meter datos de verdad en tus vistas con un repositor
 
 > 📝 **Nota:** seguimos sin base de datos. El repositorio guarda los datos en memoria del proceso: si reinicias la aplicación, vuelven a los valores iniciales. Es suficiente para aprender a recorrer y mostrar; la base de datos llegará mucho más adelante, cuando ya sepas usarla.
 
-## 3.1. El Dato Llega a la Vista
+## 3.1. El dato llega a la vista
 
-### 3.1.1. El Modelo Producto
+### 3.1.1. El modelo producto
 
 Ya lo esbozamos en el punto anterior. Este es el `record` completo que usaremos de aquí en adelante:
 
@@ -82,7 +82,7 @@ public record Producto(
 > <img src="@(producto.Imagen ?? "/img/sin-foto.png")" alt="@producto.Nombre" />
 > ```
 
-### 3.1.2. El Repositorio en Memoria
+### 3.1.2. El repositorio en memoria
 
 Un repositorio es la fuente de datos de la aplicación. El nuestro vive en memoria: una lista con datos de ejemplo, sin ficheros ni base de datos.
 
@@ -118,17 +118,17 @@ graph LR
     B -->|"@foreach"| C["Una tarjeta<br/>por cada producto"]
     C --> D["HTML final<br/>que recibe el navegador"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#2196F3,color:#fff
-    style C fill:#FF9800,color:#fff
-    style D fill:#4CAF50,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Netflix no consulta la base de datos 40 veces mientras bajas por la portada. Pide el catálogo una vez y lo recorre en memoria. Nosotros hacemos una versión mini: pedimos la lista una vez y el `@foreach` la pinta.
 
 > 📝 **Nota:** Hemos usado una clase estática a propósito. Todavía no sabes qué es la inyección de dependencias ni hay controlador ni `PageModel`: eso llega en los puntos **07** y **11**. De momento la vista llama directamente al repositorio: es el paso intermedio entre *"datos escritos a mano"* y *"datos que llegan de una base de datos"*.
 
-### 3.1.3. Cómo se Llama desde la Vista
+### 3.1.3. Cómo se llama desde la vista
 
 ```cshtml
 @using ProductosApp.Repositories
@@ -151,7 +151,7 @@ La ubicación del fichero depende de la visión:
 
 > ⚠️ **Advertencia:** Esta llamada se hace una sola vez, en un `@{ }` de la raíz. Si la escribes dentro de un bucle, estarás creando la lista en cada vuelta y, cuando esto llegue a la base de datos, tendrás un problema serio de rendimiento.
 
-## 3.2. Mecanismos de Decisión
+## 3.2. Mecanismos de decisión
 
 Hay cuatro formas de tomar una decisión dentro de una vista, y conviene saber cuándo usar cada una.
 
@@ -167,18 +167,18 @@ graph TD
     D --> D1["case + break<br/>nunca olvides break"]
     E --> E1["_ => valor por defecto"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#2196F3,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#FF9800,color:#fff
-    style E fill:#9C27B0,color:#fff
-    style B1 fill:#2196F3,color:#fff
-    style C1 fill:#4CAF50,color:#fff
-    style D1 fill:#FF9800,color:#fff
-    style E1 fill:#9C27B0,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style E fill:#9C27B,color:#fff0,color:#fff
+    style B1 fill:#2196F,color:#fff3,color:#fff
+    style C1 fill:#4CAF5,color:#fff0,color:#fff
+    style D1 fill:#FF980,color:#fff0,color:#fff
+    style E1 fill:#9C27B,color:#fff0,color:#fff
 ```
 
-### 3.2.1. if, else if y else
+### 3.2.1. If, else if y else
 
 La cadena clásica. Solo se ejecuta una rama, y las demás no generan ni un byte.
 
@@ -202,7 +202,7 @@ La cadena clásica. Solo se ejecuta una rama, y las demás no generan ni un byte
 
 > ⚠️ **Advertencia:** El orden importa. Si pones `else if (producto.Activo)` antes del de novedad, un producto que es novedad y está activo caerá en la segunda rama y la novedad nunca se verá. Prueba a invertirlo y mira el resultado con F12.
 
-### 3.2.2. Pattern Matching con is
+### 3.2.2. Pattern matching con is
 
 C# permite comparar contra rangos y formas, no solo contra un valor. Es la forma más legible de expresar condiciones sobre números.
 
@@ -236,7 +236,7 @@ C# permite comparar contra rangos y formas, no solo contra un valor. Es la forma
 
 > 💡 **Truco:** `is not null` es más limpio que `!= null` y no lanza `NullReferenceException` si se combina bien con los patrones de forma.
 
-### 3.2.3. switch y Switch Expression
+### 3.2.3. Switch y switch expression
 
 Cuando hay muchas ramas posibles sobre el mismo valor, `@switch` se lee mejor que una escalera de `else if`.
 
@@ -288,7 +288,7 @@ La switch expression no genera HTML: devuelve un valor que luego se pinta.
 
 Recorrer una lista es solo la mitad del trabajo; la otra mitad es verificar que el bucle funciona. Cambia los datos y comprueba que el HTML cambia.
 
-### 3.3.1. foreach y el Estado Vacío
+### 3.3.1. Foreach y el estado vacío
 
 El `@foreach` recorre una colección elemento a elemento. Es el bucle del 90 % de los listados.
 
@@ -326,7 +326,7 @@ else
 
 > 📝 **Nota:** `Any()` y `Count` vienen de LINQ. `Any()` es más barato porque se para en cuanto encuentra el primero; usa `Count == 0` solo si ya tienes el número contado.
 
-### 3.3.2. for
+### 3.3.2. For
 
 Cuando necesitas el número de vuelta (una posición, un número de página, un contador), usa `@for`.
 
@@ -355,7 +355,7 @@ Fíjate en `@(i + 1)`: los índices empiezan en **0**, pero a las personas les g
 | `@foreach` | No necesitas el índice, solo el elemento |
 | `@for` | Necesitas la posición, el contador o un paso concreto |
 
-### 3.3.3. while y do-while
+### 3.3.3. While y do-while
 
 `@while` se repite mientras la condición sea cierta. Es el bucle más peligroso: si la condición nunca se cumple, no termina nunca.
 
@@ -383,13 +383,13 @@ graph TD
     F["@do { } while"] --> G["Ejecuta el bloque<br/>AL MENOS una vez"]
     G --> B
 
-    style A fill:#FF9800,color:#fff
-    style B fill:#607D8B,color:#fff
-    style C fill:#2196F3,color:#fff
-    style D fill:#f44336,color:#fff
-    style E fill:#4CAF50,color:#fff
-    style F fill:#9C27B0,color:#fff
-    style G fill:#9C27B0,color:#fff
+    style A fill:#FF980,color:#fff0,color:#fff
+    style B fill:#607D8,color:#fffB,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
+    style D fill:#f4433,color:#fff6,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#9C27B,color:#fff0,color:#fff
+    style G fill:#9C27B,color:#fff0,color:#fff
 ```
 
 - **`@while`**: evalúa primero, puede no ejecutarse nunca
@@ -397,7 +397,7 @@ graph TD
 
 > 🔧 **Truco:** Si en clase la página se queda cargando eternamente y el servidor va al 100 %, casi siempre es un `@while` sin incremento. Busca la variable que debería cambiar.
 
-### 3.3.4. Bucles Anidados, break y continue
+### 3.3.4. Bucles anidados, break y continue
 
 Los bucles se anidan: un bucle dentro de otro. Es la forma de pintar, por ejemplo, las categorías y luego los Productos de cada una.
 
@@ -430,7 +430,7 @@ Los bucles se anidan: un bucle dentro de otro. Es la forma de pintar, por ejempl
 
 > ⚠️ **Advertencia:** En bucles anidados, `break` solo sale del bucle interno. Si quieres salir de los dos, necesitas una bandera (`bool encontrado = false;`) o moverlo a una función.
 
-## 3.4. Arrays y Matrices
+## 3.4. Arrays y matrices
 
 Un array es una colección de tamaño fijo; una matriz es un array con varias dimensiones.
 
@@ -448,19 +448,19 @@ graph TD
     C1["Acceso: m[f, c]<br/>Tamaño: GetLength(0), GetLength(1)"] -.-> C
     D1["Acceso: r[f][c]<br/>Tamaño: r.Length y r[f].Length"] -.-> D
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#2196F3,color:#fff
-    style C fill:#FF9800,color:#fff
-    style D fill:#9C27B0,color:#fff
-    style B0 fill:#2196F3,color:#fff
-    style C0 fill:#FF9800,color:#fff
-    style D0 fill:#9C27B0,color:#fff
-    style B1 fill:#4CAF50,color:#fff
-    style C1 fill:#4CAF50,color:#fff
-    style D1 fill:#4CAF50,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style D fill:#9C27B,color:#fff0,color:#fff
+    style B0 fill:#2196F,color:#fff3,color:#fff
+    style C0 fill:#FF980,color:#fff0,color:#fff
+    style D0 fill:#9C27B,color:#fff0,color:#fff
+    style B1 fill:#4CAF5,color:#fff0,color:#fff
+    style C1 fill:#4CAF5,color:#fff0,color:#fff
+    style D1 fill:#4CAF5,color:#fff0,color:#fff
 ```
 
-### 3.4.1. Array Unidimensional
+### 3.4.1. Array unidimensional
 
 ```cshtml
 @{
@@ -486,7 +486,7 @@ graph TD
 
 > 📝 **Nota:** `Length` (array) y `Count` (lista) no son lo mismo, aunque devuelvan el mismo número. `Length` es una propiedad del array — inmutable; `Count` puede implicar recorrer la colección.
 
-### 3.4.2. Matriz Bidimensional
+### 3.4.2. Matriz bidimensional
 
 Una matriz guarda datos en filas y columnas. Es ideal para pintar tablas.
 
@@ -542,7 +542,7 @@ Una matriz guarda datos en filas y columnas. Es ideal para pintar tablas.
 
 > ⚠️ **Advertencia:** `m[3, 1]` con solo 2 filas lanza **`IndexOutOfRangeException`** y deja la página en blanco. Comprueba siempre `GetLength(0)` antes de entrar en el bucle.
 
-### 3.4.3. Arrays Irregulares
+### 3.4.3. Arrays irregulares
 
 Un array de arrays (o *ragged*) tiene filas de longitudes distintas. Es lo que usas cuando cada grupo tiene un tamaño diferente.
 
@@ -581,7 +581,7 @@ Un array de arrays (o *ragged*) tiene filas de longitudes distintas. Es lo que u
 | **Matriz 2D** | `string[,] m` | `m[f, c]` | `m.GetLength(0)`, `GetLength(1)` |
 | **Irregular** | `string[][] r` | `r[f][c]` | `r.Length`, `r[f].Length` |
 
-### 3.4.4. Recuperar Datos con Índices
+### 3.4.4. Recuperar datos con índices
 
 Recuperar un dato es tan importante como guardarlo. Tres errores típicos, todos ellos por índices:
 
@@ -612,7 +612,7 @@ Recuperar un dato es tan importante como guardarlo. Tres errores típicos, todos
 
 > 💡 **Truco:** C# 8+ permite el índice desde el final con `^`: `categorias[^1]` es el último (`Deportes`). Muy cómodo para *"mostrar el último añadido"*.
 
-## 3.5. Buenas Prácticas
+## 3.5. Buenas prácticas
 
 - **Comprueba siempre el estado vacío** con `@if (!lista.Any())` antes de un `@foreach`
 - **Pide la lista una sola vez**, en un `@{ }` de la raíz de la vista — nunca dentro de un bucle
@@ -625,7 +625,7 @@ Recuperar un dato es tan importante como guardarlo. Tres errores típicos, todos
 - **No llames al repositorio dentro de un bucle**: es una petición de datos por vuelta
 - **No te saltes el estado vacío**: una lista sin datos no debe dejar un hueco en la página
 
-## 3.6. Reto: Listado de Funkos con decisión, bucles y arrays
+## 3.6. Reto: listado de Funkos con decisión, bucles y arrays
 
 > Monta el listado de Funkos de FunkoApp con decisión, bucles y arrays, yendo a buscar los datos al repositorio en memoria.
 

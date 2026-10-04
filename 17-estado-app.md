@@ -1,28 +1,28 @@
-- [17. Gestión del Estado de la Aplicación](#17-gestión-del-estado-de-la-aplicación)
-  - [17.1. HTTP: el Protocolo que Olvida](#171-http-el-protocolo-que-olvida)
+- [17. Gestión del estado de la aplicación](#17-gestión-del-estado-de-la-aplicación)
+  - [17.1. HTTP: el protocolo que olvida](#171-http-el-protocolo-que-olvida)
     - [17.1.1. Qué es HTTP](#1711-qué-es-http)
-    - [17.1.2. Un Protocolo Sin Estado](#1712-un-protocolo-sin-estado)
-    - [17.1.3. Los Trucos para Recordar Entre Peticiones](#1713-los-trucos-para-recordar-entre-peticiones)
+    - [17.1.2. Un protocolo sin estado](#1712-un-protocolo-sin-estado)
+    - [17.1.3. Los trucos para recordar entre peticiones](#1713-los-trucos-para-recordar-entre-peticiones)
   - [17.2. ViewData y ViewBag](#172-viewdata-y-viewbag)
-    - [17.2.1. Qué son y Qué Aportan](#1721-qué-son-y-qué-aportan)
+    - [17.2.1. Qué son y qué aportan](#1721-qué-son-y-qué-aportan)
     - [17.2.2. Visión Razor Pages: ViewData en el PageModel](#1722-visión-razor-pages-viewdata-en-el-pagemodel)
-    - [17.2.3. Visión MVC: ViewData y ViewBag en la Acción](#1723-visión-mvc-viewdata-y-viewbag-en-la-acción)
-    - [17.2.4. ViewData y ViewBag, Comparados](#1724-viewdata-y-viewbag-comparados)
-  - [17.3. TempData: el Aviso que Cruza el Redirect](#173-tempdata-el-aviso-que-cruza-el-redirect)
-    - [17.3.1. Qué es y Por Qué Existe](#1731-qué-es-y-por-qué-existe)
+    - [17.2.3. Visión MVC: ViewData y ViewBag en la acción](#1723-visión-mvc-viewdata-y-viewbag-en-la-acción)
+    - [17.2.4. ViewData y ViewBag, comparados](#1724-viewdata-y-viewbag-comparados)
+  - [17.3. TempData: el aviso que cruza el redirect](#173-tempdata-el-aviso-que-cruza-el-redirect)
+    - [17.3.1. Qué es y por qué existe](#1731-qué-es-y-por-qué-existe)
     - [17.3.2. Visión Razor Pages: TempData con PRG](#1732-visión-razor-pages-tempdata-con-prg)
     - [17.3.3. Visión MVC: TempData con PRG](#1733-visión-mvc-tempdata-con-prg)
-    - [17.3.4. Peek y Keep: Leer sin Consumir](#1734-peek-y-keep-leer-sin-consumir)
-    - [17.3.5. Las Dos Visiones, Comparadas](#1735-las-dos-visiones-comparadas)
-  - [17.4. ModelState: el Estado de la Última Validación](#174-modelstate-el-estado-de-la-última-validación)
-  - [17.5. El Estado Compartido de la Aplicación](#175-el-estado-compartido-de-la-aplicación)
-    - [17.5.1. Almacenamientos Estáticos y Singleton](#1751-almacenamientos-estáticos-y-singleton)
-    - [17.5.2. Ciclos de Vida en la Inyección de Dependencias](#1752-ciclos-de-vida-en-la-inyección-de-dependencias)
-    - [17.5.3. La Regla de Aislamiento](#1753-la-regla-de-aislamiento)
-  - [17.6. Cómo se Pasan los Datos entre Vistas](#176-cómo-se-pasan-los-datos-entre-vistas)
-  - [17.7. Reglas de Seguridad del Estado](#177-reglas-de-seguridad-del-estado)
-  - [17.8. Buenas Prácticas](#178-buenas-prácticas)
-  - [17.9. Reto: El Estado de la Tienda de Funkos](#179-reto-el-estado-de-la-tienda-de-funkos)
+    - [17.3.4. Peek y keep: leer sin consumir](#1734-peek-y-keep-leer-sin-consumir)
+    - [17.3.5. Las dos visiones, comparadas](#1735-las-dos-visiones-comparadas)
+  - [17.4. ModelState: el estado de la última validación](#174-modelstate-el-estado-de-la-última-validación)
+  - [17.5. El estado compartido de la aplicación](#175-el-estado-compartido-de-la-aplicación)
+    - [17.5.1. Almacenamientos estáticos y singleton](#1751-almacenamientos-estáticos-y-singleton)
+    - [17.5.2. Ciclos de vida en la inyección de dependencias](#1752-ciclos-de-vida-en-la-inyección-de-dependencias)
+    - [17.5.3. La regla de aislamiento](#1753-la-regla-de-aislamiento)
+  - [17.6. Cómo se pasan los datos entre vistas](#176-cómo-se-pasan-los-datos-entre-vistas)
+  - [17.7. Reglas de seguridad del estado](#177-reglas-de-seguridad-del-estado)
+  - [17.8. Buenas prácticas](#178-buenas-prácticas)
+  - [17.9. Reto: el estado de la tienda de Funkos](#179-reto-el-estado-de-la-tienda-de-funkos)
     - [17.9.1. Contexto](#1791-contexto)
     - [17.9.2. Modelo de datos](#1792-modelo-de-datos)
     - [17.9.3. Almacenamiento](#1793-almacenamiento)
@@ -30,7 +30,7 @@
 
 
 
-# 17. Gestión del Estado de la Aplicación
+# 17. Gestión del estado de la aplicación
 
 > 💡 **Punto de partida:** Cambias el idioma de tu cuenta en Netflix, la página se recarga y, sobre el catálogo, aparece el aviso "Tu idioma se ha actualizado". Si pulsas F5, el aviso ya no está. Ese mensaje vivió dos peticiones: la que lo escribió y la que lo pintó, y alguien lo borró después. La pregunta de este punto es la de siempre con HTTP: una aplicación web no recuerda nada de una petición a la siguiente y, sin embargo, todo lo que usas funciona. ¿Qué trucos se monta entre petición y petición para recordar?
 
@@ -47,7 +47,7 @@ En este punto empezarás por el principio: qué es HTTP y por qué es un protoco
 
 > 📝 **Nota:** seguimos con `ProductosApp` en sus dos visiones. Las dos comparten el proveedor de `TempData`: mismas cookies y mismos resultados en página y en acción.
 
-## 17.1. HTTP: el Protocolo que Olvida
+## 17.1. HTTP: el protocolo que olvida
 
 ### 17.1.1. Qué es HTTP
 
@@ -57,7 +57,7 @@ En este punto empezarás por el principio: qué es HTTP y por qué es un protoco
 
 > 💡 **Analogía:** es como pedir en un mostrador donde cada vez te atiende una persona distinta y nadie lleva la cuenta: pides, te dan, y a la siguiente ni saben quién eres.
 
-### 17.1.2. Un Protocolo Sin Estado
+### 17.1.2. Un protocolo sin estado
 
 A HTTP se le llama **sin estado** (en inglés, *stateless*) porque el servidor no recuerda nada por sí solo de una petición a la siguiente: cada petición llega como si fuera la primera. Eso no es un olvido accidental, es una decisión de diseño, y tiene sus motivos:
 
@@ -69,7 +69,7 @@ Lo que se pierde es la sensación de "estamos continuando". Sin trucos, cada cli
 
 > 📝 **Nota:** todo lo que hace una web parecer continua, todo lo que recuerda, está construido encima del protocolo, no dentro de él.
 
-### 17.1.3. Los Trucos para Recordar Entre Peticiones
+### 17.1.3. Los trucos para recordar entre peticiones
 
 **Como el protocolo no recuerda, la aplicación se monta sus trucos, y todos caben en tres preguntas:** ¿dónde guardo el dato?, ¿qué hace el dato: viajar o quedarse? y ¿cuánto dura?
 
@@ -87,18 +87,18 @@ graph TD
     R --> T1["Dentro de la misma respuesta<br/>ViewData, ViewBag, ModelState"]
     R --> T2["En una cookie que vuelve<br/>TempData (cookies, punto 18)"]
     R --> T3["En el servidor, para todos<br/>estaticos y singleton"]
-    style P fill:#2196F3,color:#fff
-    style R fill:#607D8B,color:#fff
-    style T1 fill:#4CAF50,color:#fff
-    style T2 fill:#FF9800,color:#fff
-    style T3 fill:#9C27B0,color:#fff
+    style P fill:#2196F,color:#fff3,color:#fff
+    style R fill:#607D8,color:#fffB,color:#fff
+    style T1 fill:#4CAF5,color:#fff0,color:#fff
+    style T2 fill:#FF980,color:#fff0,color:#fff
+    style T3 fill:#9C27B,color:#fff0,color:#fff
 ```
 
 Los tres primeros trucos son el trabajo de este punto. El segundo, TempData, es el que Netflix usa para enseñarte el aviso del idioma: el que redirige deja la nota y la página siguiente la pinta.
 
 ## 17.2. ViewData y ViewBag
 
-### 17.2.1. Qué son y Qué Aportan
+### 17.2.1. Qué son y qué aportan
 
 **Una vista necesita a veces datos que no son productos:** el título de la página, cuántos resultados salen, el nombre de quien ha entrado. El modelo tipado (punto 09) se reserva para los datos de verdad de la vista; para los sueltos existe `ViewData`.
 
@@ -120,12 +120,12 @@ graph LR
     V --> F["Acaba la peticion:<br/>la caja desaparece"]
     L --> F
     P --> F
-    style H fill:#2196F3,color:#fff
-    style D fill:#9C27B0,color:#fff
-    style V fill:#4CAF50,color:#fff
-    style L fill:#4CAF50,color:#fff
-    style P fill:#4CAF50,color:#fff
-    style F fill:#607D8B,color:#fff
+    style H fill:#2196F,color:#fff3,color:#fff
+    style D fill:#9C27B,color:#fff0,color:#fff
+    style V fill:#4CAF5,color:#fff0,color:#fff
+    style L fill:#4CAF5,color:#fff0,color:#fff
+    style P fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#607D8,color:#fffB,color:#fff
 ```
 
 ### 17.2.2. Visión Razor Pages: ViewData en el PageModel
@@ -151,7 +151,7 @@ Las dos puertas dan al mismo almacén: lo que escribes por `ViewData` lo lee `Vi
 
 > 💡 **Consejo:** en páginas escribe siempre por `ViewData` desde el `PageModel`; `ViewBag` déjalo para la vista, donde sí existe.
 
-### 17.2.3. Visión MVC: ViewData y ViewBag en la Acción
+### 17.2.3. Visión MVC: ViewData y ViewBag en la acción
 
 En la acción las dos puertas están de serie, porque `Controller` trae `ViewData` y `ViewBag` (apartado 8.4):
 
@@ -171,7 +171,7 @@ public IActionResult Index()
 
 La acción escribe con `ViewBag` y la vista lee con `ViewData`: sale el texto igual, porque es la misma caja.
 
-### 17.2.4. ViewData y ViewBag, Comparados
+### 17.2.4. ViewData y ViewBag, comparados
 
 Misma caja, distinta puerta y las dos visiones. Lo que no comparten es cómo fallan, y ahí es donde duele:
 
@@ -193,9 +193,9 @@ Hay dos maneras de fallar, y fallan igual en página y en acción:
 
 > ⚠️ **Advertencia:** `ViewBag` no comprueba nada en la compilación: el error llega cuando alguien abre la vista en producción. Los datos con forma van en el modelo tipado (punto 09).
 
-## 17.3. TempData: el Aviso que Cruza el Redirect
+## 17.3. TempData: el aviso que cruza el redirect
 
-### 17.3.1. Qué es y Por Qué Existe
+### 17.3.1. Qué es y por qué existe
 
 **El PRG de los puntos 13 a 16 deja un hueco: el redirect no cuenta nada.** Después de un POST válido, el servidor responde `302` con una cabecera `Location` que solo dice "ve a esta otra URL"; no lleva mensajes, no lleva datos — solo la dirección. Si el handler quería dar un mensajito a la vista que pinta después, el mensaje se pierde entre las dos peticiones.
 
@@ -208,10 +208,10 @@ graph LR
     A["POST: el handler deja<br/>el aviso en TempData"] -->|"302 con Location"| B["GET: la vista de destino<br/>lee el aviso y lo pinta"]
     B --> C["La caja queda vacia"]
     C --> D["GET siguiente:<br/>ya no hay nada que pintar"]
-    style A fill:#2196F3,color:#fff
-    style B fill:#4CAF50,color:#fff
-    style C fill:#607D8B,color:#fff
-    style D fill:#f44336,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#4CAF5,color:#fff0,color:#fff
+    style C fill:#607D8,color:#fffB,color:#fff
+    style D fill:#f4433,color:#fff6,color:#fff
 ```
 
 ### 17.3.2. Visión Razor Pages: TempData con PRG
@@ -254,7 +254,7 @@ public IActionResult Alta(string nombre, string categoria)
 
 La vista de destino lleva el mismo `@if` y el comportamiento es idéntico: **302**, aviso una vez, después vacío.
 
-### 17.3.4. Peek y Keep: Leer sin Consumir
+### 17.3.4. Peek y keep: leer sin consumir
 
 Leer con `TempData["Mensaje"]` consume el valor: quien lo pinta, lo borra. Para mirar sin gastar hay dos métodos:
 
@@ -265,7 +265,7 @@ Leer con `TempData["Mensaje"]` consume el valor: quien lo pinta, lo borra. Para 
 
 > 🔧 **Truco:** dentro de un bloque `@if` ya estás en código: las sentencias se escriben sin `@{ }`. Si lo envuelves, el compilador devuelve `RZ1010`.
 
-### 17.3.5. Las Dos Visiones, Comparadas
+### 17.3.5. Las dos visiones, comparadas
 
 | | Visión Razor Pages | Visión MVC |
 |---|---|---|
@@ -280,17 +280,17 @@ El mecanismo por debajo es el mismo en las dos: `TempData` viaja en una cookie d
 
 > 📝 **Nota:** `TempData` no necesita configurar la sesión: el proveedor por defecto es la cookie del navegador. Por eso el aviso viaja hasta el equipo y vuelve en la petición siguiente. La cookie completa y la sesión son el punto 18.
 
-## 17.4. ModelState: el Estado de la Última Validación
+## 17.4. ModelState: el estado de la última validación
 
 **El binding del punto 14 y la validación del punto 15 dejan su propio rastro: `ModelState`.** Es el cuaderno de erratas de la petición: un diccionario con lo que ha llegado y con un error por campo que no ha cuadrado. Vive la petición entera, la vista lo pinta con `@Html.ValidationMessage(...)` (apartado 15.1.1) y con la respuesta desaparece.
 
 Aquí no aporta nada nuevo: solo importa colocarlo en el mapa (la segunda fila de la tabla del apartado 17.1.3) y recordar que, igual que `ViewData`, aguanta hasta la vista.
 
-## 17.5. El Estado Compartido de la Aplicación
+## 17.5. El estado compartido de la aplicación
 
 **Hasta aquí, todo el estado pertenecía a una petición o a la inmediata siguiente. Pero hay datos que no son de nadie:** cuántas altas lleva la tienda, las categorías, el total de visitas. Esos viven en el sitio contrario: un almacén al que todas las peticiones entran — de nadie en particular.
 
-### 17.5.1. Almacenamientos Estáticos y Singleton
+### 17.5.1. Almacenamientos estáticos y singleton
 
 La forma más directa es una lista estática en el repositorio. **Una lista estática es de todos los usuarios:** si la rellenas con lo que da de alta un cliente, el cliente siguiente la abre y ve lo del primero, en página y en acción por igual. El otro camino es un servicio registrado con `AddSingleton`: una sola instancia para toda la aplicación, así que tres peticiones seguidas ven `1`, `2`, `3` venga quien venga, porque el contador es el mismo para todos.
 
@@ -298,7 +298,7 @@ La forma más directa es una lista estática en el repositorio. **Una lista est�
 
 > ⚠️ **Advertencia:** la fuga no avisa: el segundo usuario ve lo que creó el primero y el sistema sigue respondiendo con normalidad. Y una lista estática no está hecha para que dos peticiones escriban a la vez: si compartes, usa estructuras pensadas para ello.
 
-### 17.5.2. Ciclos de Vida en la Inyección de Dependencias
+### 17.5.2. Ciclos de vida en la inyección de dependencias
 
 **La inyección de dependencias del punto 08 no reparte objetos al azar:** cada registro tiene su duración.
 
@@ -325,14 +325,14 @@ graph TD
     A --> Q2["Peticion 2"]
     Q1 --> W["Cada peticion ve la suya<br/>distinta siempre"]
     Q2 --> W
-    style S fill:#4CAF50,color:#fff
-    style P1 fill:#2196F3,color:#fff
-    style P2 fill:#2196F3,color:#fff
-    style V fill:#FF9800,color:#fff
-    style A fill:#9C27B0,color:#fff
-    style Q1 fill:#607D8B,color:#fff
-    style Q2 fill:#607D8B,color:#fff
-    style W fill:#FF9800,color:#fff
+    style S fill:#4CAF5,color:#fff0,color:#fff
+    style P1 fill:#2196F,color:#fff3,color:#fff
+    style P2 fill:#2196F,color:#fff3,color:#fff
+    style V fill:#FF980,color:#fff0,color:#fff
+    style A fill:#9C27B,color:#fff0,color:#fff
+    style Q1 fill:#607D8,color:#fffB,color:#fff
+    style Q2 fill:#607D8,color:#fffB,color:#fff
+    style W fill:#FF980,color:#fff0,color:#fff
 ```
 
 **El peligro está en cómo recibes el servicio en una acción:** los parámetros llegan desde la petición. Si pides un tipo registrado sin decirlo a la inyección, el binding fabrica un objeto nuevo en cada petición — el compartido deja de serlo sin que se note y el contador se queda en `1`, `1`, `1`.
@@ -350,7 +350,7 @@ public IActionResult Estado([FromServices] ContadorAltas contador) => View();   
 
 > 💡 **Consejo:** si el contador no crece en producción, sospecha primero del parámetro de la acción: pásalo al constructor o márcalo con `[FromServices]`.
 
-### 17.5.3. La Regla de Aislamiento
+### 17.5.3. La regla de aislamiento
 
 **La regla cabe en una frase:** el estado vive en el almacén más corto que lo aguante y en el más estrecho que le corresponda.
 
@@ -363,7 +363,7 @@ public IActionResult Estado([FromServices] ContadorAltas contador) => View();   
 
 Lo de un usuario no entra en el compartido; lo de todos no entra en la sesión. Y lo que solo acompaña a una vista no necesita durar más que ella.
 
-## 17.6. Cómo se Pasan los Datos entre Vistas
+## 17.6. Cómo se pasan los datos entre vistas
 
 Cuando un dato tiene que ir de un sitio a otro dentro de la aplicación, hay tres caminos y se eligen por duración, no por gusto:
 
@@ -376,7 +376,7 @@ Cuando un dato tiene que ir de un sitio a otro dentro de la aplicación, hay tre
 
 Dos apuntes de la casa: dentro de una misma petición no hay que pasar nada a mano, porque la vista, su layout y sus parciales comparten la misma caja de `ViewData`; y si vas a pasar tres claves o más, eso ya no es un suelto: monta un ViewModel (apartado 9.3.2).
 
-## 17.7. Reglas de Seguridad del Estado
+## 17.7. Reglas de seguridad del estado
 
 - **Nada sensible en `ViewData` ni `ViewBag`**: lo que metes ahí puede acabar pintado en cualquier vista que cuelgue de la petición, layout y parciales incluidos; una contraseña o un DNI completo no son un título de página.
 - **`TempData`, solo mensajes públicos**: el aviso sale en una cookie del navegador (`.AspNetCore.Mvc.CookieTempDataProvider`, `HttpOnly`, 176 caracteres con el texto dentro). Quien comparte el equipo lo lee; si la cookie se manipula, la respuesta es **200** sin aviso.
@@ -387,7 +387,7 @@ Dos apuntes de la casa: dentro de una misma petición no hay que pasar nada a ma
 
 > 💡 **Consejo:** si un dato puede contener algo de un usuario, asúmelo de un usuario y no lo dejes en ningún almacén compartido.
 
-## 17.8. Buenas Prácticas
+## 17.8. Buenas prácticas
 
 - **Empieza por la duración**: decide cuánto debe vivir el dato y después elige el almacén
 - **Modelo para los datos, `ViewData` para los sueltos**: títulos, contadores y avisos de una petición
@@ -398,7 +398,7 @@ Dos apuntes de la casa: dentro de una misma petición no hay que pasar nada a ma
 - **Los servicios por constructor o `[FromServices]`**: el parámetro normal de la acción lo fabrica el binding
 - **Nada sensible en el estado de la vista**: lo que se pinta puede acabar en cualquier parte
 
-## 17.9. Reto: El Estado de la Tienda de Funkos
+## 17.9. Reto: el estado de la tienda de Funkos
 
 > Haz que cada trozo de estado de tu tienda viva en su sitio: avisos que cruzan el redirect, contadores compartidos y ningún dato de usuario a la vista de nadie, en las dos visiones.
 

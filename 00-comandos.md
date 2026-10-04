@@ -1,20 +1,20 @@
-- [00. Guía de Supervivencia: Comandos .NET CLI](#00-guía-de-supervivencia-comandos-net-cli)
-  - [1. Crear Proyectos y Soluciones](#1-crear-proyectos-y-soluciones)
-  - [2. Compilar y Ejecutar](#2-compilar-y-ejecutar)
+- [00. Guía de supervivencia: comandos .NET CLI](#00-guía-de-supervivencia-comandos-net-cli)
+  - [1. Crear proyectos y soluciones](#1-crear-proyectos-y-soluciones)
+  - [2. Compilar y ejecutar](#2-compilar-y-ejecutar)
   - [3. Paquetes NuGet](#3-paquetes-nuget)
-  - [4. .NET Tools: Herramientas Globales](#4-net-tools-herramientas-globales)
-  - [5. Scaffolding: Generar Código](#5-scaffolding-generar-código)
+  - [4. .NET tools: herramientas globales](#4-net-tools-herramientas-globales)
+  - [5. Scaffolding: generar código](#5-scaffolding-generar-código)
   - [6. Entity Framework Core](#6-entity-framework-core)
   - [7. Tests](#7-tests)
-  - [8. Formateo de Código](#8-formateo-de-código)
-  - [9. User Secrets (Secretos de Desarrollo)](#9-user-secrets-secretos-de-desarrollo)
-  - [10. Certificados de Desarrollo](#10-certificados-de-desarrollo)
+  - [8. Formateo de código](#8-formateo-de-código)
+  - [9. User Secrets (secretos de desarrollo)](#9-user-secrets-secretos-de-desarrollo)
+  - [10. Certificados de desarrollo](#10-certificados-de-desarrollo)
   - [11. Docker](#11-docker)
   - [12. Git](#12-git)
 
 
 
-# 00. Guía de Supervivencia: Comandos .NET CLI
+# 00. Guía de supervivencia: comandos .NET CLI
 
 > 💡 **Punto de partida:** Esta guía recopila los comandos de `dotnet` que vas a necesitar para crear, compilar, ejecutar y desplegar las aplicaciones de esta unidad: Razor Pages, MVC, formularios, Identity y Docker. Guárdala como referencia rápida; el día del examen, esta página te saca de más de un aprieto.
 
@@ -29,7 +29,7 @@ En este punto aprenderás a usar la línea de comandos de .NET: crear proyectos 
 
 📌 **Ejemplo real:** Cuando en una práctica leas *"crea el proyecto de ProductosApp"*, el comando es `dotnet new webapp -n ProductosApp -f net10.0` (o `dotnet new mvc` si toca la visión MVC). Esta guía recopila todos esos comandos en un solo lugar.
 
-## 1. Crear Proyectos y Soluciones
+## 1. Crear proyectos y soluciones
 
 ### Plantillas disponibles
 
@@ -92,7 +92,7 @@ dotnet sln ProductosApp.slnx remove ProductosApp.Test/ProductosApp.Test.csproj
 dotnet sln migrate
 ```
 
-## 2. Compilar y Ejecutar
+## 2. Compilar y ejecutar
 
 ```bash
 # Compilar (el primer gran comprobador de errores)
@@ -186,7 +186,7 @@ dotnet add package Microsoft.NET.Test.Sdk
 dotnet add package coverlet.collector
 ```
 
-## 4. .NET Tools: Herramientas Globales
+## 4. .NET tools: herramientas globales
 
 ```bash
 # Listar las herramientas instaladas globalmente
@@ -208,7 +208,7 @@ dotnet tool install --local dotnet-ef
 dotnet tool list
 ```
 
-## 5. Scaffolding: Generar Código
+## 5. Scaffolding: generar código
 
 El scaffolding genera código a partir de tus modelos y tu contexto de datos. En esta unidad lo usarás sobre todo con Identity (punto 19):
 
@@ -296,7 +296,7 @@ dotnet test --filter "TestCategory=E2E"
 
 > 📝 **Nota:** La instalación de navegadores se hace una sola vez por equipo; los binarios ocupan unos cientos de megas y quedan en tu perfil de usuario, no dentro del proyecto.
 
-## 8. Formateo de Código
+## 8. Formateo de código
 
 ```bash
 # Formatear según el .editorconfig del proyecto
@@ -309,7 +309,7 @@ dotnet format style
 dotnet format --verify-no-changes
 ```
 
-## 9. User Secrets (Secretos de Desarrollo)
+## 9. User Secrets (secretos de desarrollo)
 
 ```bash
 # Inicializar los secretos en el proyecto (solo una vez)
@@ -328,7 +328,7 @@ dotnet user-secrets remove "Storage:UploadPath"
 
 > 📝 **Nota:** Los user secrets solo viven en tu equipo de desarrollo y no se suben a Git. Son el sitio correcto para connection strings, claves y contraseñas mientras construyes la aplicación (punto 20).
 
-## 10. Certificados de Desarrollo
+## 10. Certificados de desarrollo
 
 ```bash
 # Crear el certificado de desarrollo para HTTPS

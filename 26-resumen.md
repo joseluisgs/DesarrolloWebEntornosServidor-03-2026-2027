@@ -1,54 +1,54 @@
-- [26. Resumen y Conclusiones](#26-resumen-y-conclusiones)
-  - [26.1. Mapa Conceptual de la Unidad](#261-mapa-conceptual-de-la-unidad)
-  - [26.2. Conceptos Clave](#262-conceptos-clave)
-    - [Parte 1: Vistas y Razor](#parte-1-vistas-y-razor)
-      - [Punto 00: Comandos de la CLI de .NET](#punto-00-comandos-de-la-cli-de-net)
-      - [Punto 01: Fundamentos de Razor](#punto-01-fundamentos-de-razor)
-      - [Punto 02: Directivas y Sintaxis](#punto-02-directivas-y-sintaxis)
-      - [Punto 03: Estructuras de Control](#punto-03-estructuras-de-control)
-      - [Punto 04: Funciones y Métodos en la Vista](#punto-04-funciones-y-métodos-en-la-vista)
-      - [Punto 05: Layouts, Parciales y Componentes](#punto-05-layouts-parciales-y-componentes)
+- [26. Resumen y conclusiones](#26-resumen-y-conclusiones)
+  - [26.1. Mapa conceptual de la unidad](#261-mapa-conceptual-de-la-unidad)
+  - [26.2. Conceptos clave](#262-conceptos-clave)
+    - [Parte 1: vistas y Razor](#parte-1-vistas-y-razor)
+      - [Punto 00: comandos de la CLI de .NET](#punto-00-comandos-de-la-cli-de-net)
+      - [Punto 01: fundamentos de Razor](#punto-01-fundamentos-de-razor)
+      - [Punto 02: directivas y sintaxis](#punto-02-directivas-y-sintaxis)
+      - [Punto 03: estructuras de control](#punto-03-estructuras-de-control)
+      - [Punto 04: funciones y métodos en la vista](#punto-04-funciones-y-métodos-en-la-vista)
+      - [Punto 05: layouts, parciales y componentes](#punto-05-layouts-parciales-y-componentes)
       - [Punto 06: Tag Helpers](#punto-06-tag-helpers)
     - [Parte 2: MVC y Razor Pages](#parte-2-mvc-y-razor-pages)
-      - [Punto 07: Arquitectura MVC](#punto-07-arquitectura-mvc)
-      - [Punto 08: Controladores y Acciones](#punto-08-controladores-y-acciones)
+      - [Punto 07: arquitectura MVC](#punto-07-arquitectura-mvc)
+      - [Punto 08: controladores y acciones](#punto-08-controladores-y-acciones)
       - [Punto 09: ViewModels](#punto-09-viewmodels)
-      - [Punto 10: Razor Pages: Fundamentos](#punto-10-razor-pages-fundamentos)
-      - [Punto 11: PageModel y Handlers](#punto-11-pagemodel-y-handlers)
+      - [Punto 10: Razor Pages: fundamentos](#punto-10-razor-pages-fundamentos)
+      - [Punto 11: PageModel y handlers](#punto-11-pagemodel-y-handlers)
       - [Punto 12: MVC frente a Razor Pages](#punto-12-mvc-frente-a-razor-pages)
-    - [Parte 3: Formularios, Datos y Estado](#parte-3-formularios-datos-y-estado)
-      - [Punto 13: Formularios Web](#punto-13-formularios-web)
+    - [Parte 3: formularios, datos y estado](#parte-3-formularios-datos-y-estado)
+      - [Punto 13: formularios web](#punto-13-formularios-web)
       - [Punto 14: Model Binding](#punto-14-model-binding)
-      - [Punto 15: Validaciones y Seguridad](#punto-15-validaciones-y-seguridad)
-      - [Punto 16: Ficheros y Almacenamiento](#punto-16-ficheros-y-almacenamiento)
-      - [Punto 17: Gestión del Estado](#punto-17-gestión-del-estado)
-    - [Parte 4: Aplicación Completa: Usuario, Calidad y Despliegue](#parte-4-aplicación-completa-usuario-calidad-y-despliegue)
-      - [Punto 18: Cookies y Sesiones](#punto-18-cookies-y-sesiones)
-      - [Punto 19: Autenticación con Identity](#punto-19-autenticación-con-identity)
-      - [Punto 20: Configuración y Entornos](#punto-20-configuración-y-entornos)
-      - [Punto 21: Optimización y Rendimiento](#punto-21-optimización-y-rendimiento)
-      - [Punto 22: Internacionalización y Localización](#punto-22-internacionalización-y-localización)
-      - [Punto 23: Herramientas, Prueba y Depuración](#punto-23-herramientas-prueba-y-depuración)
-      - [Punto 24: Pruebas y Documentación](#punto-24-pruebas-y-documentación)
-      - [Punto 25: Despliegue con Docker](#punto-25-despliegue-con-docker)
-  - [26.3. Herramientas y Perfiles](#263-herramientas-y-perfiles)
+      - [Punto 15: validaciones y seguridad](#punto-15-validaciones-y-seguridad)
+      - [Punto 16: ficheros y almacenamiento](#punto-16-ficheros-y-almacenamiento)
+      - [Punto 17: gestión del estado](#punto-17-gestión-del-estado)
+    - [Parte 4: aplicación completa: usuario, calidad y despliegue](#parte-4-aplicación-completa-usuario-calidad-y-despliegue)
+      - [Punto 18: cookies y sesiones](#punto-18-cookies-y-sesiones)
+      - [Punto 19: autenticación con Identity](#punto-19-autenticación-con-identity)
+      - [Punto 20: configuración y entornos](#punto-20-configuración-y-entornos)
+      - [Punto 21: optimización y rendimiento](#punto-21-optimización-y-rendimiento)
+      - [Punto 22: internacionalización y localización](#punto-22-internacionalización-y-localización)
+      - [Punto 23: herramientas, prueba y depuración](#punto-23-herramientas-prueba-y-depuración)
+      - [Punto 24: pruebas y documentación](#punto-24-pruebas-y-documentación)
+      - [Punto 25: despliegue con Docker](#punto-25-despliegue-con-docker)
+  - [26.3. Herramientas y perfiles](#263-herramientas-y-perfiles)
     - [SDK y CLI](#sdk-y-cli)
     - [NuGet (paquetes habituales)](#nuget-paquetes-habituales)
     - [IDE](#ide)
-  - [26.4. Errores Comunes a Evitar](#264-errores-comunes-a-evitar)
-  - [26.5. Checklist de Supervivencia](#265-checklist-de-supervivencia)
-    - [Parte 1: Vistas y Razor](#parte-1-vistas-y-razor-1)
+  - [26.4. Errores comunes a evitar](#264-errores-comunes-a-evitar)
+  - [26.5. Checklist de supervivencia](#265-checklist-de-supervivencia)
+    - [Parte 1: vistas y Razor](#parte-1-vistas-y-razor-1)
     - [Parte 2: MVC y Razor Pages](#parte-2-mvc-y-razor-pages-1)
-    - [Parte 3: Formularios, Datos y Estado](#parte-3-formularios-datos-y-estado-1)
-    - [Parte 4: Aplicación Completa](#parte-4-aplicación-completa)
-  - [26.6. Glosario de Términos](#266-glosario-de-términos)
-  - [26.7. Ejercicios de Repaso](#267-ejercicios-de-repaso)
+    - [Parte 3: formularios, datos y estado](#parte-3-formularios-datos-y-estado-1)
+    - [Parte 4: aplicación completa](#parte-4-aplicación-completa)
+  - [26.6. Glosario de términos](#266-glosario-de-términos)
+  - [26.7. Ejercicios de repaso](#267-ejercicios-de-repaso)
   - [26.8. ¿Qué viene después?](#268-qué-viene-después)
-  - [26.9. Mapa de Conexiones entre Temas](#269-mapa-de-conexiones-entre-temas)
+  - [26.9. Mapa de conexiones entre temas](#269-mapa-de-conexiones-entre-temas)
 
 
 
-# 26. Resumen y Conclusiones
+# 26. Resumen y conclusiones
 
 > 💡 **Punto de partida:** Has recorrido la unidad entera, desde la primera vista dinámica hasta el contenedor publicado en la nube. Este resumen consolida todo en una sola mirada.
 
@@ -60,7 +60,7 @@ Aquí repasas en una página los 26 puntos de la unidad: qué es cada cosa, con 
 - Consolidar el vocabulario técnico
 - Tener una referencia rápida para el examen
 
-## 26.1. Mapa Conceptual de la Unidad
+## 26.1. Mapa conceptual de la unidad
 
 ```mermaid
 graph TD
@@ -112,61 +112,61 @@ graph TD
     C24 --> K11[NUnit y Playwright]
     C25 --> K12[Dockerfile y contenedor]
 
-    style UD03 fill:#2196F3,color:#fff
-    style P1 fill:#4CAF50,color:#fff
-    style P2 fill:#FF9800,color:#fff
-    style P3 fill:#9C27B0,color:#fff
-    style P4 fill:#607D8B,color:#fff
-    style K1 fill:#2196F3,color:#fff
-    style K2 fill:#2196F3,color:#fff
-    style K3 fill:#2196F3,color:#fff
-    style K4 fill:#2196F3,color:#fff
-    style K5 fill:#2196F3,color:#fff
-    style K6 fill:#2196F3,color:#fff
-    style K7 fill:#2196F3,color:#fff
-    style K8 fill:#2196F3,color:#fff
-    style K9 fill:#2196F3,color:#fff
-    style K10 fill:#2196F3,color:#fff
-    style K11 fill:#2196F3,color:#fff
-    style K12 fill:#2196F3,color:#fff
+    style UD03 fill:#2196F,color:#fff3,color:#fff
+    style P1 fill:#4CAF5,color:#fff0,color:#fff
+    style P2 fill:#FF980,color:#fff0,color:#fff
+    style P3 fill:#9C27B,color:#fff0,color:#fff
+    style P4 fill:#607D8,color:#fffB,color:#fff
+    style K1 fill:#2196F,color:#fff3,color:#fff
+    style K2 fill:#2196F,color:#fff3,color:#fff
+    style K3 fill:#2196F,color:#fff3,color:#fff
+    style K4 fill:#2196F,color:#fff3,color:#fff
+    style K5 fill:#2196F,color:#fff3,color:#fff
+    style K6 fill:#2196F,color:#fff3,color:#fff
+    style K7 fill:#2196F,color:#fff3,color:#fff
+    style K8 fill:#2196F,color:#fff3,color:#fff
+    style K9 fill:#2196F,color:#fff3,color:#fff
+    style K10 fill:#2196F,color:#fff3,color:#fff
+    style K11 fill:#2196F,color:#fff3,color:#fff
+    style K12 fill:#2196F,color:#fff3,color:#fff
 ```
 
-## 26.2. Conceptos Clave
+## 26.2. Conceptos clave
 
-### Parte 1: Vistas y Razor
+### Parte 1: vistas y Razor
 
-#### Punto 00: Comandos de la CLI de .NET
+#### Punto 00: comandos de la CLI de .NET
 - **`dotnet new/build/run/watch/clean/restore`:** el ciclo diario de cualquier proyecto; `watch` reconstruye al guardar
 - **Solución `.slnx`:** en .NET 10 el formato por defecto es XML; agrupa proyectos con `dotnet sln add`
 - **`dotnet user-secrets`:** guarda secretos fuera del repositorio, solo en desarrollo
 - **Estructura de carpetas:** `Pages`, `Controllers`, `Models`, `Services`, `Infrastructure`, `wwwroot`
 - 📌 **Ejemplo real:** Cualquier equipo ejecuta las mismas órdenes que tú desde la terminal o desde el IDE; la CLI es el denominador común de todos los proyectos .NET.
 
-#### Punto 01: Fundamentos de Razor
+#### Punto 01: fundamentos de Razor
 - **Razor:** motor de plantillas del servidor; escribes HTML con trozos de C# entre `@`
 - **Seguridad por defecto:** Razor escapa el HTML; `@Html.Raw` es la puerta que hay que abrir a propósito
 - **Primera vista:** una página se pinta en el servidor y viaja al navegador ya terminada
 - 📌 **Ejemplo real:** Netflix pinta sus páginas en el servidor con plantillas parecidas; el HTML que llega a tu navegador ya viene montado.
 
-#### Punto 02: Directivas y Sintaxis
+#### Punto 02: directivas y sintaxis
 - **Directivas:** `@page`, `@model`, `@using`, `@inject`, `@functions`; dan órdenes al motor
 - **`@page` es la firma de una página:** la convierte en una ruta accesible
 - **Ámbito de variables:** lo declarado en una vista se queda en esa vista; para cruzar datos, el modelo
 - 📌 **Ejemplo real:** Cualquier CMS multiidioma se apoya en directivas de plantilla: la misma estructura con contenido distinto según la sección.
 
-#### Punto 03: Estructuras de Control
+#### Punto 03: estructuras de control
 - **`@if`, `@switch`, `@foreach`, `@for`, `@while`:** la misma lógica de C# dentro del HTML
 - **Repositorio en memoria:** los primeros listados salen de una lista estática, sin base de datos
 - **Arrays y matrices:** estructuras para colecciones que la vista recorre
 - 📌 **Ejemplo real:** El muro de Instagram enseña distinto según quién lo pinte: la plantilla decide con una estructura de control qué bloques salen.
 
-#### Punto 04: Funciones y Métodos en la Vista
+#### Punto 04: funciones y métodos en la vista
 - **`@functions`:** declara métodos dentro de la propia vista para no repetir HTML
 - **Funciones locales y lambdas:** pequeñas piezas de lógica al alcance de la plantilla
 - **Valor o HTML:** una función devuelve datos o devuelve marcado, y la vista decide cómo pintarlo
 - 📌 **Ejemplo real:** Cualquier lista con precios calculados repite la misma operación en cada fila; en una vista se resuelve con una función local.
 
-#### Punto 05: Layouts, Parciales y Componentes
+#### Punto 05: layouts, parciales y componentes
 - **`_ViewStart`, `_Layout`, `_ViewImports`:** la estructura compartida de todas las vistas
 - **Vistas parciales:** trozos de HTML reutilizables con `<partial>`
 - **Componentes de vista:** piezas con lógica propia, con `<vc:nombre-componente>`
@@ -180,13 +180,13 @@ graph TD
 
 ### Parte 2: MVC y Razor Pages
 
-#### Punto 07: Arquitectura MVC
+#### Punto 07: arquitectura MVC
 - **Model-View-Controller:** el controlador decide, el modelo calcula, la vista pinta
 - **Separación:** cada pieza tiene su responsabilidad y no invade la de al lado
 - **ProductosApp:** el hilo conductor de la unidad, en sus dos visiones
 - 📌 **Ejemplo real:** Netflix separa su interfaz, su lógica de catálogo y sus datos; la misma idea que el patrón MVC, en una escala enorme.
 
-#### Punto 08: Controladores y Acciones
+#### Punto 08: controladores y acciones
 - **Rutas y parámetros:** la URL llega al controlador como datos tipados
 - **Acciones:** devuelven vista, JSON, trozo de HTML o redirección
 - **Avisos entre acciones:** TempData cruza el redirect y se borra al pintarse
@@ -197,13 +197,13 @@ graph TD
 - **POO de verdad:** encapsulación, propiedades calculadas, inmutabilidad y polimorfismo al servicio de la vista
 - 📌 **Ejemplo real:** La ficha de un vuelo en Booking pinta precio, plazas y equipaje en una sola pieza: detrás hay un objeto con la forma de esa vista.
 
-#### Punto 10: Razor Pages: Fundamentos
+#### Punto 10: Razor Pages: fundamentos
 - **`@page` convierte un `.cshtml` en una URL:** la carpeta se traduce en ruta
 - **PageModel pegado a la página:** cada página tiene su clase con sus datos
 - **Orientación a páginas:** presentación sin controladores, para sitios página a página
 - 📌 **Ejemplo real:** El portal de trámites de cualquier administración se parece a Razor Pages: cada dirección es una página con su formulario y su lógica.
 
-#### Punto 11: PageModel y Handlers
+#### Punto 11: PageModel y handlers
 - **Handlers:** el motor elige `OnGet`, `OnPost` o el handler con nombre según la petición
 - **Resultados:** vista, redirección con `RedirectToPage` o error
 - **La trampa del `@model`:** sin la declaración, la página se pinta y el handler no se ejecuta
@@ -215,9 +215,9 @@ graph TD
 - **Migración:** de una acción de MVC a una página, vista a vista y sin caídas
 - 📌 **Ejemplo real:** Netflix migra sus vistas una a una sin reescribir la web entera; la misma estrategia que practicaste al migrar vistas.
 
-### Parte 3: Formularios, Datos y Estado
+### Parte 3: formularios, datos y estado
 
-#### Punto 13: Formularios Web
+#### Punto 13: formularios web
 - **Anatomía del formulario:** campos, acciones y el ciclo completo con el patrón PRG
 - **Tag Helpers de formulario:** el HTML lo escribe el servidor, no tú
 - **PRG:** redirigir tras el `POST` para no repetir el envío con F5
@@ -229,78 +229,78 @@ graph TD
 - **La cultura del decimal:** el punto y la coma dependen del equipo; se parsea con cultura invariable cuando hace falta
 - 📌 **Ejemplo real:** El buscador de Google recibe su consulta por la query string; el mismo enlace que el model binding interpreta en tu aplicación.
 
-#### Punto 15: Validaciones y Seguridad
+#### Punto 15: validaciones y seguridad
 - **DataAnnotations:** el atributo pone la regla y el servidor la hace cumplir
 - **Ataques:** XSS con escapado, CSRF con token antifalsificación, cabeceras de protección y límite de peticiones
 - **Avisos genéricos:** el error no debe decir cuál de los dos datos falla
 - 📌 **Ejemplo real:** Cualquier banco pide segundo factor y valida en servidor: la misma defensa que montaste con token y validación.
 
-#### Punto 16: Ficheros y Almacenamiento
+#### Punto 16: ficheros y almacenamiento
 - **Multipart e `IFormFile`:** así viajan los ficheros del navegador al servidor
 - **Nombre único y validación:** tipo, tamaño y nombre generados por el servidor
 - **Path traversal y descargas:** la defensa contra rutas fuera del sitio y el `File` para servir
 - 📌 **Ejemplo real:** Subes una foto a cualquier red social y la imagen aparece con un nombre que no es el tuyo: el servidor la renombra y la guarda fuera del alcance.
 
-#### Punto 17: Gestión del Estado
+#### Punto 17: gestión del estado
 - **HTTP sin estado:** cada petición es un mundo; el estado se monta encima
 - **ViewData y ViewBag:** datos de una petición, en la vista y en el modelo
 - **TempData:** vive dos peticiones y viaja en cookie por defecto
 - 📌 **Ejemplo real:** Netflix te recuerda el idioma tras cambiarlo: el aviso vive una petición y alguien lo borra después.
 
-### Parte 4: Aplicación Completa: Usuario, Calidad y Despliegue
+### Parte 4: aplicación completa: usuario, calidad y despliegue
 
-#### Punto 18: Cookies y Sesiones
+#### Punto 18: cookies y sesiones
 - **Cookie:** par `nombre=valor` que el servidor pide guardar y el navegador devuelve; `HttpOnly`, `SameSite`, caducidad
 - **Sesión:** datos en el servidor con la llave en la cookie `.AspNetCore.Session`
 - **Caché distribuida:** Redis cuando hay varias copias del servidor
 - 📌 **Ejemplo real:** Amazon guarda tu cesta entre visitas: la cookie lleva la llave y la cesta espera en el servidor.
 
-#### Punto 19: Autenticación con Identity
+#### Punto 19: autenticación con Identity
 - **`AddIdentity`:** usuarios, accesos y roles tal y como vienen del framework
 - **`UserManager` y `SignInManager`:** altas, claves con hash y acceso con cookie de identidad
 - **Roles, políticas y requisitos:** quién entra y qué puede tocar; CSRF y XSS defendidos
 - 📌 **Ejemplo real:** Instagram distingue al dueño de una cuenta de un visitante: identidad con claims y autorización con atributos.
 
-#### Punto 20: Configuración y Entornos
+#### Punto 20: configuración y entornos
 - **`appsettings` por entorno:** el mismo código con ficheros distintos según dónde corra
 - **Orden de fuentes:** ficheros, secretos, variables de entorno y argumentos; gana la última
 - **`IOptions<T>` e `IOptionsMonitor`:** la configuración llega tipada y el monitor la vigila
 - **Infrastructure:** una clase por concern con su método de extensión; `RepositoriesConfig` elige implementaciones
 - 📌 **Ejemplo real:** WordPress guarda sus ajustes en `wp-config.php`; el mismo programa sirve en local y en producción cambiando la configuración.
 
-#### Punto 21: Optimización y Rendimiento
+#### Punto 21: optimización y rendimiento
 - **Medir antes:** F12, `curl -w` y `Stopwatch` cuentan la misma petición desde tres sitios
 - **`IMemoryCache` y output cache:** valores calculados una vez y respuestas enteras guardadas
 - **Compresión:** Brotli y gzip para el texto; las imágenes ya vienen comprimidas
 - 📌 **Ejemplo real:** YouTube hace el segundo visionado instantáneo: la caché evita repetir el trabajo.
 
-#### Punto 22: Internacionalización y Localización
+#### Punto 22: internacionalización y localización
 - **`.resx` y `SharedResource`:** los textos viven en ficheros por idioma
 - **Proveedores de cultura:** query, cookie y cabecera, en ese orden; por defecto, la de casa
 - **`IHtmlLocalizer` e `IStringLocalizer`:** las vistas y la lógica preguntan al recurso
 - 📌 **Ejemplo real:** Booking enseña "Reservar ahora" o "Book now" con la misma aplicación detrás.
 
-#### Punto 23: Herramientas, Prueba y Depuración
+#### Punto 23: herramientas, prueba y depuración
 - **Rider y la CLI:** el entorno principal y las órdenes del día a día
 - **Leer errores:** código, mensaje, fichero y línea; los avisos llegan antes que los fallos
 - **Depurador, F12 e `ILogger`:** mirar la ejecución, la petición y el registro
 - **Página de error:** detallada en desarrollo, genérica en producción
 - 📌 **Ejemplo real:** Netflix reproduce el fallo en pruebas y lo detiene en un punto de interrupción; nadie adivina.
 
-#### Punto 24: Pruebas y Documentación
+#### Punto 24: pruebas y documentación
 - **Pirámide:** muchas unitarias (NUnit y FluentAssertions), algunas de integración y pocas de extremo a extremo
 - **Playwright:** navegador real automatizado con `PageTest` y localizadores
 - **`dotnet test`:** ejecuta, filtra y resume; XMLDoc y README documentan el proyecto
 - 📌 **Ejemplo real:** Nadie publica en una tienda online sin pruebas automáticas; el flujo del punto 25 las exige antes de construir.
 
-#### Punto 25: Despliegue con Docker
+#### Punto 25: despliegue con Docker
 - **`dotnet publish`:** deja la carpeta lista; el marco vive fuera
 - **Imagen y contenedor:** el paquete cerrado y esa imagen en marcha
 - **Dockerfile por fases:** compila el kit completo, ejecuta la imagen mínima
 - **GitHub Actions y servicios como Render:** el flujo prueba, construye y publica; la plataforma despliega desde el repositorio
 - 📌 **Ejemplo real:** Spotify actualiza su app sin cortar el servicio: alguien publica una versión nueva y el contenedor la recibe.
 
-## 26.3. Herramientas y Perfiles
+## 26.3. Herramientas y perfiles
 
 ### SDK y CLI
 - **`dotnet new`**: Crea proyectos a partir de plantillas
@@ -326,7 +326,7 @@ graph TD
 - **JetBrains Rider:** IDE principal del ciclo, para C# y .NET; de la misma familia que IntelliJ, PyCharm, CLion y WebStorm
 - **Visual Studio Code:** alternativa ligera y multiplataforma, con las mismas ideas de depuración
 
-## 26.4. Errores Comunes a Evitar
+## 26.4. Errores comunes a evitar
 
 | Error | Por qué está mal | Cómo evitarlo |
 |-------|------------------|---------------|
@@ -347,11 +347,11 @@ graph TD
 | Playwright instalado por otra vía en flujos | Versión que no cuadra con los paquetes | El script del propio proyecto |
 | cachear datos personales sin control | La respuesta de uno puede servirse a otro | Invalidar al escribir y cachear por usuario |
 
-## 26.5. Checklist de Supervivencia
+## 26.5. Checklist de supervivencia
 
 Antes de dar por cerrada la unidad, asegúrate de poder responder **SÍ** a estas preguntas:
 
-### Parte 1: Vistas y Razor
+### Parte 1: vistas y Razor
 - [ ] ¿Escribo una vista Razor con C# dentro y sé qué escapa el motor y qué no?
 - [ ] ¿Uso directivas (`@page`, `@model`, `@inject`, `@functions`) y respeto el ámbito de las variables?
 - [ ] ¿Compongo una interfaz con layout, parciales y componentes de vista?
@@ -363,14 +363,14 @@ Antes de dar por cerrada la unidad, asegúrate de poder responder **SÍ** a esta
 - [ ] ¿Creo una página Razor Pages con su `@page`, su PageModel y sus handlers?
 - [ ] ¿Migro una vista de MVC a una página sin romper la navegación?
 
-### Parte 3: Formularios, Datos y Estado
+### Parte 3: formularios, datos y estado
 - [ ] ¿Diseño formularios con Tag Helpers y aplico el patrón PRG?
 - [ ] ¿Enlazo objetos complejos y colecciones con el model binding y sé qué hace la cultura?
 - [ ] ¿Valido en servidor y defiendo XSS, CSRF y cabeceras?
 - [ ] ¿Subo ficheros con validación y descargo con `File` sin abrir la puerta al path traversal?
 - [ ] ¿Uso ViewData, ViewBag y TempData con criterio, y sé dónde acaba cada uno?
 
-### Parte 4: Aplicación Completa
+### Parte 4: aplicación completa
 - [ ] ¿Escribo cookies con sus atributos y monto sesiones con su llave?
 - [ ] ¿Configuro Identity y protejo rutas con atributos, roles y políticas?
 - [ ] ¿Separo la configuración por entornos con `IOptions` y `Infrastructure`?
@@ -382,7 +382,7 @@ Antes de dar por cerrada la unidad, asegúrate de poder responder **SÍ** a esta
 
 > 🔧 **Truco:** la mejor forma de aprender es practicando — no leas solo los apuntes: abre el IDE, monta el proyecto del punto y pásate la comprobación con `curl` o con F12 hasta que la respuesta sea la que esperabas.
 
-## 26.6. Glosario de Términos
+## 26.6. Glosario de términos
 
 | Término | Definición |
 |---------|------------|
@@ -413,7 +413,7 @@ Antes de dar por cerrada la unidad, asegúrate de poder responder **SÍ** a esta
 | **GitHub Actions** | Flujos YAML que compilan, prueban y publican solos |
 | **Render** | Servicio gestionado que despliega desde tu repositorio |
 
-## 26.7. Ejercicios de Repaso
+## 26.7. Ejercicios de repaso
 
 1. **CLI y estructura:** Crea un proyecto Razor Pages con `dotnet new`, añádelo a una solución `.slnx` y describe la estructura de carpetas que se ha generado.
 2. **Razor:** Escribe una vista que pinte una tabla de productos con una función local que calcule el precio con IVA; comprueba que el HTML sale escapado.
@@ -447,7 +447,7 @@ En la **UD04: Aplicaciones Web Híbridas y Componentes de Servidor en .NET** apr
 
 📌 **Ejemplo real:** En la UD04 embeberás un carrito interactivo en una página Razor: la vista que ya sabes pintar se queda como base y el componente de Blazor se monta encima, hablando con JavaScript cuando hace falta.
 
-## 26.9. Mapa de Conexiones entre Temas
+## 26.9. Mapa de conexiones entre temas
 
 ```mermaid
 graph LR
@@ -461,9 +461,9 @@ graph LR
     UD03 -.->|Razor, MVC, páginas y despliegue| UD04
     UD04 -.->|componentes e interacción en la web| UD05
 
-    style UD01 fill:#4CAF50,color:#fff
-    style UD02 fill:#2196F3,color:#fff
-    style UD03 fill:#FF9800,color:#fff
-    style UD04 fill:#9C27B0,color:#fff
-    style UD05 fill:#f44336,color:#fff
+    style UD01 fill:#4CAF5,color:#fff0,color:#fff
+    style UD02 fill:#2196F,color:#fff3,color:#fff
+    style UD03 fill:#FF980,color:#fff0,color:#fff
+    style UD04 fill:#9C27B,color:#fff0,color:#fff
+    style UD05 fill:#f4433,color:#fff6,color:#fff
 ```

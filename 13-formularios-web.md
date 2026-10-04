@@ -1,14 +1,14 @@
-- [13. Formularios Web y Generación Dinámica](#13-formularios-web-y-generación-dinámica)
-  - [13.1. La Anatomía de un Formulario](#131-la-anatomía-de-un-formulario)
-  - [13.2. El Ciclo de un Formulario](#132-el-ciclo-de-un-formulario)
-  - [13.3. La Vista de Alta: Las Dos Visiones](#133-la-vista-de-alta-las-dos-visiones)
-    - [13.3.1. Visión Razor Pages: La Página de Alta](#1331-visión-razor-pages-la-página-de-alta)
-    - [13.3.2. Visión MVC: La Acción de Alta](#1332-visión-mvc-la-acción-de-alta)
-    - [13.3.3. La Misma Vista, Comparada](#1333-la-misma-vista-comparada)
-  - [13.4. Generación Dinámica del Formulario](#134-generación-dinámica-del-formulario)
-  - [13.5. Tag Helpers de Formulario](#135-tag-helpers-de-formulario)
-  - [13.6. Buenas Prácticas](#136-buenas-prácticas)
-  - [13.7. Reto: El Alta de Funkos en las Dos Visiones](#137-reto-el-alta-de-funkos-en-las-dos-visiones)
+- [13. Formularios web y generación dinámica](#13-formularios-web-y-generación-dinámica)
+  - [13.1. La anatomía de un formulario](#131-la-anatomía-de-un-formulario)
+  - [13.2. El ciclo de un formulario](#132-el-ciclo-de-un-formulario)
+  - [13.3. La vista de alta: las dos visiones](#133-la-vista-de-alta-las-dos-visiones)
+    - [13.3.1. Visión Razor Pages: la página de alta](#1331-visión-razor-pages-la-página-de-alta)
+    - [13.3.2. Visión MVC: la acción de alta](#1332-visión-mvc-la-acción-de-alta)
+    - [13.3.3. La misma vista, comparada](#1333-la-misma-vista-comparada)
+  - [13.4. Generación dinámica del formulario](#134-generación-dinámica-del-formulario)
+  - [13.5. Tag Helpers de formulario](#135-tag-helpers-de-formulario)
+  - [13.6. Buenas prácticas](#136-buenas-prácticas)
+  - [13.7. Reto: el alta de Funkos en las dos visiones](#137-reto-el-alta-de-funkos-en-las-dos-visiones)
     - [13.7.1. Contexto](#1371-contexto)
     - [13.7.2. Modelo de datos](#1372-modelo-de-datos)
     - [13.7.3. Almacenamiento](#1373-almacenamiento)
@@ -16,7 +16,7 @@
 
 
 
-# 13. Formularios Web y Generación Dinámica
+# 13. Formularios web y generación dinámica
 
 > 💡 **Punto de partida:** Cuando reservas un vuelo en Ryanair, eliges fechas, pasajeros y equipaje, aceptas los términos y pulsas *Continuar*. Entre ese pulsado y el servidor hay una pieza que lleva décadas funcionando igual: un formulario. En este punto montamos el mismo alta dos veces, una como página Razor Pages y otra como acción de MVC, para que veas que el formulario no cambia: cambia quién lo recibe.
 
@@ -32,7 +32,7 @@ En este punto aprenderás la anatomía de un formulario, su ciclo completo con e
 
 > 📝 **Nota:** seguimos con el repositorio en memoria del punto 03 y con `ProductosApp` en sus dos visiones: la página vive en `Pages/Productos/` y la acción en `Controllers/` con su vista en `Views/Productos/`.
 
-## 13.1. La Anatomía de un Formulario
+## 13.1. La anatomía de un formulario
 
 Un formulario es una etiqueta `form` con campos dentro. Cada campo tiene dos nombres que no son lo mismo: el `id`, que ve el navegador (lo usa la etiqueta `label` y el CSS), y el `name`, que ve el servidor (es el nombre con el que llega el dato). Olvidar el `name` es el error número uno: el campo se ve en la vista y el servidor no recibe nada.
 
@@ -71,12 +71,12 @@ graph LR
     A --> D["button submit<br/>el que envía"]
     C --> E["Al pulsar:<br/>nombre=Teclado&categoria=Hogar"]
     E --> F["El servidor<br/>rellena sus parámetros"]
-    style A fill:#2196F3,color:#fff
-    style B fill:#607D8B,color:#fff
-    style C fill:#FF9800,color:#fff
-    style D fill:#4CAF50,color:#fff
-    style E fill:#9C27B0,color:#fff
-    style F fill:#607D8B,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#607D8,color:#fffB,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
+    style E fill:#9C27B,color:#fff0,color:#fff
+    style F fill:#607D8,color:#fffB,color:#fff
 ```
 
 📌 **Ejemplo real:** El formulario de cualquier web de reserva de vuelos es esta misma estructura repetida: origen, destino, fechas y pasajeros, cada campo con su `name` para que el servidor sepa qué es cada cosa cuando llega el paquete.
@@ -86,7 +86,7 @@ El atributo `method` decide por dónde viajan los datos:
 - `method="get"`: los datos salen en la propia URL (`/Productos/Buscar?q=o`, como ya viste en el punto 08). Es el método de las búsquedas y los filtros: la URL se puede copiar y compartir.
 - `method="post"`: los datos viajan en el cuerpo de la petición, fuera de la URL. Es el método de las altas y las ediciones: lo que envías no queda a la vista de nadie.
 
-## 13.2. El Ciclo de un Formulario
+## 13.2. El ciclo de un formulario
 
 El ciclo siempre es el mismo, y ya lo conoces del punto 11: el GET pinta el formulario, el usuario lo rellena, el POST lo procesa, y lo correcto es terminar con un redirect (patrón PRG) para que el refresco del navegador no reenvíe nada.
 
@@ -100,13 +100,13 @@ graph LR
     F --> G["302<br/>redirect"]
     G --> A
     E --> B
-    style A fill:#4CAF50,color:#fff
-    style B fill:#607D8B,color:#fff
-    style C fill:#2196F3,color:#fff
-    style D fill:#FF9800,color:#fff
-    style E fill:#f44336,color:#fff
-    style F fill:#9C27B0,color:#fff
-    style G fill:#f44336,color:#fff
+    style A fill:#4CAF5,color:#fff0,color:#fff
+    style B fill:#607D8,color:#fffB,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style E fill:#f4433,color:#fff6,color:#fff
+    style F fill:#9C27B,color:#fff0,color:#fff
+    style G fill:#f4433,color:#fff6,color:#fff
 ```
 
 Hay una pieza de seguridad que el navegador no ve y trabaja sola: el **token antiforgery**. El Form Tag Helper inyecta un campo oculto `__RequestVerificationToken` en cada formulario, y el servidor lo exige en cada POST. Lo que sí cambia entre visiones es quién lo exige:
@@ -121,11 +121,11 @@ La diferencia es importante y se aprende a la primera: **Razor Pages valida el t
 
 > ⚠️ **Advertencia:** si tu acción MVC de escritura no lleva `[ValidateAntiForgeryToken]`, no está protegida aunque el formulario traiga el token. El token se inyecta siempre; quien decide exigirlo eres tú.
 
-## 13.3. La Vista de Alta: Las Dos Visiones
+## 13.3. La vista de alta: las dos visiones
 
 Este es el corazón del punto: la misma vista de alta, montada dos veces. Los campos son idénticos (nombre, categoría y casilla de novedad); cambia dónde vive cada pieza. A partir de aquí, los temas duales separan cada vista en dos apartados con el nombre de su visión, para que el índice diga de un vistazo qué es página y qué es controlador.
 
-### 13.3.1. Visión Razor Pages: La Página de Alta
+### 13.3.1. Visión Razor Pages: la página de alta
 
 La página vive en `Pages/Productos/Alta.cshtml` con su `PageModel` al lado. El formulario no lleva `action`: envía a la propia página, que es quien procesa.
 
@@ -185,7 +185,7 @@ public class AltaModel : PageModel
 }
 ```
 
-### 13.3.2. Visión MVC: La Acción de Alta
+### 13.3.2. Visión MVC: la acción de alta
 
 La misma vista como controlador y vista: el formulario lleva `asp-controller` y `asp-action`, y quien procesa son dos acciones con el mismo nombre.
 
@@ -226,7 +226,7 @@ public IActionResult Alta(string nombre, string categoria, bool esNovedad)
 }
 ```
 
-### 13.3.3. La Misma Vista, Comparada
+### 13.3.3. La misma vista, comparada
 
 La comparación, pieza a pieza:
 
@@ -241,7 +241,7 @@ La comparación, pieza a pieza:
 
 En las dos visiones, el campo vacío devuelve **200** con `El nombre es obligatorio`, y el envío válido termina en **302** con su `Location`. El navegador no distingue: para él, las dos son un formulario que funciona.
 
-## 13.4. Generación Dinámica del Formulario
+## 13.4. Generación dinámica del formulario
 
 Hasta ahora los campos estaban escritos a mano. Pero el `select` de categorías no tiene por qué estarlo — los valores salen de los datos, y la plantilla los convierte en opciones. Es el mismo `@foreach` del punto 03 aplicado a un formulario.
 
@@ -266,17 +266,17 @@ graph LR
     A["Datos<br/>categorias · etiquetas · campos"] --> B["Plantilla Razor<br/>@foreach sobre los datos"]
     B --> C["Formulario dinámico<br/>options · checkboxes · inputs"]
     C --> D["El navegador<br/>pinta y envía"]
-    style A fill:#FF9800,color:#fff
-    style B fill:#2196F3,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#607D8B,color:#fff
+    style A fill:#FF980,color:#fff0,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#607D8,color:#fffB,color:#fff
 ```
 
 📌 **Ejemplo real:** Los formularios de preferencias de cualquier servicio (notificaciones, privacidad, idioma) se generan así: hay una lista de opciones en el servidor y la plantilla pinta un control por cada una. Si el producto añade una opción nueva, la vista cambia sin que nadie edite HTML.
 
 En las dos visiones de `ProductosApp` ocurre exactamente lo mismo: el `select` de la página y el de la vista MVC salen del mismo `@foreach` y el navegador recibe en ambos casos tres `<option>`.
 
-## 13.5. Tag Helpers de Formulario
+## 13.5. Tag Helpers de formulario
 
 Escribir `action="/productos/alta"` a mano es escribir una URL a mano, con los mismos problemas de siempre. Los Tag Helpers del punto 06 resuelven el formulario entero:
 
@@ -293,7 +293,7 @@ Escribir `action="/productos/alta"` a mano es escribir una URL a mano, con los m
 
 📌 **Ejemplo real:** El generador de formularios de cualquier panel de administración (WordPress, por ejemplo) es la versión industrial de esta idea: quien define los campos es una lista de datos, y el HTML del formulario se genera en cada visita.
 
-## 13.6. Buenas Prácticas
+## 13.6. Buenas prácticas
 
 - **`name` siempre**: un campo sin `name` no existe para el servidor, aunque se vea en la vista
 - **`label` con `for`**: asocia el texto al campo y mejora la accesibilidad y los clics
@@ -304,7 +304,7 @@ Escribir `action="/productos/alta"` a mano es escribir una URL a mano, con los m
 - **Tag Helpers en vez de URLs**: `asp-controller`/`asp-action` o `asp-page`; las `action` escritas a mano se rompen al cambiar las rutas
 - **Los campos vacíos se avisan**: devuelve el formulario con un mensaje claro, nunca un silencio
 
-## 13.7. Reto: El Alta de Funkos en las Dos Visiones
+## 13.7. Reto: el alta de Funkos en las dos visiones
 
 > Monta el alta de Funkos dos veces, como página y como acción, y comprueba que el navegador no nota la diferencia.
 

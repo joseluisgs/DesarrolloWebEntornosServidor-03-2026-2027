@@ -1,15 +1,15 @@
-- [11. Razor Pages: PageModel y Handlers](#11-razor-pages-pagemodel-y-handlers)
-  - [11.1. Qué es un Handler](#111-qué-es-un-handler)
-    - [11.1.1. La Convención de Nombres](#1111-la-convención-de-nombres)
-    - [11.1.2. El Ciclo de una Petición](#1112-el-ciclo-de-una-petición)
-  - [11.2. Recibir Datos en el PageModel](#112-recibir-datos-en-el-pagemodel)
-    - [11.2.1. Parámetros del Handler](#1121-parámetros-del-handler)
+- [11. Razor Pages: PageModel y handlers](#11-razor-pages-pagemodel-y-handlers)
+  - [11.1. Qué es un handler](#111-qué-es-un-handler)
+    - [11.1.1. La convención de nombres](#1111-la-convención-de-nombres)
+    - [11.1.2. El ciclo de una petición](#1112-el-ciclo-de-una-petición)
+  - [11.2. Recibir datos en el PageModel](#112-recibir-datos-en-el-pagemodel)
+    - [11.2.1. Parámetros del handler](#1121-parámetros-del-handler)
     - [11.2.2. Propiedades con BindProperty](#1122-propiedades-con-bindproperty)
-  - [11.3. Responder: los Resultados de Página](#113-responder-los-resultados-de-página)
-  - [11.4. Varios Handlers en la Misma Página](#114-varios-handlers-en-la-misma-página)
-  - [11.5. Async y el Antiforgery de los POST](#115-async-y-el-antiforgery-de-los-post)
-  - [11.6. Buenas Prácticas](#116-buenas-prácticas)
-  - [11.7. Reto: Alta de Funkos con Handlers](#117-reto-alta-de-funkos-con-handlers)
+  - [11.3. Responder: los resultados de página](#113-responder-los-resultados-de-página)
+  - [11.4. Varios handlers en la misma página](#114-varios-handlers-en-la-misma-página)
+  - [11.5. Async y el antiforgery de los POST](#115-async-y-el-antiforgery-de-los-post)
+  - [11.6. Buenas prácticas](#116-buenas-prácticas)
+  - [11.7. Reto: alta de Funkos con handlers](#117-reto-alta-de-funkos-con-handlers)
     - [11.7.1. Contexto](#1171-contexto)
     - [11.7.2. Modelo de datos](#1172-modelo-de-datos)
     - [11.7.3. Almacenamiento](#1173-almacenamiento)
@@ -17,7 +17,7 @@
 
 
 
-# 11. Razor Pages: PageModel y Handlers
+# 11. Razor Pages: PageModel y handlers
 
 > 💡 **Punto de partida:** Cuando rellenas el formulario de cambio de contraseña en Gmail, el servidor no se limita a leer: compara, guarda, redirige a la bandeja y te deja un aviso. Entre el pulsado y el hay un método que decide todo eso; en Razor Pages se llama handler, y en este punto abres el PageModel por dentro: convención de nombres, recibir datos, responder con resultados y el patrón PRG.
 
@@ -34,7 +34,7 @@ En este punto aprenderás la mitad que faltaba del binomio: cómo el motor elige
 
 > 📝 **Nota:** seguimos en el proyecto Razor Pages del punto anterior; las páginas nuevas de este punto están en `Pages/Productos/`.
 
-## 11.1. Qué es un Handler
+## 11.1. Qué es un handler
 
 Un handler es un método del `PageModel` que el motor invoca solo — tú nunca llamas a `OnGet`, el motor lo decide por el verbo de la petición. Los handlers más comunes son `OnGet`, que inicializa lo que la página necesita, y `OnPost`, que procesa los envíos; puedes añadir handlers para cualquier verbo HTTP, y el sufijo `Async` es opcional, por convención.
 
@@ -80,7 +80,7 @@ public class AltaModel : PageModel
 
 📌 **Ejemplo real:** Los formularios de contacto de cualquier web corporativa siguen este mismo esquema: el GET pinta el formulario, el POST procesa los campos y redirige a una página de agradecimiento para que nadie reenvíe el envío.
 
-### 11.1.1. La Convención de Nombres
+### 11.1.1. La convención de nombres
 
 El nombre del método no es decorativo: es la dirección por la que el motor lo encuentra.
 
@@ -94,7 +94,7 @@ El nombre del método no es decorativo: es la dirección por la que el motor lo 
 
 > 📝 **Nota:** los handlers con nombre son el texto que queda tras el `On<Verbo>` y antes del `Async`. Si llamas al método `OnPostActualizar`, el nombre del handler es `Actualizar` y la URL que lo invoca es `?handler=Actualizar`. El Tag Helper `asp-page-handler` pide ese nombre sin prefijo ni sufijo: `asp-page-handler="Actualizar"`.
 
-### 11.1.2. El Ciclo de una Petición
+### 11.1.2. El ciclo de una petición
 
 ```mermaid
 graph LR
@@ -103,21 +103,21 @@ graph LR
     B -->|"verbo POST<br/>sin ?handler"| D["OnPost()<br/>guarda y redirige"]
     C --> E["HTML"]
     D --> F["302 + Location"]
-    style A fill:#2196F3,color:#fff
-    style B fill:#FF9800,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#9C27B0,color:#fff
-    style E fill:#607D8B,color:#fff
-    style F fill:#f44336,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#FF980,color:#fff0,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#9C27B,color:#fff0,color:#fff
+    style E fill:#607D8,color:#fffB,color:#fff
+    style F fill:#f4433,color:#fff6,color:#fff
 ```
 
 El selector mira dos cosas: el verbo HTTP de la petición y el valor de `handler`, si la query lo trae. Con eso decide cuál de los métodos de tu PageModel se ejecuta y qué resultado devuelve la página.
 
-## 11.2. Recibir Datos en el PageModel
+## 11.2. Recibir datos en el PageModel
 
 Hay dos caminos para que un dato llegue al handler, y conviene saber cuál usa cada cosa.
 
-### 11.2.1. Parámetros del Handler
+### 11.2.1. Parámetros del handler
 
 Si el método declara parámetros, el motor rellena cada uno con un valor coincidente de la ruta, la query o el formulario. Ya lo viste en el punto 10 con `OnGet(int id)`; en escritura funciona igual: `OnPost(string nombre)` recibió el campo `nombre` del formulario y `OnPostActualizar(string marca)` recibió el campo `marca`.
 
@@ -172,17 +172,17 @@ graph LR
     R --> S["SupportsGet<br/>public int Etapa"]
     F["Formulario POST<br/>nombre, marca, Etapa"] --> Q["Parametro del handler<br/>OnPost(string nombre)"]
     F --> B["BindProperty<br/>public string Nombre"]
-    style R fill:#2196F3,color:#fff
-    style F fill:#FF9800,color:#fff
-    style P fill:#4CAF50,color:#fff
-    style S fill:#9C27B0,color:#fff
-    style Q fill:#4CAF50,color:#fff
-    style B fill:#9C27B0,color:#fff
+    style R fill:#2196F,color:#fff3,color:#fff
+    style F fill:#FF980,color:#fff0,color:#fff
+    style P fill:#4CAF5,color:#fff0,color:#fff
+    style S fill:#9C27B,color:#fff0,color:#fff
+    style Q fill:#4CAF5,color:#fff0,color:#fff
+    style B fill:#9C27B,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Cuando subes la foto de perfil en cualquier red social, el formulario viaja con `enctype="multipart/form-data"` y el servidor recibe un `IFormFile`: ese enlace de formulario a propiedad es el que veremos a fondo en el 13 y el 14.
 
-## 11.3. Responder: los Resultados de Página
+## 11.3. Responder: los resultados de página
 
 Un handler no pinta HTML: decide qué resultado devuelve, y el motor hace el resto. Los resultados son los mismos de los action results de MVC. En una sola página montamos los cuatro principales:
 
@@ -220,18 +220,18 @@ graph LR
     B --> C["302 Location:<br/>/productos/alta"]
     C --> D["GET /productos/alta<br/>OnGet() pinta"]
     D --> E["Guardados: 1<br/>sin reenvio del formulario"]
-    style A fill:#2196F3,color:#fff
-    style B fill:#9C27B0,color:#fff
-    style C fill:#f44336,color:#fff
-    style D fill:#4CAF50,color:#fff
-    style E fill:#607D8B,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#9C27B,color:#fff0,color:#fff
+    style C fill:#f4433,color:#fff6,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
+    style E fill:#607D8,color:#fffB,color:#fff
 ```
 
 Envía dos POST con el token: cada uno devuelve **302** con `Location: /productos/alta` y el GET siguiente muestra el contador en 2, sin ningún mensaje. El dato sobrevivió a la redirección porque vive en el servidor, y el navegador no reenvía el formulario al refrescar.
 
 > ⚠️ **Advertencia:** `RedirectToPage()` usa el nombre de página, no la URL. `RedirectToPage("/Index")` funciona porque `Pages/Index.cshtml` se llama `/Index`; `RedirectToPage("/")` da **500** con `System.InvalidOperationException: No page named '/' matches the supplied values.` La URL de esa página es `/`, pero su nombre es `/Index`: no confundas las dos cosas.
 
-## 11.4. Varios Handlers en la Misma Página
+## 11.4. Varios handlers en la misma página
 
 Una página puede montar varias acciones con handlers con nombre, y el enrutado de 11.1.1 se encarga de elegir. El listado de nuestras mediciones tiene cuatro:
 
@@ -285,16 +285,16 @@ graph TD
     B -->|No| D["OnPost()<br/>handler por defecto"]
     C --> E["200"]
     D --> E
-    style A fill:#2196F3,color:#fff
-    style B fill:#FF9800,color:#fff
-    style C fill:#9C27B0,color:#fff
-    style D fill:#607D8B,color:#fff
-    style E fill:#4CAF50,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#FF980,color:#fff0,color:#fff
+    style C fill:#9C27B,color:#fff0,color:#fff
+    style D fill:#607D8,color:#fffB,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 > 💡 **Consejo:** durante el desarrollo, pon en cada handler un mensaje identificativo, como hicimos con `Marca`. Cuando pruebes una vista con varios handlers, ver en el HTML cuál se ejecutó te ahorra media hora de depuración.
 
-## 11.5. Async y el Antiforgery de los POST
+## 11.5. Async y el antiforgery de los POST
 
 Dos detalles que completan el cuadro de los handlers.
 
@@ -309,7 +309,7 @@ Dos detalles que completan el cuadro de los handlers.
 
 > ⚠️ **Advertencia:** si pruebas los POST con `curl -X POST -d "nombre=X"` sin más, recibirás **400** y pensarás que tu handler está roto. No lo está: le falta el token. Copia el token del campo oculto del formulario y su cookie, o haz la prueba desde el navegador. La validación completa de formularios y seguridad la abrimos en el 15.
 
-## 11.6. Buenas Prácticas
+## 11.6. Buenas prácticas
 
 - **Un verbo, un handler**: `OnGet` pinta y `OnPost` procesa; no metas lectura y escritura en el mismo método
 - **PRG siempre**: tras un POST válido, guarda y `RedirectToPage()`; devuelve `Page()` solo cuando hay que reenseñar el formulario con errores
@@ -320,7 +320,7 @@ Dos detalles que completan el cuadro de los handlers.
 - **`RedirectToPage` con nombre de página**: `/Index`, no `/`; el primero da **302** y el segundo, **500**
 - **Cuenta con el 400 antiforgery**: todo POST necesita el token; los tests con `curl` tienen que llevarlo
 
-## 11.7. Reto: Alta de Funkos con Handlers
+## 11.7. Reto: alta de Funkos con handlers
 
 > Monta el alta de la tienda con sus handlers — y deja escrito en papel qué handler hace qué.
 

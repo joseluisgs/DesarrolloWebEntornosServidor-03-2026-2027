@@ -1,36 +1,36 @@
-- [2. Directivas y Sintaxis de Razor](#2-directivas-y-sintaxis-de-razor)
+- [2. Directivas y sintaxis de Razor](#2-directivas-y-sintaxis-de-razor)
   - [2.1. Directivas Razor](#21-directivas-razor)
-    - [2.1.1. Qué es una Directiva](#211-qué-es-una-directiva)
-    - [2.1.2. Directivas de Declaración](#212-directivas-de-declaración)
-    - [2.1.3. Directivas de Composición](#213-directivas-de-composición)
-    - [2.1.4. Directivas de Inyección y de Código](#214-directivas-de-inyección-y-de-código)
+    - [2.1.1. Qué es una directiva](#211-qué-es-una-directiva)
+    - [2.1.2. Directivas de declaración](#212-directivas-de-declaración)
+    - [2.1.3. Directivas de composición](#213-directivas-de-composición)
+    - [2.1.4. Directivas de inyección y de código](#214-directivas-de-inyección-y-de-código)
     - [2.1.5. Directivas de Tag Helpers](#215-directivas-de-tag-helpers)
-    - [2.1.6. Herencia de Directivas con _ViewImports](#216-herencia-de-directivas-con-_viewimports)
-  - [2.2. Sintaxis del Lenguaje en Razor](#22-sintaxis-del-lenguaje-en-razor)
-    - [2.2.1. Reglas Generales](#221-reglas-generales)
+    - [2.1.6. Herencia de directivas con _ViewImports](#216-herencia-de-directivas-con-_viewimports)
+  - [2.2. Sintaxis del lenguaje en Razor](#22-sintaxis-del-lenguaje-en-razor)
+    - [2.2.1. Reglas generales](#221-reglas-generales)
     - [2.2.2. Expresiones](#222-expresiones)
-    - [2.2.3. Bloques de Código](#223-bloques-de-código)
-  - [2.3. Sentencias Simples y su Efecto en el Documento](#23-sentencias-simples-y-su-efecto-en-el-documento)
-    - [2.3.1. Qué es una Sentencia](#231-qué-es-una-sentencia)
-    - [2.3.2. Declaración y Expresión: del Código al HTML](#232-declaración-y-expresión-del-código-al-html)
-    - [2.3.3. Condicional Simple con @if](#233-condicional-simple-con-if)
-    - [2.3.4. Asignación y Llamada a Método](#234-asignación-y-llamada-a-método)
-  - [2.4. Tipos de Variables y Operadores](#24-tipos-de-variables-y-operadores)
-    - [2.4.1. Tipos de Variables](#241-tipos-de-variables)
+    - [2.2.3. Bloques de código](#223-bloques-de-código)
+  - [2.3. Sentencias simples y su efecto en el documento](#23-sentencias-simples-y-su-efecto-en-el-documento)
+    - [2.3.1. Qué es una sentencia](#231-qué-es-una-sentencia)
+    - [2.3.2. Declaración y expresión: del código al HTML](#232-declaración-y-expresión-del-código-al-html)
+    - [2.3.3. Condicional simple con @if](#233-condicional-simple-con-if)
+    - [2.3.4. Asignación y llamada a método](#234-asignación-y-llamada-a-método)
+  - [2.4. Tipos de variables y operadores](#24-tipos-de-variables-y-operadores)
+    - [2.4.1. Tipos de variables](#241-tipos-de-variables)
     - [2.4.2. Operadores](#242-operadores)
-    - [2.4.3. Cadenas, Interpolación y Formato](#243-cadenas-interpolación-y-formato)
-  - [2.5. Ámbitos de las Variables](#25-ámbitos-de-las-variables)
-    - [2.5.1. Ámbito del Bloque](#251-ámbito-del-bloque)
-    - [2.5.2. Ámbito de la Vista Completa](#252-ámbito-de-la-vista-completa)
-    - [2.5.3. Ámbito entre Vistas Parciales](#253-ámbito-entre-vistas-parciales)
-  - [2.6. Buenas Prácticas](#26-buenas-prácticas)
-  - [2.7. Reto: Directivas y sintaxis de Razor en FunkoApp](#27-reto-directivas-y-sintaxis-de-razor-en-funkoapp)
+    - [2.4.3. Cadenas, interpolación y formato](#243-cadenas-interpolación-y-formato)
+  - [2.5. Ámbitos de las variables](#25-ámbitos-de-las-variables)
+    - [2.5.1. Ámbito del bloque](#251-ámbito-del-bloque)
+    - [2.5.2. Ámbito de la vista completa](#252-ámbito-de-la-vista-completa)
+    - [2.5.3. Ámbito entre vistas parciales](#253-ámbito-entre-vistas-parciales)
+  - [2.6. Buenas prácticas](#26-buenas-prácticas)
+  - [2.7. Reto: directivas y sintaxis de Razor en FunkoApp](#27-reto-directivas-y-sintaxis-de-razor-en-funkoapp)
     - [2.7.1. Contexto](#271-contexto)
     - [2.7.2. Retos](#272-retos)
 
 
 
-# 2. Directivas y Sintaxis de Razor
+# 2. Directivas y sintaxis de Razor
 
 > 💡 **Punto de partida:** Cuando compras en Amazon, la ficha del producto muestra el precio con su moneda, el año de lanzamiento y la etiqueta de novedad, todo en tu idioma. Detrás de esa página hay un motor que recibe órdenes antes de pintar nada: qué modelo espera, qué servicios usa y qué plantilla monta. Esas órdenes son las directivas de Razor, y en este punto aprendes a darlas.
 
@@ -48,7 +48,7 @@ En este punto aprenderás a dar órdenes al motor Razor con directivas, a escrib
 
 ## 2.1. Directivas Razor
 
-### 2.1.1. Qué es una Directiva
+### 2.1.1. Qué es una directiva
 
 Una directiva es una instrucción que le dice al motor Razor cómo debe compilar la vista. No pinta nada en la vista: cambia por defecto cómo se comporta el documento.
 
@@ -66,7 +66,7 @@ La diferencia con una expresión es radical:
 
 📌 **Ejemplo real:** Si borras `@model`, la vista ni siquiera compila porque no sabe de qué tipo es `Model`. Si borras `@nombre`, la página sigue saliendo pero se queda sin ese dato. Una directiva estructura, una expresión rellena.
 
-### 2.1.2. Directivas de Declaración
+### 2.1.2. Directivas de declaración
 
 Responden a la pregunta **¿qué es esta vista?**
 
@@ -90,7 +90,7 @@ Responden a la pregunta **¿qué es esta vista?**
 
 > ⚠️ **Advertencia:** `@page` solo existe en Razor Pages. En MVC la ruta la pone el controlador. Es la directiva que más se olvida: sin ella, la página no es accesible por URL.
 
-### 2.1.3. Directivas de Composición
+### 2.1.3. Directivas de composición
 
 Responden a la pregunta **¿cómo se monta y qué se ve?**
 
@@ -113,7 +113,7 @@ Responden a la pregunta **¿cómo se monta y qué se ve?**
 
 > ⚠️ **Advertencia:** `@layout` vs `_ViewStart`: `@layout` es la directiva de Blazor. En MVC y Razor Pages el layout no se fija aquí: se hereda desde `_ViewStart.cshtml`. Si copias `@layout` en un `.cshtml` de Razor Pages, no hace lo que esperas.
 
-### 2.1.4. Directivas de Inyección y de Código
+### 2.1.4. Directivas de inyección y de código
 
 | Directiva | Qué modifica por defecto | Ejemplo |
 |-----------|--------------------------|---------|
@@ -151,7 +151,7 @@ Esto funciona tal cual en un proyecto recién creado, sin registrar nada:
 
 El asterisco `*` significa *"todos los Tag Helpers de ese ensamblado"*. El detalle completo está en el punto **06 · Tag Helpers**.
 
-### 2.1.6. Herencia de Directivas con _ViewImports
+### 2.1.6. Herencia de directivas con _ViewImports
 
 Las directivas no hay que repetirlas en cada vista: se declaran una vez en `_ViewImports.cshtml` y se heredan hacia abajo, por toda la carpeta.
 
@@ -164,12 +164,12 @@ graph TD
     B --> B1["Index.cshtml<br/>NO repite las directivas"]
     C --> C1["Index.cshtml<br/>NO repite las directivas"]
 
-    style A fill:#9C27B0,color:#fff
-    style B fill:#2196F3,color:#fff
-    style C fill:#2196F3,color:#fff
-    style D fill:#2196F3,color:#fff
-    style B1 fill:#4CAF50,color:#fff
-    style C1 fill:#4CAF50,color:#fff
+    style A fill:#9C27B,color:#fff0,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
+    style D fill:#2196F,color:#fff3,color:#fff
+    style B1 fill:#4CAF5,color:#fff0,color:#fff
+    style C1 fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 | Fichero | Qué acumula | Alcance |
@@ -180,9 +180,9 @@ graph TD
 
 > 💡 **Consejo:** Pon en `_ViewImports` solo lo que usan muchas vistas. Si metes un `@using` que usa una única vista, ahí no estás ahorrando nada: estás ensuciando el ámbito de todas.
 
-## 2.2. Sintaxis del Lenguaje en Razor
+## 2.2. Sintaxis del lenguaje en Razor
 
-### 2.2.1. Reglas Generales
+### 2.2.1. Reglas generales
 
 Razor no inventa un lenguaje: dentro va **C# 14 puro**. La sintaxis es exactamente la del resto de tu proyecto, con cinco reglas de convivencia:
 
@@ -207,13 +207,13 @@ graph LR
     E --> G
     F --> G
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#4CAF50,color:#fff
-    style C fill:#9C27B0,color:#fff
-    style D fill:#FF9800,color:#fff
-    style E fill:#2196F3,color:#fff
-    style F fill:#f44336,color:#fff
-    style G fill:#4CAF50,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#4CAF5,color:#fff0,color:#fff
+    style C fill:#9C27B,color:#fff0,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style E fill:#2196F,color:#fff3,color:#fff
+    style F fill:#f4433,color:#fff6,color:#fff
+    style G fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 > ⚠️ **Advertencia:** El error número uno al empezar es mezclar reglas. `@page` (directiva, minúscula) y una expresión de variable no son lo mismo, y el compilador las distingue. Del mismo modo, `@viewdata` no funciona porque C# sí distingue mayúsculas.
@@ -249,7 +249,7 @@ Una expresión es cualquier cosa que produce un valor y que Razor escribe en el 
 
 > 💡 **Regla de oro:** si la expresión lleva espacios, operadores o comas, enciérrala entre paréntesis `@( ... )`. Sin ellos, `@activo ? "a" : "b"` imprime `True ? a : b` en lugar del resultado.
 
-### 2.2.3. Bloques de Código
+### 2.2.3. Bloques de código
 
 Un bloque `@{ }` no produce valor: contiene las instrucciones que preparan lo que luego se muestra.
 
@@ -275,9 +275,9 @@ Dentro de `@{ }` estás **plenamente en C#**: necesitas punto y coma, y los come
 
 📌 **Ejemplo real:** Netflix decide el idioma, la calidad de reproducción y el orden de tu portada en bloques como este antes de escribir una sola etiqueta HTML. La vista solo *pinta* el resultado ya calculado.
 
-## 2.3. Sentencias Simples y su Efecto en el Documento
+## 2.3. Sentencias simples y su efecto en el documento
 
-### 2.3.1. Qué es una Sentencia
+### 2.3.1. Qué es una sentencia
 
 Una sentencia es una instrucción que se ejecuta. A diferencia de la expresión, no se *muestra*: se *hace*.
 
@@ -302,17 +302,17 @@ graph LR
     F --> H
     G --> H
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#9C27B0,color:#fff
-    style C fill:#FF9800,color:#fff
-    style D fill:#f44336,color:#fff
-    style E fill:#4CAF50,color:#fff
-    style F fill:#2196F3,color:#fff
-    style G fill:#4CAF50,color:#fff
-    style H fill:#4CAF50,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#9C27B,color:#fff0,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style D fill:#f4433,color:#fff6,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#2196F,color:#fff3,color:#fff
+    style G fill:#4CAF5,color:#fff0,color:#fff
+    style H fill:#4CAF5,color:#fff0,color:#fff
 ```
 
-### 2.3.2. Declaración y Expresión: del Código al HTML
+### 2.3.2. Declaración y expresión: del código al HTML
 
 **Sentencia en la vista:**
 
@@ -333,7 +333,7 @@ graph LR
 
 Fíjate en lo que no aparece: ni `var`, ni los corchetes, ni los punto y coma. Del código solo queda el valor.
 
-### 2.3.3. Condicional Simple con @if
+### 2.3.3. Condicional simple con @if
 
 **Sentencia en la vista:**
 
@@ -364,7 +364,7 @@ La rama que no se cumple no genera ni un byte. Ese es el efecto observable: dos 
 
 > ⚠️ **Advertencia:** Si olvidas las llaves `{ }` en una rama con HTML, **el resto de la página se come dentro del `if`**. Es el fallo más confuso del principio: la mitad de tu vista desaparece y no entiendes por qué.
 
-### 2.3.4. Asignación y Llamada a Método
+### 2.3.4. Asignación y llamada a método
 
 **Sentencia en la vista:**
 
@@ -401,9 +401,9 @@ Fíjate en lo que no aparece: ni `@functions`, ni la llamada `Duplicar(6)`, ni e
 
 > 💡 **Consejo:** Abre **F12 → pestaña Elementos** y busca el texto que esperabas. Si no está, esa sentencia no produjo HTML: no es un fallo, es el comportamiento esperado. Hacerlo una vez te ahorra media hora de dudas en el futuro.
 
-## 2.4. Tipos de Variables y Operadores
+## 2.4. Tipos de variables y operadores
 
-### 2.4.1. Tipos de Variables
+### 2.4.1. Tipos de variables
 
 Dentro de una vista se usan **los mismos tipos que en cualquier parte de C#**. Con `var` dejas que el compilador averigüe el tipo por ti — siempre que asignes un valor en la misma línea.
 
@@ -447,15 +447,15 @@ graph TD
     D --> D1["Pasan la REFERENCIA<br/>el objeto es el mismo"]
     E --> E1["dynamic: el tipo<br/>se decide en ejecución"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#2196F3,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#9C27B0,color:#fff
-    style E fill:#FF9800,color:#fff
-    style B1 fill:#607D8B,color:#fff
-    style C1 fill:#607D8B,color:#fff
-    style D1 fill:#f44336,color:#fff
-    style E1 fill:#f44336,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#9C27B,color:#fff0,color:#fff
+    style E fill:#FF980,color:#fff0,color:#fff
+    style B1 fill:#607D8,color:#fffB,color:#fff
+    style C1 fill:#607D8,color:#fffB,color:#fff
+    style D1 fill:#f4433,color:#fff6,color:#fff
+    style E1 fill:#f4433,color:#fff6,color:#fff
 ```
 
 > ⚠️ **Advertencia:** tres errores típicos:
@@ -499,7 +499,7 @@ graph TD
 
 > 📝 **Nota:** El operador `??=` asigna **solo si la variable es `null`**: `imagen ??= "/img/sin-foto.png";`. Es muy cómodo para valores por defecto.
 
-### 2.4.3. Cadenas, Interpolación y Formato
+### 2.4.3. Cadenas, interpolación y formato
 
 ```cshtml
 @{
@@ -531,9 +531,9 @@ graph TD
 
 > ⚠️ **Advertencia:** El formato `C` depende de la cultura del servidor. Si el servidor está en `en-US` verás `$14.99` en lugar de `14,99 €`. Para que salga siempre igual, fija la cultura (lo veremos en el punto **22 · Internacionalización**).
 
-## 2.5. Ámbitos de las Variables
+## 2.5. Ámbitos de las variables
 
-### 2.5.1. Ámbito del Bloque
+### 2.5.1. Ámbito del bloque
 
 Un `@if` o un `@{ }` anidado crean una jaula: lo que declares dentro, solo vive ahí dentro.
 
@@ -557,7 +557,7 @@ Un `@if` o un `@{ }` anidado crean una jaula: lo que declares dentro, solo vive 
 
 **Regla:** *el ámbito de una variable es el bloque `{ }` donde se declara y todos los bloques anidados dentro de él*.
 
-### 2.5.2. Ámbito de la Vista Completa
+### 2.5.2. Ámbito de la vista completa
 
 Una variable declarada en un `@{ }` en el nivel raíz de la vista sí es visible en el resto de la vista, porque todo se compila dentro de un único método.
 
@@ -573,14 +573,14 @@ graph TD
     D --> D1["@a fuera del if<br/>→ error de compilación"]
     E --> E1["@b fuera de la función<br/>→ error de compilación"]
 
-    style A fill:#9C27B0,color:#fff
-    style B fill:#607D8B,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#f44336,color:#fff
-    style E fill:#f44336,color:#fff
-    style C1 fill:#4CAF50,color:#fff
-    style D1 fill:#f44336,color:#fff
-    style E1 fill:#f44336,color:#fff
+    style A fill:#9C27B,color:#fff0,color:#fff
+    style B fill:#607D8,color:#fffB,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#f4433,color:#fff6,color:#fff
+    style E fill:#f4433,color:#fff6,color:#fff
+    style C1 fill:#4CAF5,color:#fff0,color:#fff
+    style D1 fill:#f4433,color:#fff6,color:#fff
+    style E1 fill:#f4433,color:#fff6,color:#fff
 ```
 
 | Dónde se declara | ¿Dónde se ve? |
@@ -590,7 +590,7 @@ graph TD
 | Dentro de una función local (`@functions`) | Solo dentro de esa función |
 | En `_ViewImports.cshtml` | Solo se heredan directivas (`@using`, `@addTagHelper`), no variables |
 
-### 2.5.3. Ámbito entre Vistas Parciales
+### 2.5.3. Ámbito entre vistas parciales
 
 Cada vista, parcial o layout se compila como una clase aparte, con su propio método. No comparten variables locales.
 
@@ -605,12 +605,12 @@ graph TD
     D["¿Cómo se pasan datos?"] --> E["Con el MODELO<br/>model= y PartialAsync"]
     D --> F["Con ViewData / ViewBag<br/>(punto 08)"]
 
-    style A fill:#2196F3,color:#fff
-    style B fill:#607D8B,color:#fff
-    style C fill:#607D8B,color:#fff
-    style D fill:#FF9800,color:#fff
-    style E fill:#4CAF50,color:#fff
-    style F fill:#4CAF50,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#607D8,color:#fffB,color:#fff
+    style C fill:#607D8,color:#fffB,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 ```cshtml
@@ -626,7 +626,7 @@ graph TD
 
 > ⚠️ **Advertencia:** El error más buscado en clase es `La variable 'x' no existe en el contexto actual`. Casi siempre significa que la declaraste en una vista y la usas en otra. La solución nunca es repetir la variable: es pasar el dato. Las vistas parciales como tales las veremos en el punto **05**.
 
-## 2.6. Buenas Prácticas
+## 2.6. Buenas prácticas
 
 - **Agrupa las directivas arriba**, en este orden: `@page` → `@namespace` → `@inherits` → `@model` → `@using` → `@inject`
 - **Deja que `_ViewImports` herede** `@using` y `@addTagHelper`; no los repitas en cada vista
@@ -640,7 +640,7 @@ graph TD
 - **No declares dentro de un bloque** una variable que vayas a usar fuera
 - **No llames a una base de datos desde la vista**: en esta unidad todavía no hay ninguna
 
-## 2.7. Reto: Directivas y sintaxis de Razor en FunkoApp
+## 2.7. Reto: directivas y sintaxis de Razor en FunkoApp
 
 > Domina las directivas y la sintaxis de Razor montando la vista de gestión de FunkoApp — todavía con datos escritos a mano.
 

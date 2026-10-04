@@ -1,24 +1,24 @@
-- [16. Subida y Almacenamiento de Ficheros](#16-subida-y-almacenamiento-de-ficheros)
-  - [16.1. El Formulario con Fichero](#161-el-formulario-con-fichero)
-  - [16.2. La Misma Subida en las Dos Visiones](#162-la-misma-subida-en-las-dos-visiones)
+- [16. Subida y almacenamiento de ficheros](#16-subida-y-almacenamiento-de-ficheros)
+  - [16.1. El formulario con fichero](#161-el-formulario-con-fichero)
+  - [16.2. La misma subida en las dos visiones](#162-la-misma-subida-en-las-dos-visiones)
     - [16.2.1. Visión Razor Pages: OnPost con IFormFile](#1621-visión-razor-pages-onpost-con-iformfile)
-    - [16.2.2. Visión MVC: la Acción que Recibe el Fichero](#1622-visión-mvc-la-acción-que-recibe-el-fichero)
-    - [16.2.3. La Misma Subida, Comparada](#1623-la-misma-subida-comparada)
-  - [16.3. El Servicio de Almacenamiento](#163-el-servicio-de-almacenamiento)
-    - [16.3.1. Validar Antes de Guardar](#1631-validar-antes-de-guardar)
-    - [16.3.2. Nombre Único](#1632-nombre-único)
-    - [16.3.3. El Almacén Configurable](#1633-el-almacén-configurable)
-  - [16.4. Contra el Path Traversal](#164-contra-el-path-traversal)
-  - [16.5. Servir los Ficheros Subidos](#165-servir-los-ficheros-subidos)
-  - [16.6. Descargas con File](#166-descargas-con-file)
-  - [16.7. Límites de la Subida](#167-límites-de-la-subida)
-  - [16.8. La Estructura del Proyecto: Dónde Va Cada Cosa](#168-la-estructura-del-proyecto-dónde-vae-cada-cosa)
-  - [16.9. El Formulario Completo en las Dos Visiones](#169-el-formulario-completo-en-las-dos-visiones)
-    - [16.9.1. Visión Razor Pages: el Alta Completa](#1691-visión-razor-pages-el-alta-completa)
-    - [16.9.2. Visión MVC: el Alta Completa](#1692-visión-mvc-el-alta-completa)
-    - [16.9.3. Todos los Datos Procesados, Comparado](#1693-todos-los-datos-procesados-comparado)
-  - [16.10. Buenas Prácticas](#1610-buenas-prácticas)
-  - [16.11. Reto: La Imagen de los Funkos](#1611-reto-la-imagen-de-los-funkos)
+    - [16.2.2. Visión MVC: la acción que recibe el fichero](#1622-visión-mvc-la-acción-que-recibe-el-fichero)
+    - [16.2.3. La misma subida, comparada](#1623-la-misma-subida-comparada)
+  - [16.3. El servicio de almacenamiento](#163-el-servicio-de-almacenamiento)
+    - [16.3.1. Validar antes de guardar](#1631-validar-antes-de-guardar)
+    - [16.3.2. Nombre único](#1632-nombre-único)
+    - [16.3.3. El almacén configurable](#1633-el-almacén-configurable)
+  - [16.4. Contra el path traversal](#164-contra-el-path-traversal)
+  - [16.5. Servir los ficheros subidos](#165-servir-los-ficheros-subidos)
+  - [16.6. Descargas con file](#166-descargas-con-file)
+  - [16.7. Límites de la subida](#167-límites-de-la-subida)
+  - [16.8. La estructura del proyecto: dónde va cada cosa](#168-la-estructura-del-proyecto-dónde-vae-cada-cosa)
+  - [16.9. El formulario completo en las dos visiones](#169-el-formulario-completo-en-las-dos-visiones)
+    - [16.9.1. Visión Razor Pages: el alta completa](#1691-visión-razor-pages-el-alta-completa)
+    - [16.9.2. Visión MVC: el alta completa](#1692-visión-mvc-el-alta-completa)
+    - [16.9.3. Todos los datos procesados, comparado](#1693-todos-los-datos-procesados-comparado)
+  - [16.10. Buenas prácticas](#1610-buenas-prácticas)
+  - [16.11. Reto: la imagen de los Funkos](#1611-reto-la-imagen-de-los-funkos)
     - [16.11.1. Contexto](#16111-contexto)
     - [16.11.2. Modelo de datos](#16112-modelo-de-datos)
     - [16.11.3. Almacenamiento](#16113-almacenamiento)
@@ -26,7 +26,7 @@
 
 
 
-# 16. Subida y Almacenamiento de Ficheros
+# 16. Subida y almacenamiento de ficheros
 
 > 💡 **Punto de partida:** Cuando subes una foto de perfil en Instagram, la app recibe la imagen, la guarda en sus servidores bajo una dirección que nadie adivina y te devuelve una URL que después carga cualquiera. Detrás de ese gesto hay tres decisiones que se repiten en todo proyecto: qué ficheros acepto, dónde los guardo y cómo se llaman. En este punto construyes ese sistema en tus dos visiones.
 
@@ -42,7 +42,7 @@ En este punto aprenderás la subida de ficheros de principio a fin: el formulari
 
 > 📝 **Nota:** seguimos con `ProductosApp` en sus dos visiones. El servicio de almacenamiento es común: las dos visiones llaman al mismo código, como en el resto de la unidad.
 
-## 16.1. El Formulario con Fichero
+## 16.1. El formulario con fichero
 
 Un fichero no viaja como texto: **viaja como bytes**, y el formulario necesita avisar de eso. La clave son dos piezas:
 
@@ -68,19 +68,19 @@ graph LR
     D -->|Sí| F["Nombre único"]
     F --> G["Disco:<br/>wwwroot/uploads"]
     G --> H["URL pública<br/>/uploads/..."]
-    style A fill:#2196F3,color:#fff
-    style B fill:#607D8B,color:#fff
-    style C fill:#9C27B0,color:#fff
-    style D fill:#FF9800,color:#fff
-    style E fill:#f44336,color:#fff
-    style F fill:#4CAF50,color:#fff
-    style G fill:#4CAF50,color:#fff
-    style H fill:#607D8B,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#607D8,color:#fffB,color:#fff
+    style C fill:#9C27B,color:#fff0,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style E fill:#f4433,color:#fff6,color:#fff
+    style F fill:#4CAF5,color:#fff0,color:#fff
+    style G fill:#4CAF5,color:#fff0,color:#fff
+    style H fill:#607D8,color:#fffB,color:#fff
 ```
 
 > ⚠️ **Advertencia:** sin `enctype="multipart/form-data"` el navegador envía el formulario como texto y el servidor recibe un campo vacío. Es el error número uno de las primeras subidas: el formulario "funciona" y el `IFormFile` llega a `null`.
 
-## 16.2. La Misma Subida en las Dos Visiones
+## 16.2. La misma subida en las dos visiones
 
 El mismo formulario de subida, montado dos veces. El fichero se llama `archivo` en las dos; cambia quién lo recibe.
 
@@ -111,7 +111,7 @@ public class SubirModel : PageModel
 }
 ```
 
-### 16.2.2. Visión MVC: la Acción que Recibe el Fichero
+### 16.2.2. Visión MVC: la acción que recibe el fichero
 
 La misma vista como `Views/Productos/Subir.cshtml`, con el formulario apuntado por Tag Helpers; la acción recibe el fichero con la misma forma:
 
@@ -136,7 +136,7 @@ public IActionResult Subir(IFormFile? archivo)
 }
 ```
 
-### 16.2.3. La Misma Subida, Comparada
+### 16.2.3. La misma subida, comparada
 
 | | Página Razor Pages | Acción MVC |
 |---|---|---|
@@ -149,11 +149,11 @@ public IActionResult Subir(IFormFile? archivo)
 
 El formulario multipart y el `IFormFile` no cambian entre visiones; lo único que cambia es la firma que los recibe y el resultado de PRG.
 
-## 16.3. El Servicio de Almacenamiento
+## 16.3. El servicio de almacenamiento
 
 El guardado no se improvisa en el handler: se concentra en un servicio que las dos visiones comparten. Su trabajo es validar, dar nombre y escribir en disco.
 
-### 16.3.1. Validar Antes de Guardar
+### 16.3.1. Validar antes de guardar
 
 **Nada llega al disco sin pasar por la puerta.** La validación cubre lo esencial:
 
@@ -185,7 +185,7 @@ public static (bool Ok, string Mensaje, string Ruta) Guardar(IFormFile? archivo,
 }
 ```
 
-### 16.3.2. Nombre Único
+### 16.3.2. Nombre único
 
 Nunca se guarda el fichero con su nombre original: dos fotos llamadas `foto.jpg` se pisarían — y un nombre elegido por el usuario es un regalo para el atacante. El patrón profesional combina marca temporal, guion corto y el nombre saneado:
 
@@ -199,7 +199,7 @@ El resultado es un nombre como `20261003220843_dc66fe7f_foto.jpg`: legible para 
 
 📌 **Ejemplo real:** Cuando subes una foto a cualquier servicio y luego copias su dirección, la URL lleva una firma larga e imposible de adivinar en el nombre del fichero. Ese desorden calculado es exactamente el patrón de nombre único.
 
-### 16.3.3. El Almacén Configurable
+### 16.3.3. El almacén configurable
 
 En un proyecto de verdad, la carpeta del almacén y los techos no se escriben en el código: se configuran. La sección `Storage` del `appsettings.json` fija la ruta relativa dentro de `wwwroot` y los límites, y el servicio los lee al arrancar:
 
@@ -223,7 +223,7 @@ Directory.CreateDirectory(_rootPath);
 
 Así, el mismo servicio funciona en desarrollo y en producción solo cambiando la configuración, que es donde vive la responsabilidad de decidir dónde guarda cada aplicación.
 
-## 16.4. Contra el Path Traversal
+## 16.4. Contra el path traversal
 
 El ataque más clásico de las subidas no es el fichero: es el nombre. Un campo `filename=../../appsettings.json` intenta salir del almacén y escribir encima de la configuración. La defensa se mide en tres capas:
 
@@ -243,14 +243,14 @@ graph TD
     E -->|No| G{"¿Extensión en<br/>la lista blanca?"}
     G -->|No| F
     G -->|Sí| H["Guardado seguro<br/>en uploads/"]
-    style A fill:#f44336,color:#fff
-    style B fill:#FF9800,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#2196F3,color:#fff
-    style E fill:#FF9800,color:#fff
-    style F fill:#f44336,color:#fff
-    style G fill:#FF9800,color:#fff
-    style H fill:#4CAF50,color:#fff
+    style A fill:#f4433,color:#fff6,color:#fff
+    style B fill:#FF980,color:#fff0,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#2196F,color:#fff3,color:#fff
+    style E fill:#FF980,color:#fff0,color:#fff
+    style F fill:#f4433,color:#fff6,color:#fff
+    style G fill:#FF980,color:#fff0,color:#fff
+    style H fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 ```csharp
@@ -267,7 +267,7 @@ static bool EsJpeg(IFormFile archivo)
 
 En las dos visiones de `ProductosApp`, un fichero llamado `../../appsettings.json` no sale del almacén: el servicio lo sanea, lo guarda con su nombre único dentro de `uploads/productos/` y la configuración del proyecto sigue intacta.
 
-## 16.5. Servir los Ficheros Subidos
+## 16.5. Servir los ficheros subidos
 
 Los ficheros se guardan en `wwwroot/uploads/`, y `wwwroot` es la única carpeta que el servidor web sirve como estática. Con los activos del proyecto ya puestos en su sitio (el punto 06 vio la huella y el fingerprinting), un fichero subido queda disponible en su URL relativa:
 
@@ -280,7 +280,7 @@ La comprobación es directa: subes, copias la ruta que devuelve el servicio y ab
 
 > 💡 **Consejo:** el almacén de subidas vive dentro de `wwwroot` para poder servirlo, pero solo tu código debe escribir ahí dentro — los ficheros que pide el navegador y los que guarda tu servidor son mundos distintos, aunque compartan carpeta.
 
-## 16.6. Descargas con File
+## 16.6. Descargas con file
 
 A veces el fichero no se muestra: **se entrega**. Los action results de descarga ya los conoces del catálogo del punto 08; el más directo es `PhysicalFile`, que entrega un fichero del disco con su nombre:
 
@@ -302,7 +302,7 @@ public IActionResult Descargar()
 
 La respuesta llega con **200**, el `Content-Type` del fichero y la cabecera `Content-Disposition: attachment; filename=...`, que le dice al navegador que abra el diálogo de guardado en vez de pintar la imagen. En Razor Pages el mismo resultado `PhysicalFile` está disponible en el `PageModel`, con idéntica firma.
 
-## 16.7. Límites de la Subida
+## 16.7. Límites de la subida
 
 La subida es la puerta más ancha de la aplicación — se cierra con los mismos techos del punto 15:
 
@@ -312,7 +312,7 @@ La subida es la puerta más ancha de la aplicación — se cierra con los mismos
 
 Los tres se apilan: el techo de la petición corta el envío, el del servicio corta el archivo y la lista decide qué tipos tienen permiso.
 
-## 16.8. La Estructura del Proyecto: Dónde Va Cada Cosa
+## 16.8. La estructura del proyecto: dónde va cada cosa
 
 Llevas quince puntos creando piezas sueltas: modelos, repositorios, ViewModels, mappers, middlewares, servicios. Este es el mapa que las ordena, y es el mismo que usa cualquier proyecto ASP.NET Core de curso:
 
@@ -352,7 +352,7 @@ ProductosApp/
 
 > 📝 **Nota:** la configuración por capas (`appsettings.json`, variables de entorno, user secrets) y los entornos de desarrollo y producción se abren en el punto 20; aquí te basta con saber dónde cae cada cosa.
 
-## 16.9. El Formulario Completo en las Dos Visiones
+## 16.9. El formulario completo en las dos visiones
 
 Toca juntarlo todo: un alta de producto con los seis tipos de campo que has visto en la unidad (texto, selección, número, decimal, casilla y fichero), con las validaciones del punto 15 y el servicio de ficheros de este punto. Es la vista que cualquier tienda real monta para dar de alta un producto, y queda como la referencia de cómo se procesan todos los datos de una vez.
 
@@ -378,7 +378,7 @@ public class ProductoAlta
 }
 ```
 
-### 16.9.1. Visión Razor Pages: el Alta Completa
+### 16.9.1. Visión Razor Pages: el alta completa
 
 La página `Pages/Productos/Completa.cshtml` trae el formulario multipart con los seis campos y las validaciones; el `PageModel` procesa en el orden fijo: binding, validación, fichero y PRG:
 
@@ -412,7 +412,7 @@ public IActionResult OnPost(IFormFile? imagen)
 }
 ```
 
-### 16.9.2. Visión MVC: el Alta Completa
+### 16.9.2. Visión MVC: el alta completa
 
 La misma vista como `Views/Productos/Completa.cshtml` y la acción con los cuatro destinos: el modelo, la colección, el fichero y la protección:
 
@@ -443,7 +443,7 @@ public IActionResult Completa(ProductoAlta input, List<string> etiquetas, IFormF
 }
 ```
 
-### 16.9.3. Todos los Datos Procesados, Comparado
+### 16.9.3. Todos los datos procesados, comparado
 
 La tabla de lo que viaja en un solo envío:
 
@@ -461,7 +461,7 @@ Y el resultado en las dos visiones es palabra por palabra el mismo: tras el env�
 
 > 💡 **Consejo:** cuando una vista reúne tantos tipos de campo, el orden del procesamiento es fijo y lo tienes todo aquí: binding primero, validación después, fichero al final y PRG para cerrar. Si algo falla, se vuelve a pintar el formulario con el error en su sitio; solo el camino feliz redirige.
 
-## 16.10. Buenas Prácticas
+## 16.10. Buenas prácticas
 
 - **`multipart/form-data` siempre**: sin él, el `IFormFile` llega vacío y no sabes por qué
 - **Un servicio, dos visiones**: el guardado vive en una clase; los handlers solo llaman
@@ -472,7 +472,7 @@ Y el resultado en las dos visiones es palabra por palabra el mismo: tras el env�
 - **Techos apilados**: `[RequestSizeLimit]` en el endpoint y `Length` en el servicio
 - **Descarga con `PhysicalFile` o `File`**: con su `Content-Type` y su `Content-Disposition`, nunca sirvas binarios como HTML
 
-## 16.11. Reto: La Imagen de los Funkos
+## 16.11. Reto: la imagen de los Funkos
 
 > Añade la foto a tu tienda: formulario multipart, servicio de almacenamiento y descarga, en las dos visiones.
 

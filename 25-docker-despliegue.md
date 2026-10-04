@@ -1,23 +1,23 @@
-- [25. Despliegue con Docker y Nube](#25-despliegue-con-docker-y-nube)
-  - [25.1. De la Máquina al Servidor](#251-de-la-máquina-al-servidor)
-    - [25.1.1. Qué Significa Desplegar](#2511-qué-significa-desplegar)
-    - [25.1.2. La Publicación con dotnet publish](#2512-la-publicación-con-dotnet-publish)
-  - [25.2. Docker: El Contenedor de la Aplicación](#252-docker-el-contenedor-de-la-aplicación)
-    - [25.2.1. Imagen y Contenedor](#2521-imagen-y-contenedor)
-    - [25.2.2. El Dockerfile por Fases](#2522-el-dockerfile-por-fases)
-    - [25.2.3. Construir y Ejecutar](#2523-construir-y-ejecutar)
-    - [25.2.4. Visión Razor Pages: el Dockerfile de la Tienda](#2524-visión-razor-pages-el-dockerfile-de-la-tienda)
-    - [25.2.5. Visión MVC: el Dockerfile de la Tienda](#2525-visión-mvc-el-dockerfile-de-la-tienda)
-  - [25.3. Configurar el Contenedor](#253-configurar-el-contenedor)
-    - [25.3.1. Variables de Entorno, Puertos y Secretos](#2531-variables-de-entorno-puertos-y-secretos)
-    - [25.3.2. Datos Fuera del Contenedor](#2532-datos-fuera-del-contenedor)
-  - [25.4. De la Imagen a la Nube](#254-de-la-imagen-a-la-nube)
-    - [25.4.1. Registro, Servicio y Escala](#2541-registro-servicio-y-escala)
-    - [25.4.2. GitHub Actions: Quién Ejecuta las Órdenes](#2542-github-actions-quién-ejecuta-las-órdenes)
-    - [25.4.3. Despliegue en Servicios Concretos: Render y Otros](#2543-despliegue-en-servicios-concretos-render-y-otros)
-  - [25.5. Reglas de Seguridad](#255-reglas-de-seguridad)
-  - [25.6. Buenas Prácticas](#256-buenas-prácticas)
-  - [25.7. Reto: El Despliegue de la Tienda de Funkos](#257-reto-el-despliegue-de-la-tienda-de-funkos)
+- [25. Despliegue con Docker y nube](#25-despliegue-con-docker-y-nube)
+  - [25.1. De la máquina al servidor](#251-de-la-máquina-al-servidor)
+    - [25.1.1. Qué significa desplegar](#2511-qué-significa-desplegar)
+    - [25.1.2. La publicación con dotnet publish](#2512-la-publicación-con-dotnet-publish)
+  - [25.2. Docker: el contenedor de la aplicación](#252-docker-el-contenedor-de-la-aplicación)
+    - [25.2.1. Imagen y contenedor](#2521-imagen-y-contenedor)
+    - [25.2.2. El Dockerfile por fases](#2522-el-dockerfile-por-fases)
+    - [25.2.3. Construir y ejecutar](#2523-construir-y-ejecutar)
+    - [25.2.4. Visión Razor Pages: el Dockerfile de la tienda](#2524-visión-razor-pages-el-dockerfile-de-la-tienda)
+    - [25.2.5. Visión MVC: el Dockerfile de la tienda](#2525-visión-mvc-el-dockerfile-de-la-tienda)
+  - [25.3. Configurar el contenedor](#253-configurar-el-contenedor)
+    - [25.3.1. Variables de entorno, puertos y secretos](#2531-variables-de-entorno-puertos-y-secretos)
+    - [25.3.2. Datos fuera del contenedor](#2532-datos-fuera-del-contenedor)
+  - [25.4. De la imagen a la nube](#254-de-la-imagen-a-la-nube)
+    - [25.4.1. Registro, servicio y escala](#2541-registro-servicio-y-escala)
+    - [25.4.2. GitHub Actions: quién ejecuta las órdenes](#2542-github-actions-quién-ejecuta-las-órdenes)
+    - [25.4.3. Despliegue en servicios concretos: Render y otros](#2543-despliegue-en-servicios-concretos-render-y-otros)
+  - [25.5. Reglas de seguridad](#255-reglas-de-seguridad)
+  - [25.6. Buenas prácticas](#256-buenas-prácticas)
+  - [25.7. Reto: el despliegue de la tienda de Funkos](#257-reto-el-despliegue-de-la-tienda-de-funkos)
     - [25.7.1. Contexto](#2571-contexto)
     - [25.7.2. Modelo de datos](#2572-modelo-de-datos)
     - [25.7.3. Almacenamiento](#2573-almacenamiento)
@@ -25,7 +25,7 @@
 
 
 
-# 25. Despliegue con Docker y Nube
+# 25. Despliegue con Docker y nube
 
 > 💡 **Punto de partida:** usas Spotify en el móvil y, sin aviso, la app se actualiza sola y sigue sonando exactamente igual; nadie ha reinstalado nada a mano y el servicio no se ha cortado. Tu aplicación, en cambio, solo vive en tu máquina: funciona porque tú tienes .NET instalado y la carpeta en su sitio. ¿Cómo se empaqueta una aplicación para que corra igual en cualquier máquina, qué contiene ese paquete y cómo se publica sin instalar nada en el servidor?
 
@@ -40,9 +40,9 @@ En este punto aprenderás a llevar una aplicación desde tu carpeta hasta un ser
 - Desplegar en un servicio gestionado como Render, con sus variables en el panel
 - Aplicar las reglas de seguridad del despliegue sin perder de vista las dos visiones
 
-## 25.1. De la Máquina al Servidor
+## 25.1. De la máquina al servidor
 
-### 25.1.1. Qué Significa Desplegar
+### 25.1.1. Qué significa desplegar
 
 **Desplegar es poner la aplicación en marcha en otro sitio que no es tu máquina.** Mientras la ejecutas con `dotnet run` en tu portátil, la aplicación es tuya y depende de lo que tengas instalado — cuando la despliegas, tiene que valer por sí sola en un servidor que quizá no tiene nada tuyo. El viaje tiene tres paradas:
 
@@ -51,15 +51,15 @@ graph LR
     C["Tu codigo<br/>en la carpeta del proyecto"] --> P["dotnet publish<br/>empaqueta lo publicable"]
     P --> S["Una carpeta publish<br/>lista para mover"]
     S --> D["El servidor:<br/>la ejecuta o la mete en un contenedor"]
-    style C fill:#2196F3,color:#fff
-    style P fill:#FF9800,color:#fff
-    style S fill:#9C27B0,color:#fff
-    style D fill:#4CAF50,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
+    style P fill:#FF980,color:#fff0,color:#fff
+    style S fill:#9C27B,color:#fff0,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Spotify. La app se actualiza sola y sigue sonando: nadie reinstala nada a mano, alguien publica una nueva versión y el servicio no se corta.
 
-### 25.1.2. La Publicación con dotnet publish
+### 25.1.2. La publicación con dotnet publish
 
 **`dotnet publish` compila en modo de publicación y deja una carpeta con todo lo que la aplicación necesita para ejecutarse.** En el laboratorio, la publicación de nuestra aplicación deja una carpeta `publish` de **0,2 MB en 9 ficheros**, con el ensamblado, la configuración y los recursos de la vista.
 
@@ -76,9 +76,9 @@ La aplicación publicada responde con `entorno=Production`, el mensaje del fiche
 
 > 📝 **Nota:** publicar no es desplegar todavía: publicar deja la carpeta lista; desplegar es llevarla a su sitio y ponerla en marcha.
 
-## 25.2. Docker: El Contenedor de la Aplicación
+## 25.2. Docker: el contenedor de la aplicación
 
-### 25.2.1. Imagen y Contenedor
+### 25.2.1. Imagen y contenedor
 
 **La imagen es el paquete cerrado con todo lo necesario para ejecutar la aplicación; el contenedor es esa imagen en marcha.** La imagen no cambia nunca una vez construida; los contenedores salen de ella cuantas veces haga falta, y todos se comportan igual.
 
@@ -97,13 +97,13 @@ graph LR
     I -->|"docker run"| C2["Contenedor 2"]
     C1 --> V["La misma aplicacion<br/>en los tres sitios"]
     C2 --> V
-    style I fill:#9C27B0,color:#fff
-    style C1 fill:#4CAF50,color:#fff
-    style C2 fill:#4CAF50,color:#fff
-    style V fill:#2196F3,color:#fff
+    style I fill:#9C27B,color:#fff0,color:#fff
+    style C1 fill:#4CAF5,color:#fff0,color:#fff
+    style C2 fill:#4CAF5,color:#fff0,color:#fff
+    style V fill:#2196F,color:#fff3,color:#fff
 ```
 
-### 25.2.2. El Dockerfile por Fases
+### 25.2.2. El Dockerfile por fases
 
 **El Dockerfile es la receta de la imagen, y se escribe por fases: primero una máquina con el kit de desarrollo compila, y después una máquina mínima ejecuta.** El resultado es una imagen que trae la aplicación y nada más:
 
@@ -131,11 +131,11 @@ graph TD
     R --> E["Etapa 2:<br/>imagen de ejecucion"]
     E -->|COPY --from=build| F["Solo la carpeta publish"]
     F --> C["El contenedor<br/>escucha en el 8080"]
-    style S fill:#FF9800,color:#fff
-    style R fill:#FF9800,color:#fff
-    style E fill:#4CAF50,color:#fff
-    style F fill:#9C27B0,color:#fff
-    style C fill:#2196F3,color:#fff
+    style S fill:#FF980,color:#fff0,color:#fff
+    style R fill:#FF980,color:#fff0,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#9C27B,color:#fff0,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
 ```
 
 La separación en fases no es decorativa — la imagen de ejecución no lleva el compilador, ni el código fuente, ni las herramientas de desarrollo.
@@ -158,7 +158,7 @@ ENTRYPOINT ["dotnet", "DespliegueApp.dll"]
 
 📌 **Ejemplo real:** Cualquier servicio de streaming se construye en dos fases como nuestro Dockerfile: primero una máquina con todas las herramientas compila, y después una máquina mínima ejecuta.
 
-### 25.2.3. Construir y Ejecutar
+### 25.2.3. Construir y ejecutar
 
 **La imagen se construye con `docker build` y el contenedor se arranca con `docker run`; las dos órdenes son todo lo que hace falta en el día a día:**
 
@@ -178,18 +178,18 @@ graph LR
     I -->|docker run -p -e| C["Contenedor en marcha"]
     C --> P["http://localhost:5322"]
     P --> R["La aplicacion responde<br/>con su variable de entorno"]
-    style D fill:#FF9800,color:#fff
-    style I fill:#9C27B0,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style P fill:#2196F3,color:#fff
-    style R fill:#4CAF50,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style I fill:#9C27B,color:#fff0,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style P fill:#2196F,color:#fff3,color:#fff
+    style R fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Las tiendas online publican con órdenes como las tuyas: construir la imagen, comprobarla y arrancarla; la diferencia es quién las ejecuta y cuántas veces al día.
 
 > 🔧 **Truco:** `docker ps` enseña los contenedores en marcha y `docker images` las imágenes construidas; las dos órdenes son el espejo del servidor en cualquier momento.
 
-### 25.2.4. Visión Razor Pages: el Dockerfile de la Tienda
+### 25.2.4. Visión Razor Pages: el Dockerfile de la tienda
 
 **En la visión de páginas, el Dockerfile es el mismo patrón con el nombre de tu proyecto y su ensamblado en la orden de arranque:**
 
@@ -209,7 +209,7 @@ EXPOSE 8080
 ENTRYPOINT ["dotnet", "FunkoApp.dll"]
 ```
 
-### 25.2.5. Visión MVC: el Dockerfile de la Tienda
+### 25.2.5. Visión MVC: el Dockerfile de la tienda
 
 **En MVC cambian dos líneas, el `.csproj` de la primera etapa y el ensamblado de la orden de arranque; el resto del Dockerfile es idéntico:**
 
@@ -221,9 +221,9 @@ ENTRYPOINT ["dotnet", "FunkoAppMvc.dll"]
 
 > 📝 **Nota:** el Dockerfile vive en la raíz del proyecto y es parte del código: revisarlo es revisar cómo se empaqueta la aplicación.
 
-## 25.3. Configurar el Contenedor
+## 25.3. Configurar el contenedor
 
-### 25.3.1. Variables de Entorno, Puertos y Secretos
+### 25.3.1. Variables de entorno, puertos y secretos
 
 **El contenedor se configura por fuera, con las variables de entorno que la aplicación ya sabe leer y con el puerto que se publica al mundo.** Lo dice la propia aplicación: el mensaje llega por `-e "App__Mensaje=MENSAJE-DOCKER"` y aparece en la vista sin recompilar la imagen.
 
@@ -242,7 +242,7 @@ Los secretos van por el mismo conducto que las variables, pero nunca dentro de l
 
 📌 **Ejemplo real:** Azure App Service guarda las variables de entorno del servicio en su panel; el mismo contenedor muestra un valor u otro según dónde corra, sin volver a construir la imagen.
 
-### 25.3.2. Datos Fuera del Contenedor
+### 25.3.2. Datos fuera del contenedor
 
 **Lo que el contenedor guarda dentro se pierde con él; los datos que deben durar salen con un volumen.** Subidas, bases de datos y ficheros de la aplicación se montan fuera del contenedor, y así un contenedor nuevo sigue donde se quedó el anterior:
 
@@ -253,9 +253,9 @@ docker run -v /srv/datos/uploads:/app/uploads despliegueapp:1.0
 
 La regla práctica es la del punto 17 con otro traje: dentro del contenedor vive el programa; fuera, viven los datos que no pueden morir con él.
 
-## 25.4. De la Imagen a la Nube
+## 25.4. De la imagen a la nube
 
-### 25.4.1. Registro, Servicio y Escala
+### 25.4.1. Registro, servicio y escala
 
 **La imagen viaja de un servidor a otro a través de un registro — y el servicio es quien la mantiene en marcha.** El camino completo, con sus cuatro paradas:
 
@@ -265,11 +265,11 @@ graph TD
     R --> S["El servicio en la nube<br/>la baja y la arranca"]
     S --> N["Contenedores en marcha<br/>detrás de un balanceador"]
     N --> V["Los visitantes<br/>la usan como siempre"]
-    style I fill:#9C27B0,color:#fff
-    style R fill:#2196F3,color:#fff
-    style S fill:#FF9800,color:#fff
-    style N fill:#4CAF50,color:#fff
-    style V fill:#4CAF50,color:#fff
+    style I fill:#9C27B,color:#fff0,color:#fff
+    style R fill:#2196F,color:#fff3,color:#fff
+    style S fill:#FF980,color:#fff0,color:#fff
+    style N fill:#4CAF5,color:#fff0,color:#fff
+    style V fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 | Pieza | Qué hace | Ejemplos |
@@ -281,7 +281,7 @@ graph TD
 
 📌 **Ejemplo real:** GitHub, Docker Hub o Azure Container Registry son los almacenes de imágenes: una vez guardada, la imagen sale hacia cualquier servidor sin reconstruirse.
 
-### 25.4.2. GitHub Actions: Quién Ejecuta las Órdenes
+### 25.4.2. GitHub Actions: quién ejecuta las órdenes
 
 **GitHub Actions es el servicio de automatización de GitHub: los flujos se guardan como ficheros YAML dentro del repositorio y se ejecutan en servidores limpios cada vez que pasa algo, como un empujón a la rama principal.** El flujo de un proyecto real encadena lo que ya sabes hacer a mano: compilar, probar, construir la imagen y publicarla.
 
@@ -339,12 +339,12 @@ graph LR
     P -->|"en verde"| D["Trabajo publicar:<br/>docker build y push"]
     P -->|"en rojo"| N["Se corta:<br/>no se publica nada"]
     D --> R["La imagen, en el registro"]
-    style C fill:#2196F3,color:#fff
-    style A fill:#607D8B,color:#fff
-    style P fill:#FF9800,color:#fff
-    style D fill:#9C27B0,color:#fff
-    style N fill:#f44336,color:#fff
-    style R fill:#4CAF50,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style P fill:#FF980,color:#fff0,color:#fff
+    style D fill:#9C27B,color:#fff0,color:#fff
+    style N fill:#f4433,color:#fff6,color:#fff
+    style R fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 Las órdenes del flujo son exactamente las que has ejecutado a mano en este punto: `dotnet publish`, `docker build` y `docker push`. La única diferencia es el sitio donde se ejecutan: servidores limpios de GitHub que solo tienen lo que el propio flujo instala.
@@ -353,7 +353,7 @@ Las órdenes del flujo son exactamente las que has ejecutado a mano en este punt
 
 📌 **Ejemplo real:** Netflix publica cientos de veces al día con un flujo automatizado: el código pasa sus pruebas y solo entonces se construye y se publica la imagen.
 
-### 25.4.3. Despliegue en Servicios Concretos: Render y Otros
+### 25.4.3. Despliegue en servicios concretos: Render y otros
 
 **Las plataformas de servicio gestionado hacen el último tramo: conectas tu repositorio, el servicio construye con tu Dockerfile y te devuelve una aplicación en internet con su dominio y su panel de variables.** El despliegue deja de ser una orden que tú ejecutas y pasa a ser algo que el servicio hace por ti.
 
@@ -376,7 +376,7 @@ El camino en Render, que es el que se sigue en clase, tiene cinco pasos:
 
 📌 **Ejemplo real:** Cualquier proyecto pequeño que quiera estar en internet hoy se publica en un servicio como Render: se conecta el repositorio y la aplicación está en un dominio con HTTPS sin tocar un servidor.
 
-## 25.5. Reglas de Seguridad
+## 25.5. Reglas de seguridad
 
 - **Imagen mínima**: la etapa de ejecución, sin kit de desarrollo ni fuentes
 - **Usuario no root**: el contenedor corre con un usuario de sistema, no con el administrador
@@ -388,7 +388,7 @@ El camino en Render, que es el que se sigue en clase, tiene cinco pasos:
 - **Credenciales del flujo en el gestor de GitHub**: el YAML solo nombra los secretos, nunca los contiene
 - **El registro con acceso mínimo**: la cuenta del flujo solo puede escribir en la imagen que toca
 
-## 25.6. Buenas Prácticas
+## 25.6. Buenas prácticas
 
 - **Dockerfile por fases** en todos los proyectos, desde el primero
 - **`.dockerignore` con `bin`, `obj` y fuentes** antes de la primera construcción
@@ -402,7 +402,7 @@ El camino en Render, que es el que se sigue en clase, tiene cinco pasos:
 - **Un flujo que no publica sin pruebas verdes**, con los trabajos encadenados por `needs`
 - **Las mismas órdenes a mano y en el flujo**: lo que pruebas en local es lo que publica GitHub
 
-## 25.7. Reto: El Despliegue de la Tienda de Funkos
+## 25.7. Reto: el despliegue de la tienda de Funkos
 
 > Empaqueta tu tienda para que viva en cualquier servidor: carpeta publicada, imagen por fases, variables de entorno y el camino hasta un registro, en las dos visiones.
 

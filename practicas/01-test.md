@@ -1,10 +1,10 @@
-**Test: Desarrollo de Páginas Web Dinámicas en .NET**
+**Test: desarrollo de páginas web dinámicas en .NET**
 
 **Instrucciones:** Lee cada pregunta cuidadosamente y selecciona la opción que consideres correcta.
 
 ---
 
-## PARTE 1 (Puntos 00-12)
+## PARTE 1 (puntos 00-12)
 
 **Punto 00: Comandos de la CLI de .NET**
 
@@ -52,7 +52,7 @@
     C) El HTML `<b>Oferta</b>` interpretado por el navegador
     D) La cadena literal con las arrobas
 
-**Punto 02: Directivas y Sintaxis**
+**Punto 02: Directivas y sintaxis**
 
 8.  ¿Qué directiva convierte un `.cshtml` en una página con URL propia?
     A) `@model`
@@ -78,7 +78,7 @@
     C) En la sesión del usuario
     D) En la configuración de la aplicación
 
-**Punto 03: Estructuras de Control**
+**Punto 03: Estructuras de control**
 
 12. ¿Cuál de estas estructuras pinta un bloque de HTML solo si el carrito tiene líneas?
     A) `@for (var i = 0; i < 10; i++)`
@@ -104,7 +104,7 @@
     C) `@foreach` sobre las categorías
     D) `@try` con captura de errores
 
-**Punto 04: Funciones y Métodos en la Vista**
+**Punto 04: Funciones y métodos en la vista**
 
 16. ¿Qué directiva declara métodos dentro de la propia vista?
     A) `@functions`
@@ -124,7 +124,7 @@
     C) Una respuesta HTTP completa
     D) Un servicio registrado en DI
 
-**Punto 05: Layouts, Parciales y Componentes**
+**Punto 05: Layouts, parciales y componentes**
 
 19. ¿Qué fichero se ejecuta en todas las vistas para declarar el layout común?
     A) `_Layout.cshtml`
@@ -202,7 +202,7 @@
     C) Un paquete NuGet de Microsoft
     D) Una base de datos de ejemplo
 
-**Punto 08: Controladores y Acciones**
+**Punto 08: Controladores y acciones**
 
 31. ¿Qué devuelven las acciones de un controlador normalmente?
     A) `IActionResult` (vista, JSON, redirección o error)
@@ -248,7 +248,7 @@
     C) Que desaparezca de la memoria automáticamente
     D) Que se guarde en la base de datos
 
-**Punto 10: Razor Pages: Fundamentos**
+**Punto 10: Razor Pages: fundamentos**
 
 38. ¿Qué convierte un `.cshtml` en una página con URL propia en Razor Pages?
     A) La carpeta `Views`
@@ -274,7 +274,7 @@
     C) Razor Pages no admite modelos
     D) MVC es más moderno y Razor Pages está obsoleto
 
-**Punto 11: PageModel y Handlers**
+**Punto 11: PageModel y handlers**
 
 42. ¿Qué handler se ejecuta cuando el usuario entra en una página con un `GET`?
     A) `OnPost`
@@ -326,9 +326,9 @@
     C) Se borra el controlador entero
     D) Se cambia la base de datos
 
-## PARTE 2 (Puntos 13-25)
+## PARTE 2 (puntos 13-25)
 
-**Punto 13: Formularios Web**
+**Punto 13: Formularios web**
 
 50. ¿Qué elemento HTML envía un formulario al servidor?
     A) `<input type="submit">` o `<button type="submit">` dentro de un `<form>`
@@ -380,7 +380,7 @@
     C) Porque el campo debe llamarse `precioReferencia`
     D) Porque falta el atributo `required`
 
-**Punto 15: Validaciones y Seguridad**
+**Punto 15: Validaciones y seguridad**
 
 58. ¿Qué atributo marca un campo como obligatorio en el modelo?
     A) `[Required]`
@@ -406,7 +406,7 @@
     C) La vista no compila
     D) Se guarda en la sesión
 
-**Punto 16: Ficheros y Almacenamiento**
+**Punto 16: Ficheros y almacenamiento**
 
 62. ¿Qué tipo recibe el servidor cuando se sube un fichero en un formulario?
     A) `string`
@@ -426,7 +426,7 @@
     C) Un fallo de la caché; se corta con Redis
     D) Un problema de compresión; se corta con Brotli
 
-**Punto 17: Gestión del Estado**
+**Punto 17: Gestión del estado**
 
 65. ¿Por qué HTTP se describe como un protocolo sin estado?
     A) Porque no soporta HTTPS
@@ -452,7 +452,7 @@
     C) La configuración de la aplicación
     D) El layout
 
-**Punto 18: Cookies y Sesiones**
+**Punto 18: Cookies y sesiones**
 
 69. ¿Qué es una cookie en el contexto de una web?
     A) Un par `nombre=valor` que el servidor pide guardar y el navegador devuelve en cada petición
@@ -504,7 +504,7 @@
     C) Guarda los datos de la sesión
     D) Comprime la respuesta
 
-**Punto 20: Configuración y Entornos**
+**Punto 20: Configuración y entornos**
 
 77. ¿Qué fichero define los valores comunes a todos los entornos?
     A) `appsettings.Development.json`
@@ -530,7 +530,7 @@
     C) Que no haga falta configurar nada
     D) Que se pueda borrar `Program.cs`
 
-**Punto 21: Optimización y Rendimiento**
+**Punto 21: Optimización y rendimiento**
 
 81. ¿Qué manda la caché de salida?
     A) Los valores calculados en un servicio
@@ -556,7 +556,7 @@
     C) Nunca, la red ya es rápida
     D) Solo con ficheros de más de un megabyte
 
-**Punto 22: Internacionalización y Localización**
+**Punto 22: Internacionalización y localización**
 
 85. ¿Dónde viven los textos traducidos de una aplicación localizada?
     A) En las vistas, escritos a mano por idioma
@@ -582,7 +582,7 @@
     C) El mismo texto en los dos casos
     D) Un error de compilación
 
-**Punto 23: Herramientas, Prueba y Depuración**
+**Punto 23: Herramientas, prueba y depuración**
 
 89. Un error de compilación te dice `Pages/Alarma.cshtml.cs(16,1): error CS1519`. ¿Qué información te da?
     A) El código, el mensaje, el fichero y la línea donde está el problema
@@ -608,7 +608,7 @@
     C) Un validador de formularios
     D) Un cliente HTTP
 
-**Punto 24: Pruebas y Documentación**
+**Punto 24: Pruebas y documentación**
 
 93. ¿Qué cubre principalmente una prueba unitaria de la lógica de presentación?
     A) La página pintada en un navegador

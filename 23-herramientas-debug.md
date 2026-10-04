@@ -1,24 +1,24 @@
-- [23. Herramientas de Programación, Prueba y Depuración](#23-herramientas-de-programación-prueba-y-depuración)
-  - [23.1. El Entorno de Desarrollo](#231-el-entorno-de-desarrollo)
-    - [23.1.1. Rider y el Ecosistema JetBrains](#2311-rider-y-el-ecosistema-jetbrains)
-    - [23.1.2. La Estructura del Proyecto y Cómo se Ejecuta](#2312-la-estructura-del-proyecto-y-cómo-se-ejecuta)
-  - [23.2. La Herramienta de Línea de Comandos](#232-la-herramienta-de-línea-de-comandos)
-    - [23.2.1. Los Comandos de Cada Día](#2321-los-comandos-de-cada-día)
-    - [23.2.2. Leer un Error de Compilación](#2322-leer-un-error-de-compilación)
-  - [23.3. Depuración en el Servidor](#233-depuración-en-el-servidor)
-    - [23.3.1. Puntos de Interrupción y Recorrido](#2331-puntos-de-interrupción-y-recorrido)
-    - [23.3.2. Visión Razor Pages: Depurar un PageModel](#2332-visión-razor-pages-depurar-un-pagemodel)
-    - [23.3.3. Visión MVC: Depurar un Controlador](#2333-visión-mvc-depurar-un-controlador)
-  - [23.4. La Depuración en el Navegador](#234-la-depuración-en-el-navegador)
-    - [23.4.1. F12: Red, Consola y Fuentes](#2341-f12-red-consola-y-fuentes)
-    - [23.4.2. Seguir una Petición con curl](#2342-seguir-una-petición-con-curl)
-  - [23.5. Registro y Diagnóstico](#235-registro-y-diagnóstico)
-    - [23.5.1. ILogger: Niveles y Categorías](#2351-ilogger-niveles-y-categorías)
-    - [23.5.2. La Página de Error: Desarrollo Frente a Producción](#2352-la-página-de-error-desarrollo-frente-a-producción)
-  - [23.6. Errores Frecuentes y Cómo Leerlos](#236-errores-frecuentes-y-cómo-leerlos)
-  - [23.7. Reglas de Seguridad](#237-reglas-de-seguridad)
-  - [23.8. Buenas Prácticas](#238-buenas-prácticas)
-  - [23.9. Reto: Diagnosticar la Tienda de Funkos](#239-reto-diagnosticar-la-tienda-de-funkos)
+- [23. Herramientas de programación, prueba y depuración](#23-herramientas-de-programación-prueba-y-depuración)
+  - [23.1. El entorno de desarrollo](#231-el-entorno-de-desarrollo)
+    - [23.1.1. Rider y el ecosistema JetBrains](#2311-rider-y-el-ecosistema-jetbrains)
+    - [23.1.2. La estructura del proyecto y cómo se ejecuta](#2312-la-estructura-del-proyecto-y-cómo-se-ejecuta)
+  - [23.2. La herramienta de línea de comandos](#232-la-herramienta-de-línea-de-comandos)
+    - [23.2.1. Los comandos de cada día](#2321-los-comandos-de-cada-día)
+    - [23.2.2. Leer un error de compilación](#2322-leer-un-error-de-compilación)
+  - [23.3. Depuración en el servidor](#233-depuración-en-el-servidor)
+    - [23.3.1. Puntos de interrupción y recorrido](#2331-puntos-de-interrupción-y-recorrido)
+    - [23.3.2. Visión Razor Pages: depurar un PageModel](#2332-visión-razor-pages-depurar-un-pagemodel)
+    - [23.3.3. Visión MVC: depurar un controlador](#2333-visión-mvc-depurar-un-controlador)
+  - [23.4. La depuración en el navegador](#234-la-depuración-en-el-navegador)
+    - [23.4.1. F12: red, consola y fuentes](#2341-f12-red-consola-y-fuentes)
+    - [23.4.2. Seguir una petición con curl](#2342-seguir-una-petición-con-curl)
+  - [23.5. Registro y diagnóstico](#235-registro-y-diagnóstico)
+    - [23.5.1. ILogger: niveles y categorías](#2351-ilogger-niveles-y-categorías)
+    - [23.5.2. La página de error: desarrollo frente a producción](#2352-la-página-de-error-desarrollo-frente-a-producción)
+  - [23.6. Errores frecuentes y cómo leerlos](#236-errores-frecuentes-y-cómo-leerlos)
+  - [23.7. Reglas de seguridad](#237-reglas-de-seguridad)
+  - [23.8. Buenas prácticas](#238-buenas-prácticas)
+  - [23.9. Reto: diagnosticar la tienda de Funkos](#239-reto-diagnosticar-la-tienda-de-funkos)
     - [23.9.1. Contexto](#2391-contexto)
     - [23.9.2. Modelo de datos](#2392-modelo-de-datos)
     - [23.9.3. Almacenamiento](#2393-almacenamiento)
@@ -26,7 +26,7 @@
 
 
 
-# 23. Herramientas de Programación, Prueba y Depuración
+# 23. Herramientas de programación, prueba y depuración
 
 > 💡 **Punto de partida:** abres la pestaña Red del navegador mientras ves Netflix y el muro se llena de peticiones, cada una con su código, su tamaño y su tiempo — hasta ese momento, la web era una caja negra que simplemente funcionaba. Cuando tu propia aplicación falla, esa misma pestaña es la que te dice si el problema está en la petición, en el servidor o en la vista. ¿Qué herramientas existen para ver lo que hace una aplicación por dentro, dónde se detiene cuando falla y cómo se sigue una petición desde la terminal hasta el navegador?
 
@@ -40,9 +40,9 @@ En este punto recorrerás el cajón de herramientas de un desarrollador de web: 
 - Seguir una petición con las pestañas del navegador y con `curl`
 - Registrar con `ILogger` y saber qué página de error toca según el entorno
 
-## 23.1. El Entorno de Desarrollo
+## 23.1. El entorno de desarrollo
 
-### 23.1.1. Rider y el Ecosistema JetBrains
+### 23.1.1. Rider y el ecosistema JetBrains
 
 **El entorno principal de este ciclo es JetBrains Rider, y pertenece a una familia con un intérprete para cada lenguaje.** JetBrains hace Rider para C# y .NET, IntelliJ para Java, PyCharm para Python, CLion para C y C++, y WebStorm para JavaScript; la forma de trabajar es la misma en todos: abrir el proyecto, ejecutarlo y detenerlo cuando algo no cuadra.
 
@@ -58,7 +58,7 @@ Lo que usa el depurador de Rider, y que verás en todo el tema:
 
 > 📝 **Nota:** Visual Studio Code es la alternativa ligera y multiplataforma; las ideas de este punto (puntos de interrupción, pestañas, registro) son las mismas en los dos.
 
-### 23.1.2. La Estructura del Proyecto y Cómo se Ejecuta
+### 23.1.2. La estructura del proyecto y cómo se ejecuta
 
 **Antes de depurar hay que saber qué se está ejecutando: el proyecto compila a un ensamblado, ese ensamblado se ejecuta como servidor web y cada petición recorre el mismo camino.** `dotnet run` compila si hace falta y arranca el servidor — a partir de ahí, cada petición pasa por el conducto que ya conoces y acaba en una página o en una acción:
 
@@ -70,20 +70,20 @@ graph LR
     D --> V["La vista se pinta"]
     V --> N["El navegador la recibe"]
     N -.->|"y F12 la desglosa"| F["Pestana Red"]
-    style T fill:#2196F3,color:#fff
-    style S fill:#607D8B,color:#fff
-    style P fill:#2196F3,color:#fff
-    style D fill:#FF9800,color:#fff
-    style V fill:#9C27B0,color:#fff
-    style N fill:#4CAF50,color:#fff
-    style F fill:#4CAF50,color:#fff
+    style T fill:#2196F,color:#fff3,color:#fff
+    style S fill:#607D8,color:#fffB,color:#fff
+    style P fill:#2196F,color:#fff3,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style V fill:#9C27B,color:#fff0,color:#fff
+    style N fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Cualquier proyecto real se arranca igual: una orden de compilación, una orden de ejecución y una petición al navegador; detrás de la web de Netflix hay un servidor que alguien arranca igual que tú arrancas el tuyo.
 
-## 23.2. La Herramienta de Línea de Comandos
+## 23.2. La herramienta de línea de comandos
 
-### 23.2.1. Los Comandos de Cada Día
+### 23.2.1. Los comandos de cada día
 
 **La CLI de .NET es la misma en Windows, en macOS y en Linux, y se resume en seis órdenes:**
 
@@ -100,7 +100,7 @@ El ciclo completo de un ejercicio es `build`, `run` y una petición al navegador
 
 📌 **Ejemplo real:** Los equipos de desarrollo ejecutan exactamente las mismas órdenes que tú: compilan, prueban y publican con la misma herramienta de línea de comandos, desde la terminal o desde la automatización.
 
-### 23.2.2. Leer un Error de Compilación
+### 23.2.2. Leer un error de compilación
 
 **Un error de compilación tiene cuatro piezas: el código, el mensaje, el fichero y la línea; leer las cuatro es todo lo que hace falta.** En el laboratorio, un `int x = ;` colocado a mala leche en un fichero de la aplicación produce esto:
 
@@ -117,21 +117,21 @@ graph TD
     F --> C["La causa:<br/>sobra un corchete"]
     C --> R["Corriges y vuelves a build"]
     R --> OK["Compilacion correcta"]
-    style B fill:#2196F3,color:#fff
-    style E fill:#f44336,color:#fff
-    style F fill:#FF9800,color:#fff
-    style C fill:#FF9800,color:#fff
-    style R fill:#607D8B,color:#fff
-    style OK fill:#4CAF50,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style E fill:#f4433,color:#fff6,color:#fff
+    style F fill:#FF980,color:#fff0,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style R fill:#607D8,color:#fffB,color:#fff
+    style OK fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Cualquier error de compilación que veas en un proyecto ajeno sigue el mismo patrón: un código, un mensaje, un fichero y una línea; aprender a leerlo es aprender a leer cualquier proyecto.
 
 > 🔧 **Truco:** los errores salen ordenados por fichero; si hay cinco, casi siempre las cinco son la misma causa vista desde sitios distintos. Se arregla la primera y las demás caen solas.
 
-## 23.3. Depuración en el Servidor
+## 23.3. Depuración en el servidor
 
-### 23.3.1. Puntos de Interrupción y Recorrido
+### 23.3.1. Puntos de interrupción y recorrido
 
 **El depurador detiene la ejecución en la línea que tú eliges y te deja mirar dentro antes de que siga.** El recorrido típico es hipótesis, punto de interrupción, ejecución y mirada:
 
@@ -157,7 +157,7 @@ Cuatro reglas hacen que esto sea rápido y no un baile de ventanas:
 
 📌 **Ejemplo real:** Los equipos de soporte de Netflix reproducen el fallo en su entorno de pruebas y lo detienen en un punto de interrupción; nadie adivina mirando el código: se mira la ejecución.
 
-### 23.3.2. Visión Razor Pages: Depurar un PageModel
+### 23.3.2. Visión Razor Pages: depurar un PageModel
 
 **En páginas, el punto de interrupción típico es la primera línea de `OnGet`; cuando la petición llega, el depurador se detiene antes de que la vista pinte nada:**
 
@@ -177,7 +177,7 @@ Y la trampa que el laboratorio reproduce en vivo: una página `@page` sin `@mode
 
 > ⚠️ **Advertencia:** depurar con el servidor en otro entorno cambia el resultado: la página de error detallada y los avisos de desarrollo solo existen donde el entorno lo permite, como verás en el 23.5.2.
 
-### 23.3.3. Visión MVC: Depurar un Controlador
+### 23.3.3. Visión MVC: depurar un controlador
 
 **En MVC el punto de interrupción va en la acción, y el recorrido es el mismo:**
 
@@ -194,9 +194,9 @@ public IActionResult Alarma()
 
 > 📝 **Nota:** cambia el sitio donde se escribe la lógica, no la depuración: las mismas ventanas, los mismos pasos y las mismas variables en las dos visiones.
 
-## 23.4. La Depuración en el Navegador
+## 23.4. La depuración en el navegador
 
-### 23.4.1. F12: Red, Consola y Fuentes
+### 23.4.1. F12: red, consola y fuentes
 
 **La tecla `F12` abre el conjunto de herramientas del navegador, y cada pestaña responde a una pregunta distinta:**
 
@@ -212,21 +212,21 @@ graph TD
     E --> P
     P -->|La peticion| D["Miras cabeceras y cuerpo"]
     P -->|El navegador| J["Miras errores de JavaScript"]
-    style F fill:#2196F3,color:#fff
-    style R fill:#FF9800,color:#fff
-    style K fill:#9C27B0,color:#fff
-    style S fill:#607D8B,color:#fff
-    style E fill:#607D8B,color:#fff
-    style P fill:#2196F3,color:#fff
-    style D fill:#4CAF50,color:#fff
-    style J fill:#4CAF50,color:#fff
+    style F fill:#2196F,color:#fff3,color:#fff
+    style R fill:#FF980,color:#fff0,color:#fff
+    style K fill:#9C27B,color:#fff0,color:#fff
+    style S fill:#607D8,color:#fffB,color:#fff
+    style E fill:#607D8,color:#fffB,color:#fff
+    style P fill:#2196F,color:#fff3,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
+    style J fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 En este ciclo ya has usado la pestaña Red para mirar cookies, para comprobar redirecciones y para medir tiempos; la Consola es la que avisa de los errores de JavaScript, y Fuentes muestra el HTML que el navegador ha recibido de verdad, que no siempre es el que escribiste.
 
 📌 **Ejemplo real:** Abres la pestaña Red de F12 en Amazon y ves cada búsqueda, cada imagen y cada favicon con su código y su tiempo: esa es la misma vista que usas para depurar tu aplicación.
 
-### 23.4.2. Seguir una Petición con curl
+### 23.4.2. Seguir una petición con curl
 
 **`curl` es el navegador de la terminal: manda la petición y devuelve la respuesta entera, cabeceras incluidas.** Con `-i` ves el estado y las cabeceras, y con `-w` sacas tiempos y tamaños; en el laboratorio de hoy, `/no-existe` responde `404` y `/romper` responde `500`, y las dos respuestas se leen igual desde la terminal:
 
@@ -237,9 +237,9 @@ curl -i http://localhost:5317/romper       # estado 500 y el cuerpo del fallo
 
 > 🔧 **Truco:** cuando la página "no va", la primera orden es `curl -i`: si la respuesta sale bien desde la terminal, el problema está en el navegador; si sale mal, está en el servidor.
 
-## 23.5. Registro y Diagnóstico
+## 23.5. Registro y diagnóstico
 
-### 23.5.1. ILogger: Niveles y Categorías
+### 23.5.1. ILogger: niveles y categorías
 
 **`ILogger` es el cuaderno de bitácora de la aplicación: cada mensaje lleva un nivel y una categoría, y los niveles forman una escalera donde solo se escribe lo que importa:**
 
@@ -250,12 +250,12 @@ graph TD
     I --> W["Warning<br/>algo raro, aun funciona"]
     W --> E["Error<br/>un fallo concreto"]
     E --> C["Critical<br/>la aplicacion no sigue"]
-    style T fill:#607D8B,color:#fff
-    style D fill:#607D8B,color:#fff
-    style I fill:#2196F3,color:#fff
-    style W fill:#FF9800,color:#fff
-    style E fill:#f44336,color:#fff
-    style C fill:#9C27B0,color:#fff
+    style T fill:#607D8,color:#fffB,color:#fff
+    style D fill:#607D8,color:#fffB,color:#fff
+    style I fill:#2196F,color:#fff3,color:#fff
+    style W fill:#FF980,color:#fff0,color:#fff
+    style E fill:#f4433,color:#fff6,color:#fff
+    style C fill:#9C27B,color:#fff0,color:#fff
 ```
 
 El uso es directo: se inyecta `ILogger<T>` con constructor primario y se registra con el nivel que toca. En el laboratorio, una petición a `/alarma` deja en la consola tres líneas, una por nivel:
@@ -278,7 +278,7 @@ logger.LogWarning("Valor nulo detectado en el carrito");
 
 📌 **Ejemplo real:** Cualquier servicio de streaming registra qué se ha visto y qué ha fallado; tus aplicaciones pueden hacer lo mismo con `ILogger` y dos líneas por sitio que pueda romperse.
 
-### 23.5.2. La Página de Error: Desarrollo Frente a Producción
+### 23.5.2. La página de error: desarrollo frente a producción
 
 **El mismo fallo se cuenta de dos formas según el entorno, y ese es el comportamiento que ya configuraste en el punto 20:** en desarrollo, la aplicación muestra la excepción y su traza; en producción, un aviso genérico sin detalles.
 
@@ -287,10 +287,10 @@ graph TD
     X["Excepcion no controlada"] --> Q{"Que entorno es?"}
     Q -->|Development| D["Pagina detallada:<br/>NullReferenceException y traza"]
     Q -->|Production| P["Aviso generico:<br/>Se ha producido un error inesperado"]
-    style X fill:#f44336,color:#fff
-    style Q fill:#607D8B,color:#fff
-    style D fill:#FF9800,color:#fff
-    style P fill:#4CAF50,color:#fff
+    style X fill:#f4433,color:#fff6,color:#fff
+    style Q fill:#607D8,color:#fffB,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style P fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 ```csharp
@@ -309,7 +309,7 @@ La medida de las dos visiones, con la misma petición a `/romper`: en `Developme
 
 📌 **Ejemplo real:** Cuando una web grande falla, el usuario ve una página amable y el equipo ve la traza completa: es el mismo `IsDevelopment` que ya montaste en el punto de configuración.
 
-## 23.6. Errores Frecuentes y Cómo Leerlos
+## 23.6. Errores frecuentes y cómo leerlos
 
 **Cada tipo de fallo de este ciclo tiene su cara visible; esta tabla es la primera referencia cuando algo no va:**
 
@@ -323,7 +323,7 @@ La medida de las dos visiones, con la misma petición a `/romper`: en `Developme
 | **`400`** | Navegador y `curl` | Petición rechazada, como un `POST` sin token antifalsificación |
 | **`302`** | Navegador y `curl` | Redirección: acceso denegado o salida de sesión |
 
-## 23.7. Reglas de Seguridad
+## 23.7. Reglas de seguridad
 
 - **La página de error detallada nunca en producción**: ni una sola vez; la traza se queda en el servidor
 - **Registro sin datos sensibles**: ni claves, ni correos completos, ni tokens en los mensajes
@@ -332,7 +332,7 @@ La medida de las dos visiones, con la misma petición a `/romper`: en `Developme
 - **Errores genéricos al usuario**: el aviso no debe contar qué parte del código ha fallado
 - **La consola del desarrollo no es la de producción**: no se depura contra datos reales
 
-## 23.8. Buenas Prácticas
+## 23.8. Buenas prácticas
 
 - **Rider como entorno principal**, con VS Code como alternativa ligera
 - **Compilar antes de depurar**: un error de compilación no se depura, se corrige
@@ -345,7 +345,7 @@ La medida de las dos visiones, con la misma petición a `/romper`: en `Developme
 - **El mismo error, dos entornos**: comprobar desarrollo y producción
 - **Primero el papel, luego el código**: dibuja el recorrido de la petición antes de depurarla
 
-## 23.9. Reto: Diagnosticar la Tienda de Funkos
+## 23.9. Reto: diagnosticar la tienda de Funkos
 
 > Monta el cajón de herramientas de tu tienda: registro por niveles, una página de error con las dos caras y una ronda de depuración con F12 y puntos de interrupción, en las dos visiones.
 

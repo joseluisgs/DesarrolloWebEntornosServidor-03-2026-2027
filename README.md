@@ -4,11 +4,11 @@ UD03. Desarrollo de páginas web dinámicas en .NET. 2DAW. Curso 2026-2027
 
 ![imagen](https://github.com/joseluisgs/DesarrolloWebEntornosServidor-00-2023-2024/raw/master/images/servicios.png)
 
-- [Desarrollo Web en Entorno Servidor - 03 - Desarrollo de páginas web dinámicas en .NET](#desarrollo-web-en-entorno-servidor---03---desarrollo-de-páginas-web-dinámicas-en-net)
+- [Desarrollo web en entorno servidor - 03 - desarrollo de páginas web dinámicas en .NET](#desarrollo-web-en-entorno-servidor---03---desarrollo-de-páginas-web-dinámicas-en-net)
   - [Contenido](#contenido)
-  - [Proyecto Integrador](#proyecto-integrador)
+  - [Proyecto integrador](#proyecto-integrador)
   - [Contenido en YouTube](#contenido-en-youtube)
-  - [Resultados de Aprendizaje y Criterios de Evaluación](#resultados-de-aprendizaje-y-criterios-de-evaluación)
+  - [Resultados de aprendizaje y criterios de evaluación](#resultados-de-aprendizaje-y-criterios-de-evaluación)
   - [Autor](#autor)
     - [Contacto](#contacto)
   - [Licencia de uso](#licencia-de-uso)
@@ -44,15 +44,15 @@ UD03. Desarrollo de páginas web dinámicas en .NET. 2DAW. Curso 2026-2027
 25. [Despliegue con Docker y Nube](25-docker-despliegue.md)
 26. [Resumen](26-resumen.md)
 
-## Proyecto Integrador
+## Proyecto integrador
 Los proyectos realizados en clase:
-- [Proyecto Integrador Web Dinámica](https://github.com/joseluisgs/TiendaDawWeb-NetCore)
+- [Proyecto integrador web dinámica](https://github.com/joseluisgs/TiendaDawWeb-NetCore)
 
 ## Contenido en YouTube
 - [Resumen]()
-- [Lista de Reproducción](https://www.youtube.com/playlist?list=PLLiuVpAc3Gv4)
+- [Lista de reproducción](https://www.youtube.com/playlist?list=PLLiuVpAc3Gv4)
 
-## Resultados de Aprendizaje y Criterios de Evaluación
+## Resultados de aprendizaje y criterios de evaluación
 
 - RA2: Escribe sentencias ejecutables por un servidor web reconociendo y aplicando procedimientos de integración del código en lenguajes de marcas.
 

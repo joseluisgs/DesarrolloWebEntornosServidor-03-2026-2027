@@ -1,28 +1,28 @@
-- [20. Configuración de la Aplicación Web](#20-configuración-de-la-aplicación-web)
-  - [20.1. Configuración: Dónde Vive la Decisión](#201-configuración-dónde-vive-la-decisión)
-    - [20.1.1. appsettings.json y sus Variantes](#2011-appsettingsjson-y-sus-variantes)
-    - [20.1.2. El Orden de las Fuentes](#2012-el-orden-de-las-fuentes)
+- [20. Configuración de la aplicación web](#20-configuración-de-la-aplicación-web)
+  - [20.1. Configuración: dónde vive la decisión](#201-configuración-dónde-vive-la-decisión)
+    - [20.1.1. Appsettings.json y sus variantes](#2011-appsettingsjson-y-sus-variantes)
+    - [20.1.2. El orden de las fuentes](#2012-el-orden-de-las-fuentes)
     - [20.1.3. Entornos: Development y Production](#2013-entornos-development-y-production)
-  - [20.2. IConfiguration y el Patrón de Opciones](#202-iconfiguration-y-el-patrón-de-opciones)
+  - [20.2. IConfiguration y el patrón de opciones](#202-iconfiguration-y-el-patrón-de-opciones)
     - [20.2.1. Leer con IConfiguration](#2021-leer-con-iconfiguration)
-    - [20.2.2. La Clase de Opciones y IOptions&lt;T&gt;](#2022-la-clase-de-opciones-y-ioptionst)
-    - [20.2.3. Visión Razor Pages: la Opción en un PageModel](#2023-visión-razor-pages-la-opción-en-un-pagemodel)
-    - [20.2.4. Visión MVC: la Opción en un Controlador](#2024-visión-mvc-la-opción-en-un-controlador)
-    - [20.2.5. Vigilancia y Recarga](#2025-vigilancia-y-recarga)
-    - [20.2.6. Validación al Arrancar](#2026-validación-al-arrancar)
-  - [20.3. Infrastructure: Configurar el Programa por Concern](#203-infrastructure-configurar-el-programa-por-concern)
-    - [20.3.1. La Idea: Program.cs No se Llena](#2031-la-idea-programcs-no-se-llena)
-    - [20.3.2. RepositoriesConfig: la Configuración Elige la Implementación](#2032-repositoriesconfig-la-configuración-elige-la-implementación)
-    - [20.3.3. ServicesConfig y el Resto de Concerns](#2033-servicesconfig-y-el-resto-de-concerns)
-    - [20.3.4. Visión Razor Pages: el Program.cs Entero](#2034-visión-razor-pages-el-programcs-entero)
-    - [20.3.5. Visión MVC: el Program.cs Entero](#2035-visión-mvc-el-programcs-entero)
-    - [20.3.6. Las Dos Visiones, Comparadas](#2036-las-dos-visiones-comparadas)
-  - [20.4. Secretos y Entornos sin Fugas](#204-secretos-y-entornos-sin-fugas)
-    - [20.4.1. User Secrets en Desarrollo](#2041-user-secrets-en-desarrollo)
-    - [20.4.2. Variables de Entorno en Producción](#2042-variables-de-entorno-en-producción)
-  - [20.5. Reglas de Seguridad](#205-reglas-de-seguridad)
-  - [20.6. Buenas Prácticas](#206-buenas-prácticas)
-  - [20.7. Reto: La Configuración de la Tienda de Funkos](#207-reto-la-configuración-de-la-tienda-de-funkos)
+    - [20.2.2. La clase de opciones y IOptions&lt;T&gt;](#2022-la-clase-de-opciones-y-ioptionst)
+    - [20.2.3. Visión Razor Pages: la opción en un PageModel](#2023-visión-razor-pages-la-opción-en-un-pagemodel)
+    - [20.2.4. Visión MVC: la opción en un controlador](#2024-visión-mvc-la-opción-en-un-controlador)
+    - [20.2.5. Vigilancia y recarga](#2025-vigilancia-y-recarga)
+    - [20.2.6. Validación al arrancar](#2026-validación-al-arrancar)
+  - [20.3. Infrastructure: configurar el programa por concern](#203-infrastructure-configurar-el-programa-por-concern)
+    - [20.3.1. La idea: Program.cs no se llena](#2031-la-idea-programcs-no-se-llena)
+    - [20.3.2. RepositoriesConfig: la configuración elige la implementación](#2032-repositoriesconfig-la-configuración-elige-la-implementación)
+    - [20.3.3. ServicesConfig y el resto de concerns](#2033-servicesconfig-y-el-resto-de-concerns)
+    - [20.3.4. Visión Razor Pages: el Program.cs entero](#2034-visión-razor-pages-el-programcs-entero)
+    - [20.3.5. Visión MVC: el Program.cs entero](#2035-visión-mvc-el-programcs-entero)
+    - [20.3.6. Las dos visiones, comparadas](#2036-las-dos-visiones-comparadas)
+  - [20.4. Secretos y entornos sin fugas](#204-secretos-y-entornos-sin-fugas)
+    - [20.4.1. User Secrets en desarrollo](#2041-user-secrets-en-desarrollo)
+    - [20.4.2. Variables de entorno en producción](#2042-variables-de-entorno-en-producción)
+  - [20.5. Reglas de seguridad](#205-reglas-de-seguridad)
+  - [20.6. Buenas prácticas](#206-buenas-prácticas)
+  - [20.7. Reto: la configuración de la tienda de Funkos](#207-reto-la-configuración-de-la-tienda-de-funkos)
     - [20.7.1. Contexto](#2071-contexto)
     - [20.7.2. Modelo de datos](#2072-modelo-de-datos)
     - [20.7.3. Almacenamiento](#2073-almacenamiento)
@@ -30,7 +30,7 @@
 
 
 
-# 20. Configuración de la Aplicación Web
+# 20. Configuración de la aplicación web
 
 > 💡 **Punto de partida:** Abres Netflix en el móvil de tu primo y, en su catálogo, hay una serie que en el tuyo no aparece. El programa que sirve las dos peticiones es el mismo — lo que cambia es la configuración con la que arranca cada servidor. Le pasa a Amazon, que enseña un precio u otro según el país y la cuenta. Y le pasará a tu proyecto en cuanto lo subas al servidor del centro: el código será idéntico, pero la base de datos, el correo y las rutas tienen que mirar a otro sitio, y si nadie lo dice, todo sigue buscando donde estaba en tu máquina. ¿Dónde se guarda esa configuración, en qué orden se leen las fuentes que la contienen y cómo se hace para que el mismo programa se comporte distinto según dónde corra?
 
@@ -44,9 +44,9 @@ En este punto aprenderás a montar la configuración completa de una aplicación
 - Vigilar los valores que cambian en caliente y validar la configuración al arrancar
 - Mantener los secretos fuera del repositorio y montar la configuración igual en las dos visiones
 
-## 20.1. Configuración: Dónde Vive la Decisión
+## 20.1. Configuración: dónde vive la decisión
 
-### 20.1.1. appsettings.json y sus Variantes
+### 20.1.1. Appsettings.json y sus variantes
 
 **La configuración de una aplicación vive en ficheros JSON que el programa solo consulta, nunca edita.** El fichero base se llama `appsettings.json` y vive en la raíz del proyecto, junto a `Program.cs`; dentro, cada módulo tiene su sección y cada valor su clave:
 
@@ -73,7 +73,7 @@ Junto al base aparecen dos variantes con el mismo formato, `appsettings.Developm
 
 > 📝 **Nota:** los ficheros de configuración se copian al directorio de salida al compilar; por eso, al cambiarlos hay que volver a compilar o editarlos también en `bin`, y en la práctica se editan siempre en la raíz del proyecto.
 
-### 20.1.2. El Orden de las Fuentes
+### 20.1.2. El orden de las fuentes
 
 **La configuración no es un fichero: es una pila de fuentes superpuestas, y gana la última que define la clave.** Sobre `appsettings.json` se apilan el fichero del entorno, los secretos del desarrollo, las variables de entorno y, al final, los argumentos con los que arranca la aplicación:
 
@@ -83,11 +83,11 @@ graph TD
     B --> C["User secrets<br/>solo en Development"]
     C --> D["Variables de entorno<br/>App__Mensaje"]
     D --> E["Argumentos al arrancar<br/>la ultima palabra"]
-    style A fill:#607D8B,color:#fff
-    style B fill:#2196F3,color:#fff
-    style C fill:#FF9800,color:#fff
-    style D fill:#9C27B0,color:#fff
-    style E fill:#4CAF50,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style D fill:#9C27B,color:#fff0,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 La superposición se aplica clave a clave — no fichero a fichero. Arrancando en `Development`, la vista pinta `MENSAJE-DEV` en las dos visiones: el fichero de desarrollo gana al base en el mensaje, y `Version` sigue pintando `1.0.0` porque esa clave solo existe en el base. Cada fuente corrige lo que necesita y deja el resto en paz.
@@ -125,7 +125,7 @@ if (!app.Environment.IsDevelopment())
 
 📌 **Ejemplo real:** Amazon. El mismo catálogo se muestra en su entorno de pruebas con precios de mentira y en el real con los de verdad; el programa pregunta por el entorno y el fichero activo contesta.
 
-## 20.2. IConfiguration y el Patrón de Opciones
+## 20.2. IConfiguration y el patrón de opciones
 
 ### 20.2.1. Leer con IConfiguration
 
@@ -150,7 +150,7 @@ builder.Services.Configure<AppConfig>(builder.Configuration.GetSection("App"));
 
 📌 **Ejemplo real:** Spotify guarda tus ajustes de reproducción en su configuración; el programa solo pregunta si el modo sin conexión está activo y la respuesta la da la fuente del entorno donde corre.
 
-### 20.2.2. La Clase de Opciones y IOptions&lt;T&gt;
+### 20.2.2. La clase de opciones y IOptions&lt;T&gt;
 
 **El patrón de opciones convierte una sección del JSON en una clase tipada que se inyecta como cualquier otro servicio.** Primero se declara la clase, normalmente un `record` en la carpeta `Config`:
 
@@ -180,12 +180,12 @@ graph LR
     CF --> IO["IOptions AppConfig"]
     IO --> P["PageModel o controlador"]
     P --> V["La vista pinta el valor"]
-    style J fill:#607D8B,color:#fff
-    style IC fill:#2196F3,color:#fff
-    style CF fill:#FF9800,color:#fff
-    style IO fill:#9C27B0,color:#fff
-    style P fill:#4CAF50,color:#fff
-    style V fill:#4CAF50,color:#fff
+    style J fill:#607D8,color:#fffB,color:#fff
+    style IC fill:#2196F,color:#fff3,color:#fff
+    style CF fill:#FF980,color:#fff0,color:#fff
+    style IO fill:#9C27B,color:#fff0,color:#fff
+    style P fill:#4CAF5,color:#fff0,color:#fff
+    style V fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 El objeto `opciones.Value.Mensaje` pinta el mismo `MENSAJE-DEV` que la lectura directa en `Development` y el `MENSAJE-PROD` del fichero de producción en `Production`, en las dos visiones.
@@ -194,7 +194,7 @@ El objeto `opciones.Value.Mensaje` pinta el mismo `MENSAJE-DEV` que la lectura d
 
 > 💡 **Consejo:** una clase de opciones por módulo (`AppConfig`, `EmailConfig`, `StorageConfig`) y no una sola clase dios con veinte propiedades; cada módulo lee lo suyo y nadie más se entera.
 
-### 20.2.3. Visión Razor Pages: la Opción en un PageModel
+### 20.2.3. Visión Razor Pages: la opción en un PageModel
 
 **En páginas, la opción se inyecta en el constructor primario del `PageModel` y la vista pinta desde el modelo.** Así queda el mismo patrón que usas con cualquier servicio:
 
@@ -224,7 +224,7 @@ public class IndexModel(
 
 La página pinta `MENSAJE-DEV` en `Development`, `MENSAJE-PROD` en `Production` y el valor de la variable de entorno cuando hay una, tal cual la lectura directa.
 
-### 20.2.4. Visión MVC: la Opción en un Controlador
+### 20.2.4. Visión MVC: la opción en un controlador
 
 **En MVC el patrón es idéntico; cambia el sitio donde se inyecta, el controlador, y de dónde pinta la vista, el `ViewBag` o el modelo:**
 
@@ -252,7 +252,7 @@ public class ConfigController(
 
 > 📝 **Nota:** cambia el sitio donde escribes las cosas, no las cosas: los mismos valores llegan a las dos visiones, porque la configuración y las opciones son del proyecto, no de la vista.
 
-### 20.2.5. Vigilancia y Recarga
+### 20.2.5. Vigilancia y recarga
 
 **`IOptions<T>` se queda con el primer valor que lee; `IOptionsMonitor<T>` vigila la sección y entrega los recién recargados.** Arrancada la aplicación en `Production`, un cambio en `appsettings.Production.json` hace que el mensaje pase de `MENSAJE-PROD` a `CALIENTE` mientras la aplicación sigue viva:
 
@@ -281,7 +281,7 @@ La petición siguiente pinta `CALIENTE` en la lectura directa y en el `IOptionsM
 
 📌 **Ejemplo real:** Netflix cambia su catálogo varias veces al día sin reiniciar el servicio; los valores que se actualizan en caliente se leen con mecanismos de vigilancia, no con los que se quedan con el primer valor.
 
-### 20.2.6. Validación al Arrancar
+### 20.2.6. Validación al arrancar
 
 **La configuración se puede validar en el propio arranque, de modo que una clave ausente suene antes de que llegue el primer usuario.** Sin validar, el fallo aparece en mitad de una petición, con tráfico y a una hora incómoda:
 
@@ -300,9 +300,9 @@ Con `ValidateOnStart`, la aplicación comprueba la regla al arrancar; si `App:Me
 
 📌 **Ejemplo real:** Un banco online no arranca con la configuración de pruebas: si falta una conexión, el servicio no levanta y suena la alarma, en lugar de fallar a medianoche con los clientes dentro.
 
-## 20.3. Infrastructure: Configurar el Programa por Concern
+## 20.3. Infrastructure: configurar el programa por concern
 
-### 20.3.1. La Idea: Program.cs No se Llena
+### 20.3.1. La idea: Program.cs no se llena
 
 **El patrón de Infrastructure mueve cada trozo de cableado a su propia clase estática y deja el `Program.cs` como un índice de llamadas.** Cada concern tiene su fichero en la carpeta `Infrastructure` y su método de extensión sobre `IServiceCollection`, que devuelve la colección para poder encadenar:
 
@@ -314,18 +314,18 @@ graph LR
     R --> B["El arranque queda legible"]
     S --> B
     C --> B
-    style P fill:#2196F3,color:#fff
-    style R fill:#FF9800,color:#fff
-    style S fill:#FF9800,color:#fff
-    style C fill:#FF9800,color:#fff
-    style B fill:#4CAF50,color:#fff
+    style P fill:#2196F,color:#fff3,color:#fff
+    style R fill:#FF980,color:#fff0,color:#fff
+    style S fill:#FF980,color:#fff0,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style B fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 El `Program.cs` resultante no esconde nada: se le de arriba abajo y se ve qué hace la aplicación antes de aceptar una petición.
 
 📌 **Ejemplo real:** Booking separa su arranque por bloques: base de datos, autenticación, caché y correos; cada bloque se configura en un sitio y el arranque solo los encadena en orden.
 
-### 20.3.2. RepositoriesConfig: la Configuración Elige la Implementación
+### 20.3.2. RepositoriesConfig: la configuración elige la implementación
 
 **La clase de configuración de repositorios lee la sección y registra la implementación que toca, sin que el resto del proyecto se entere.** Es la misma idea que ya viste con la elección de almacenamiento, llevada al registro de servicios:
 
@@ -360,17 +360,17 @@ graph TD
     M --> I["IMensajesRepository"]
     J --> I
     I --> S["El servicio y la vista<br/>no saben cual es"]
-    style C fill:#2196F3,color:#fff
-    style Q fill:#607D8B,color:#fff
-    style M fill:#FF9800,color:#fff
-    style J fill:#9C27B0,color:#fff
-    style I fill:#4CAF50,color:#fff
-    style S fill:#4CAF50,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
+    style Q fill:#607D8,color:#fffB,color:#fff
+    style M fill:#FF980,color:#fff0,color:#fff
+    style J fill:#9C27B,color:#fff0,color:#fff
+    style I fill:#4CAF5,color:#fff0,color:#fff
+    style S fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 Con `App__Datos=json`, la fuente declarada por el repositorio pasa a ser `json` y el servicio responde `el mensaje se lee de un fichero JSON (v1.0.0)`, en las dos visiones y sin que nadie toque `Program.cs` ni la vista.
 
-### 20.3.3. ServicesConfig y el Resto de Concerns
+### 20.3.3. ServicesConfig y el resto de concerns
 
 **`ServicesConfig` es el concern de los servicios de negocio; detrás vienen los demás, uno por fichero, con el mismo formato de método de extensión:**
 
@@ -400,7 +400,7 @@ El reparto habitual de concerns en un proyecto real es este:
 
 > 💡 **Truco:** si necesitas pasarle algo a un concern, se lo pasas por parámetro (`AddCorsPolicy(configuration, environment.IsDevelopment())`) en lugar de leer la configuración desde dentro por sorpresa; el fichero se explica solo.
 
-### 20.3.4. Visión Razor Pages: el Program.cs Entero
+### 20.3.4. Visión Razor Pages: el Program.cs entero
 
 **El arranque de la visión de páginas queda como una lista de concerns encadenados, con la capa de páginas al final de los servicios:**
 
@@ -434,7 +434,7 @@ app.MapRazorPages();
 app.Run();
 ```
 
-### 20.3.5. Visión MVC: el Program.cs Entero
+### 20.3.5. Visión MVC: el Program.cs entero
 
 **El arranque de MVC es el mismo listado con dos líneas distintas: los controladores en el sitio de las páginas y la ruta por defecto en el mapeo:**
 
@@ -469,7 +469,7 @@ app.MapControllerRoute(
 app.Run();
 ```
 
-### 20.3.6. Las Dos Visiones, Comparadas
+### 20.3.6. Las dos visiones, comparadas
 
 **La carpeta `Infrastructure` es común y lo que cambia entre visiones cabe en dos líneas de cada arranque:**
 
@@ -481,12 +481,12 @@ graph TD
     M --> V2["La vista de MVC"]
     V1 --> R["Los mismos valores medidos:<br/>MENSAJE-DEV, CALIENTE, MENSAJE-ENV"]
     V2 --> R
-    style I fill:#2196F3,color:#fff
-    style P fill:#FF9800,color:#fff
-    style M fill:#9C27B0,color:#fff
-    style V1 fill:#607D8B,color:#fff
-    style V2 fill:#607D8B,color:#fff
-    style R fill:#4CAF50,color:#fff
+    style I fill:#2196F,color:#fff3,color:#fff
+    style P fill:#FF980,color:#fff0,color:#fff
+    style M fill:#9C27B,color:#fff0,color:#fff
+    style V1 fill:#607D8,color:#fffB,color:#fff
+    style V2 fill:#607D8,color:#fffB,color:#fff
+    style R fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 | | Visión Razor Pages | Visión MVC |
@@ -499,9 +499,9 @@ graph TD
 
 > 📝 **Nota:** los ficheros `appsettings` son del proyecto, no de la visión: si las dos aplicaciones comparten proyecto, comparten configuración y solo difieren en las dos líneas del cuadro de mando.
 
-## 20.4. Secretos y Entornos sin Fugas
+## 20.4. Secretos y entornos sin fugas
 
-### 20.4.1. User Secrets en Desarrollo
+### 20.4.1. User Secrets en desarrollo
 
 **Los secretos del desarrollo no viven en ningún fichero del repositorio: viven en tu equipo, en la carpeta de usuario de Visual Studio y de la CLI.** El primer paso los vincula al proyecto y de ahí en adelante la CLI gestiona pares `clave-valor`:
 
@@ -521,18 +521,18 @@ graph TD
     US -->|"solo en Development"| S["La aplicacion"]
     EV -->|"en cualquier entorno"| S
     A -->|"siempre disponible"| S
-    style R fill:#607D8B,color:#fff
-    style A fill:#607D8B,color:#fff
-    style D fill:#2196F3,color:#fff
-    style US fill:#FF9800,color:#fff
-    style P fill:#9C27B0,color:#fff
-    style EV fill:#9C27B0,color:#fff
-    style S fill:#4CAF50,color:#fff
+    style R fill:#607D8,color:#fffB,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style D fill:#2196F,color:#fff3,color:#fff
+    style US fill:#FF980,color:#fff0,color:#fff
+    style P fill:#9C27B,color:#fff0,color:#fff
+    style EV fill:#9C27B,color:#fff0,color:#fff
+    style S fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Cualquier desarrollador con varias webs en local guarda sus claves de correo en los secretos de su equipo; el repositorio del proyecto no contiene ni una, y por eso puede subirlo a un repositorio compartido sin miedo.
 
-### 20.4.2. Variables de Entorno en Producción
+### 20.4.2. Variables de entorno en producción
 
 **En producción, la configuración sensible llega en variables de entorno, con doble raya baja como separador de niveles: `App__Mensaje` es la clave `App:Mensaje`.** Son la fuente que manda — por encima de los tres ficheros.
 
@@ -552,7 +552,7 @@ En `Production` con las dos variables puestas, la vista responde `MENSAJE-ENV` e
 
 📌 **Ejemplo real:** Azure App Service guarda las cadenas de conexión en variables de entorno del servicio; el mismo despliegue funciona en pruebas y en producción sin tocar el código, porque cada entorno pone sus variables.
 
-## 20.5. Reglas de Seguridad
+## 20.5. Reglas de seguridad
 
 - **Nunca secretos en `appsettings.json`**: ni claves de correo, ni cadenas de conexión, ni tokens
 - **User secrets solo en Development**: el mecanismo no se carga en producción
@@ -563,7 +563,7 @@ En `Production` con las dos variables puestas, la vista responde `MENSAJE-ENV` e
 - **Primera pregunta al depurar un valor raro**: qué entorno está corriendo realmente
 - **Renombrar una sección es romper todas las fuentes**: hazlo con plan y comprueba cada entorno
 
-## 20.6. Buenas Prácticas
+## 20.6. Buenas prácticas
 
 - **Una sección por módulo** en `appsettings.json`, con su clase de opciones; nada de claves sueltas repartidas
 - **`IOptions<T>` por defecto**; el monitor solo para valores que de verdad deben cambiar en caliente
@@ -576,7 +576,7 @@ En `Production` con las dos variables puestas, la vista responde `MENSAJE-ENV` e
 - **Nombres de sección estables**: `App`, `Email`, `Storage`; cambiarlos es romper todas las fuentes a la vez
 - **Pruebas con el entorno activo**: las comprobaciones se hacen con el entorno declarado, no con el que supones
 
-## 20.7. Reto: La Configuración de la Tienda de Funkos
+## 20.7. Reto: la configuración de la tienda de Funkos
 
 > Monta la configuración de tu tienda para que el mismo código sirva en local, en pruebas y en producción, con la estructura de `Infrastructure` y sin un solo secreto en el repositorio, en las dos visiones.
 

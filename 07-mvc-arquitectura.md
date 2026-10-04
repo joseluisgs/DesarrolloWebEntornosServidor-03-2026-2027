@@ -1,29 +1,29 @@
-- [7. Arquitectura MVC: Separación de Presentación y Negocio](#7-arquitectura-mvc-separación-de-presentación-y-negocio)
-  - [7.1. El Problema: Todo Junto en la Vista](#71-el-problema-todo-junto-en-la-vista)
-    - [7.1.1. El Fichero que Hace de Todo](#711-el-fichero-que-hace-de-todo)
-    - [7.1.2. El Coste de Hablar Con Todo el Mundo](#712-el-coste-de-hablar-con-todo-el-mundo)
-  - [7.2. Qué es el Patrón MVC](#72-qué-es-el-patrón-mvc)
-    - [7.2.1. Los Tres Papeles](#721-los-tres-papeles)
-    - [7.2.2. Quién Habla con Quién](#722-quién-habla-con-quién)
-  - [7.3. Cómo Fluye una Petición](#73-cómo-fluye-una-petición)
-    - [7.3.1. El Recorrido Completo](#731-el-recorrido-completo)
-    - [7.3.2. La Convención que Decide la Vista](#732-la-convención-que-decide-la-vista)
-  - [7.4. Los Tres Componentes en un Proyecto Real](#74-los-tres-componentes-en-un-proyecto-real)
-    - [7.4.1. El Controlador](#741-el-controlador)
-    - [7.4.2. La Vista](#742-la-vista)
-    - [7.4.3. El Modelo](#743-el-modelo)
-  - [7.5. Presentación, Negocio y Datos](#75-presentación-negocio-y-datos)
-    - [7.5.1. Las Tres Capas](#751-las-tres-capas)
-    - [7.5.2. Dónde Estaba Cada Cosa Hasta Ahora](#752-dónde-estaba-cada-cosa-hasta-ahora)
-  - [7.6. Buenas Prácticas](#76-buenas-prácticas)
-  - [7.7. Reto: Pasa FunkoApp de solo vistas a MVC](#77-reto-pasa-funkoapp-de-solo-vistas-a-mvc)
+- [7. Arquitectura MVC: separación de presentación y negocio](#7-arquitectura-mvc-separación-de-presentación-y-negocio)
+  - [7.1. El problema: todo junto en la vista](#71-el-problema-todo-junto-en-la-vista)
+    - [7.1.1. El fichero que hace de todo](#711-el-fichero-que-hace-de-todo)
+    - [7.1.2. El coste de hablar con todo el mundo](#712-el-coste-de-hablar-con-todo-el-mundo)
+  - [7.2. Qué es el patrón MVC](#72-qué-es-el-patrón-mvc)
+    - [7.2.1. Los tres papeles](#721-los-tres-papeles)
+    - [7.2.2. Quién habla con quién](#722-quién-habla-con-quién)
+  - [7.3. Cómo fluye una petición](#73-cómo-fluye-una-petición)
+    - [7.3.1. El recorrido completo](#731-el-recorrido-completo)
+    - [7.3.2. La convención que decide la vista](#732-la-convención-que-decide-la-vista)
+  - [7.4. Los tres componentes en un proyecto real](#74-los-tres-componentes-en-un-proyecto-real)
+    - [7.4.1. El controlador](#741-el-controlador)
+    - [7.4.2. La vista](#742-la-vista)
+    - [7.4.3. El modelo](#743-el-modelo)
+  - [7.5. Presentación, negocio y datos](#75-presentación-negocio-y-datos)
+    - [7.5.1. Las tres capas](#751-las-tres-capas)
+    - [7.5.2. Dónde estaba cada cosa hasta ahora](#752-dónde-estaba-cada-cosa-hasta-ahora)
+  - [7.6. Buenas prácticas](#76-buenas-prácticas)
+  - [7.7. Reto: pasa FunkoApp de solo vistas a MVC](#77-reto-pasa-funkoapp-de-solo-vistas-a-mvc)
     - [7.7.1. Análisis y diseño en papel](#771-análisis-y-diseño-en-papel)
     - [7.7.2. Modelo de datos](#772-modelo-de-datos)
     - [7.7.3. Código](#773-código)
 
 
 
-# 7. Arquitectura MVC: Separación de Presentación y Negocio
+# 7. Arquitectura MVC: separación de presentación y negocio
 
 > 💡 **Punto de partida:** Cuando el equipo de Spotify cambia su portada, los que programan la interfaz no tocan a los que calculan las recomendaciones: están en partes distintas del código, y cada equipo puede trabajar sin romper el trabajo del otro. Ese es el patrón MVC: separar datos, presentación y coordinación para que todo sea más claro y mantenible. En este punto aprendes las tres piezas y la regla de oro que las gobierna.
 
@@ -39,9 +39,9 @@ En este punto aprenderás el patrón MVC: tres piezas (Model, View, Controller) 
 
 > 📝 **Nota:** seguimos con ProductosApp. A partir de aquí ya entra el controlador: es el punto donde el proyecto deja de ser "solo vistas".
 
-## 7.1. El Problema: Todo Junto en la Vista
+## 7.1. El problema: todo junto en la vista
 
-### 7.1.1. El Fichero que Hace de Todo
+### 7.1.1. El fichero que hace de todo
 
 Esto es lo que hemos ido construyendo en los puntos 03, 04 y 05:
 
@@ -97,22 +97,22 @@ graph TD
     G --> I
     H --> I
 
-    style A fill:#f44336,color:#fff
-    style B fill:#607D8B,color:#fff
-    style C fill:#FF9800,color:#fff
-    style D fill:#9C27B0,color:#fff
-    style E fill:#2196F3,color:#fff
-    style F fill:#f44336,color:#fff
-    style G fill:#f44336,color:#fff
-    style H fill:#f44336,color:#fff
-    style I fill:#f44336,color:#fff
+    style A fill:#f4433,color:#fff6,color:#fff
+    style B fill:#607D8,color:#fffB,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style D fill:#9C27B,color:#fff0,color:#fff
+    style E fill:#2196F,color:#fff3,color:#fff
+    style F fill:#f4433,color:#fff6,color:#fff
+    style G fill:#f4433,color:#fff6,color:#fff
+    style H fill:#f4433,color:#fff6,color:#fff
+    style I fill:#f4433,color:#fff6,color:#fff
 ```
 
 📌 **Ejemplo real:** Netflix tiene una sola página de resultados, pero detrás hay quien decide qué te recomienda (reglas de negocio), quien busca los datos (acceso a datos) y quien dibuja las carátulas (presentación). Si los tres equipos trabajaran en el mismo fichero, cada despliegue rompería el trabajo de los otros dos.
 
 > 💡 **Analogía:** Es como un restaurante donde el camarero también cocina y también va al mercado. Un día funciona; al segundo, nadie sabe quién tiene que hacer qué — y si el camarero se va, el restaurante cierra.
 
-### 7.1.2. El Coste de Hablar Con Todo el Mundo
+### 7.1.2. El coste de hablar con todo el mundo
 
 Veamos el precio concreto de dejarlo todo junto:
 
@@ -128,9 +128,9 @@ Veamos el precio concreto de dejarlo todo junto:
 
 > 📝 **Nota:** ¿Significa esto que lo hecho en los puntos 01-06 estaba mal? No. Era el camino correcto para aprender: primero ves *cómo se pinta una página dinámica*, luego aprendes a *organizarlo*. Es el mismo orden en el que aprendes a cocinar: primero un plato, después la cocina profesional.
 
-## 7.2. Qué es el Patrón MVC
+## 7.2. Qué es el patrón MVC
 
-### 7.2.1. Los Tres Papeles
+### 7.2.1. Los tres papeles
 
 **MVC** son las iniciales de ***Model-View-Controller***. Es un patrón de diseño: una solución probada a un problema repetido, cómo mantener separadas la lógica de negocio, la presentación y la entrada de datos.
 
@@ -151,18 +151,18 @@ graph TD
     C -.->|"elige"| V
     M -.->|"entrega"| C
 
-    style A fill:#607D8B,color:#fff
-    style C fill:#f44336,color:#fff
-    style M fill:#9C27B0,color:#fff
-    style V fill:#4CAF50,color:#fff
-    style R fill:#2196F3,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style C fill:#f4433,color:#fff6,color:#fff
+    style M fill:#9C27B,color:#fff0,color:#fff
+    style V fill:#4CAF5,color:#fff0,color:#fff
+    style R fill:#2196F,color:#fff3,color:#fff
 ```
 
 📌 **Ejemplo real:** Glovo. Cuando pides un restaurante, el controlador recibe la petición, el modelo calcula qué restaurantes hay abiertos y a qué distancia están, y la vista dibuja la lista. Si el diseñador cambia las tarjetas, el cálculo de distancias no se entera.
 
 > 💡 **Analogía:** Un médico es el *controlador*: te pregunta, decide qué pruebas mandar, lee los resultados y te da el diagnóstico. El laboratorio es el *modelo*: solo produce datos, no habla contigo. El informe es la *vista*: solo presenta, no decide nada.
 
-### 7.2.2. Quién Habla con Quién
+### 7.2.2. Quién habla con quién
 
 La regla del patrón es corta y es lo único que hay que memorizar:
 
@@ -191,22 +191,22 @@ graph LR
         B4 --> B5["Solo HTML"]
     end
 
-    style A1 fill:#f44336,color:#fff
-    style A2 fill:#607D8B,color:#fff
-    style A3 fill:#f44336,color:#fff
-    style A4 fill:#2196F3,color:#fff
-    style B1 fill:#f44336,color:#fff
-    style B2 fill:#9C27B0,color:#fff
-    style B3 fill:#9C27B0,color:#fff
-    style B4 fill:#4CAF50,color:#fff
-    style B5 fill:#4CAF50,color:#fff
+    style A1 fill:#f4433,color:#fff6,color:#fff
+    style A2 fill:#607D8,color:#fffB,color:#fff
+    style A3 fill:#f4433,color:#fff6,color:#fff
+    style A4 fill:#2196F,color:#fff3,color:#fff
+    style B1 fill:#f4433,color:#fff6,color:#fff
+    style B2 fill:#9C27B,color:#fff0,color:#fff
+    style B3 fill:#9C27B,color:#fff0,color:#fff
+    style B4 fill:#4CAF5,color:#fff0,color:#fff
+    style B5 fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 > ⚠️ **Advertencia:** MVC no prohíbe que una vista acceda a datos (es técnicamente posible), pero deja de estar separado en cuanto lo haces. Es como comprar una cocina nueva y seguir comiendo en el suelo.
 
-## 7.3. Cómo Fluye una Petición
+## 7.3. Cómo fluye una petición
 
-### 7.3.1. El Recorrido Completo
+### 7.3.1. El recorrido completo
 
 Creamos un proyecto MVC real con `dotnet new mvc` y vamos paso a paso:
 
@@ -234,7 +234,7 @@ El patrón dice: el primer trozo de la URL es el controlador, el segundo es la a
 
 > 🔧 **Truco:** Memoriza `{controller=Home}/{action=Index}/{id?}`. Es la frase que explica por qué `/` te lleva a la página de inicio sin que tú hayas escrito eso en ninguna parte.
 
-### 7.3.2. La Convención que Decide la Vista
+### 7.3.2. La convención que decide la vista
 
 Aquí está la magia de MVC: nadie escribe a mano qué vista abrir. Lo decide una convención (una regla que se cumple sin que la declares):
 
@@ -252,11 +252,11 @@ Aquí está la magia de MVC: nadie escribe a mano qué vista abrir. Lo decide un
 
 > 📝 **Nota:** Para salir de la convención tienes `return View("OtroNombre")`, `return PartialView(...)` o `return RedirectToAction("Accion")`; veremos el detalle en el punto **08**. La convención es el camino normal; lo demás, excepciones.
 
-## 7.4. Los Tres Componentes en un Proyecto Real
+## 7.4. Los tres componentes en un proyecto real
 
 Todo lo de esta sección es código real de un proyecto creado con `dotnet new mvc`.
 
-### 7.4.1. El Controlador
+### 7.4.1. El controlador
 
 Un controlador es una clase que hereda de `Controller`. Cada acción (cada método público) es una dirección a la que se puede llamar por URL.
 
@@ -289,7 +289,7 @@ public class ProductosController : Controller
 
 📌 **Ejemplo real:** En Instagram, cuando pulsas un perfil, el *controlador* es quien recibe *"quiero el perfil de fulano"*, pregunta al *modelo* por sus datos y decide qué vista mostrar. Si el perfil no existe, decide otro resultado: una página 404.
 
-### 7.4.2. La Vista
+### 7.4.2. La vista
 
 La vista en MVC **no lleva `@page`** (no es una página, es una plantilla que alguien le pide) y vive en `Views/<Controlador>/<Accion>.cshtml`.
 
@@ -331,7 +331,7 @@ Dos vías para que el controlador le hable a la vista:
 
 > ⚠️ **Advertencia:** En MVC la vista **no tiene `@page`**. Si se lo pones, no hará nada útil: en MVC el acceso es por URL de controlador, no por fichero. La diferencia es exactamente la que veremos en el punto **12** (MVC vs Razor Pages).
 
-### 7.4.3. El Modelo
+### 7.4.3. El modelo
 
 El Modelo es la pieza más amplia: los datos y las reglas. En un proyecto MVC mínimo, `Models/` trae el de la plantilla:
 
@@ -380,16 +380,16 @@ graph TD
     C1 -->|"pasa los datos"| D1
     D1 --> D2
 
-    style A fill:#9C27B0,color:#fff
-    style A1 fill:#9C27B0,color:#fff
-    style A2 fill:#9C27B0,color:#fff
-    style B fill:#607D8B,color:#fff
-    style B1 fill:#607D8B,color:#fff
-    style C fill:#f44336,color:#fff
-    style C1 fill:#f44336,color:#fff
-    style D fill:#4CAF50,color:#fff
-    style D1 fill:#4CAF50,color:#fff
-    style D2 fill:#4CAF50,color:#fff
+    style A fill:#9C27B,color:#fff0,color:#fff
+    style A1 fill:#9C27B,color:#fff0,color:#fff
+    style A2 fill:#9C27B,color:#fff0,color:#fff
+    style B fill:#607D8,color:#fffB,color:#fff
+    style B1 fill:#607D8,color:#fffB,color:#fff
+    style C fill:#f4433,color:#fff6,color:#fff
+    style C1 fill:#f4433,color:#fff6,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
+    style D1 fill:#4CAF5,color:#fff0,color:#fff
+    style D2 fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 | Carpeta | Rol MVC | Ejemplos |
@@ -401,9 +401,9 @@ graph TD
 
 > 📝 **Nota:** La plantilla de MVC **no trae carpeta `Pages/`**: al crear el proyecto con `dotnet new mvc`, solo aparecen `Controllers/`, `Views/`, `Models/` y `wwwroot/`.
 
-## 7.5. Presentación, Negocio y Datos
+## 7.5. Presentación, negocio y datos
 
-### 7.5.1. Las Tres Capas
+### 7.5.1. Las tres capas
 
 MVC habla de quién hace qué. Las capas hablan de dónde vive cada cosa. Son dos vistas del mismo problema:
 
@@ -427,18 +427,18 @@ graph TD
     D -.->|"nunca decide reglas"| N
     P -.->|"nunca consulta la BD"| D
 
-    style A fill:#9C27B0,color:#fff
-    style P fill:#4CAF50,color:#fff
-    style N fill:#FF9800,color:#fff
-    style D fill:#2196F3,color:#fff
-    style P1 fill:#4CAF50,color:#fff
-    style N1 fill:#FF9800,color:#fff
-    style D1 fill:#2196F3,color:#fff
+    style A fill:#9C27B,color:#fff0,color:#fff
+    style P fill:#4CAF5,color:#fff0,color:#fff
+    style N fill:#FF980,color:#fff0,color:#fff
+    style D fill:#2196F,color:#fff3,color:#fff
+    style P1 fill:#4CAF5,color:#fff0,color:#fff
+    style N1 fill:#FF980,color:#fff0,color:#fff
+    style D1 fill:#2196F,color:#fff3,color:#fff
 ```
 
 > 💡 **Analogía:** En una empresa, comercial (presentación) habla con el cliente, dirección (negocio) decide la estrategia y almacén (datos) guarda la mercancía. Si el almacén empieza a negociar precios con el cliente directamente, la empresa tiene un problema de organización, no de ventas.
 
-### 7.5.2. Dónde Estaba Cada Cosa Hasta Ahora
+### 7.5.2. Dónde estaba cada cosa hasta ahora
 
 La tabla que cierra el capítulo: **todo lo que hemos hecho en los puntos 01-06, clasificado**.
 
@@ -456,7 +456,7 @@ La tabla que cierra el capítulo: **todo lo que hemos hecho en los puntos 01-06,
 
 > 💡 **Punto de partida para el diseño:** Antes de escribir una sola línea, dibuja en papel tres columnas (Presentación, Negocio, Datos) y coloca cada fichero en la suya. Si un fichero no cabe en ninguna o cabe en dos, ahí hay un problema de diseño.
 
-## 7.6. Buenas Prácticas
+## 7.6. Buenas prácticas
 
 - **Analiza y diseña en papel antes de programar**: Análisis → Diseño (el algoritmo, el esquema, las capas) → Codificación. Saltarse el orden es la causa número uno de código desordenado
 - **El controlador decide, el modelo calcula, la vista pinta**: esa frase resume el punto entero
@@ -470,7 +470,7 @@ La tabla que cierra el capítulo: **todo lo que hemos hecho en los puntos 01-06,
 - **No llames al repositorio desde la vista** una vez tengas controlador
 - **No te saltes el papel**: un esquema de capas en una servilleta vale más que media hora de código a ciegas
 
-## 7.7. Reto: Pasa FunkoApp de solo vistas a MVC
+## 7.7. Reto: pasa FunkoApp de solo vistas a MVC
 
 > Pasa FunkoApp de "solo vistas" a MVC — pero empieza por el papel, no por el teclado.
 

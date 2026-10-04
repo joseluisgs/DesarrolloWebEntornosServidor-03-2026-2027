@@ -1,35 +1,35 @@
-- [1. Fundamentos de Razor: Páginas Dinámicas con Código Embebido](#1-fundamentos-de-razor-páginas-dinámicas-con-código-embebido)
-  - [1.1. De la Web Estática a la Web Dinámica](#11-de-la-web-estática-a-la-web-dinámica)
-    - [1.1.1. La Web Estática](#111-la-web-estática)
-    - [1.1.2. La Web Dinámica](#112-la-web-dinámica)
-    - [1.1.3. Mecanismos de Generación de Páginas](#113-mecanismos-de-generación-de-páginas)
-    - [1.1.4. Del Navegador a la Vista: Kestrel y el Pipeline](#114-del-navegador-a-la-vista-kestrel-y-el-pipeline)
-  - [1.2. Tecnologías Asociadas a las Páginas Dinámicas](#12-tecnologías-asociadas-a-las-páginas-dinámicas)
-    - [1.2.1. El Patrón Común: Código Embebido en el Servidor](#121-el-patrón-común-código-embebido-en-el-servidor)
-    - [1.2.2. Comparativa de Tecnologías](#122-comparativa-de-tecnologías)
-  - [1.3. El Motor Razor: Del Archivo .cshtml al HTML](#13-el-motor-razor-del-archivo-cshtml-al-html)
+- [1. Fundamentos de Razor: páginas dinámicas con código embebido](#1-fundamentos-de-razor-páginas-dinámicas-con-código-embebido)
+  - [1.1. De la web estática a la web dinámica](#11-de-la-web-estática-a-la-web-dinámica)
+    - [1.1.1. La web estática](#111-la-web-estática)
+    - [1.1.2. La web dinámica](#112-la-web-dinámica)
+    - [1.1.3. Mecanismos de generación de páginas](#113-mecanismos-de-generación-de-páginas)
+    - [1.1.4. Del navegador a la vista: Kestrel y el pipeline](#114-del-navegador-a-la-vista-kestrel-y-el-pipeline)
+  - [1.2. Tecnologías asociadas a las páginas dinámicas](#12-tecnologías-asociadas-a-las-páginas-dinámicas)
+    - [1.2.1. El patrón común: código embebido en el servidor](#121-el-patrón-común-código-embebido-en-el-servidor)
+    - [1.2.2. Comparativa de tecnologías](#122-comparativa-de-tecnologías)
+  - [1.3. El motor Razor: del archivo .cshtml al HTML](#13-el-motor-razor-del-archivo-cshtml-al-html)
     - [1.3.1. ¿Qué es Razor?](#131-qué-es-razor)
-    - [1.3.2. El Proceso de Renderizado](#132-el-proceso-de-renderizado)
-  - [1.4. Delimitadores: Etiquetas para Incluir Código](#14-delimitadores-etiquetas-para-incluir-código)
+    - [1.3.2. El proceso de renderizado](#132-el-proceso-de-renderizado)
+  - [1.4. Delimitadores: etiquetas para incluir código](#14-delimitadores-etiquetas-para-incluir-código)
     - [1.4.1. Expresiones con @](#141-expresiones-con-)
-    - [1.4.2. Bloques de Código con @{ }](#142-bloques-de-código-con--)
-    - [1.4.3. Texto Literal, Escape y Transiciones](#143-texto-literal-escape-y-transiciones)
-    - [1.4.4. Todos los Delimitadores en un Solo Archivo](#144-todos-los-delimitadores-en-un-solo-archivo)
-  - [1.5. Comentarios en las Vistas](#15-comentarios-en-las-vistas)
-  - [1.6. Tipado Fuerte e IntelliSense](#16-tipado-forte-e-intellisense)
-  - [1.7. Crear el Proyecto con la CLI de .NET](#17-crear-el-proyecto-con-la-cli-de-net)
-    - [1.7.1. Descubrir los Templates Disponibles](#171-descubrir-los-templates-disponibles)
-    - [1.7.2. Crear el Proyecto: Dos Visiones, un Comando](#172-crear-el-proyecto-dos-visiones-un-comando)
-    - [1.7.3. Qué Estructura Genera la Plantilla](#173-qué-estructura-genera-la-plantilla)
-    - [1.7.4. Solución y Ejecución](#174-solución-y-ejecución)
-  - [1.8. Buenas Prácticas](#18-buenas-prácticas)
-  - [1.9. Reto: Muestra tu primer Funko en una página web dinámica](#19-reto-muestra-tu-primer-funko-en-una-página-web-dinámica)
+    - [1.4.2. Bloques de código con @{ }](#142-bloques-de-código-con--)
+    - [1.4.3. Texto literal, escape y transiciones](#143-texto-literal-escape-y-transiciones)
+    - [1.4.4. Todos los delimitadores en un solo archivo](#144-todos-los-delimitadores-en-un-solo-archivo)
+  - [1.5. Comentarios en las vistas](#15-comentarios-en-las-vistas)
+  - [1.6. Tipado fuerte e IntelliSense](#16-tipado-forte-e-intellisense)
+  - [1.7. Crear el proyecto con la CLI de .NET](#17-crear-el-proyecto-con-la-cli-de-net)
+    - [1.7.1. Descubrir los templates disponibles](#171-descubrir-los-templates-disponibles)
+    - [1.7.2. Crear el proyecto: dos visiones, un comando](#172-crear-el-proyecto-dos-visiones-un-comando)
+    - [1.7.3. Qué estructura genera la plantilla](#173-qué-estructura-genera-la-plantilla)
+    - [1.7.4. Solución y ejecución](#174-solución-y-ejecución)
+  - [1.8. Buenas prácticas](#18-buenas-prácticas)
+  - [1.9. Reto: muestra tu primer Funko en una página web dinámica](#19-reto-muestra-tu-primer-funko-en-una-página-web-dinámica)
     - [1.9.1. Contexto](#191-contexto)
     - [1.9.2. Retos](#192-retos)
 
 
 
-# 1. Fundamentos de Razor: Páginas Dinámicas con Código Embebido
+# 1. Fundamentos de Razor: páginas dinámicas con código embebido
 
 > 💡 **Punto de partida:** Si abres el código fuente de una web como Netflix, ¿por qué cada usuario ve una portada distinta si todos llaman a la misma URL? ¿Quién escribe ese HTML diferente cada vez? ¿Y si te dijera que ese HTML ni siquiera está guardado en el servidor?
 
@@ -43,13 +43,13 @@ En este punto aprenderás a reconocer los mecanismos de generación de páginas 
 - Dominar las etiquetas de inclusión de código de Razor: `@`, `@{ }`, `@@`, `<text>` y `@:`
 - Saber comentar el código de una vista sin que el comentario llegue al navegador
 
-## 1.1. De la Web Estática a la Web Dinámica
+## 1.1. De la web estática a la web dinámica
 
 Antes de escribir una sola línea de Razor, hay que entender qué problema resuelve. Si no, estás aprendiendo una sintaxis sin saber para qué existe.
 
 > 📝 **Nota:** en ProductosApp vamos a construir un gestor de Productos: mostrarlos, recorrerlos, buscarlos, editarlos, darlos de baja y subir sus fotos. Todo eso empieza aquí, con una página que se genera sola. Nada de base de datos todavía: al principio, los datos van escritos en la propia vista.
 
-### 1.1.1. La Web Estática
+### 1.1.1. La web estática
 
 Una web estática es un conjunto de ficheros `.html`, `.css` y `.js` que ya están escritos y guardados en el disco del servidor. Cuando alguien pide una página, el servidor simplemente copia y envía ese fichero tal cual está.
 
@@ -59,7 +59,7 @@ Una web estática es un conjunto de ficheros `.html`, `.css` y `.js` que ya est�
 
 📌 **Ejemplo real:** Una web corporativa de un barrio con "Inicio", "Quiénes somos" y "Contacto". Su contenido cambia una vez al año y lo escribe una persona a mano. Para eso, una web estática es perfecta — y baratísima.
 
-### 1.1.2. La Web Dinámica
+### 1.1.2. La web dinámica
 
 Una web dinámica no guarda el HTML: guarda la plantilla y los datos. En cada petición, el servidor construye el HTML en ese momento, mezclando las dos cosas, y envía el resultado.
 
@@ -76,7 +76,7 @@ Una web dinámica no guarda el HTML: guarda la plantilla y los datos. En cada pe
 
 📌 **Ejemplo real:** Instagram. La URL `instagram.com` es la misma para ti y para mí, pero el HTML que llega a tu navegador y al mío es radicalmente distinto: tus seguidos, tus historias, tu algoritmo. Nadie "guardó" esa página: **se construyó en los 200 ms que tardó tu petición**.
 
-### 1.1.3. Mecanismos de Generación de Páginas
+### 1.1.3. Mecanismos de generación de páginas
 
 Los motores de páginas dinámicas generan el HTML de tres formas distintas. Conviene distinguirlas, porque Razor pertenece solo a la primera:
 
@@ -95,14 +95,14 @@ graph TD
     B -->|"Generación<br/>ANTICIPADA"| H["Se generan páginas<br/>en tiempo de compilación"]
     H --> D
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#FF9800,color:#fff
-    style C fill:#2196F3,color:#fff
-    style D fill:#4CAF50,color:#fff
-    style E fill:#607D8B,color:#fff
-    style F fill:#9C27B0,color:#fff
-    style G fill:#9C27B0,color:#fff
-    style H fill:#f44336,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#FF980,color:#fff0,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
+    style E fill:#607D8,color:#fffB,color:#fff
+    style F fill:#9C27B,color:#fff0,color:#fff
+    style G fill:#9C27B,color:#fff0,color:#fff
+    style H fill:#f4433,color:#fff6,color:#fff
 ```
 
 | Mecanismo | Dónde se ejecuta | Ventaja | Riesgo |
@@ -115,7 +115,7 @@ graph TD
 
 > ⚠️ **Advertencia:** No confundas "dinámico" con "JavaScript". Una página puede ser dinámica sin una sola línea de JavaScript en el cliente — la genera entera el servidor. Razor es el ejemplo perfecto.
 
-### 1.1.4. Del Navegador a la Vista: Kestrel y el Pipeline
+### 1.1.4. Del navegador a la vista: Kestrel y el pipeline
 
 Antes de escribir la primera vista, conviene saber qué le pasa a la petición por dentro. ASP.NET Core tiene dos piezas que lo explican casi todo:
 
@@ -151,25 +151,25 @@ graph LR
     E --> F["Estáticos<br/>css, js"]
     E --> G["Endpoint Razor o MVC<br/>genera el HTML"]
     G --> H["Respuesta<br/>al navegador"]
-    style A fill:#2196F3,color:#fff
-    style B fill:#607D8B,color:#fff
-    style C fill:#f44336,color:#fff
-    style D fill:#FF9800,color:#fff
-    style E fill:#9C27B0,color:#fff
-    style F fill:#4CAF50,color:#fff
-    style G fill:#4CAF50,color:#fff
-    style H fill:#607D8B,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#607D8,color:#fffB,color:#fff
+    style C fill:#f4433,color:#fff6,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style E fill:#9C27B,color:#fff0,color:#fff
+    style F fill:#4CAF5,color:#fff0,color:#fff
+    style G fill:#4CAF5,color:#fff0,color:#fff
+    style H fill:#607D8,color:#fffB,color:#fff
 ```
 
 📌 **Ejemplo real:** La pestaña *Network* del navegador (F12) te muestra el final de este viaje: cada fichero que pide la página es una petición que recorrió su propio pipeline. Por eso el CSS suele aparecer antes que el HTML: los estáticos se resuelven en un middleware previo al endpoint.
 
 > 📝 **Nota:** Esto es la vista de pájaro. En el punto 20 abriremos el `Program.cs` por dentro: configuración por capas, inyección de dependencias y el orden completo del pipeline. De momento, con saber que la petición entra por Kestrel, pasa por una cadena de middlewares y termina en un endpoint, te basta para entender por dónde sale Razor.
 
-## 1.2. Tecnologías Asociadas a las Páginas Dinámicas
+## 1.2. Tecnologías asociadas a las páginas dinámicas
 
 Razor no es una invención aislada: es la evolución de .NET dentro de una familia de tecnologías muy amplia.
 
-### 1.2.1. El Patrón Común: Código Embebido en el Servidor
+### 1.2.1. El patrón común: código embebido en el servidor
 
 Todas estas tecnologías comparten la misma idea:
 
@@ -181,7 +181,7 @@ Todas estas tecnologías comparten la misma idea:
 
 📌 **Ejemplo real:** Netflix usa plantillas del lado del servidor para construir sus páginas antes de enviarlas. Amazon hace lo mismo con las fichas de producto: el nombre, el precio y las valoraciones son datos vivos, y el motor de plantillas los inyecta en el HTML en cada visita.
 
-### 1.2.2. Comparativa de Tecnologías
+### 1.2.2. Comparativa de tecnologías
 
 ```mermaid
 graph LR
@@ -203,15 +203,15 @@ graph LR
         EJS["Node EJS<br/>&lt;% %&gt;"]
     end
 
-    style RAZOR fill:#4CAF50,color:#fff
-    style JSP fill:#607D8B,color:#fff
-    style TH fill:#607D8B,color:#fff
-    style PHP fill:#2196F3,color:#fff
-    style TW fill:#2196F3,color:#fff
-    style BL fill:#2196F3,color:#fff
-    style ASPX fill:#9C27B0,color:#fff
-    style ERB fill:#FF9800,color:#fff
-    style EJS fill:#FF9800,color:#fff
+    style RAZOR fill:#4CAF5,color:#fff0,color:#fff
+    style JSP fill:#607D8,color:#fffB,color:#fff
+    style TH fill:#607D8,color:#fffB,color:#fff
+    style PHP fill:#2196F,color:#fff3,color:#fff
+    style TW fill:#2196F,color:#fff3,color:#fff
+    style BL fill:#2196F,color:#fff3,color:#fff
+    style ASPX fill:#9C27B,color:#fff0,color:#fff
+    style ERB fill:#FF980,color:#fff0,color:#fff
+    style EJS fill:#FF980,color:#fff0,color:#fff
 ```
 
 | Tecnología | Lenguaje | Delimitador típico | Fichero |
@@ -231,7 +231,7 @@ graph LR
 
 > 📝 **Nota:** Razor heredó la filosofía de Web Forms (todo en el ecosistema .NET) pero cambió la sintaxis por completo: de los ruidosos `<% %>` a un `@` limpio y mínimo. Ese `@` es literalmente todo lo que necesitas para empezar.
 
-## 1.3. El Motor Razor: Del Archivo .cshtml al HTML
+## 1.3. El motor Razor: del archivo .cshtml al HTML
 
 ### 1.3.1. ¿Qué es Razor?
 
@@ -243,7 +243,7 @@ graph LR
 
 > 💡 **Analogía:** Razor es un cocinero con receta. La receta es el `.cshtml` (la estructura del plato). Los ingredientes variables son los datos. El cocinero recorre la receta, cambia cada ingrediente por lo que haya en la despensa ese día y sirve un plato distinto cada vez — aunque la receta no haya cambiado nunca.
 
-### 1.3.2. El Proceso de Renderizado
+### 1.3.2. El proceso de renderizado
 
 ```mermaid
 graph LR
@@ -253,12 +253,12 @@ graph LR
     C -->|"3. Render"| E["HTML final<br/>texto plano"]
     E -->|"4. Respuesta HTTP"| F["Navegador<br/>lo pinta"]
 
-    style A fill:#9C27B0,color:#fff
-    style B fill:#607D8B,color:#fff
-    style C fill:#2196F3,color:#fff
-    style D fill:#FF9800,color:#fff
-    style E fill:#4CAF50,color:#fff
-    style F fill:#607D8B,color:#fff
+    style A fill:#9C27B,color:#fff0,color:#fff
+    style B fill:#607D8,color:#fffB,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#607D8,color:#fffB,color:#fff
 ```
 
 Dos ideas clave que te van a ahorrar horas de frustración:
@@ -272,7 +272,7 @@ Dos ideas clave que te van a ahorrar horas de frustración:
 
 📌 **Ejemplo real:** Cuando Netflix te muestra "Hola, Ana" en su portada, no tiene guardada una portada-para-Ana. Tiene una plantilla con `@usuario.Nombre` y, en el instante en que entras, el motor la ejecuta con tus datos y te devuelve tu HTML.
 
-## 1.4. Delimitadores: Etiquetas para Incluir Código
+## 1.4. Delimitadores: etiquetas para incluir código
 
 Razor dispone de seis etiquetas para incluir código dentro del HTML. Dominarlas es el 80 % de la sintaxis:
 
@@ -285,13 +285,13 @@ graph TD
     A --> F["@: y &lt;text&gt;<br/>texto literal desde C#"]
     A --> G["@* *@ comentario<br/>no llega al navegador"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#4CAF50,color:#fff
-    style C fill:#2196F3,color:#fff
-    style D fill:#9C27B0,color:#fff
-    style E fill:#FF9800,color:#fff
-    style F fill:#FF9800,color:#fff
-    style G fill:#f44336,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#4CAF5,color:#fff0,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
+    style D fill:#9C27B,color:#fff0,color:#fff
+    style E fill:#FF980,color:#fff0,color:#fff
+    style F fill:#FF980,color:#fff0,color:#fff
+    style G fill:#f4433,color:#fff6,color:#fff
 ```
 
 ### 1.4.1. Expresiones con @
@@ -321,7 +321,7 @@ El `@` dice *"lo que viene a continuación es C#, y su resultado se escribe aqu�
 
 > 💡 **Regla de oro:** si tu expresión contiene espacios, operadores o comas, ponla entre paréntesis `@( ... )`. Si es una simple variable (`@nombre`), no hace falta.
 
-### 1.4.2. Bloques de Código @{ }
+### 1.4.2. Bloques de código @{ }
 
 Cuando necesitas más de una instrucción (variables, cálculos, condiciones previas), usas un bloque:
 
@@ -336,7 +336,7 @@ Cuando necesitas más de una instrucción (variables, cálculos, condiciones pre
 
 > 📝 **Nota:** Dentro de `@{ }` estás **plenamente en C#**: necesitas punto y coma, los comentarios son `//` o `/* */`, y no se escribe HTML directamente. Para salir a HTML necesitas `@if`, `@foreach`, `<text>` o `@:`.
 
-### 1.4.3. Texto Literal, Escape y Transiciones
+### 1.4.3. Texto literal, escape y transiciones
 
 | Situación | Cómo se hace | Ejemplo |
 |-----------|--------------|---------|
@@ -358,7 +358,7 @@ Cuando necesitas más de una instrucción (variables, cálculos, condiciones pre
 @* Resultado en el navegador:  ¡Bienvenida, ana!Esto también es texto literal... *@
 ```
 
-### 1.4.4. Todos los Delimitadores en un Solo Archivo
+### 1.4.4. Todos los delimitadores en un solo archivo
 
 ```cshtml
 @* Vista: Pages/Productos/Detalle.cshtml *@
@@ -402,7 +402,7 @@ else
 
 📌 **Ejemplo real:** Glovo genera cada tarjeta de restaurante con un patrón así: una plantilla única con `@restaurante.Nombre`, `@restaurante.TiempoEntrega` y `@restaurante.Calificacion`. Un solo `.cshtml`, mil platos distintos en la vista. Nosotros haremos exactamente lo mismo en el punto 03, con un `@foreach` sobre una lista de Productos.
 
-## 1.5. Comentarios en las Vistas
+## 1.5. Comentarios en las vistas
 
 En una vista hay dos tipos de comentario, y confundirlos tiene consecuencias reales de seguridad:
 
@@ -435,14 +435,14 @@ graph LR
     F --> G["El usuario pulsa F12<br/>y lo lee"]
     G --> H["Peligro:<br/>datos expuestos"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#FF9800,color:#fff
-    style C fill:#2196F3,color:#fff
-    style D fill:#4CAF50,color:#fff
-    style E fill:#4CAF50,color:#fff
-    style F fill:#9C27B0,color:#fff
-    style G fill:#f44336,color:#fff
-    style H fill:#f44336,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#FF980,color:#fff0,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#9C27B,color:#fff0,color:#fff
+    style G fill:#f4433,color:#fff6,color:#fff
+    style H fill:#f4433,color:#fff6,color:#fff
 ```
 
 ```cshtml
@@ -457,7 +457,7 @@ graph LR
 
 > 💡 **Consejo:** Si quieres comprobarlo, guarda una vista con ambos comentarios y mira el HTML resultante con F12. Verás que el `<!-- -->` está ahí, y del `@* *@` no queda ni rastro.
 
-## 1.6. Tipado Fuerte e IntelliSense
+## 1.6. Tipado fuerte e IntelliSense
 
 Razor no es un simple sustitutor de texto: compila. Eso trae una ventaja enorme frente a motores como Pebble, Twig o EJS:
 
@@ -484,13 +484,13 @@ Razor no es un simple sustitutor de texto: compila. Eso trae una ventaja enorme 
 
 📌 **Ejemplo real:** En Microsoft Teams, donde hay cientos de vistas y plantillas, el tipado fuerte de Razor es lo que permite refactorizar un modelo sin romper media aplicación: si una vista referencia una variable que ya no existe, la compilación falla en local, no en producción.
 
-## 1.7. Crear el Proyecto con la CLI de .NET
+## 1.7. Crear el proyecto con la CLI de .NET
 
 Toda la teoría anterior se comprueba en un proyecto real. Y se crea con la CLI de .NET (el comando `dotnet`), sin abrir ningún IDE: así sabes exactamente qué hay en el disco, puedes repetirlo en cualquier máquina y no dependes de un botón perdido en un menú.
 
 > 💡 **Consejo:** La CLI crea el proyecto, pero para trabajar cómodo ábrelo en JetBrains Rider (IDE principal de este curso) o en Visual Studio Code. Aprende igualmente los comandos: la CLI funciona en cualquier sistema operativo y es lo que usarás en el examen y en el despliegue.
 
-### 1.7.1. Descubrir los Templates Disponibles
+### 1.7.1. Descubrir los templates disponibles
 
 Antes de crear nada, mira qué hay instalado:
 
@@ -518,7 +518,7 @@ Estas son las plantillas que usaremos en este curso:
 
 > 📝 **Nota:** El *nombre corto* es lo que escribes después de `dotnet new`. Si tienes dudas con el nombre, `dotnet new search razor` busca plantillas por texto.
 
-### 1.7.2. Crear el Proyecto: Dos Visiones, un Comando
+### 1.7.2. Crear el proyecto: dos visiones, un comando
 
 Esta unidad se estudia con dos visiones sobre el mismo problema, y cada una es una plantilla distinta:
 
@@ -537,7 +537,7 @@ dotnet new webapp -n ProductosApp -f net10.0
 
 > 📝 **Nota:** La plantilla restaura los paquetes automáticamente al terminar (lo ves en la salida: `Restauración realizada correctamente`). No hace falta ejecutar `dotnet restore` a mano la primera vez.
 
-### 1.7.3. Qué Estructura Genera la Plantilla
+### 1.7.3. Qué estructura genera la plantilla
 
 ```mermaid
 graph TD
@@ -558,20 +558,20 @@ graph TD
     D --> D2["Pages/Index.cshtml.cs"]
     D --> D3["Pages/Shared/_Layout.cshtml"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#4CAF50,color:#fff
-    style C fill:#2196F3,color:#fff
-    style D fill:#FF9800,color:#fff
-    style B1 fill:#2196F3,color:#fff
-    style B2 fill:#2196F3,color:#fff
-    style B3 fill:#2196F3,color:#fff
-    style B4 fill:#2196F3,color:#fff
-    style C1 fill:#9C27B0,color:#fff
-    style C2 fill:#9C27B0,color:#fff
-    style C3 fill:#9C27B0,color:#fff
-    style D1 fill:#9C27B0,color:#fff
-    style D2 fill:#9C27B0,color:#fff
-    style D3 fill:#9C27B0,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#4CAF5,color:#fff0,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style B1 fill:#2196F,color:#fff3,color:#fff
+    style B2 fill:#2196F,color:#fff3,color:#fff
+    style B3 fill:#2196F,color:#fff3,color:#fff
+    style B4 fill:#2196F,color:#fff3,color:#fff
+    style C1 fill:#9C27B,color:#fff0,color:#fff
+    style C2 fill:#9C27B,color:#fff0,color:#fff
+    style C3 fill:#9C27B,color:#fff0,color:#fff
+    style D1 fill:#9C27B,color:#fff0,color:#fff
+    style D2 fill:#9C27B,color:#fff0,color:#fff
+    style D3 fill:#9C27B,color:#fff0,color:#fff
 ```
 
 Las diferencias que de verdad importan:
@@ -585,7 +585,7 @@ Las diferencias que de verdad importan:
 
 > ⚠️ **Advertencia:** En esta unidad trabajamos una visión por proyecto. Técnicamente pueden convivir en la misma aplicación, pero en un proyecto de aprendizaje las dos estructuras a la vez solo añaden ruido: no sabrías si buscar en `Views/` o en `Pages/`.
 
-### 1.7.4. Solución y Ejecución
+### 1.7.4. Solución y ejecución
 
 Con los proyectos creados, agrúpalos en una solución:
 
@@ -631,7 +631,7 @@ El `.slnx` es XML y se lee sin ser informático. Esto es exactamente lo que gene
 
 > 💡 **Consejo:** Antes de un `git commit`, borra las carpetas de compilación `bin/` y `obj/`. El `.gitignore` de esta unidad ya las excluye, pero conviene saber hacerlo a mano.
 
-## 1.8. Buenas Prácticas
+## 1.8. Buenas prácticas
 
 - **Usa `@{ }` para la lógica preparatoria** (variables y cálculos) y `@` para el resultado en el HTML
 - **Envuelve entre paréntesis** cualquier expresión con operadores: `@(a + b)`
@@ -642,7 +642,7 @@ El `.slnx` es XML y se lee sin ser informático. Esto es exactamente lo que gene
 - **No escribas HTML dentro de `@{ }`**: usa `@if`, `@foreach`, `<text>` o `@:`
 - **No llames a una base de datos desde la vista**: la vista presenta, no decide — y en esta unidad todavía no hay base de datos
 
-## 1.9. Reto: Muestra tu primer Funko en una página web dinámica
+## 1.9. Reto: muestra tu primer Funko en una página web dinámica
 
 > Escribe a mano tu primer Funko dentro de una vista y deja que Razor pinte el resto — todavía sin repositorios ni bases de datos.
 

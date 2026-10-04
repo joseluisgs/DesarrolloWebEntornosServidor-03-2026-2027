@@ -1,24 +1,24 @@
-- [18. Cookies, Sesiones y Almacenamiento en el Cliente](#18-cookies-sesiones-y-almacenamiento-en-el-cliente)
-  - [18.1. Cookies: El Recuerdo que Vive en el Navegador](#181-cookies-el-recuerdo-que-vive-en-el-navegador)
-    - [18.1.1. Qué es una Cookie y Qué Aporta](#1811-qué-es-una-cookie-y-qué-aporta)
-    - [18.1.2. Ciclo de Vida: Escribir, Leer y Borrar](#1812-ciclo-de-vida-escribir-leer-y-borrar)
-    - [18.1.3. Los Atributos de una Cookie](#1813-los-atributos-de-una-cookie)
-    - [18.1.4. Cookies en las Dos Visiones](#1814-cookies-en-las-dos-visiones)
+- [18. Cookies, sesiones y almacenamiento en el cliente](#18-cookies-sesiones-y-almacenamiento-en-el-cliente)
+  - [18.1. Cookies: el recuerdo que vive en el navegador](#181-cookies-el-recuerdo-que-vive-en-el-navegador)
+    - [18.1.1. Qué es una cookie y qué aporta](#1811-qué-es-una-cookie-y-qué-aporta)
+    - [18.1.2. Ciclo de vida: escribir, leer y borrar](#1812-ciclo-de-vida-escribir-leer-y-borrar)
+    - [18.1.3. Los atributos de una cookie](#1813-los-atributos-de-una-cookie)
+    - [18.1.4. Cookies en las dos visiones](#1814-cookies-en-las-dos-visiones)
     - [18.1.5. Cookies y JavaScript](#1815-cookies-y-javascript)
-  - [18.2. Sesión: El Recuerdo que Vive en el Servidor](#182-sesión-el-recuerdo-que-vive-en-el-servidor)
-    - [18.2.1. Qué es la Sesión y Qué Aporta](#1821-qué-es-la-sesión-y-qué-aporta)
-    - [18.2.2. El Id de Sesión: el Vínculo Invisible](#1822-el-id-de-sesión-el-vínculo-invisible)
+  - [18.2. Sesión: el recuerdo que vive en el servidor](#182-sesión-el-recuerdo-que-vive-en-el-servidor)
+    - [18.2.1. Qué es la sesión y qué aporta](#1821-qué-es-la-sesión-y-qué-aporta)
+    - [18.2.2. El id de sesión: el vínculo invisible](#1822-el-id-de-sesión-el-vínculo-invisible)
     - [18.2.3. Configuración en Program.cs](#1823-configuración-en-programcs)
-    - [18.2.4. Escribir y Leer Datos](#1824-escribir-y-leer-datos)
-    - [18.2.5. Objetos Completos con JSON](#1825-objetos-completos-con-json)
-    - [18.2.6. La Sesión en las Dos Visiones](#1826-la-sesión-en-las-dos-visiones)
-    - [18.2.7. Por Dentro de la Sesión](#1827-por-dentro-de-la-sesión)
-    - [18.2.8. Sesiones Distribuidas (Redis)](#1828-sesiones-distribuidas-redis)
-  - [18.3. Cookies o Sesión: Cómo Elegir](#183-cookies-o-sesión-cómo-elegir)
-  - [18.4. Almacenamiento en el Cliente: localStorage](#184-almacenamiento-en-el-cliente-localstorage)
-  - [18.5. Reglas de Seguridad](#185-reglas-de-seguridad)
-  - [18.6. Buenas Prácticas](#186-buenas-prácticas)
-  - [18.7. Reto: La Cesta y las Preferencias de la Tienda de Funkos](#187-reto-la-cesta-y-las-preferencias-de-la-tienda-de-funkos)
+    - [18.2.4. Escribir y leer datos](#1824-escribir-y-leer-datos)
+    - [18.2.5. Objetos completos con JSON](#1825-objetos-completos-con-json)
+    - [18.2.6. La sesión en las dos visiones](#1826-la-sesión-en-las-dos-visiones)
+    - [18.2.7. Por dentro de la sesión](#1827-por-dentro-de-la-sesión)
+    - [18.2.8. Sesiones distribuidas (Redis)](#1828-sesiones-distribuidas-redis)
+  - [18.3. Cookies o sesión: cómo elegir](#183-cookies-o-sesión-cómo-elegir)
+  - [18.4. Almacenamiento en el cliente: localStorage](#184-almacenamiento-en-el-cliente-localstorage)
+  - [18.5. Reglas de seguridad](#185-reglas-de-seguridad)
+  - [18.6. Buenas prácticas](#186-buenas-prácticas)
+  - [18.7. Reto: la cesta y las preferencias de la tienda de Funkos](#187-reto-la-cesta-y-las-preferencias-de-la-tienda-de-funkos)
     - [18.7.1. Contexto](#1871-contexto)
     - [18.7.2. Modelo de datos](#1872-modelo-de-datos)
     - [18.7.3. Almacenamiento](#1873-almacenamiento)
@@ -26,7 +26,7 @@
 
 
 
-# 18. Cookies, Sesiones y Almacenamiento en el Cliente
+# 18. Cookies, sesiones y almacenamiento en el cliente
 
 > 💡 **Punto de partida:** ves el primer episodio de una serie en el móvil con la app, lo dejas a mitad y esa noche abres la web en el ordenador: la serie arranca justo por el minuto en que te quedaste. Tres días después entras en Amazon y la cesta te sigue esperando con los mismos dos productos. HTTP olvida todo entre petición y petición — así que ese recuerdo no puede vivir dentro del protocolo. Vive en dos sitios distintos: en tu navegador, en un trozo de texto que tú llevas, o en el servidor, con una llave que tú llevas. Son la cookie y la sesión, y de ellas depende casi todo lo que una web recuerda de ti. ¿Cómo se elige cuál de las dos se encarga de cada dato, y qué hace falta para que ese recuerdo no acabe en manos de nadie más?
 
@@ -43,9 +43,9 @@ En este punto aprenderás a montar el recuerdo que se sale del servidor: primero
 
 > 📝 **Nota:** seguimos con `ProductosApp` en sus dos visiones. Las dos usan la misma API de cookies y la misma de sesión, así que los nombres de las cookies y los resultados coinciden.
 
-## 18.1. Cookies: El Recuerdo que Vive en el Navegador
+## 18.1. Cookies: el recuerdo que vive en el navegador
 
-### 18.1.1. Qué es una Cookie y Qué Aporta
+### 18.1.1. Qué es una cookie y qué aporta
 
 **Una cookie es un par `nombre=valor` que el servidor pide al navegador que guarde, y que el navegador devuelve después en cada petición a ese sitio.** No hay magia: es texto corto que viaja en las cabeceras, con `Set-Cookie` cuando el servidor la escribe y con `Cookie` cuando el cliente la devuelve.
 
@@ -78,13 +78,13 @@ graph TD
     N --> D["Con Expires: en disco<br/>viven hasta su fecha"]
     M -->|Cookie: en cada peticion| S
     D -->|Cookie: en cada peticion| S
-    style S fill:#2196F3,color:#fff
-    style N fill:#607D8B,color:#fff
-    style M fill:#FF9800,color:#fff
-    style D fill:#9C27B0,color:#fff
+    style S fill:#2196F,color:#fff3,color:#fff
+    style N fill:#607D8,color:#fffB,color:#fff
+    style M fill:#FF980,color:#fff0,color:#fff
+    style D fill:#9C27B,color:#fff0,color:#fff
 ```
 
-### 18.1.2. Ciclo de Vida: Escribir, Leer y Borrar
+### 18.1.2. Ciclo de vida: escribir, leer y borrar
 
 La cookie tiene tres movimientos y los tres se hacen desde el código del servidor.
 
@@ -125,7 +125,7 @@ El borrado devuelve una respuesta con `Set-Cookie` caducada y en la petición si
 
 > ⚠️ **Advertencia:** leer una cookie que nadie escribió no da ningún error, solo devuelve `null`. Si pintas sin el `??`, la vista se rompe con una excepción de referencia nula.
 
-### 18.1.3. Los Atributos de una Cookie
+### 18.1.3. Los atributos de una cookie
 
 Los atributos son las instrucciones que el servidor deja escritas en la cabecera para que el navegador las respete.
 
@@ -143,7 +143,7 @@ El efecto de `HttpOnly` se ve desde la consola del navegador. Con la cookie `Use
 
 > 💡 **Consejo:** en F12, la pestaña Application, sección Cookies, se ven todas las cookies de un sitio con sus atributos tal y como el servidor los escribió.
 
-### 18.1.4. Cookies en las Dos Visiones
+### 18.1.4. Cookies en las dos visiones
 
 La lectura y la escritura son idénticas en las dos visiones: quien maneja cookies es el contexto HTTP, y `PageModel` y `Controller` lo exponen igual.
 
@@ -244,20 +244,20 @@ graph TD
     S --> N["Cookie sin HttpOnly"]
     H --> JH["document.cookie la omite:<br/>ningun script la ve"]
     N --> JN["JavaScript la lee y la escribe<br/>y viaja al servidor"]
-    style S fill:#2196F3,color:#fff
-    style H fill:#4CAF50,color:#fff
-    style N fill:#FF9800,color:#fff
-    style JH fill:#607D8B,color:#fff
-    style JN fill:#9C27B0,color:#fff
+    style S fill:#2196F,color:#fff3,color:#fff
+    style H fill:#4CAF5,color:#fff0,color:#fff
+    style N fill:#FF980,color:#fff0,color:#fff
+    style JH fill:#607D8,color:#fffB,color:#fff
+    style JN fill:#9C27B,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** YouTube. Tus preferencias de reproducción viven en cookies que la propia página lee con JavaScript; el identificador con el que te reconoces no aparece en `document.cookie`, porque está marcado como `HttpOnly`.
 
 > ⚠️ **Advertencia:** una cookie escrita desde JavaScript nunca lleva `HttpOnly`, porque quien la escribe es justo el script al que quieres cerrar la puerta. Las cookies que protegen identidad o sesión se escriben siempre desde el servidor.
 
-## 18.2. Sesión: El Recuerdo que Vive en el Servidor
+## 18.2. Sesión: el recuerdo que vive en el servidor
 
-### 18.2.1. Qué es la Sesión y Qué Aporta
+### 18.2.1. Qué es la sesión y qué aporta
 
 **La sesión es un almacén de datos en la memoria del servidor al que cada visitante llega con su llave.** El navegador no lleva los datos, solo lleva un identificador corto en una cookie; los datos pesados se quedan dentro.
 
@@ -267,7 +267,7 @@ La diferencia con la cookie es de dónde es la responsabilidad: la cookie te con
 
 > 💡 **Analogía:** es una taquilla de la estación. Te dan una llave con un número, tu equipaje se queda dentro y la taquilla es quien lo recuerda; perder la llave es perder el acceso, no el equipaje de los demás.
 
-### 18.2.2. El Id de Sesión: el Vínculo Invisible
+### 18.2.2. El id de sesión: el vínculo invisible
 
 La sesión no es magia: depende de una cookie técnica. En la primera petición, el servidor crea los datos y devuelve una cookie llamada `.AspNetCore.Session`; a partir de ahí, cada petición la lleva y el servidor carga los datos de ese identificador.
 
@@ -329,7 +329,7 @@ Cada línea tiene su porqué:
 
 > 📝 **Nota:** `IdleTimeout` por defecto son 20 minutos de inactividad. Puedes bajarlo para una prueba, pero el valor real de una aplicación es una decisión de negocio, no una casualidad.
 
-### 18.2.4. Escribir y Leer Datos
+### 18.2.4. Escribir y leer datos
 
 La sesión es un diccionario `clave-valor` con métodos para tipos simples. Guardar y leer un texto o un entero es directo, y la lectura siempre contempla que el valor no exista todavía:
 
@@ -349,7 +349,7 @@ Con tres peticiones seguidas desde el mismo navegador, el contador ve `1`, `2`, 
 
 > ⚠️ **Advertencia:** el `??` de la lectura no es opcional. La primera visita de cualquier visitante no tiene nada escrito y, sin el valor por defecto, la vista recibiría `null`.
 
-### 18.2.5. Objetos Completos con JSON
+### 18.2.5. Objetos completos con JSON
 
 La sesión solo almacena cadenas, así que para guardar una lista hay que serializarla a texto. El camino limpio es una clase de métodos de extensión que oculte la conversión:
 
@@ -380,7 +380,7 @@ var cesta = HttpContext.Session.GetJson<List<string>>("Cesta") ?? new();
 
 📌 **Ejemplo real:** Cualquier carrito de compra real guarda así la lista entera de artículos con sus cantidades: un solo objeto, un solo paso de ida y vuelta.
 
-### 18.2.6. La Sesión en las Dos Visiones
+### 18.2.6. La sesión en las dos visiones
 
 Las dos visiones piden la sesión del mismo sitio: a `HttpContext`. `PageModel` no expone una propiedad `Session` y escribir `Session.SetString(...)` en una página no compila, el compilador para con `error CS0103`. Con `HttpContext.Session` el código es idéntico en página y en acción.
 
@@ -443,7 +443,7 @@ El reparto hasta la vista también sigue el patrón del punto 17: en página, pr
 | **A la vista** | Propiedades del modelo | `ViewBag` o modelo |
 | **Configuración** | Misma en `Program.cs` | Misma en `Program.cs` |
 
-### 18.2.7. Por Dentro de la Sesión
+### 18.2.7. Por dentro de la sesión
 
 **La sesión se monta sobre un middleware que trabaja en los dos bordes de tu código: carga antes y guarda después.** Ese es todo el truco; tú solo llamas a `SetString` y `GetString`.
 
@@ -454,12 +454,12 @@ graph TD
     C --> T["Tu pagina o tu accion<br/>lee y escribe con HttpContext.Session"]
     T --> G["Al terminar la peticion,<br/>la sesion se guarda sola"]
     G --> S["Respuesta al navegador"]
-    style P fill:#2196F3,color:#fff
-    style R fill:#607D8B,color:#fff
-    style C fill:#FF9800,color:#fff
-    style T fill:#4CAF50,color:#fff
-    style G fill:#9C27B0,color:#fff
-    style S fill:#607D8B,color:#fff
+    style P fill:#2196F,color:#fff3,color:#fff
+    style R fill:#607D8,color:#fffB,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style T fill:#4CAF5,color:#fff0,color:#fff
+    style G fill:#9C27B,color:#fff0,color:#fff
+    style S fill:#607D8,color:#fffB,color:#fff
 ```
 
 Tres consecuencias prácticas de ese esquema:
@@ -470,7 +470,7 @@ Tres consecuencias prácticas de ese esquema:
 
 > 💡 **Consejo:** el conducto se lee de arriba abajo: `UseRouting` decide la ruta, `UseSession` trae los datos y después entra tu código. Si al tocar `HttpContext.Session` te sale una excepción, el tramo que falta está justo ahí.
 
-### 18.2.8. Sesiones Distribuidas (Redis)
+### 18.2.8. Sesiones distribuidas (Redis)
 
 **El almacén de `AddDistributedMemoryCache` vive en la memoria de un solo servidor.** Con una sola instancia no pasa nada, pero en cuanto la aplicación se publica con varias copias detrás de un equilibrador de carga, cada copia guarda sus propias sesiones: el visitante cambia de copia entre petición y petición y su cesta desaparece.
 
@@ -490,7 +490,7 @@ Ese método de extensión viene del paquete `Microsoft.Extensions.Caching.StackE
 
 > 💡 **Consejo:** mientras la aplicación corra en una sola instancia, la memoria es lo más simple; el salto a Redis se hace cambiando esa línea del arranque, sin tocar el código que usa la sesión.
 
-## 18.3. Cookies o Sesión: Cómo Elegir
+## 18.3. Cookies o sesión: cómo elegir
 
 Las dos resuelven lo mismo, recordar, y lo resuelven en sitios opuestos. La elección no es de gusto: depende de quién deba leer el dato y de cuánto debe durar.
 
@@ -508,11 +508,11 @@ graph TD
     P -->|El servidor| S["Sesion: datos del usuario<br/>llave en la cookie, datos en el servidor"]
     P -->|Las dos partes| C["Cookie: preferencias<br/>el dato viaja en cada peticion"]
     P -->|Solo el navegador| L["localStorage: dato de interfaz<br/>lo lee y escribe JavaScript"]
-    style D fill:#2196F3,color:#fff
-    style P fill:#607D8B,color:#fff
-    style S fill:#9C27B0,color:#fff
-    style C fill:#FF9800,color:#fff
-    style L fill:#4CAF50,color:#fff
+    style D fill:#2196F,color:#fff3,color:#fff
+    style P fill:#607D8,color:#fffB,color:#fff
+    style S fill:#9C27B,color:#fff0,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style L fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 La sesión, además, no compite con la cookie: se apoya en ella. Sin cookie no hay sesión posible, porque el servidor solo recibe peticiones anónimas y no sabe a qué datos ir. Lo que cambia de una a otra es quién se queda con el peso: el dato entero viaja en la cookie y en la sesión solo va la llave.
@@ -525,19 +525,19 @@ graph TD
     C2 --> L2["El servidor busca los datos<br/>detras de esa llave"]
     L1 --> R["La respuesta sale<br/>montada con las dos"]
     L2 --> R
-    style N fill:#2196F3,color:#fff
-    style C1 fill:#FF9800,color:#fff
-    style C2 fill:#9C27B0,color:#fff
-    style L1 fill:#607D8B,color:#fff
-    style L2 fill:#607D8B,color:#fff
-    style R fill:#4CAF50,color:#fff
+    style N fill:#2196F,color:#fff3,color:#fff
+    style C1 fill:#FF980,color:#fff0,color:#fff
+    style C2 fill:#9C27B,color:#fff0,color:#fff
+    style L1 fill:#607D8,color:#fffB,color:#fff
+    style L2 fill:#607D8,color:#fffB,color:#fff
+    style R fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 La regla que se repite en la práctica: si el dato le pertenece a una cuenta va a la sesión — si es una preferencia que debe sobrevivir a cerrar el navegador, va a una cookie; y si solo lo usa el código de la propia página, no hace falta que viaje nada.
 
 📌 **Ejemplo real:** Booking guarda en cookies el idioma y las fechas de tu búsqueda para enseñártelas otra vez la semana que viene, y en sesión el carrito y el usuario que ha iniciado sesión.
 
-## 18.4. Almacenamiento en el Cliente: localStorage
+## 18.4. Almacenamiento en el cliente: localStorage
 
 Hay un tercer sitio donde poner datos — y este sí vive enteramente en el navegador: `localStorage`, un almacén de pares `clave-valor` por origen, al que se llega desde JavaScript sin que el servidor se entere.
 
@@ -562,7 +562,7 @@ Las diferencias con una cookie son claras:
 
 > ⚠️ **Advertencia:** `localStorage` es legible por cualquier script que se ejecute en la página. Nada sensible: ni contraseñas, ni tokens, ni datos de tarjeta.
 
-## 18.5. Reglas de Seguridad
+## 18.5. Reglas de seguridad
 
 - **Los datos de una cuenta van a la sesión**: en una cookie viajan en texto en cada petición y cualquier proxy intermedio las ve; la sesión solo deja salir un identificador.
 - **`HttpOnly` en todo lo que no deba tocar JavaScript**: es la marca que hace que `document.cookie` no muestre la cookie; sin ella, un script inyectado en la página se lleva el valor.
@@ -574,7 +574,7 @@ Las diferencias con una cookie son claras:
 
 > 💡 **Consejo:** la pregunta que decide dónde va un dato es siempre la misma: si este dato se filtrara, a quién perjudicaría. La respuesta te dice si viaja, si se queda o si no debe existir.
 
-## 18.6. Buenas Prácticas
+## 18.6. Buenas prácticas
 
 - **Decide primero dónde vive el dato**: servidor o navegador, y solo después escribe el código
 - **Cookies para preferencias**: idioma, tema y avisos que sobreviven al cierre del navegador
@@ -586,7 +586,7 @@ Las diferencias con una cookie son claras:
 - **Configura `IdleTimeout` con cabeza**: la caducidad de la sesión es una decisión de uso, no un capricho
 - **Cierra el recuerdo al cerrar sesión**: borra cookies y vacía la sesión
 
-## 18.7. Reto: La Cesta y las Preferencias de la Tienda de Funkos
+## 18.7. Reto: la cesta y las preferencias de la tienda de Funkos
 
 > Haz que tu tienda recuerde a cada visitante: una cookie de preferencias que sobreviva al cierre del navegador y una cesta viva en la sesión, en las dos visiones.
 

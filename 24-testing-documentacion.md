@@ -1,25 +1,25 @@
-- [24. Pruebas y Documentación del Código de Presentación](#24-pruebas-y-documentación-del-código-de-presentación)
-  - [24.1. Por Qué se Prueba](#241-por-qué-se-prueba)
-    - [24.1.1. La Pirámide de Pruebas](#2411-la-pirámide-de-pruebas)
-    - [24.1.2. El Proyecto de Pruebas](#2412-el-proyecto-de-pruebas)
-  - [24.2. Pruebas Unitarias con NUnit](#242-pruebas-unitarias-con-nunit)
-    - [24.2.1. El Patrón AAA y FluentAssertions](#2421-el-patrón-aaa-y-fluentassertions)
-    - [24.2.2. Pruebas Parametrizadas y Casos Inválidos](#2422-pruebas-parametrizadas-y-casos-inválidos)
-    - [24.2.3. Visión Razor Pages: Probar la Lógica del PageModel](#2423-visión-razor-pages-probar-la-lógica-del-pagemodel)
-    - [24.2.4. Visión MVC: Probar la Lógica del Controlador](#2424-visión-mvc-probar-la-lógica-del-controlador)
-  - [24.3. Pruebas de Páginas con Playwright](#243-pruebas-de-páginas-con-playwright)
-    - [24.3.1. Microsoft.Playwright y la Instalación del Navegador](#2431-microsoftplaywright-y-la-instalación-del-navegador)
-    - [24.3.2. La Primera Prueba: Cargar y Comprobar](#2432-la-primera-prueba-cargar-y-comprobar)
-    - [24.3.3. Visión Razor Pages: Pruebas de la Página](#2433-visión-razor-pages-pruebas-de-la-página)
-    - [24.3.4. Visión MVC: Pruebas de la Vista](#2434-visión-mvc-pruebas-de-la-vista)
-    - [24.3.5. Flujos Completos con Playwright](#2435-flujos-completos-con-playwright)
-  - [24.4. Documentar el Código de Presentación](#244-documentar-el-código-de-presentación)
-    - [24.4.1. XMLDoc en la Lógica de las Vistas](#2441-xmldoc-en-la-lógica-de-las-vistas)
-    - [24.4.2. El README del Proyecto](#2442-el-readme-del-proyecto)
-  - [24.5. Ejecutar las Pruebas](#245-ejecutar-las-pruebas)
-  - [24.6. Reglas de Seguridad](#246-reglas-de-seguridad)
-  - [24.7. Buenas Prácticas](#247-buenas-prácticas)
-  - [24.8. Reto: Pruebas de la Tienda de Funkos](#248-reto-pruebas-de-la-tienda-de-funkos)
+- [24. Pruebas y documentación del código de presentación](#24-pruebas-y-documentación-del-código-de-presentación)
+  - [24.1. Por qué se prueba](#241-por-qué-se-prueba)
+    - [24.1.1. La pirámide de pruebas](#2411-la-pirámide-de-pruebas)
+    - [24.1.2. El proyecto de pruebas](#2412-el-proyecto-de-pruebas)
+  - [24.2. Pruebas unitarias con NUnit](#242-pruebas-unitarias-con-nunit)
+    - [24.2.1. El patrón AAA y FluentAssertions](#2421-el-patrón-aaa-y-fluentassertions)
+    - [24.2.2. Pruebas parametrizadas y casos inválidos](#2422-pruebas-parametrizadas-y-casos-inválidos)
+    - [24.2.3. Visión Razor Pages: probar la lógica del PageModel](#2423-visión-razor-pages-probar-la-lógica-del-pagemodel)
+    - [24.2.4. Visión MVC: probar la lógica del controlador](#2424-visión-mvc-probar-la-lógica-del-controlador)
+  - [24.3. Pruebas de páginas con Playwright](#243-pruebas-de-páginas-con-playwright)
+    - [24.3.1. Microsoft.Playwright y la instalación del navegador](#2431-microsoftplaywright-y-la-instalación-del-navegador)
+    - [24.3.2. La primera prueba: cargar y comprobar](#2432-la-primera-prueba-cargar-y-comprobar)
+    - [24.3.3. Visión Razor Pages: pruebas de la página](#2433-visión-razor-pages-pruebas-de-la-página)
+    - [24.3.4. Visión MVC: pruebas de la vista](#2434-visión-mvc-pruebas-de-la-vista)
+    - [24.3.5. Flujos completos con Playwright](#2435-flujos-completos-con-playwright)
+  - [24.4. Documentar el código de presentación](#244-documentar-el-código-de-presentación)
+    - [24.4.1. XMLDoc en la lógica de las vistas](#2441-xmldoc-en-la-lógica-de-las-vistas)
+    - [24.4.2. El README del proyecto](#2442-el-readme-del-proyecto)
+  - [24.5. Ejecutar las pruebas](#245-ejecutar-las-pruebas)
+  - [24.6. Reglas de seguridad](#246-reglas-de-seguridad)
+  - [24.7. Buenas prácticas](#247-buenas-prácticas)
+  - [24.8. Reto: pruebas de la tienda de Funkos](#248-reto-pruebas-de-la-tienda-de-funkos)
     - [24.8.1. Contexto](#2481-contexto)
     - [24.8.2. Modelo de datos](#2482-modelo-de-datos)
     - [24.8.3. Almacenamiento](#2483-almacenamiento)
@@ -27,7 +27,7 @@
 
 
 
-# 24. Pruebas y Documentación del Código de Presentación
+# 24. Pruebas y documentación del código de presentación
 
 > 💡 **Punto de partida:** Netflix despliega varias veces al día y, antes de que un cambio llegue a tu televisor, miles de pruebas automáticas lo comprueban todo: que la portada carga, que el vídeo arranca y que el pago procesa — cuando tu propia aplicación cambia, ¿cómo se comprueba de forma automática que lo que funcionaba sigue funcionando y que lo nuevo hace lo que debe, sin depender de que alguien abra el navegador y pruebe a mano?
 
@@ -41,9 +41,9 @@ En este punto aprenderás a montar las pruebas de una aplicación de presentaci�
 - Ejecutar, filtrar y leer los resultados de `dotnet test`
 - Documentar la lógica de las vistas con XMLDoc y un README
 
-## 24.1. Por Qué se Prueba
+## 24.1. Por qué se prueba
 
-### 24.1.1. La Pirámide de Pruebas
+### 24.1.1. La pirámide de pruebas
 
 **Las pruebas se ordenan en una pirámide: muchas unitarias, algunas de integración y pocas de extremo a extremo.** Cada nivel cubre una cosa distinta y cuesta un precio distinto — la forma de la pirámide es la respuesta a esa cuenta:
 
@@ -54,9 +54,9 @@ graph TD
     U["Pruebas unitarias<br/>NUnit: la logica sola"]
     U --> I
     I --> E
-    style E fill:#9C27B0,color:#fff
-    style I fill:#FF9800,color:#fff
-    style U fill:#4CAF50,color:#fff
+    style E fill:#9C27B,color:#fff0,color:#fff
+    style I fill:#FF980,color:#fff0,color:#fff
+    style U fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 | Nivel | Qué comprueba | Cuántas | Cuánto tarda |
@@ -69,7 +69,7 @@ graph TD
 
 > 💡 **Analogía:** la pirámide es la de un equipo de fútbol: el entrenamiento con balón (unitarias) se hace cada día y en cantidad; el partido amistoso (integración), de vez en cuando; y el partido oficial (extremo a extremo), pocas veces porque exige preparar el campo entero.
 
-### 24.1.2. El Proyecto de Pruebas
+### 24.1.2. El proyecto de pruebas
 
 **Las pruebas viven en su propio proyecto de la solución, al lado del proyecto que comprueban.** El convencionalismo de este ciclo: el proyecto se llama igual que el de la aplicación más `.Test`, y dentro se reparte por carpetas que imitan al proyecto original:
 
@@ -94,9 +94,9 @@ El `.csproj` trae las piezas de siempre de este ciclo: NUnit como motor de prueb
 </ItemGroup>
 ```
 
-## 24.2. Pruebas Unitarias con NUnit
+## 24.2. Pruebas unitarias con NUnit
 
-### 24.2.1. El Patrón AAA y FluentAssertions
+### 24.2.1. El patrón AAA y FluentAssertions
 
 **Toda prueba unitaria se escribe en tres tiempos: preparar (Arrange), ejecutar (Act) y comprobar (Assert).** El patrón AAA hace que la prueba se lea como una frase y que el fallo apunte al sitio correcto — FluentAssertions pone las aserciones en castellano claro:
 
@@ -130,7 +130,7 @@ sequenceDiagram
 
 > 🔧 **Truco:** el nombre del método es la primera documentación de la prueba: `Agregar_UnaLinea_RetornaElTotalEsperado` se entiende sin abrir el cuerpo.
 
-### 24.2.2. Pruebas Parametrizadas y Casos Inválidos
+### 24.2.2. Pruebas parametrizadas y casos inválidos
 
 **Un mismo comportamiento con muchos datos se escribe una vez con `[TestCase]`, y lo que no debe pasar se prueba con aserciones de excepción.** Las dos formas, con los casos válidos e inválidos separados en clases internas:
 
@@ -173,7 +173,7 @@ public class CasosInvalidos
 
 El laboratorio del punto pasa las ocho pruebas unitarias del carrito: tres con `[TestCase]`, dos de estado y tres de casos inválidos con `Throw<ArgumentException>`.
 
-### 24.2.3. Visión Razor Pages: Probar la Lógica del PageModel
+### 24.2.3. Visión Razor Pages: probar la lógica del PageModel
 
 **La lógica de un `PageModel` que se puede probar sin HTTP es una clase aparte, y las pruebas unitarias la tocan directamente:** totales, avisos y validaciones se comprueban con `new`, sin arrancar el servidor.
 
@@ -194,7 +194,7 @@ public class Carrito
 
 El `PageModel` se queda en lo suyo: coger la petición, llamar a la lógica y devolver la vista; lo que importa de él ya está cubierto por las pruebas de página del 24.3.
 
-### 24.2.4. Visión MVC: Probar la Lógica del Controlador
+### 24.2.4. Visión MVC: probar la lógica del controlador
 
 **En MVC el reparto es el mismo: la lógica de presentación en su clase y el controlador reducido a enlazar petición, lógica y vista:**
 
@@ -218,9 +218,9 @@ public class TiendaController : Controller
 
 > 📝 **Nota:** las pruebas unitarias de esta lógica son las mismas en las dos visiones, porque la lógica es la misma; lo que cambia después es cómo se prueba la página pintada.
 
-## 24.3. Pruebas de Páginas con Playwright
+## 24.3. Pruebas de páginas con Playwright
 
-### 24.3.1. Microsoft.Playwright y la Instalación del Navegador
+### 24.3.1. Microsoft.Playwright y la instalación del navegador
 
 **Playwright abre un navegador real, va a tus páginas y comprueba lo que hay en ellas; en .NET se usa con NUnit a través de `Microsoft.Playwright.NUnit`.** La base `PageTest` deja preparado un navegador y una página para cada prueba.
 
@@ -234,7 +234,7 @@ La orden descarga el navegador que usa la prueba (en el laboratorio, Chromium 13
 
 📌 **Ejemplo real:** Playwright nació en Microsoft para automatizar navegadores reales; lo mismo usan los equipos de Chrome, Firefox y Safari para comprobar sus propias aplicaciones antes de publicar.
 
-### 24.3.2. La Primera Prueba: Cargar y Comprobar
+### 24.3.2. La primera prueba: cargar y comprobar
 
 **La prueba más simple de todas: abrir una página y comprobar un texto.** Con la base `PageTest`, el navegador ya está abierto y `Page` es la página sobre la que se trabaja:
 
@@ -274,7 +274,7 @@ sequenceDiagram
 
 Playwright no usa esperas a mano: el localizador espera a que el texto aparezca y la prueba se lee sin tiempos muertos.
 
-### 24.3.3. Visión Razor Pages: Pruebas de la Página
+### 24.3.3. Visión Razor Pages: pruebas de la página
 
 **En la visión de páginas, el conjunto de pruebas va contra la aplicación real en su puerto, con localizadores por identificador y por rol:**
 
@@ -290,7 +290,7 @@ public async Task Portada_MuestraElFormulario()
 
 Las pruebas de esta visión comprueban en el navegador que la portada carga con su título, que enseña el formulario y que el alta suma el total.
 
-### 24.3.4. Visión MVC: Pruebas de la Vista
+### 24.3.4. Visión MVC: pruebas de la vista
 
 **En MVC el conjunto es el mismo, apuntando al puerto de la otra aplicación y comprobando además lo que distingue a la vista:**
 
@@ -306,7 +306,7 @@ public async Task Vista_PintaQueEsMVC()
 
 > 📝 **Nota:** cambia la dirección a la que apunta la prueba, no la forma de escribirla: el mismo `PageTest`, los mismos localizadores y las mismas aserciones en las dos visiones.
 
-### 24.3.5. Flujos Completos con Playwright
+### 24.3.5. Flujos completos con Playwright
 
 **Una prueba de flujo rellena, pulsa y comprueba lo que ha cambiado.** La del alta, contra la aplicación real, suma el total anterior y el de las unidades añadidas:
 
@@ -343,7 +343,7 @@ Dos trampas reales del laboratorio, medidas, que verás en cualquier formulario:
 - **El token antifalsificación**: las páginas validan el `POST` solo; un formulario sin él responde **400** y la prueba de flujo se queda esperando el cambio que nunca llega. La solución es llevar el token en el formulario con `@Html.AntiForgeryToken()`
 - **El punto decimal y la cultura**: el `POST` envía `3.50` y el enlace de modelo de una máquina en español lo interpreta como `3,50`; en la lógica se parsea con `CultureInfo.InvariantCulture` para que la prueba y la aplicación hablen el mismo idioma
 
-## 24.4. Documentar el Código de Presentación
+## 24.4. Documentar el código de presentación
 
 **Documentar es dejar escrito lo que el código no dice por sí solo: qué hace, cómo se ejecuta y qué comprueba.** Tres sitios distintos para tres lectores distintos:
 
@@ -355,16 +355,16 @@ graph TD
     D --> E["El editor la muestra<br/>al llamarla"]
     R --> Q["Al equipo nuevo<br/>no le preguntas nada"]
     N --> P["El resumen cuenta<br/>que cubre cada prueba"]
-    style X fill:#2196F3,color:#fff
-    style D fill:#FF9800,color:#fff
-    style R fill:#9C27B0,color:#fff
-    style N fill:#607D8B,color:#fff
-    style E fill:#4CAF50,color:#fff
-    style Q fill:#4CAF50,color:#fff
-    style P fill:#4CAF50,color:#fff
+    style X fill:#2196F,color:#fff3,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
+    style R fill:#9C27B,color:#fff0,color:#fff
+    style N fill:#607D8,color:#fffB,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
+    style Q fill:#4CAF5,color:#fff0,color:#fff
+    style P fill:#4CAF5,color:#fff0,color:#fff
 ```
 
-### 24.4.1. XMLDoc en la Lógica de las Vistas
+### 24.4.1. XMLDoc en la lógica de las vistas
 
 **La lógica de presentación documenta igual que cualquier otra clase: `/// <summary>` en clases y métodos públicos, y el editor la enseña al escribir.** En el laboratorio, la clase del carrito la trae entera:
 
@@ -387,7 +387,7 @@ public class Carrito
 
 📌 **Ejemplo real:** El editor de JetBrains y el de Microsoft enseñan la documentación XML al escribir; quien documenta su lógica de vista ahorra la explicación en el chat del equipo.
 
-### 24.4.2. El README del Proyecto
+### 24.4.2. El README del proyecto
 
 **El README es la primera página del proyecto y responde a cuatro preguntas: qué es, cómo se ejecuta, cómo se prueban y cómo está montado.** Con esas cuatro secciones, cualquier persona del equipo entra al proyecto sin preguntar nada:
 
@@ -398,7 +398,7 @@ public class Carrito
 | **Cómo se prueban** | `dotnet test` y la instalación de Playwright |
 | **Cómo está montado** | Carpetas, proyecto de pruebas y dependencias |
 
-## 24.5. Ejecutar las Pruebas
+## 24.5. Ejecutar las pruebas
 
 **Las pruebas se ejecutan desde el IDE o desde la terminal con `dotnet test`, y el resumen se lee en una línea.** Con las quince pruebas del laboratorio en verde, la terminal responde:
 
@@ -423,16 +423,16 @@ graph LR
     D --> P["Playwright abre Chromium<br/>y ejecuta las de pagina"]
     N --> R["Resumen: superadas,<br/>con error, omitidas"]
     P --> R
-    style T fill:#2196F3,color:#fff
-    style D fill:#607D8B,color:#fff
-    style N fill:#4CAF50,color:#fff
-    style P fill:#9C27B0,color:#fff
-    style R fill:#FF9800,color:#fff
+    style T fill:#2196F,color:#fff3,color:#fff
+    style D fill:#607D8,color:#fffB,color:#fff
+    style N fill:#4CAF5,color:#fff0,color:#fff
+    style P fill:#9C27B,color:#fff0,color:#fff
+    style R fill:#FF980,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Los equipos de integración continua ejecutan exactamente la misma orden que tú: `dotnet test`; si falla, no se publica nada.
 
-## 24.6. Reglas de Seguridad
+## 24.6. Reglas de seguridad
 
 - **Las pruebas nunca apuntan a producción**: los navegadores automatizados solo contra entornos de prueba
 - **Datos de prueba sintéticos**: nombres, correos y precios inventados, nunca de clientes reales
@@ -441,7 +441,7 @@ graph LR
 - **Las capturas de fallo se revisan antes de compartirlas**: pueden contener datos de la aplicación de prueba
 - **El proyecto de pruebas no se publica**: es material de desarrollo, no de despliegue
 
-## 24.7. Buenas Prácticas
+## 24.7. Buenas prácticas
 
 - **Patrón AAA en cada prueba**, con los tres tiempos marcados
 - **Nombres que se leen como frases**: `Agregar_PrecioNegativo_LanzaArgumentException`
@@ -454,7 +454,7 @@ graph LR
 - **XMLDoc obligatorio** en la lógica de presentación
 - **README siempre actualizado** con los comandos reales del proyecto
 
-## 24.8. Reto: Pruebas de la Tienda de Funkos
+## 24.8. Reto: pruebas de la tienda de Funkos
 
 > Monta las pruebas de tu tienda: lógica del carrito con NUnit, portada y formularios con Playwright y un README que explique cómo se ejecuta y cómo se comprueba, en las dos visiones.
 

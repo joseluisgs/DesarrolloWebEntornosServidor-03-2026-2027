@@ -1,19 +1,19 @@
-- [15. Validaciones, Seguridad y Ataques](#15-validaciones-seguridad-y-ataques)
-  - [15.1. Validación en el Servidor](#151-validación-en-el-servidor)
+- [15. Validaciones, seguridad y ataques](#15-validaciones-seguridad-y-ataques)
+  - [15.1. Validación en el servidor](#151-validación-en-el-servidor)
     - [15.1.1. DataAnnotations y ModelState](#1511-dataannotations-y-modelstate)
-    - [15.1.2. Visión Razor Pages: Validar y Devolver la Página](#1512-visión-razor-pages-validar-y-devolver-la-página)
-    - [15.1.3. Visión MVC: Validar y Devolver la Vista](#1513-visión-mvc-validar-y-devolver-la-vista)
-    - [15.1.4. La Misma Validación, Comparada](#1514-la-misma-validación-comparada)
-    - [15.1.5. FluentValidation: Reglas Fuera del Modelo](#1515-fluentvalidation-reglas-fuera-del-modelo)
-    - [15.1.6. La Alternativa Funcional: Result](#1516-la-alternativa-funcional-result)
-  - [15.2. El Mapa de Ataques](#152-el-mapa-de-ataques)
-  - [15.3. XSS y el Escapado](#153-xss-y-el-escapado)
-  - [15.4. CSRF y el Token Doble](#154-csrf-y-el-token-doble)
-  - [15.5. Cabeceras de Seguridad](#155-cabeceras-de-seguridad)
-  - [15.6. Límite de Peticiones](#156-límite-de-peticiones)
-  - [15.7. Errores, Tamaños y Ficheros](#157-errores-tamaños-y-ficheros)
-  - [15.8. Buenas Prácticas](#158-buenas-prácticas)
-  - [15.9. Reto: Endurece la Alta de Funkos](#159-reto-endurece-la-alta-de-funkos)
+    - [15.1.2. Visión Razor Pages: validar y devolver la página](#1512-visión-razor-pages-validar-y-devolver-la-página)
+    - [15.1.3. Visión MVC: validar y devolver la vista](#1513-visión-mvc-validar-y-devolver-la-vista)
+    - [15.1.4. La misma validación, comparada](#1514-la-misma-validación-comparada)
+    - [15.1.5. FluentValidation: reglas fuera del modelo](#1515-fluentvalidation-reglas-fuera-del-modelo)
+    - [15.1.6. La alternativa funcional: result](#1516-la-alternativa-funcional-result)
+  - [15.2. El mapa de ataques](#152-el-mapa-de-ataques)
+  - [15.3. XSS y el escapado](#153-xss-y-el-escapado)
+  - [15.4. CSRF y el token doble](#154-csrf-y-el-token-doble)
+  - [15.5. Cabeceras de seguridad](#155-cabeceras-de-seguridad)
+  - [15.6. Límite de peticiones](#156-límite-de-peticiones)
+  - [15.7. Errores, tamaños y ficheros](#157-errores-tamaños-y-ficheros)
+  - [15.8. Buenas prácticas](#158-buenas-prácticas)
+  - [15.9. Reto: endurece la alta de Funkos](#159-reto-endurece-la-alta-de-funkos)
     - [15.9.1. Contexto](#1591-contexto)
     - [15.9.2. Modelo de datos](#1592-modelo-de-datos)
     - [15.9.3. Almacenamiento](#1593-almacenamiento)
@@ -21,7 +21,7 @@
 
 
 
-# 15. Validaciones, Seguridad y Ataques
+# 15. Validaciones, seguridad y ataques
 
 > 💡 **Punto de partida:** Cuando intentas entrar en tu banca online con la contraseña equivocada tres veces, la web te bloquea el acceso un rato. Ese bloqueo no lo puso el navegador: lo puso el servidor, que no se fía de nadie. La seguridad de una aplicación es exactamente eso: asumir que cualquier petición puede venir de alguien con malas intenciones y defenderse antes de que llegue la lógica de negocio. En este punto aprendes a validar lo que llega y a cerrar las puertas por las que entran los ataques.
 
@@ -37,7 +37,7 @@ En este punto aprenderás el bloque de seguridad de la unidad: validación de da
 
 > 📝 **Nota:** seguimos con el repositorio en memoria del punto 03 y con `ProductosApp` en sus dos visiones. Los middlewares de este punto son agnósticos: funcionan igual para páginas y para controladores.
 
-## 15.1. Validación en el Servidor
+## 15.1. Validación en el servidor
 
 ### 15.1.1. DataAnnotations y ModelState
 
@@ -73,14 +73,14 @@ graph LR
     B --> C{"¿ModelState.IsValid?"}
     C -->|"No"| D["200<br/>vuelve la vista o la página<br/>con los mensajes"]
     C -->|"Sí"| E["La lógica normal:<br/>guardar y redirigir"]
-    style A fill:#2196F3,color:#fff
-    style B fill:#9C27B0,color:#fff
-    style C fill:#FF9800,color:#fff
-    style D fill:#f44336,color:#fff
-    style E fill:#4CAF50,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#9C27B,color:#fff0,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style D fill:#f4433,color:#fff6,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
 ```
 
-### 15.1.2. Visión Razor Pages: Validar y Devolver la Página
+### 15.1.2. Visión Razor Pages: validar y devolver la página
 
 En la página, quien comprueba es el `OnPost` y quien vuelve a pintar es `Page()`, la misma vista con los errores encima:
 
@@ -109,7 +109,7 @@ Y los mensajes los pinta la propia vista con el Tag Helper de validación:
 </div>
 ```
 
-### 15.1.3. Visión MVC: Validar y Devolver la Vista
+### 15.1.3. Visión MVC: validar y devolver la vista
 
 En MVC, la misma comprobación vive en la acción y el retorno es `View()`; los mensajes los pide la vista con la clave exacta del `ModelState`:
 
@@ -138,13 +138,13 @@ public IActionResult Edicion(ProductoInput input, List<string> etiquetas)
 </div>
 ```
 
-### 15.1.4. La Misma Validación, Comparada
+### 15.1.4. La misma validación, comparada
 
 Y esto es lo que ocurre cuando envías un año imposible (`Input.Anio=1800`) en cualquiera de las dos visiones: la respuesta es **200** con el eco `Datos invalidos`, y el campo correspondiente pinta `El año debe estar entre 2000 y 2030` mientras los campos buenos se quedan vacíos. El navegador vuelve a ver el formulario entero, con los errores en su sitio.
 
 > 💡 **Consejo:** el mensaje vive en el atributo (`ErrorMessage`), no en la vista: si mañana cambia la regla, se toca el modelo y las dos visiones se enteran a la vez, porque comparten `ProductoInput`.
 
-### 15.1.5. FluentValidation: Reglas Fuera del Modelo
+### 15.1.5. FluentValidation: reglas fuera del modelo
 
 Cuando las reglas crecen (fechas coherentes, categorías admitidas, campos condicionales), los atributos se quedan cortos. FluentValidation saca las reglas a una clase dedicada y las encadena con un lenguaje muy legible:
 
@@ -168,7 +168,7 @@ public class ProductoInputValidator : AbstractValidator<ProductoInput>
 
 El validador se registra en la inyección de dependencias y se usa igual en las dos visiones: en la página, antes de `return Page()`; en la acción, antes de `return View()`. Las ventajas respecto a los atributos: reglas condicionales, mensajes agrupados y un modelo de entrada limpio de política de negocio.
 
-### 15.1.6. La Alternativa Funcional: Result
+### 15.1.6. La alternativa funcional: result
 
 La tercera vía es no lanzar ni acumular errores en `ModelState`, sino devolver el resultado de la validación como un valor. El patrón `Result<T>` (del paquete `CSharpFunctionalExtensions`) lo envuelve todo:
 
@@ -187,7 +187,7 @@ public static Result<ProductoInput> Validar(ProductoInput input)
 
 Y quien lo consume decide con un `Match`: camino feliz, camino de error, sin excepciones por el medio. Es la forma en que muchas aplicaciones profesionales separan "¿es válido?" de "¿qué hago con él?", y verás su uso completo en la unidad de arquitectura.
 
-## 15.2. El Mapa de Ataques
+## 15.2. El mapa de ataques
 
 Antes de las defensas, el mapa — estas son las amenazas que esta unidad te enseña a cerrar:
 
@@ -212,25 +212,25 @@ graph TD
     D --> H["Token antiforgery"]
     E --> I["Límite de peticiones"]
     F --> J["Validar nombres"]
-    style A fill:#2196F3,color:#fff
-    style B fill:#FF9800,color:#fff
-    style C fill:#f44336,color:#fff
-    style D fill:#f44336,color:#fff
-    style E fill:#f44336,color:#fff
-    style F fill:#f44336,color:#fff
-    style G fill:#4CAF50,color:#fff
-    style H fill:#4CAF50,color:#fff
-    style I fill:#4CAF50,color:#fff
-    style J fill:#4CAF50,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#FF980,color:#fff0,color:#fff
+    style C fill:#f4433,color:#fff6,color:#fff
+    style D fill:#f4433,color:#fff6,color:#fff
+    style E fill:#f4433,color:#fff6,color:#fff
+    style F fill:#f4433,color:#fff6,color:#fff
+    style G fill:#4CAF5,color:#fff0,color:#fff
+    style H fill:#4CAF5,color:#fff0,color:#fff
+    style I fill:#4CAF5,color:#fff0,color:#fff
+    style J fill:#4CAF5,color:#fff0,color:#fff
 ```
 
-## 15.3. XSS y el Escapado
+## 15.3. XSS y el escapado
 
 El cross-site scripting consiste en convencer al servidor de que pinte, como si fuera tuyo, texto que escribió un atacante: `<script>robaCookies()</script>` en un campo de nombre. Razor ya te protege por defecto: todo lo que es `string` se escapa al pintarlo, y esa es la razón de que `@Model.Nombre` sea seguro aunque el usuario haya intentado meter HTML.
 
 La única forma de romper esa protección es tú, con `Html.Raw` o `HtmlString`, que le dicen al servidor *"esto ya es HTML, no lo toques"*. La regla es tajante: HTML de tu plantilla, sí; texto que venga de un formulario, de la URL o de una base de datos, jamás. Y como segunda línea de defensa, las cabeceras del apartado 15.5 restringen lo que el navegador acepta ejecutar.
 
-## 15.4. CSRF y el Token Doble
+## 15.4. CSRF y el token doble
 
 El cross-site request forgery consiste en que otra web envíe un POST a tu aplicación usando la cookie de sesión que el navegador guarda para ti. Tu servidor no distingue: la cookie llega y parece legítima.
 
@@ -238,7 +238,7 @@ La defensa es un secreto que solo conocen tu formulario y tu servidor: el **toke
 
 📌 **Ejemplo real:** Los bancos añaden una segunda comprobación más allá del token: un número de operación que solo sirve una vez. Es la misma familia de ideas: no basta con que la petición llegue de tu navegador, tiene que llegar con las credenciales del formulario correcto.
 
-## 15.5. Cabeceras de Seguridad
+## 15.5. Cabeceras de seguridad
 
 Los headers HTTP son la fachada de tu servidor: el navegador los lee antes de pintar nada y ajusta su comportamiento. Estos cinco son el equipo mínimo:
 
@@ -278,7 +278,7 @@ Cualquier respuesta de la aplicación, página o acción, sale ya con las cuatro
 
 > 💡 **Consejo:** el orden en el pipeline importa: las cabeceras se añaden antes de que el endpoint pinte, para que también las lleven las respuestas de error.
 
-## 15.6. Límite de Peticiones
+## 15.6. Límite de peticiones
 
 Sin límite, cualquiera puede martillear tu servidor — un script probando contraseñas, un rastreador refrescando tu listado mil veces por minuto o un ataque dirigido a agotar recursos. El **límite de peticiones** (rate limiting) corta por ventana de tiempo: pasas el cupo y la respuesta es **429 Too Many Requests**.
 
@@ -312,7 +312,7 @@ public async Task InvokeAsync(HttpContext context)
 
 En funcionamiento, seis peticiones seguidas devuelven **200, 200, 200, 200, 429, 429**, y la última lleva la cabecera `Retry-After: 10` para que el cliente sepa cuándo volver. Las respuestas bloqueadas ni siquiera llegan al endpoint: el trabajo del servidor se ahorra por completo.
 
-## 15.7. Errores, Tamaños y Ficheros
+## 15.7. Errores, tamaños y ficheros
 
 Tres defensas que cierran el mapa:
 
@@ -329,7 +329,7 @@ public IActionResult Edicion(ProductoInput input, List<string> etiquetas)
 
 **Nombres de fichero.** Quien sube un archivo puede intentar escribir fuera de tu almacén con un nombre como `../../appsettings.json`. La defensa es no confiar en ningún nombre: rechazar `..`, barras y contrabarras, exigir extensiones conocidas y comprobar el tamaño. Ese servicio completo lo montamos en el punto 16; aquí queda la idea — el nombre que llega del cliente es dato hostil hasta que lo validas.
 
-## 15.8. Buenas Prácticas
+## 15.8. Buenas prácticas
 
 - **Valida en el servidor, siempre**: el navegador ayuda, pero el navegador lo controla el atacante
 - **Un atributo, un mensaje**: cada regla lleva su `ErrorMessage` y vive en el modelo, no en la vista
@@ -340,7 +340,7 @@ public IActionResult Edicion(ProductoInput input, List<string> etiquetas)
 - **Errores limpios en producción**: los detalles al registro, una página amable al usuario
 - **Ningún nombre de fichero es de fiar**: valida extensión, tamaño y forma antes de tocar el disco
 
-## 15.9. Reto: Endurece la Alta de Funkos
+## 15.9. Reto: endurece la alta de Funkos
 
 > Pásale la batería de seguridad al alta de tu tienda: validaciones, cabeceras, límites y techo de tamaño.
 

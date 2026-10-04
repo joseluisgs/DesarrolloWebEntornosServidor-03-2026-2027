@@ -1,31 +1,31 @@
-- [5. Layouts, Partials y Componentes de Vista](#5-layouts-partials-y-componentes-de-vista)
-  - [5.1. El Problema: Repetir la Misma Estructura](#51-el-problema-repetir-la-misma-estructura)
-    - [5.1.1. Copiar y Pegar en Cada Página](#511-copiar-y-pegar-en-cada-página)
-    - [5.1.2. Tres Niveles de Reutilización](#512-tres-niveles-de-reutilización)
-  - [5.2. El Layout: la Plantilla Maestra](#52-el-layout-la-plantilla-maestra)
-    - [5.2.1. El Gancho que Fija el Layout](#521-el-gancho-que-fija-el-layout)
-    - [5.2.2. La Plantilla y RenderBody](#522-la-plantilla-y-renderbody)
+- [5. Layouts, partials y componentes de vista](#5-layouts-partials-y-componentes-de-vista)
+  - [5.1. El problema: repetir la misma estructura](#51-el-problema-repetir-la-misma-estructura)
+    - [5.1.1. Copiar y pegar en cada página](#511-copiar-y-pegar-en-cada-página)
+    - [5.1.2. Tres niveles de reutilización](#512-tres-niveles-de-reutilización)
+  - [5.2. El layout: la plantilla maestra](#52-el-layout-la-plantilla-maestra)
+    - [5.2.1. El gancho que fija el layout](#521-el-gancho-que-fija-el-layout)
+    - [5.2.2. La plantilla y RenderBody](#522-la-plantilla-y-renderbody)
     - [5.2.3. Secciones con RenderSectionAsync](#523-secciones-con-rendersectionasync)
-    - [5.2.4. Layouts Anidados y el Layout Nulo](#524-layouts-anidados-y-el-layout-nulo)
-  - [5.3. Vistas Parciales](#53-vistas-parciales)
-    - [5.3.1. Parciales sin Modelo](#531-parciales-sin-modelo)
-    - [5.3.2. Parciales con Modelo](#532-parciales-con-modelo)
+    - [5.2.4. Layouts anidados y el layout nulo](#524-layouts-anidados-y-el-layout-nulo)
+  - [5.3. Vistas parciales](#53-vistas-parciales)
+    - [5.3.1. Parciales sin modelo](#531-parciales-sin-modelo)
+    - [5.3.2. Parciales con modelo](#532-parciales-con-modelo)
     - [5.3.3. Partial y PartialAsync](#533-partial-y-partialasync)
-  - [5.4. Componentes de Vista](#54-componentes-de-vista)
-    - [5.4.1. Por Qué no Basta una Parcial](#541-por-qué-no-basta-una-parcial)
-    - [5.4.2. Crear un Componente](#542-crear-un-componente)
-    - [5.4.3. Invocarlo: InvokeAsync y la Etiqueta vc](#543-invocarlo-invokeasync-y-la-etiqueta-vc)
-  - [5.5. _ViewImports: las Directivas Compartidas](#55-_viewimports-las-directivas-compartidas)
-    - [5.5.1. Las Directivas que Comparte](#551-las-directivas-que-comparte)
-    - [5.5.2. Registrar los Tag Helpers del Proyecto](#552-registrar-los-tag-helpers-del-proyecto)
-  - [5.6. Buenas Prácticas](#56-buenas-prácticas)
-  - [5.7. Reto: Da estructura a FunkoApp con layout, parciales y componentes](#57-reto-da-estructura-a-funkoapp-con-layout-parciales-y-componentes)
+  - [5.4. Componentes de vista](#54-componentes-de-vista)
+    - [5.4.1. Por qué no basta una parcial](#541-por-qué-no-basta-una-parcial)
+    - [5.4.2. Crear un componente](#542-crear-un-componente)
+    - [5.4.3. Invocarlo: InvokeAsync y la etiqueta vc](#543-invocarlo-invokeasync-y-la-etiqueta-vc)
+  - [5.5. _ViewImports: las directivas compartidas](#55-_viewimports-las-directivas-compartidas)
+    - [5.5.1. Las directivas que comparte](#551-las-directivas-que-comparte)
+    - [5.5.2. Registrar los Tag Helpers del proyecto](#552-registrar-los-tag-helpers-del-proyecto)
+  - [5.6. Buenas prácticas](#56-buenas-prácticas)
+  - [5.7. Reto: da estructura a FunkoApp con layout, parciales y componentes](#57-reto-da-estructura-a-funkoapp-con-layout-parciales-y-componentes)
     - [5.7.1. Contexto](#571-contexto)
     - [5.7.2. Retos](#572-retos)
 
 
 
-# 5. Layouts, Partials y Componentes de Vista
+# 5. Layouts, partials y componentes de vista
 
 > 💡 **Punto de partida:** Cuando abres cualquier sección de Amazon, la barra de búsqueda, el menú y el pie son idénticos página tras página. Si Amazon cambiara el pie en cada plantilla, tardaría meses; en su sitio, lo cambian una vez y se actualiza en todo el sitio. La solución se llama layout, y en este punto aprendes a trocear la interfaz en piezas reutilizables: layout, vistas parciales y componentes de vista.
 
@@ -41,9 +41,9 @@ En este punto aprenderás a trocear la interfaz en tres piezas reutilizables (la
 
 > 📝 **Nota:** seguimos con ProductosApp y el repositorio en memoria. Sin base de datos y sin controladores: todo sigue viviendo en las vistas. Ahora lo que hacemos es *organizarlo*.
 
-## 5.1. El Problema: Repetir la Misma Estructura
+## 5.1. El problema: repetir la misma estructura
 
-### 5.1.1. Copiar y Pegar en Cada Página
+### 5.1.1. Copiar y pegar en cada página
 
 **❌ Así se ve una página antes del punto:**
 
@@ -84,7 +84,7 @@ El contenido real ocupa **4 líneas**; el armazón, **20**. Multiplicado por die
 
 > 💡 **Analogía:** Es la diferencia entre coser el cuello a cada camiseta por separado y tener una plantilla de corte. Misma camiseta, un minuto en vez de una hora.
 
-### 5.1.2. Tres Niveles de Reutilización
+### 5.1.2. Tres niveles de reutilización
 
 No todo lo que se repite es lo mismo. Por eso hay tres herramientas, y cada una resuelve un tamaño distinto:
 
@@ -102,16 +102,16 @@ graph TD
     C1 --> F["Se invoca donde<br/>tú quieras"]
     D1 --> G["Se invoca donde<br/>tú quieras"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#2196F3,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#9C27B0,color:#fff
-    style B1 fill:#2196F3,color:#fff
-    style C1 fill:#4CAF50,color:#fff
-    style D1 fill:#9C27B0,color:#fff
-    style E fill:#2196F3,color:#fff
-    style F fill:#4CAF50,color:#fff
-    style G fill:#9C27B0,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#9C27B,color:#fff0,color:#fff
+    style B1 fill:#2196F,color:#fff3,color:#fff
+    style C1 fill:#4CAF5,color:#fff0,color:#fff
+    style D1 fill:#9C27B,color:#fff0,color:#fff
+    style E fill:#2196F,color:#fff3,color:#fff
+    style F fill:#4CAF5,color:#fff0,color:#fff
+    style G fill:#9C27B,color:#fff0,color:#fff
 ```
 
 | Herramienta | ¿Qué reutiliza? | ¿Tiene lógica propia? | Ejemplo en ProductosApp |
@@ -122,9 +122,9 @@ graph TD
 
 > ⚠️ **Advertencia:** Elegir mal cuesta. Si creas un View Component para pintar un pie de página que no necesita datos, estás metiendo C# donde bastaba HTML. Y si creas una parcial para un contador que debe consultar el repositorio, te quedará un lío de "la vista le pasa los datos a la parcial, que a su vez...". Usa la tabla de arriba.
 
-## 5.2. El Layout: la Plantilla Maestra
+## 5.2. El layout: la plantilla maestra
 
-### 5.2.1. El Gancho que Fija el Layout
+### 5.2.1. El gancho que fija el layout
 
 Si cada página tuviera que escribir `Layout = "_Layout";`, estaríamos en lo mismo de antes: repetición. Para evitarlo existe **`_ViewStart.cshtml`**, un fichero que ASP.NET Core ejecuta antes que cualquier vista de esa carpeta y de sus subcarpetas.
 
@@ -140,7 +140,7 @@ Tres líneas. A partir de ahí, todas las páginas heredan el layout sin decir n
 
 📌 **Ejemplo real:** Es el mismo truco que usan los procesadores de texto con el **estilo "Normal"**. No escribes la fuente en cada párrafo: defines una vez qué fuente lleva *Normal* y todos los párrafos que usen ese estilo la heredan.
 
-### 5.2.2. La Plantilla y RenderBody
+### 5.2.2. La plantilla y RenderBody
 
 El layout vive en `Pages/Shared/_Layout.cshtml` y es una página HTML normal... con un hueco: `@RenderBody()`.
 
@@ -191,16 +191,16 @@ graph TD
     E --> I["Index.cshtml<br/>el contenido"]
     I --> J["HTML final<br/>al navegador"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#FF9800,color:#fff
-    style C fill:#2196F3,color:#fff
-    style D fill:#4CAF50,color:#fff
-    style E fill:#2196F3,color:#fff
-    style F fill:#4CAF50,color:#fff
-    style G fill:#9C27B0,color:#fff
-    style H fill:#9C27B0,color:#fff
-    style I fill:#4CAF50,color:#fff
-    style J fill:#607D8B,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#FF980,color:#fff0,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
+    style E fill:#2196F,color:#fff3,color:#fff
+    style F fill:#4CAF5,color:#fff0,color:#fff
+    style G fill:#9C27B,color:#fff0,color:#fff
+    style H fill:#9C27B,color:#fff0,color:#fff
+    style I fill:#4CAF5,color:#fff0,color:#fff
+    style J fill:#607D8,color:#fffB,color:#fff
 ```
 
 | Pieza del layout | Para qué sirve |
@@ -255,7 +255,7 @@ Y en el HTML final, cada sección aparece en su hueco: `Styles` **dentro del `<h
 
 > ⚠️ **Advertencia:** `required: true` es un arma de doble filo. Si mañana añades una página nueva y olvidas la sección, la aplicación se rompe en tiempo de ejecución con un 500. Para scripts y estilos opcionales, **`required: false` siempre**.
 
-### 5.2.4. Layouts Anidados y el Layout Nulo
+### 5.2.4. Layouts anidados y el layout nulo
 
 El layout no tiene por qué ser único. Puedes encadenar: una plantilla secundaria que a su vez hereda de la principal.
 
@@ -302,11 +302,11 @@ El orden de renderizado es exactamente este: la cabecera del `_Layout` principal
 
 > 💡 **Analogía:** Un layout anidado es una caja dentro de otra caja. El contenido va en la caja pequeña, la caja pequeña va en la grande, y la grande es la que viaja.
 
-## 5.3. Vistas Parciales
+## 5.3. Vistas parciales
 
 Un trozo de HTML en `.cshtml` que se inserta dentro de otra vista. Vive en `Pages/Shared/` (o `Views/Shared/` en MVC) y **empieza por `_`** por convención: así se ve de un vistazo que es una pieza, no una página.
 
-### 5.3.1. Parciales sin Modelo
+### 5.3.1. Parciales sin modelo
 
 Para trozos que no necesitan datos: cabecera, pie, aviso fijo...
 
@@ -334,7 +334,7 @@ Para trozos que no necesitan datos: cabecera, pie, aviso fijo...
 
 Sin modelo, sin parámetros, sin ceremonia. HTML puro que se pega donde lo pidas.
 
-### 5.3.2. Parciales con Modelo
+### 5.3.2. Parciales con modelo
 
 Cuando el trozo sí depende de datos, la parcial declara su modelo con `@model`.
 
@@ -381,13 +381,13 @@ graph LR
     E --> G["HTML combinado"]
     F --> G
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#FF9800,color:#fff
-    style C fill:#4CAF50,color:#fff
-    style D fill:#2196F3,color:#fff
-    style E fill:#4CAF50,color:#fff
-    style F fill:#9C27B0,color:#fff
-    style G fill:#607D8B,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#FF980,color:#fff0,color:#fff
+    style C fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#2196F,color:#fff3,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#9C27B,color:#fff0,color:#fff
+    style G fill:#607D8,color:#fffB,color:#fff
 ```
 
 | Sintaxis | Cuándo usarla |
@@ -401,9 +401,9 @@ En la misma página, una invocación con `<partial>` y otra con `PartialAsync` p
 
 > 💡 **Consejo:** Si necesitas pasarle a la parcial un modelo tipado desde la propia página, usa `<partial for="MiObjeto" />` con `@model MiTipo` en la vista principal. El `for` le dice a la parcial: *"este es tu modelo"*.
 
-## 5.4. Componentes de Vista
+## 5.4. Componentes de vista
 
-### 5.4.1. Por Qué no Basta una Parcial
+### 5.4.1. Por qué no basta una parcial
 
 Una parcial es un trozo de HTML al que le pasan los datos. Pero hay trozos que necesitan buscar sus propios datos: un contador, un menú de categorías, un resumen.
 
@@ -421,20 +421,20 @@ graph TD
     B1 --> D["Tarjetas · pies · avisos"]
     C1 --> E["Contadores · resúmenes<br/>menús dinámicos"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#2196F3,color:#fff
-    style C fill:#9C27B0,color:#fff
-    style B1 fill:#2196F3,color:#fff
-    style B2 fill:#2196F3,color:#fff
-    style C1 fill:#9C27B0,color:#fff
-    style C2 fill:#9C27B0,color:#fff
-    style D fill:#4CAF50,color:#fff
-    style E fill:#4CAF50,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#2196F,color:#fff3,color:#fff
+    style C fill:#9C27B,color:#fff0,color:#fff
+    style B1 fill:#2196F,color:#fff3,color:#fff
+    style B2 fill:#2196F,color:#fff3,color:#fff
+    style C1 fill:#9C27B,color:#fff0,color:#fff
+    style C2 fill:#9C27B,color:#fff0,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** En Instagram, el número de seguidores de un perfil no se lo pasa la página al componente: el componente lo consulta él mismo cada vez que se pinta. Si se lo tuviera que pasar la vista, cada vista que quiera mostrar seguidores tendría que repetir la misma consulta. Un View Component evita exactamente eso.
 
-### 5.4.2. Crear un Componente
+### 5.4.2. Crear un componente
 
 Un componente son dos ficheros: la clase C# y su vista.
 
@@ -491,7 +491,7 @@ public class ResumenProductosViewComponent : ViewComponent
 | **Archivo de la vista** | `Default.cshtml` por defecto | `Default.cshtml` |
 | **Sin registro en DI** | No hay que añadirlo en `Program.cs` | Se descubre solo |
 
-### 5.4.3. Invocarlo: InvokeAsync y la Etiqueta vc
+### 5.4.3. Invocarlo: InvokeAsync y la etiqueta vc
 
 Hay dos formas, y ambas respetan el parámetro `limite`.
 
@@ -512,11 +512,11 @@ La conversión del nombre es automática pero hay que conocerla: `ResumenProduct
 
 > 💡 **Truco:** Si te aparece `<vc:resumen-productos limite="2" />` literalmente en el navegador, no has roto el componente: falta registrar los Tag Helpers del proyecto en `_ViewImports.cshtml`. Es la sección siguiente, y es el error más común del punto.
 
-## 5.5. _ViewImports: las Directivas Compartidas
+## 5.5. _ViewImports: las directivas compartidas
 
 `_ViewImports.cshtml` no produce HTML: es el fichero que ASP.NET Core aplica a todas las vistas de su carpeta y subcarpetas antes que nada. Es donde vive lo que se repite.
 
-### 5.5.1. Las Directivas que Comparte
+### 5.5.1. Las directivas que comparte
 
 ```cshtml
 @using ProductosApp
@@ -538,22 +538,22 @@ graph TD
     E["Si falta C"] --> E1["partial sale<br/>como TEXTO literal"]
     F["Si falta D"] --> F1["vc:resumen-productos<br/>sale como TEXTO literal"]
 
-    style A fill:#607D8B,color:#fff
-    style B fill:#4CAF50,color:#fff
-    style C fill:#2196F3,color:#fff
-    style D fill:#9C27B0,color:#fff
-    style B1 fill:#4CAF50,color:#fff
-    style C1 fill:#2196F3,color:#fff
-    style D1 fill:#9C27B0,color:#fff
-    style E fill:#f44336,color:#fff
-    style E1 fill:#f44336,color:#fff
-    style F fill:#f44336,color:#fff
-    style F1 fill:#f44336,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style B fill:#4CAF5,color:#fff0,color:#fff
+    style C fill:#2196F,color:#fff3,color:#fff
+    style D fill:#9C27B,color:#fff0,color:#fff
+    style B1 fill:#4CAF5,color:#fff0,color:#fff
+    style C1 fill:#2196F,color:#fff3,color:#fff
+    style D1 fill:#9C27B,color:#fff0,color:#fff
+    style E fill:#f4433,color:#fff6,color:#fff
+    style E1 fill:#f4433,color:#fff6,color:#fff
+    style F fill:#f4433,color:#fff6,color:#fff
+    style F1 fill:#f4433,color:#fff6,color:#fff
 ```
 
 📌 **Ejemplo real:** En el punto anterior nos quejamos de que cada vista necesitaba `@using ProductosApp.Models` y `@using ProductosApp.Repositories`. Este es el sitio donde se escriben una vez y desaparecen de todas las demás.
 
-### 5.5.2. Registrar los Tag Helpers del Proyecto
+### 5.5.2. Registrar los Tag Helpers del proyecto
 
 La directiva `@addTagHelper` dice: *"busca en esta asamblea las etiquetas que sabes interpretar"*. Y el asterisco significa *"toda la asamblea"*.
 
@@ -568,7 +568,7 @@ Existe además una asamblea `Microsoft.AspNetCore.Mvc.ViewComponents` que parece
 
 > 💡 **Consejo:** El orden de las líneas no importa. Lo que importa es no borrarlas sin saber qué hacen.
 
-## 5.6. Buenas Prácticas
+## 5.6. Buenas prácticas
 
 - **Usa `_ViewStart.cshtml`** para fijar el layout: escríbelo una vez y no lo toques nunca más
 - **Trocea el layout**: cabecera, pie y contenido como parciales — un layout de 200 líneas es una señal de que algo debería estar fuera
@@ -582,7 +582,7 @@ Existe además una asamblea `Microsoft.AspNetCore.Mvc.ViewComponents` que parece
 - **No pases datos a una parcial desde cinco sitios**: si necesita buscarlos, es un View Component
 - **No borres una línea de `_ViewImports.cshtml`** sin comprobar qué etiquetas dependen de ella
 
-## 5.7. Reto: Da estructura a FunkoApp con layout, parciales y componentes
+## 5.7. Reto: da estructura a FunkoApp con layout, parciales y componentes
 
 > Dale estructura a FunkoApp: de una página con 200 líneas de armazón a un layout, tres parciales y un componente.
 

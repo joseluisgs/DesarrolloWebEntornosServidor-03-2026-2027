@@ -1,25 +1,25 @@
-- [22. Internacionalización (I18n) y Localización](#22-internacionalización-i18n-y-localización)
-  - [22.1. Conceptos: Internacionalización y Localización](#221-conceptos-internacionalización-y-localización)
-    - [22.1.1. Qué es la Internacionalización y Qué es la Localización](#2211-qué-es-la-internacionalización-y-qué-es-la-localización)
-    - [22.1.2. Cultura: Idioma, Región y Formatos](#2212-cultura-idioma-región-y-formatos)
-  - [22.2. Los Ficheros de Recursos .resx](#222-los-ficheros-de-recursos-resx)
-    - [22.2.1. Anatomía y Nomenclatura](#2221-anatomía-y-nomenclatura)
-    - [22.2.2. SharedResource: Traducciones Globales](#2222-sharedresource-traducciones-globales)
-  - [22.3. Detección de Cultura y Configuración](#223-detección-de-cultura-y-configuración)
-    - [22.3.1. El Orden de los Proveedores](#2231-el-orden-de-los-proveedores)
-    - [22.3.2. LocalizationConfig: el Concern de Infrastructure](#2232-localizationconfig-el-concern-de-infrastructure)
+- [22. Internacionalización (I18n) y localización](#22-internacionalización-i18n-y-localización)
+  - [22.1. Conceptos: internacionalización y localización](#221-conceptos-internacionalización-y-localización)
+    - [22.1.1. Qué es la internacionalización y qué es la localización](#2211-qué-es-la-internacionalización-y-qué-es-la-localización)
+    - [22.1.2. Cultura: idioma, región y formatos](#2212-cultura-idioma-región-y-formatos)
+  - [22.2. Los ficheros de recursos .resx](#222-los-ficheros-de-recursos-resx)
+    - [22.2.1. Anatomía y nomenclatura](#2221-anatomía-y-nomenclatura)
+    - [22.2.2. SharedResource: traducciones globales](#2222-sharedresource-traducciones-globales)
+  - [22.3. Detección de cultura y configuración](#223-detección-de-cultura-y-configuración)
+    - [22.3.1. El orden de los proveedores](#2231-el-orden-de-los-proveedores)
+    - [22.3.2. LocalizationConfig: el concern de Infrastructure](#2232-localizationconfig-el-concern-de-infrastructure)
     - [22.3.3. Visión Razor Pages: Program.cs](#2233-visión-razor-pages-programcs)
     - [22.3.4. Visión MVC: Program.cs](#2234-visión-mvc-programcs)
-  - [22.4. Localizar la Presentación](#224-localizar-la-presentación)
-    - [22.4.1. Visión Razor Pages: Vistas y PageModel](#2241-visión-razor-pages-vistas-y-pagemodel)
-    - [22.4.2. Visión MVC: Vistas y Controlador](#2242-visión-mvc-vistas-y-controlador)
-    - [22.4.3. Validaciones, JavaScript y Enums](#2243-validaciones-javascript-y-enums)
-  - [22.5. Formatos Culturales y Selector de Idioma](#225-formatos-culturales-y-selector-de-idioma)
-    - [22.5.1. Números, Fechas y Moneda](#2251-números-fechas-y-moneda)
-    - [22.5.2. El Selector de Idioma con Cookie](#2252-el-selector-de-idioma-con-cookie)
-  - [22.6. Reglas de Seguridad](#226-reglas-de-seguridad)
-  - [22.7. Buenas Prácticas](#227-buenas-prácticas)
-  - [22.8. Reto: El Idioma de la Tienda de Funkos](#228-reto-el-idioma-de-la-tienda-de-funkos)
+  - [22.4. Localizar la presentación](#224-localizar-la-presentación)
+    - [22.4.1. Visión Razor Pages: vistas y PageModel](#2241-visión-razor-pages-vistas-y-pagemodel)
+    - [22.4.2. Visión MVC: vistas y controlador](#2242-visión-mvc-vistas-y-controlador)
+    - [22.4.3. Validaciones, JavaScript y enums](#2243-validaciones-javascript-y-enums)
+  - [22.5. Formatos culturales y selector de idioma](#225-formatos-culturales-y-selector-de-idioma)
+    - [22.5.1. Números, fechas y moneda](#2251-números-fechas-y-moneda)
+    - [22.5.2. El selector de idioma con cookie](#2252-el-selector-de-idioma-con-cookie)
+  - [22.6. Reglas de seguridad](#226-reglas-de-seguridad)
+  - [22.7. Buenas prácticas](#227-buenas-prácticas)
+  - [22.8. Reto: el idioma de la tienda de Funkos](#228-reto-el-idioma-de-la-tienda-de-funkos)
     - [22.8.1. Contexto](#2281-contexto)
     - [22.8.2. Modelo de datos](#2282-modelo-de-datos)
     - [22.8.3. Almacenamiento](#2283-almacenamiento)
@@ -27,7 +27,7 @@
 
 
 
-# 22. Internacionalización (I18n) y Localización
+# 22. Internacionalización (I18n) y localización
 
 > 💡 **Punto de partida:** reservas un vuelo en Booking desde tu móvil y ves "Reservar ahora", el precio en euros y la fecha en formato español; tu compañero, con la cuenta en inglés, ve "Book now", dólares y mes primero. La lógica que calcula el precio es la misma en los dos casos — lo que cambia son los textos y los formatos con los que se pinta. ¿Cómo se prepara una aplicación para hablar varios idiomas sin duplicar vistas ni lógica, y cómo decide el servidor cuál le toca a cada petición?
 
@@ -41,9 +41,9 @@ En este punto aprenderás a montar la localización completa de una aplicación:
 - Localizar vistas, lógica y validaciones en las dos visiones
 - Formatear números y fechas según la cultura y montar un selector de idioma con cookie
 
-## 22.1. Conceptos: Internacionalización y Localización
+## 22.1. Conceptos: internacionalización y localización
 
-### 22.1.1. Qué es la Internacionalización y Qué es la Localización
+### 22.1.1. Qué es la internacionalización y qué es la localización
 
 **La internacionalización prepara el programa para que admita varios idiomas; la localización es la tarea de adaptarlo a uno concreto.** La primera se hace una vez, al escribir el código: nada de textos incrustados en vistas, nada de formatos duros, todo preparado para preguntar "¿en qué idioma?". La segunda se repite por cada idioma: añadir los textos, revisar los formatos y comprobar que todo encaja.
 
@@ -54,11 +54,11 @@ graph TD
     P --> N["Ingles<br/>SharedResource.en.resx"]
     E --> V["La misma vista<br/>pinta segun la cultura"]
     N --> V
-    style I fill:#2196F3,color:#fff
-    style P fill:#FF9800,color:#fff
-    style E fill:#4CAF50,color:#fff
-    style N fill:#9C27B0,color:#fff
-    style V fill:#607D8B,color:#fff
+    style I fill:#2196F,color:#fff3,color:#fff
+    style P fill:#FF980,color:#fff0,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
+    style N fill:#9C27B,color:#fff0,color:#fff
+    style V fill:#607D8,color:#fffB,color:#fff
 ```
 
 | | Internacionalización | Localización |
@@ -71,7 +71,7 @@ graph TD
 
 📌 **Ejemplo real:** Booking. La misma búsqueda de vuelos se sirve en español, inglés o japonés; la lógica es una sola y lo que cambia son los textos y los formatos que se pintan.
 
-### 22.1.2. Cultura: Idioma, Región y Formatos
+### 22.1.2. Cultura: idioma, región y formatos
 
 **La cultura no es solo el idioma: es la combinación de idioma y región que decide cómo se escribe el mundo.** `es-ES` y `en-US` no solo cambian las palabras — también el separador de decimales, la moneda, el orden de la fecha y hasta el signo de porcentaje. El mismo valor, pintado por cada cultura, sale distinto:
 
@@ -83,9 +83,9 @@ graph TD
 
 > 📝 **Nota:** la cultura activa se consulta con `CultureInfo.CurrentUICulture` para los textos y `CultureInfo.CurrentCulture` para los formatos; en una web, el middleware de localización las pone ambas en cada petición.
 
-## 22.2. Los Ficheros de Recursos .resx
+## 22.2. Los ficheros de recursos .resx
 
-### 22.2.1. Anatomía y Nomenclatura
+### 22.2.1. Anatomía y nomenclatura
 
 **Los textos salen del código y viven en ficheros `.resx`, uno por idioma, con pares clave-valor.** El fichero neutral (`SharedResource.resx`) es el de la casa, el que se pinta cuando no hay traducción; los demás (`SharedResource.en.resx`, `SharedResource.fr.resx`) traen sus versiones:
 
@@ -116,7 +116,7 @@ La nomenclatura manda:
 
 📌 **Ejemplo real:** WordPress guarda sus textos traducidos en ficheros por idioma; quien añade un idioma nuevo no toca el código, solo añade su fichero.
 
-### 22.2.2. SharedResource: Traducciones Globales
+### 22.2.2. SharedResource: traducciones globales
 
 **El patrón `SharedResource` concentra las traducciones de toda la aplicación en una única familia de ficheros, con una clase marcadora.** El localizador se apoya en esa clase para saber dónde buscar:
 
@@ -151,19 +151,19 @@ graph TD
     A -->|no| N["SharedResource.resx<br/>el neutral de la casa"]
     R --> T["Devuelve el texto traducido"]
     N --> T
-    style P fill:#2196F3,color:#fff
-    style L fill:#FF9800,color:#fff
-    style A fill:#607D8B,color:#fff
-    style R fill:#9C27B0,color:#fff
-    style N fill:#9C27B0,color:#fff
-    style T fill:#4CAF50,color:#fff
+    style P fill:#2196F,color:#fff3,color:#fff
+    style L fill:#FF980,color:#fff0,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style R fill:#9C27B,color:#fff0,color:#fff
+    style N fill:#9C27B,color:#fff0,color:#fff
+    style T fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 📌 **Ejemplo real:** Cualquier panel administrativo multiidioma separa sus textos globales (botones, avisos, errores) de los de cada vista; los primeros viven en un recurso compartido y se traducen una sola vez.
 
-## 22.3. Detección de Cultura y Configuración
+## 22.3. Detección de cultura y configuración
 
-### 22.3.1. El Orden de los Proveedores
+### 22.3.1. El orden de los proveedores
 
 **El middleware de localización decide la cultura de cada petición preguntando a una lista de proveedores, y gana el primero que contesta.** El orden por defecto, y el que usamos aquí, es query, cookie y cabecera — si ninguno contesta, manda la cultura de fábrica:
 
@@ -173,11 +173,11 @@ graph TD
     Q -->|no la trae| C["Cookie: .AspNetCore.Culture"]
     C -->|no la trae| A["Cabecera: Accept-Language"]
     A -->|no la trae| D["Por defecto: es-ES"]
-    style P fill:#2196F3,color:#fff
-    style Q fill:#FF9800,color:#fff
-    style C fill:#9C27B0,color:#fff
-    style A fill:#607D8B,color:#fff
-    style D fill:#4CAF50,color:#fff
+    style P fill:#2196F,color:#fff3,color:#fff
+    style Q fill:#FF980,color:#fff0,color:#fff
+    style C fill:#9C27B,color:#fff0,color:#fff
+    style A fill:#607D8,color:#fffB,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 Cada proveedor, medido en las dos visiones:
@@ -192,7 +192,7 @@ Cada proveedor, medido en las dos visiones:
 
 📌 **Ejemplo real:** Netflix decide el idioma de la interfaz con la preferencia de tu cuenta, pero si abres la web en el móvil de otro país, la cabecera `Accept-Language` puede anticiparse.
 
-### 22.3.2. LocalizationConfig: el Concern de Infrastructure
+### 22.3.2. LocalizationConfig: el concern de Infrastructure
 
 **La localización se cablea como todo lo demás: una clase en `Infrastructure` con sus dos métodos de extensión, uno para los servicios y otro para el conducto:**
 
@@ -293,9 +293,9 @@ app.Run();
 
 > 📝 **Nota:** `UseAppLocalization` va antes de routing y de los endpoints, para que la cultura esté decidida cuando tu código pinte algo.
 
-## 22.4. Localizar la Presentación
+## 22.4. Localizar la presentación
 
-### 22.4.1. Visión Razor Pages: Vistas y PageModel
+### 22.4.1. Visión Razor Pages: vistas y PageModel
 
 **En páginas hay dos localizadores y cada uno tiene su sitio: la vista pinta con `IHtmlLocalizer<SharedResource>` y la lógica piensa con `IStringLocalizer<SharedResource>`:**
 
@@ -342,7 +342,7 @@ El mismo texto llega por los dos caminos: con `?lang=en-US` la página pinta `We
 
 > ⚠️ **Advertencia:** las páginas solo ejecutan sus manejadores si el modelo va declarado: una página con `@page` y sin `@model` se pinta igual, pero `OnGet` no se invoca ni se escribe la cookie del idioma. Es la trampa que hace que "la página cambia de idioma pero el conmutador no hace nada".
 
-### 22.4.2. Visión MVC: Vistas y Controlador
+### 22.4.2. Visión MVC: vistas y controlador
 
 **En MVC el reparto es el mismo: la vista pinta con el localizador de vistas y el controlador piensa con el de cadena:**
 
@@ -371,7 +371,7 @@ public class PortadaController(IStringLocalizer<SharedResource> localizador) : C
 
 > 📝 **Nota:** el localizador de vistas se inyecta como `IHtmlLocalizer<SharedResource>`; el que devuelve cadena, `IStringLocalizer<SharedResource>`, es el de la lógica y de las validaciones.
 
-### 22.4.3. Validaciones, JavaScript y Enums
+### 22.4.3. Validaciones, JavaScript y enums
 
 **Localizar no son solo los textos de las vistas: también los mensajes de validación, los textos que JavaScript pinta y los nombres de los enumerados.**
 
@@ -384,15 +384,15 @@ graph TD
     HL --> T["Los mismos textos<br/>en las dos visiones"]
     SL --> T
     DA --> T
-    style V fill:#2196F3,color:#fff
-    style L fill:#2196F3,color:#fff
-    style F fill:#2196F3,color:#fff
-    style J fill:#2196F3,color:#fff
-    style HL fill:#FF9800,color:#fff
-    style SL fill:#FF9800,color:#fff
-    style DA fill:#9C27B0,color:#fff
-    style G fill:#607D8B,color:#fff
-    style T fill:#4CAF50,color:#fff
+    style V fill:#2196F,color:#fff3,color:#fff
+    style L fill:#2196F,color:#fff3,color:#fff
+    style F fill:#2196F,color:#fff3,color:#fff
+    style J fill:#2196F,color:#fff3,color:#fff
+    style HL fill:#FF980,color:#fff0,color:#fff
+    style SL fill:#FF980,color:#fff0,color:#fff
+    style DA fill:#9C27B,color:#fff0,color:#fff
+    style G fill:#607D8,color:#fffB,color:#fff
+    style T fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 | Qué se localiza | Cómo |
@@ -426,9 +426,9 @@ graph TD
 
 📌 **Ejemplo real:** Spotify pinta "Reproducir" o "Play" según el idioma de tu perfil sin tener dos programas: la vista pregunta al recurso y el recurso contesta en el idioma activo.
 
-## 22.5. Formatos Culturales y Selector de Idioma
+## 22.5. Formatos culturales y selector de idioma
 
-### 22.5.1. Números, Fechas y Moneda
+### 22.5.1. Números, fechas y moneda
 
 **Los formatos se piden a la cultura activa, nunca a secas.** `ToString("C")` sin cultura usa la del hilo, que en una web la ha puesto el middleware; para fechas y monedas esa es la única forma correcta:
 
@@ -452,7 +452,7 @@ Assert.That(texto, Is.EqualTo("$0.21"));
 
 📌 **Ejemplo real:** Cualquier web de viajes muestra la fecha del vuelo en el formato del país del aeropuerto: `04/10/2026` en Madrid y `10/04/2026` en Nueva York, con el mismo dato detrás.
 
-### 22.5.2. El Selector de Idioma con Cookie
+### 22.5.2. El selector de idioma con cookie
 
 **El selector de idioma es una página o una acción que escribe la cookie de cultura y redirige a la portada — la elección sobrevive a la siguiente petición:**
 
@@ -502,7 +502,7 @@ La localización también puede viajar en la URL, con la cultura como prefijo de
 
 📌 **Ejemplo real:** Booking cambia el idioma al pulsar la bandera y recuerda la elección para la próxima visita: el conmutador escribe una cookie y el servidor la respeta.
 
-## 22.6. Reglas de Seguridad
+## 22.6. Reglas de seguridad
 
 - **Culturas validadas en el conmutador**: `new CultureInfo(...)` puede lanzar; se acota a la lista soportada antes de escribir la cookie
 - **La cookie de cultura no es de identidad**: cambia el idioma de la interfaz, no quién eres ni qué puedes hacer
@@ -511,7 +511,7 @@ La localización también puede viajar en la URL, con la cultura como prefijo de
 - **Los `.resx` son código**: se revisan y se versionan como el resto del repositorio
 - **Traducciones revisadas por humanos**: el traductor automático no conoce tu producto ni tus errores
 
-## 22.7. Buenas Prácticas
+## 22.7. Buenas prácticas
 
 - **Un solo idioma de fábrica**: el neutral del `.resx` es el español de la casa
 - **Marcador en el espacio raíz**: `SharedResource` sin subespacio, para que la búsqueda acierte
@@ -524,7 +524,7 @@ La localización también puede viajar en la URL, con la cultura como prefijo de
 - **Pruebas con cultura fijada**: `new CultureInfo("en-US")` dentro del test
 - **Infrastructure con su concern**: `LocalizationConfig` con sus dos métodos
 
-## 22.8. Reto: El Idioma de la Tienda de Funkos
+## 22.8. Reto: el idioma de la tienda de Funkos
 
 > Monta tu tienda en dos idiomas: textos en recursos, formatos por cultura y selector con cookie, sin duplicar ni una vista, en las dos visiones.
 

@@ -1,8 +1,8 @@
-# Cuestionario de Investigación y Desarrollo (I+D): Desarrollo de Páginas Web Dinámicas en .NET
+# Cuestionario de investigación y desarrollo (I+D): desarrollo de páginas web dinámicas en .NET
 
 **Instrucciones:** Responde cada pregunta de forma clara y concisa. Puedes usar ejemplos de código si es necesario.
 
-## PARTE 1 (Puntos 00-12)
+## PARTE 1 (puntos 00-12)
 
 1.  **Composición de una portada:** Tu tienda necesita una portada con barra de navegación, listado de destacados y pie de página reutilizable en todas las vistas. Explica qué piezas de Razor Pages usarías (layout, parciales, componentes de vista) y en qué orden las montarías.
 
@@ -30,7 +30,7 @@
 
 13. **El patrón Infrastructure:** ¿Por qué se mueve el cableado de `Program.cs` a clases estáticas con métodos de extensión? Diseña los concerns que tendría la configuración de una tienda (datos, caché, compresión, localización) y qué registraría cada uno.
 
-## PARTE 2 (Puntos 13-25)
+## PARTE 2 (puntos 13-25)
 
 14. **Caché de salida con criterio:** Quieres cachear el listado público de funkos pero no el panel de administración. Explica cómo declaras la caché de salida, por qué la zona privada no puede usarla y cómo invalidas el listado al dar de alta una figura nueva.
 

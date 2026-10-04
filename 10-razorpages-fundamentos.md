@@ -1,21 +1,21 @@
-- [10. Razor Pages: Fundamentos](#10-razor-pages-fundamentos)
-  - [10.1. La Web Página a Página](#101-la-web-página-a-página)
-    - [10.1.1. De Acciones a Páginas](#1011-de-acciones-a-páginas)
-    - [10.1.2. El Mismo Motor Razor](#1012-el-mismo-motor-razor)
-  - [10.2. La Carpeta Pages: La URL Está en el Disco](#102-la-carpeta-pages-la-url-está-en-el-disco)
-    - [10.2.1. El Mapa de Carpetas](#1021-el-mapa-de-carpetas)
-    - [10.2.2. El Mapa en el Navegador](#1022-el-mapa-en-el-navegador)
-  - [10.3. Program.cs: Dos Líneas para Arrancar](#103-programcs-dos-líneas-para-arrancar)
-  - [10.4. La Directiva @page](#104-la-directiva-page)
-    - [10.4.1. Primera Línea, Obligatoria](#1041-primera-línea-obligatoria)
-    - [10.4.2. Ruta Personalizada y Restricciones](#1042-ruta-personalizada-y-restricciones)
-  - [10.5. El Binomio: Página y PageModel](#105-el-binomio-página-y-pagemodel)
-    - [10.5.1. La Vista de la Página](#1051-la-vista-de-la-página)
+- [10. Razor Pages: fundamentos](#10-razor-pages-fundamentos)
+  - [10.1. La web página a página](#101-la-web-página-a-página)
+    - [10.1.1. De acciones a páginas](#1011-de-acciones-a-páginas)
+    - [10.1.2. El mismo motor Razor](#1012-el-mismo-motor-razor)
+  - [10.2. La carpeta pages: la URL está en el disco](#102-la-carpeta-pages-la-url-está-en-el-disco)
+    - [10.2.1. El mapa de carpetas](#1021-el-mapa-de-carpetas)
+    - [10.2.2. El mapa en el navegador](#1022-el-mapa-en-el-navegador)
+  - [10.3. Program.cs: dos líneas para arrancar](#103-programcs-dos-líneas-para-arrancar)
+  - [10.4. La directiva @page](#104-la-directiva-page)
+    - [10.4.1. Primera línea, obligatoria](#1041-primera-línea-obligatoria)
+    - [10.4.2. Ruta personalizada y restricciones](#1042-ruta-personalizada-y-restricciones)
+  - [10.5. El binomio: página y PageModel](#105-el-binomio-página-y-pagemodel)
+    - [10.5.1. La vista de la página](#1051-la-vista-de-la-página)
     - [10.5.2. El PageModel](#1052-el-pagemodel)
-    - [10.5.3. El Namespace de las Páginas](#1053-el-namespace-de-las-páginas)
-  - [10.6. Enlazar Páginas con asp-page](#106-enlazar-páginas-con-asp-page)
-  - [10.7. Buenas Prácticas](#107-buenas-prácticas)
-  - [10.8. Reto: La Tienda de Funkos Página a Página](#108-reto-la-tienda-de-funkos-página-a-página)
+    - [10.5.3. El namespace de las páginas](#1053-el-namespace-de-las-páginas)
+  - [10.6. Enlazar páginas con asp-page](#106-enlazar-páginas-con-asp-page)
+  - [10.7. Buenas prácticas](#107-buenas-prácticas)
+  - [10.8. Reto: la tienda de Funkos página a página](#108-reto-la-tienda-de-funkos-página-a-página)
     - [10.8.1. Contexto](#1081-contexto)
     - [10.8.2. Modelo de datos](#1082-modelo-de-datos)
     - [10.8.3. Almacenamiento](#1083-almacenamiento)
@@ -23,7 +23,7 @@
 
 
 
-# 10. Razor Pages: Fundamentos
+# 10. Razor Pages: fundamentos
 
 > 💡 **Punto de partida:** Cuando abres el portal de trámites de cualquier administración, cada dirección es una página completa: su formulario, su lógica y sus resultados, sin intermediarios ni mapa de controladores. Razor Pages monta tus proyectos exactamente así: cada URL con su propio archivo y su PageModel pegado al lado. En este punto aprendes esa visión: la directiva `@page`, la geografía de carpetas y el binomio vista y PageModel.
 
@@ -40,9 +40,9 @@ En este punto aprenderás el otro gran enfoque de ASP.NET Core: la **orientació
 
 > 📝 **Nota:** el proyecto de este punto es `ProductosApp`, creado con `dotnet new webapp`. Todas las páginas que verás están en su carpeta `Pages/Productos/`.
 
-## 10.1. La Web Página a Página
+## 10.1. La web página a página
 
-### 10.1.1. De Acciones a Páginas
+### 10.1.1. De acciones a páginas
 
 En MVC, que es lo que hemos montado en los puntos 07, 08 y 09, la petición mira a una acción: hay ruta, hay controlador, hay método y al final alguien decide qué vista se entrega. En Razor Pages la petición mira a un archivo: el que coincida con la URL, ni más ni menos.
 
@@ -62,12 +62,12 @@ graph LR
     C --> D["Vista<br/>Detalle.cshtml"]
     A --> E["Página<br/>Productos/Detalle.cshtml"]
     E <--> F["PageModel<br/>DetalleModel"]
-    style A fill:#2196F3,color:#fff
-    style B fill:#f44336,color:#fff
-    style C fill:#FF9800,color:#fff
-    style D fill:#4CAF50,color:#fff
-    style E fill:#4CAF50,color:#fff
-    style F fill:#9C27B0,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#f4433,color:#fff6,color:#fff
+    style C fill:#FF980,color:#fff0,color:#fff
+    style D fill:#4CAF5,color:#fff0,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#9C27B,color:#fff0,color:#fff
 ```
 
 > 💡 **Analogía:** MVC es un restaurante con camarero: pides, el camarero (controlador) va a cocina, decide qué te trae y vuelve. Razor Pages es showcooking: te sientas delante de la barra y el cocinero (el `PageModel`) te prepara el plato en la misma mesa donde lo consumes.
@@ -76,7 +76,7 @@ La propia Microsoft recomienda Razor Pages para el desarrollo nuevo por encima d
 
 📌 **Ejemplo real:** ASP.NET Core Identity, el sistema de login y registro de .NET, está construido con Razor Pages: sus páginas de registro y acceso viven en `Areas/Identity/Pages/Account/Register` y `.../Login` y atienden sus URLs sin un solo controlador. En el 18 lo montarás.
 
-### 10.1.2. El Mismo Motor Razor
+### 10.1.2. El mismo motor Razor
 
 Buena noticia: el lenguaje de las páginas es exactamente el mismo que estudiaste en los puntos 01 al 06. Los delimitadores `@`, los bloques `@{ }`, las estructuras `@if` y `@foreach`, las directivas `@model` y `@using`, los layouts y los Tag Helpers funcionan idéntico. Lo que cambia es la organización.
 
@@ -90,9 +90,9 @@ Buena noticia: el lenguaje de las páginas es exactamente el mismo que estudiast
 
 > 📝 **Nota:** la plantilla mantiene el mismo contrato que en MVC: `Pages/_ViewStart.cshtml` solo contiene `Layout = "_Layout";` y `_Layout.cshtml` sigue con `@RenderBody()` y `@ViewData["Title"]`. El punto 05 se aplica tal cual, en otra casa.
 
-## 10.2. La Carpeta Pages: La URL Está en el Disco
+## 10.2. La carpeta pages: la URL está en el disco
 
-### 10.2.1. El Mapa de Carpetas
+### 10.2.1. El mapa de carpetas
 
 La regla que sostiene todo el enfoque es geográfica: **la URL es la ruta del archivo dentro de `Pages/`**. Un archivo en `Pages/Servicios/Listado.cshtml` responde en `/Servicios/Listado`: la carpeta dicta la URL.
 
@@ -127,13 +127,13 @@ graph TD
     A["URL<br/>/Catalogo/Index"] --> B["Archivo<br/>Pages/Catalogo/Index.cshtml"]
     B --> C["PageModel<br/>CatalogoIndexModel.OnGet()"]
     C --> D["HTML con layout<br/>titulado por ViewData"]
-    style A fill:#2196F3,color:#fff
-    style B fill:#4CAF50,color:#fff
-    style C fill:#9C27B0,color:#fff
-    style D fill:#FF9800,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#4CAF5,color:#fff0,color:#fff
+    style C fill:#9C27B,color:#fff0,color:#fff
+    style D fill:#FF980,color:#fff0,color:#fff
 ```
 
-### 10.2.2. El Mapa en el Navegador
+### 10.2.2. El mapa en el navegador
 
 El mapa anterior no es una teoría: son los códigos reales que devolvió la app:
 
@@ -148,7 +148,7 @@ El mapa anterior no es una teoría: son los códigos reales que devolvió la app
 
 La carpeta no es decorativa: es el mapa — si mueves el archivo, mueve la URL. Renombramos `Pages/Privacy.cshtml` y `/Privacy` pasó a devolver **404** mientras `/` seguía en **200**; la aplicación no avisa, simplemente deja de encontrar la casa.
 
-## 10.3. Program.cs: Dos Líneas para Arrancar
+## 10.3. Program.cs: dos líneas para arrancar
 
 Razor Pages no funciona por arte de magia: hay que registrar sus servicios y publicar su mapa de rutas. La plantilla ya lo trae hecho:
 
@@ -182,9 +182,9 @@ Para no quedarnos en la teoría, las quitamos por separado y anotamos qué pasa:
 
 > ⚠️ **Advertencia:** los dos síntomas no se parecen: si quitas `AddRazorPages()`, la app se cae al arrancar porque `app.UseAuthorization()` exige servicios que no registró nadie (`InvalidOperationException`); si quitas `MapRazorPages()`, la app levanta y responde, pero sin ninguna página.
 
-## 10.4. La Directiva @page
+## 10.4. La directiva @page
 
-### 10.4.1. Primera Línea, Obligatoria
+### 10.4.1. Primera línea, obligatoria
 
 Un `.cshtml` dentro de `Pages/` sigue siendo una vista normal hasta que aparece `@page`. La directiva convierte el archivo en un endpoint que atiende peticiones directamente, y debe ir siempre en la primera línea.
 
@@ -214,7 +214,7 @@ El archivo compila perfecto y aun así la página no existe — la directiva es 
 
 > ⚠️ **Advertencia:** este fallo no lo verás en `dotnet build`. El compilador está contento con el archivo; el 404 aparece en ejecución. Si una página nueva no responde, mira la primera línea antes que nada.
 
-### 10.4.2. Ruta Personalizada y Restricciones
+### 10.4.2. Ruta personalizada y restricciones
 
 Con `@page` a secas, la URL sale de la carpeta. Con `@page` y un modelo de ruta, la página se da su propia dirección y puede pedir parámetros con restricciones, igual que en el punto 08 con `[HttpGet("productos/{id:int}")]`:
 
@@ -237,11 +237,11 @@ graph TD
     B -->|Sí| C["DetalleModel.OnGet(id)<br/>prepara los datos"]
     B -->|No| D["404<br/>nada que servir"]
     C --> E["HTML con layout"]
-    style A fill:#2196F3,color:#fff
-    style B fill:#FF9800,color:#fff
-    style C fill:#9C27B0,color:#fff
-    style D fill:#f44336,color:#fff
-    style E fill:#4CAF50,color:#fff
+    style A fill:#2196F,color:#fff3,color:#fff
+    style B fill:#FF980,color:#fff0,color:#fff
+    style C fill:#9C27B,color:#fff0,color:#fff
+    style D fill:#f4433,color:#fff6,color:#fff
+    style E fill:#4CAF5,color:#fff0,color:#fff
 ```
 
 ¿Y si quitamos la restricción? Lo probamos con `@page "/productos/{id}"`:
@@ -259,11 +259,11 @@ Para parámetros opcionales se usa el signo de interrogación (`@page "{searchSt
 - `GET /ofertas` → **200** con `Oferta sin id`
 - `GET /ofertas/7` → **200** con `Oferta del producto 7`
 
-## 10.5. El Binomio: Página y PageModel
+## 10.5. El binomio: página y PageModel
 
 Cada página vive en dos archivos que son dos caras de lo mismo: el `.cshtml` con el HTML y el Razor, y el `.cshtml.cs` con la clase que prepara los datos. Viven juntos en la misma carpeta y se buscan por nombre: `Detalle.cshtml` cuelga de `DetalleModel`.
 
-### 10.5.1. La Vista de la Página
+### 10.5.1. La vista de la página
 
 La vista es el archivo completo que viste en el apartado 10.4.1. Línea a línea:
 
@@ -322,16 +322,16 @@ graph TD
     M --> R["return Page()<br/>la página se pinta sola"]
     R --> L["_Layout.cshtml<br/>@RenderBody()"]
     L --> H["HTML final"]
-    style V fill:#4CAF50,color:#fff
-    style M fill:#9C27B0,color:#fff
-    style R fill:#2196F3,color:#fff
-    style L fill:#FF9800,color:#fff
-    style H fill:#607D8B,color:#fff
+    style V fill:#4CAF5,color:#fff0,color:#fff
+    style M fill:#9C27B,color:#fff0,color:#fff
+    style R fill:#2196F,color:#fff3,color:#fff
+    style L fill:#FF980,color:#fff0,color:#fff
+    style H fill:#607D8,color:#fffB,color:#fff
 ```
 
 > 📝 **Nota:** en MVC el controlador hacía `return View(viewmodel)` y la vista podía ser cualquiera; aquí el binomio es fijo y `Page()` devuelve siempre la propia página. El resto de handlers (`OnPost`), las propiedades con `[BindProperty]` y los handlers con nombre los abrimos en el punto 11.
 
-### 10.5.3. El Namespace de las Páginas
+### 10.5.3. El namespace de las páginas
 
 En el punto 09 el nombre corto lo resolvía un `@using` en `Views/_ViewImports.cshtml` (`@using ProductosApp.ViewModels`); en Razor Pages la plantilla añade una directiva que el de MVC no trae y que va en `Pages/_ViewImports.cshtml`:
 
@@ -354,7 +354,7 @@ encontró (¿falta alguna directiva using o una referencia de ensamblado?)
 
 > 🔧 **Truco:** si tu editor subraya `PageModel`, casi siempre es una de dos: el `using` mal escrito (CS0234) o que la clase no hereda de `PageModel`. El primer error apunta al namespace; el segundo, a la firma. Y si quien se queja es el `@model` de una vista (también CS0246), revisa el `@namespace` del `_ViewImports`.
 
-## 10.6. Enlazar Páginas con asp-page
+## 10.6. Enlazar páginas con asp-page
 
 Ningún enlace de la app escribe URLs a mano: los Tag Helpers del 06 traducen la intención en dirección. En Razor Pages, el traductor es `asp-page`:
 
@@ -374,7 +374,7 @@ El HTML que recibe el navegador es `<a id="enlace-ficha" href="/productos/1">Ver
 
 📌 **Ejemplo real:** el pie de cualquier web corporativa con enlaces limpios a `/Contacto` o `/Aviso-legal` es la misma idea: la barra de enlaces apunta a páginas, no a acciones, y quien la mantiene mueve archivos sin reescribir el HTML.
 
-## 10.7. Buenas Prácticas
+## 10.7. Buenas prácticas
 
 - **Una funcionalidad, una carpeta**: agrupa en `Pages/Productos/`, `Pages/Cuentas/`, no repartas por capas como en MVC
 - **`@page` siempre primera**: es la primera directiva del archivo, sin excepciones
@@ -385,7 +385,7 @@ El HTML que recibe el navegador es `<a id="enlace-ficha" href="/productos/1">Ver
 - **Enlaces con `asp-page`**: nunca URLs escritas a mano en el HTML
 - **Cuida la geografía al renombrar**: mover un `.cshtml` cambia su URL; si la vieja la usan enlaces, se rompen en silencio
 
-## 10.8. Reto: La Tienda de Funkos Página a Página
+## 10.8. Reto: la tienda de Funkos página a página
 
 > Monta la tienda página a página — y dibuja antes en papel el mapa de carpetas.
 
