@@ -13,6 +13,7 @@
     - [19.2.5. Visión MVC: registro y acceso](#1925-visión-mvc-registro-y-acceso)
     - [19.2.6. Registro y acceso, comparados](#1926-registro-y-acceso-comparados)
     - [19.2.7. Cerrar la sesión](#1927-cerrar-la-sesión)
+    - [19.2.8. Hacia el acceso sin clave: passkeys](#1928-hacia-el-acceso-sin-clave-passkeys)
   - [19.3. Autorización: qué puede ver cada uno](#193-autorización-qué-puede-ver-cada-uno)
     - [19.3.1. La regla con atributo](#1931-la-regla-con-atributo)
     - [19.3.2. Visión Razor Pages: atributos y convenciones](#1932-visión-razor-pages-atributos-y-convenciones)
@@ -493,6 +494,22 @@ El resultado se ve en la siguiente petición: quien cierra sesión recibe **302*
 Salir no vacía, además, la sesión de la aplicación: `SignOutAsync` se lleva la cookie de identidad y solo esa. La cookie de sesión se queda en el navegador con sus datos dentro, y las visitas siguen sumando después de salir hasta que la inactividad las caduca. Si la aplicación usa sesión, la salida se monta en dos tiempos: primero la identidad con `SignOutAsync` y después los datos con `HttpContext.Session.Clear()`. Salir solo de la identidad deja el carrito de antes abierto en el mismo navegador.
 
 > 📝 **Nota:** el token antifalsificación va ligado a la identidad de quien lo pidió: el que se emite en el formulario de acceso deja de valer en cuanto entras, y un cierre de sesión montado a mano con ese token viejo responde **400**. Si pides el token de nuevo en el formulario de salida, se cierra sin ruido.
+
+### 19.2.8. Hacia el acceso sin clave: passkeys
+
+**.NET 10 trae las passkeys dentro de Identity: credenciales del dispositivo que sustituyen la contraseña sin cambiar el conducto de cookies que ya conoces.** La passkey nace en el navegador, con el autenticador del sistema operativo, y después el acceso es un gesto: el servidor manda un reto, el dispositivo lo firma y el servidor verifica la firma; no hay clave que robar ni que reutilizar entre sitios.
+
+La pieza nueva del framework es el `PasskeyHandler`, con el que `SignInManager` crea las opciones de registro y las de acceso y verifica el reto con comparación de tiempo constante:
+
+```csharp
+// El patrón de Identity no cambia: el gestor sigue mandando
+var opciones = await signInManager.MakePasskeyCreationOptionsAsync();
+var resultado = await signInManager.PerformPasskeyAssertionAsync(credencialJson);
+```
+
+📌 **Ejemplo real:** Google y Apple abren las cuentas con passkey: registras el dispositivo una vez y después solo pides entrar con tu huella o tu cara, sin escribir ninguna clave.
+
+> 📝 **Nota:** las passkeys complementan a la contraseña, no la sustituyen del tirón; la sesión con cookie de identidad que montaste en el 19.2.4 sigue siendo el mismo conducto.
 
 ## 19.3. Autorización: qué puede ver cada uno
 

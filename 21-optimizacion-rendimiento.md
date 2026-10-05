@@ -8,6 +8,7 @@
     - [21.2.3. Visión MVC: la caché en un controlador](#2123-visión-mvc-la-caché-en-un-controlador)
     - [21.2.4. Output Cache: cachear la respuesta entera](#2124-output-cache-cachear-la-respuesta-entera)
     - [21.2.5. Cuándo cachear y cuándo no](#2125-cuándo-cachear-y-cuándo-no)
+    - [21.2.6. HybridCache: la caché unificada](#2126-hybridcache-la-caché-unificada)
   - [21.3. Compresión de las respuestas](#213-compresión-de-las-respuestas)
     - [21.3.1. gzip y brotli](#2131-gzip-y-brotli)
     - [21.3.2. Qué se comprime y qué no](#2132-qué-se-comprime-y-qué-no)
@@ -256,6 +257,30 @@ Y el efecto en el tiempo es el del trío de la medida: `/lenta`, que tarda 300 m
 La invalidación es la otra mitad del asunto: cuando se escribe un dato que una caché enseña, esa caché se vacía. En la caché de salida eso se hace con etiquetas: cada lectura declara las suyas y cada escritura vacía las que toquen con `IOutputCacheStore.EvictByTagAsync`, sin esperar a que la caducidad haga su trabajo.
 
 > 💡 **Consejo:** la caducidad se elige pensando en el peor dato viejo que toleras, no en la comodidad de no tener que invalidar: cinco segundos de retraso en un stock puede ser un problema; cinco minutos en una categoría, no.
+
+### 21.2.6. HybridCache: la caché unificada
+
+**El framework trae desde la versión 9 una caché que unifica la memoria y la distribuida detrás de una sola API: HybridCache.** Se registra con `AddHybridCache` (paquete `Microsoft.Extensions.Caching.Hybrid`) y trabaja en dos niveles: un primer nivel en memoria del proceso, que es el que responde, y un segundo nivel distribuido, Redis, si lo configuras; además trae protección contra la estampida, de modo que diez peticiones que llegan juntas a un valor frío calculan una vez y las demás esperan.
+
+```csharp
+// Infrastructure/CacheConfig.cs (versión moderna)
+public static IServiceCollection AddCaching(this IServiceCollection services)
+{
+    services.AddHybridCache(options =>
+    {
+        options.DefaultEntryOptions = new HybridCacheEntryOptions
+        {
+            Expiration = TimeSpan.FromMinutes(30),
+            LocalCacheExpiration = TimeSpan.FromMinutes(5)
+        };
+    });
+    return services;
+}
+```
+
+La decisión práctica no cambia: en una aplicación de un servidor, `IMemoryCache` sigue bastando; HybridCache compensa cuando hay varias copias y quieres la comodidad de una sola llamada. Y no sustituye al caché de salida del 21.2.4: uno cachea valores dentro de tu lógica y el otro cachea respuestas enteras.
+
+> 💡 **Consejo:** si un día pasas de un servidor a varios, no reescribas el código que usa la caché: cambia el concern de registro y la API de los consumidores sigue igual.
 
 ## 21.3. Compresión de las respuestas
 

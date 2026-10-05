@@ -11,6 +11,7 @@
   - [25.3. Configurar el contenedor](#253-configurar-el-contenedor)
     - [25.3.1. Variables de entorno, puertos y secretos](#2531-variables-de-entorno-puertos-y-secretos)
     - [25.3.2. Datos fuera del contenedor](#2532-datos-fuera-del-contenedor)
+    - [25.3.3. El sondeo de salud](#2533-el-sondeo-de-salud)
   - [25.4. De la imagen a la nube](#254-de-la-imagen-a-la-nube)
     - [25.4.1. Registro, servicio y escala](#2541-registro-servicio-y-escala)
     - [25.4.2. GitHub Actions: quién ejecuta las órdenes](#2542-github-actions-quién-ejecuta-las-órdenes)
@@ -252,6 +253,19 @@ docker run -v /srv/datos/uploads:/app/uploads despliegueapp:1.0
 ```
 
 La regla práctica es la del punto 17 con otro traje: dentro del contenedor vive el programa; fuera, viven los datos que no pueden morir con él.
+
+### 25.3.3. El sondeo de salud
+
+**El orquestador necesita saber si el contenedor sigue vivo, y la aplicación lo dice con una ruta ligera que responde con su estado.** El patrón de la tienda de referencia es un mapa directo; la versión con el framework añade comprobaciones de dependencias con `AddHealthChecks`:
+
+```csharp
+// La forma simple, con la que se mide en el laboratorio
+app.MapGet("/health", () => Results.Ok(new { status = "healthy", timestamp = DateTime.UtcNow }));
+```
+
+`GET /health` responde **200** con `{"status":"healthy","timestamp":"..."}`, y es exactamente esa respuesta la que un orquestador o un servicio como Render usa para decidir si el contenedor sigue en la banda; con las comprobaciones del framework, una dependencia caída devuelve **503** y el servicio se reinicia solo.
+
+📌 **Ejemplo real:** Cualquier plataforma que aloja contenedores da un vistazo periódico a su ruta de salud: si no responde bien, la copia nueva entra antes de que nadie se queje.
 
 ## 25.4. De la imagen a la nube
 

@@ -309,6 +309,24 @@ La medida de las dos visiones, con la misma petición a `/romper`: en `Developme
 
 📌 **Ejemplo real:** Cuando una web grande falla, el usuario ve una página amable y el equipo ve la traza completa: es el mismo `IsDevelopment` que ya montaste en el punto de configuración.
 
+Y la versión moderna del mismo comportamiento la trae el framework en caja: `AddProblemDetails` estandariza el formato del error (tipo, título y estado) y `UseExceptionHandler` lo entrega igual en desarrollo que en producción, con la diferencia de que en desarrollo la traza completa sigue al lado.
+
+```csharp
+// Program.cs
+builder.Services.AddProblemDetails();
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseExceptionHandler();
+}
+```
+
 ## 23.6. Errores frecuentes y cómo leerlos
 
 **Cada tipo de fallo de este ciclo tiene su cara visible; esta tabla es la primera referencia cuando algo no va:**

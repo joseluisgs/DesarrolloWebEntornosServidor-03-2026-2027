@@ -312,6 +312,8 @@ public async Task InvokeAsync(HttpContext context)
 
 En funcionamiento, seis peticiones seguidas devuelven **200, 200, 200, 200, 429, 429**, y la última lleva la cabecera `Retry-After: 10` para que el cliente sepa cuándo volver. Las respuestas bloqueadas ni siquiera llegan al endpoint: el trabajo del servidor se ahorra por completo.
 
+Y como referencia de entorno, el middleware propio del apartado no es la única forma: ASP.NET Core trae el limitador en caja (`AddRateLimiting` con ventanas fijas por clave y `UseRateLimiter` en el conducto), y proyectos reales de referencia usan el paquete `AspNetCoreRateLimit`, que añade reglas por endpoint: cien peticiones cada quince segundos con carácter general, diez por minuto en las rutas de acceso y veinte por minuto en los `POST`, con el **429** y su mensaje. La idea es la misma que la del middleware: cupo, ventana y castigo; cambia de dónde sale la regla.
+
 ## 15.7. Errores, tamaños y ficheros
 
 Tres defensas que cierran el mapa:
