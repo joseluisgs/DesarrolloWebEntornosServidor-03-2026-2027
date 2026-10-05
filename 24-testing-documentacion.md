@@ -1,4 +1,4 @@
-- [24. Pruebas y documentación del código de presentación](#24-pruebas-y-documentación-del-código-de-presentación)
+﻿- [24. Pruebas y documentación del código de presentación](#24-pruebas-y-documentación-del-código-de-presentación)
   - [24.1. Por qué se prueba](#241-por-qué-se-prueba)
     - [24.1.1. La pirámide de pruebas](#2411-la-pirámide-de-pruebas)
     - [24.1.2. El proyecto de pruebas](#2412-el-proyecto-de-pruebas)
@@ -387,7 +387,7 @@ public class Carrito
 
 📌 **Ejemplo real:** El editor de JetBrains y el de Microsoft enseñan la documentación XML al escribir; quien documenta su lógica de vista ahorra la explicación en el chat del equipo.
 
-### 24.4.2. El README del proyecto
+### 24.5.2. El README del proyecto
 
 **El README es la primera página del proyecto y responde a cuatro preguntas: qué es, cómo se ejecuta, cómo se prueban y cómo está montado.** Con esas cuatro secciones, cualquier persona del equipo entra al proyecto sin preguntar nada:
 
@@ -398,7 +398,7 @@ public class Carrito
 | **Cómo se prueban** | `dotnet test` y la instalación de Playwright |
 | **Cómo está montado** | Carpetas, proyecto de pruebas y dependencias |
 
-## 24.5. Ejecutar las pruebas
+## 24.6. Ejecutar las pruebas
 
 **Las pruebas se ejecutan desde el IDE o desde la terminal con `dotnet test`, y el resumen se lee en una línea.** Con las quince pruebas del laboratorio en verde, la terminal responde:
 
@@ -432,7 +432,7 @@ graph LR
 
 📌 **Ejemplo real:** Los equipos de integración continua ejecutan exactamente la misma orden que tú: `dotnet test`; si falla, no se publica nada.
 
-## 24.6. Reglas de seguridad
+## 24.7. Reglas de seguridad
 
 - **Las pruebas nunca apuntan a producción**: los navegadores automatizados solo contra entornos de prueba
 - **Datos de prueba sintéticos**: nombres, correos y precios inventados, nunca de clientes reales
@@ -454,15 +454,15 @@ graph LR
 - **XMLDoc obligatorio** en la lógica de presentación
 - **README siempre actualizado** con los comandos reales del proyecto
 
-## 24.8. Reto: pruebas de la tienda de Funkos
+## 24.9. Reto: pruebas de la tienda de Funkos
 
 > Monta las pruebas de tu tienda: lógica del carrito con NUnit, portada y formularios con Playwright y un README que explique cómo se ejecuta y cómo se comprueba, en las dos visiones.
 
-### 24.8.1. Contexto
+### 24.9.1. Contexto
 
 **Paso 0:** parte del reto del punto 23 en sus dos visiones (`FunkoApp` y `FunkoAppMvc`), con el registro por niveles y la página de error funcionando. Tu tienda ya se puede depurar; ahora le falta que alguien compruebe sola que sigue en pie.
 
-### 24.8.2. Modelo de datos
+### 24.9.2. Modelo de datos
 
 | Propiedad | Tipo | Obligatorio |
 |-----------|------|:-----------:|
@@ -476,7 +476,7 @@ graph LR
 | `activo` | bool | Sí |
 | `esNovedad` | bool | Sí |
 
-### 24.8.3. Almacenamiento
+### 24.9.3. Almacenamiento
 
 ```csharp
 public static class RepositorioFunkos
@@ -489,7 +489,7 @@ public static class RepositorioFunkos
 
 Rellena la lista con seis figuras de modo que haya activas y dadas de baja, novedades y no novedades, y las tres categorías.
 
-### 24.8.4. Retos
+### 24.9.4. Retos
 
 **Pasos compartidos (las dos visiones):**
 

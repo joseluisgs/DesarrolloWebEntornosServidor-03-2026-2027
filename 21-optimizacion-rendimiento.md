@@ -1,4 +1,4 @@
-- [21. Optimización y rendimiento](#21-optimización-y-rendimiento)
+﻿- [21. Optimización y rendimiento](#21-optimización-y-rendimiento)
   - [21.1. Rendimiento: por dónde se va el tiempo](#211-rendimiento-por-dónde-se-va-el-tiempo)
     - [21.1.1. El viaje de una petición](#2111-el-viaje-de-una-petición)
     - [21.1.2. Medir antes de optimizar](#2112-medir-antes-de-optimizar)
@@ -9,6 +9,7 @@
     - [21.2.4. Output Cache: cachear la respuesta entera](#2124-output-cache-cachear-la-respuesta-entera)
     - [21.2.5. Cuándo cachear y cuándo no](#2125-cuándo-cachear-y-cuándo-no)
     - [21.2.6. HybridCache: la caché unificada](#2126-hybridcache-la-caché-unificada)
+    - [21.2.7. OutputCache con tags: invalidar por grupo](#2127-outputcache-con-tags-invalidar-por-grupo)
   - [21.3. Compresión de las respuestas](#213-compresión-de-las-respuestas)
     - [21.3.1. gzip y brotli](#2131-gzip-y-brotli)
     - [21.3.2. Qué se comprime y qué no](#2132-qué-se-comprime-y-qué-no)
@@ -282,6 +283,73 @@ La decisión práctica no cambia: en una aplicación de un servidor, `IMemoryCac
 
 > 💡 **Consejo:** si un día pasas de un servidor a varios, no reescribas el código que usa la caché: cambia el concern de registro y la API de los consumidores sigue igual.
 
+### 21.2.7. OutputCache con tags: invalidar por grupo
+
+El `[OutputCache(Duration = 60)]` básico guarda la respuesta y la devuelve hasta que expira. El problema: si el producto cambia, la caché sigue sirviendo la versión antigua hasta 60 segundos. La solución son las **etiquetas** (*tags*): cada entrada se guarda con una etiqueta y al modificar los datos se invalida todo lo que lleve esa etiqueta.
+
+📌 **Ejemplo real:** Netflix cachea las portadas de las series. Cuando se añade un episodio nuevo, invalida la etiqueta "serie-123" y todas las portadas relacionadas se actualizan sin esperar a que expire la caché.
+
+#### Declarar la caché con etiqueta
+
+```csharp
+// MVC: ProductosController.cs
+[OutputCache(Duration = 60, Tags = new[] { "productos" })]
+public async Task<IActionResult> Index() =>
+    View(await db.Productos.ToListAsync());
+
+// Razor Pages: Pages/Productos/Index.cshtml.cs
+[ResponseCache(Duration = 60)]
+[OutputCache(Duration = 60, Tags = new[] { "productos" })]
+public async Task OnGetAsync() { /* ... */ }
+```
+
+#### Invalidar por etiqueta al modificar
+
+```csharp
+// MVC: ProductosController.cs — al crear, editar o borrar
+[HttpPost]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> Alta(AltaViewModel modelo)
+{
+    if (!ModelState.IsValid) return View(modelo);
+
+    db.Productos.Add(new Producto(0, modelo.Nombre, "Sin categoria", modelo.Precio));
+    await db.SaveChangesAsync();
+
+    // Invalida TODA la caché con la etiqueta "productos"
+    await cacheStore.EvictByTagAsync("productos", default);
+
+    TempData["Aviso"] = modelo.Etiqueta;
+    return RedirectToAction(nameof(Index));
+}
+```
+
+El `IOutputCacheStore` se inyecta en el controlador o PageModel. `EvictByTagAsync("productos")` borra de la caché todas las respuestas que lleven esa etiqueta, sin tocar las demás.
+
+```mermaid
+sequenceDiagram
+    participant N as Navegador
+    participant O as Middleware de salida
+    participant C as IOutputCacheStore
+    participant B as Base de datos
+    N->>O: GET /Productos (tag: productos)
+    O->>C: No esta: consulta BD
+    B-->>O: Productos
+    O-->>N: HTML con tag "productos"
+    Note over O: Guarda con etiqueta productos
+    N->>O: POST /Productos/Alta
+    O->>B: Guarda producto nuevo
+    O->>C: EvictByTagAsync("productos")
+    Note over C: Borra todas las entradas con esa etiqueta
+    N->>O: GET /Productos otra vez
+    O->>B: Consulta de nuevo
+    B-->>O: Productos actualizados
+    O-->>N: HTML fresco
+```
+
+> 💡 **Consejo:** Usa una etiqueta por recurso (`"productos"`, `"usuarios"`, `"pedidos"`). Así invalidas solo lo que tocas: al añadir un producto no invalidas la caché de usuarios.
+
+> 📝 **Nota:** `EvictByTagAsync` necesita un `IOutputCacheStore` distribuido (Redis o similar) si la app corre en varios servidores. Con `AddDistributedMemoryCache` funciona en un solo servidor.
 ## 21.3. Compresión de las respuestas
 
 ### 21.3.1. Gzip y brotli

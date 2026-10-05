@@ -415,6 +415,85 @@ El fichero de log queda así:
 | Plantillas de mensaje | No | Sí |
 | Niveles por categoría | Básico | Configurable |
 | Formato de fecha y nivel | Simple | Estructurado |
+### 23.5.4. GlobalExceptionHandler: errores consistentes
+
+Sin un manejador global, cada excepción no capturada llega a la página de error por defecto (desarrollo) o a un 500 vacío (producción). Un **middleware de excepciones globales** intercepta todas las excepciones y traduce cada tipo a un código HTTP con un mensaje coherente, sin repetir `try/catch` en cada acción.
+
+📌 **Ejemplo real:** Un banco no deja que un error interno del sistema se muestre al cliente como "500 Internal Server Error": lo traduce a un código de operación comprensible. El GlobalExceptionHandler hace lo mismo con las excepciones de tu app.
+
+#### La idea
+
+```csharp
+// Middleware/GlobalExceptionHandler.cs
+public class GlobalExceptionHandler(
+    RequestDelegate next,
+    ILogger<GlobalExceptionHandler> logger) : IMiddleware
+{
+    public async Task InvokeAsync(HttpContext context, RequestDelegate next)
+    {
+        try
+        {
+            await next(context);
+        }
+        catch (Exception ex)
+        {
+            var errorId = Guid.NewGuid().ToString()[..8];
+            logger.LogError(ex, "Excepción no manejada. ErrorId: {ErrorId}", errorId);
+
+            var (statusCode, message) = MapException(ex);
+            context.Response.StatusCode = statusCode;
+
+            // Para peticiones JSON, devolver JSON; para vistas, redirigir
+            if (context.Request.Headers.Accept.ToString().Contains("application/json"))
+            {
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsJsonAsync(new
+                {
+                    errorId,
+                    message,
+                    timestamp = DateTime.UtcNow
+                });
+            }
+            else
+            {
+                context.Response.Redirect($"/Error?errorId={errorId}&statusCode={statusCode}");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Mapea excepciones de dominio a códigos HTTP.
+    /// </summary>
+    private static (int StatusCode, string Message) MapException(Exception exception) => exception switch
+    {
+        NotFoundException notFound => (404, notFound.Message),
+        ValidationException validation => (400, validation.Message),
+        BusinessException business => (422, business.Message),
+        UnauthorizedException unauthorized => (401, unauthorized.Message),
+        _ => (500, "Ha ocurrido un error interno")
+    };
+}
+```
+
+#### Registro en Program.cs
+
+```csharp
+// ANTES de UseRouting: el manejador debe interceptar todo
+app.UseMiddleware<GlobalExceptionHandler>();
+app.UseRouting();
+```
+
+> ⚠️ **Advertencia:** El middleware se registra **antes** de `UseRouting`. Si lo pones después, las excepciones del enrutador no se capturan.
+
+| Excepción | Código HTTP | Mensaje |
+|-----------|:-----------:|---------|
+| `NotFoundException` | 404 | No encontrado |
+| `ValidationException` | 400 | Error de validación |
+| `BusinessException` | 422 | Regla de negocio violada |
+| `UnauthorizedException` | 401 | No autenticado |
+| `Exception` (genérica) | 500 | Error interno |
+
+> 📝 **Nota:** En el ejemplo 10 verás este middleware funcionando con excepciones de dominio y respuestas JSON para peticiones API.
 ## 23.6. Errores frecuentes y cómo leerlos
 
 **Cada tipo de fallo de este ciclo tiene su cara visible; esta tabla es la primera referencia cuando algo no va:**
