@@ -250,6 +250,63 @@ public IActionResult Buscar(string? q, int pagina = 1) { /* filtra y pagina */ }
 
 > 💡 **Consejo:** los valores por defecto de los parámetros (`int pagina = 1`) y los del binding (`0`, `""`, lista vacía) conviven: si la query no trae `pagina`, manda tu defecto; si la query trae `pagina=abc`, la conversión falla y manda el defecto del tipo. En el punto 15 veremos a rechazar eso con una restricción o una validación en vez de aceptarlo en silencio.
 
+
+### 14.7.1. Trampa de Razor Pages: el parámetro `page` no enlaza
+
+En Razor Pages hay un parámetro que **nunca** enlaza desde el query string sin ayuda: `page`. El PageModel usa internamente un route value llamado `page` para identificar la página, y el model binder le da prioridad sobre el query string. Resultado: `?page=3` llega al handler como `page=1` (el valor por defecto).
+
+📌 **Ejemplo real:** Un catálogo con paginación muestra "Página 1 de 10" aunque en la barra de direcciones pone `?page=3`. El usuario pulsa "Siguiente" y la página no cambia: el valor llega al servidor pero el binder lo ignora.
+
+**Diagnóstico:**
+
+```csharp
+// La query llega correctamente...
+Log.Information("QueryString={QS}", Request.QueryString.Value);
+// → "?page=3&size=12"
+
+// Pero el parámetro recibe el default...
+Log.Information("page={Page}", page);
+// → "page=1" ❌
+```
+
+**Solución:** declarar `[FromQuery]` explícito:
+
+```csharp
+// ❌ MALO: page no enlaza desde el query string
+public void OnGet(int page = 1, int size = 12) { }
+
+// ✅ BUENO: FromQuery obliga a leer del query string
+public void OnGet([FromQuery] int page = 1, [FromQuery] int size = 12) { }
+```
+
+> ⚠️ **Advertencia:** Este problema **solo afecta a Razor Pages**. En MVC, el parámetro `page` de una acción enlaza normalmente desde el query string sin necesidad de atributos.
+
+| Visión | `?page=3` en la URL | Resultado |
+|--------|:-------------------:|-----------|
+| MVC | `?page=3` | `page = 3` ✅ |
+| Razor Pages | `?page=3` | `page = 1` ❌ (usa el default) |
+| Razor Pages con `[FromQuery]` | `?page=3` | `page = 3` ✅ |
+
+### 14.7.2. Trampa de Razor Pages: `<base href>` y las URLs relativas
+
+Si el Layout lleva `<base href="~/" />`, los enlaces con `href="?page=2"` se resuelven contra `/` en vez de contra la página actual. En vez de `/productos?page=2`, el navegador navega a `/?page=2`.
+
+📌 **Ejemplo real:** Un paginador con enlaces `?page=2` funciona al principio; al añadir `<base href="~/" />` al Layout (para los CSS y JS), los enlaces dejan de funcionar sin que nadie toque el código del paginador.
+
+**Solución:** usar rutas absolutas en los enlaces:
+
+```html
+<!-- ❌ MALO: el <base> resuelve ? contra / -->
+<a href="?page=2&size=12">2</a>
+
+<!-- ✅ BUENO: ruta absoluta -->
+<a href="/productos?page=2&size=12">2</a>
+
+<!-- ✅ MEJOR: Tag Helper de Razor Pages -->
+<a asp-page="/Productos/Index" asp-route-page="2" asp-route-size="12">2</a>
+```
+
+> 📝 **Nota:** El Tag Helper `asp-page` genera la URL correcta automáticamente, con la ruta absoluta y los valores de la query, sin depender de `<base href>`.
 ## 14.8. Buenas prácticas
 
 - **El `name` es la llave**: el campo y el destino tienen que hablar el mismo idioma, carácter a carácter
