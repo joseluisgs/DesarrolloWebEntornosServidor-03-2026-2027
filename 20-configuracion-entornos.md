@@ -1,4 +1,4 @@
-- [20. Configuración de la aplicación web](#20-configuración-de-la-aplicación-web)
+﻿- [20. Configuración de la aplicación web](#20-configuración-de-la-aplicación-web)
   - [20.1. Configuración: dónde vive la decisión](#201-configuración-dónde-vive-la-decisión)
     - [20.1.1. Appsettings.json y sus variantes](#2011-appsettingsjson-y-sus-variantes)
     - [20.1.2. El orden de las fuentes](#2012-el-orden-de-las-fuentes)
@@ -552,7 +552,84 @@ En `Production` con las dos variables puestas, la vista responde `MENSAJE-ENV` e
 
 📌 **Ejemplo real:** Azure App Service guarda las cadenas de conexión en variables de entorno del servicio; el mismo despliegue funciona en pruebas y en producción sin tocar el código, porque cada entorno pone sus variables.
 
-## 20.5. Reglas de seguridad
+## 20.5. Versiones de paquetes: central package management
+
+Cada `.csproj` lleva sus `<PackageReference>` con la versi�n escrita dentro. En un proyecto de un solo fichero no pasa nada; en una soluci�n con varios proyectos, dos paquetes compartidos pueden acabar con versiones distintas sin que nadie lo decida. Eso se llama *drift* de versiones y es una fuente de errores dif�ciles de reproducir.
+
+📌 **Ejemplo real:** Una tienda online con proyecto de API, proyecto de tests y proyecto de herramientas usa `NUnit`. La API lo tiene en 4.3.1, los tests en 4.6.1 y las herramientas en 4.3.1. El día que un test pasa a fallar, nadie sabe si es el c�digo o la versi�n del framework de pruebas.
+
+### 20.5.1. El problema: versiones que se desalinean
+
+Imagina esta soluci�n:
+
+```
+ProductosApp.slnx
+├── ProductosApp.Shared/
+│   └── ProductosApp.Shared.csproj      ← Microsoft.EntityFrameworkCore 10.0.1
+├── ProductosApp.Mvc/
+│   └── ProductosApp.Mvc.csproj         ← Microsoft.EntityFrameworkCore 10.0.2
+└── ProductosApp.Test/
+    └── ProductosApp.Test.csproj        ← Microsoft.EntityFrameworkCore 10.0.1
+```
+
+El mismo paquete, tres versiones. Funciona... hasta que deja de funcionar. La causa real: cada `.csproj` decide su versi�n por su cuenta.
+
+### 20.5.2. La soluci�n: central package management (CPM)
+
+**Central Package Management** mueve las **versiones** de los paquetes a un �nico fichero en la ra�z: `Directory.Packages.props`.
+
+```xml
+<!-- Directory.Packages.props (ra�z de la soluci�n) -->
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- Las versiones viven AQU�, una sola vez -->
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />
+    <PackageVersion Include="NUnit" Version="4.3.2" />
+  </ItemGroup>
+</Project>
+```
+
+Y los `.csproj` **ya no llevan `Version=`**:
+
+```xml
+<!-- ProductosApp.Mvc.csproj: sin Version, la aporta la ra�z -->
+<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
+<PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+```
+
+> 💡 **Analogía:** Es el cat�logo de precios del almac�n. El precio se fija **una vez** en el cat�logo, no en cada etiqueta de cada balda. Si cambia el precio, cambia en toda la tienda.
+
+> ⚠️ **Advertencia:** Si a�ades un `<PackageReference>` sin meter su `<PackageVersion>` correspondiente en la ra�z, el `dotnet restore` **falla** avis�ndote de que falta la versi�n. Es molesto la primera vez y salvador despu�s.
+
+> 🔧 **Truco:** Para desactivarlo puntualmente en un proyecto heredado, a�ade en su `.csproj`: `<ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>`.
+
+### 20.5.3. Comprobaci�n
+
+```bash
+# Ver todas las versiones de paquetes de la soluci�n
+dotnet list package --include-transitive
+
+# Verificar que no hay drift (una sola versi�n por paquete)
+dotnet list package
+```
+
+Si un paquete aparece con m�s de una versi�n en la salida, hay drift: revisa qui�n lo declara y unifica en `Directory.Packages.props`.
+
+### 20.5.4. Cuándo usarlo
+
+| Situaci�n | ¿CPM? |
+|-----------|:-----:|
+| Soluci�n de un solo proyecto | No hace falta |
+| Soluci�n con 2+ proyectos que comparten paquetes | S� |
+| Equipo de varias personas | S� |
+| CI/CD con builds reproducibles | S� |
+
+> 📝 **Nota:** CPM no compila m�s r�pido ni a�ade funcionalidad; ordena la configuraci�n. Es una decisi�n de organizaci�n, no t�cnica.
+## 20.6. Reglas de seguridad
 
 - **Nunca secretos en `appsettings.json`**: ni claves de correo, ni cadenas de conexión, ni tokens
 - **User secrets solo en Development**: el mecanismo no se carga en producción
@@ -563,7 +640,7 @@ En `Production` con las dos variables puestas, la vista responde `MENSAJE-ENV` e
 - **Primera pregunta al depurar un valor raro**: qué entorno está corriendo realmente
 - **Renombrar una sección es romper todas las fuentes**: hazlo con plan y comprueba cada entorno
 
-## 20.6. Buenas prácticas
+## 20.7. Buenas prácticas
 
 - **Una sección por módulo** en `appsettings.json`, con su clase de opciones; nada de claves sueltas repartidas
 - **`IOptions<T>` por defecto**; el monitor solo para valores que de verdad deben cambiar en caliente
@@ -575,16 +652,17 @@ En `Production` con las dos variables puestas, la vista responde `MENSAJE-ENV` e
 - **Constructor primario** para las clases que reciben opciones, como con cualquier otro servicio
 - **Nombres de sección estables**: `App`, `Email`, `Storage`; cambiarlos es romper todas las fuentes a la vez
 - **Pruebas con el entorno activo**: las comprobaciones se hacen con el entorno declarado, no con el que supones
+- **Versiones de paquetes centralizadas** en `Directory.Packages.props` cuando la soluci�n tiene varios proyectos
 
-## 20.7. Reto: la configuración de la tienda de Funkos
+## 20.8. Reto: la configuración de la tienda de Funkos
 
 > Monta la configuración de tu tienda para que el mismo código sirva en local, en pruebas y en producción, con la estructura de `Infrastructure` y sin un solo secreto en el repositorio, en las dos visiones.
 
-### 20.7.1. Contexto
+### 20.8.1. Contexto
 
 **Paso 0:** parte del reto del punto 19 en sus dos visiones (`FunkoApp` y `FunkoAppMvc`), con los usuarios de Identity y la zona privada funcionando. La tienda ya sabe quién es cada cliente; ahora le falta poder vivir en varios entornos sin tocar el código.
 
-### 20.7.2. Modelo de datos
+### 20.8.2. Modelo de datos
 
 | Propiedad | Tipo | Obligatorio |
 |-----------|------|:-----------:|
@@ -598,7 +676,7 @@ En `Production` con las dos variables puestas, la vista responde `MENSAJE-ENV` e
 | `activo` | bool | Sí |
 | `esNovedad` | bool | Sí |
 
-### 20.7.3. Almacenamiento
+### 20.8.3. Almacenamiento
 
 ```csharp
 public static class RepositorioFunkos
@@ -611,7 +689,7 @@ public static class RepositorioFunkos
 
 Rellena la lista con seis figuras de modo que haya activas y dadas de baja, novedades y no novedades, y las tres categorías.
 
-### 20.7.4. Retos
+### 20.8.4. Retos
 
 **Pasos compartidos (las dos visiones):**
 

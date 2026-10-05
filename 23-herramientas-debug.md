@@ -1,4 +1,4 @@
-- [23. Herramientas de programación, prueba y depuración](#23-herramientas-de-programación-prueba-y-depuración)
+﻿- [23. Herramientas de programación, prueba y depuración](#23-herramientas-de-programación-prueba-y-depuración)
   - [23.1. El entorno de desarrollo](#231-el-entorno-de-desarrollo)
     - [23.1.1. Rider y el ecosistema JetBrains](#2311-rider-y-el-ecosistema-jetbrains)
     - [23.1.2. La estructura del proyecto y cómo se ejecuta](#2312-la-estructura-del-proyecto-y-cómo-se-ejecuta)
@@ -327,6 +327,94 @@ else
 }
 ```
 
+### 23.5.3. Serilog: logging estructurado a fichero
+
+`ILogger` es la interfaz; el proveedor por defecto escribe en consola y se pierde al reciclar el proceso. **Serilog** es un logger estructurado que añade lo que el proveedor por defecto no da: ficheros con rotación, plantillas de mensaje y niveles configurables por categoría.
+
+📌 **Ejemplo real:** Un banco no confía en que sus movimientos solo aparezcan en la pantalla del cajero: los registra en un libro de cuentas permanente. Serilog es ese libro: la consola es la pantalla, el fichero es el libro.
+
+#### Instalación
+
+```bash
+dotnet add package Serilog.AspNetCore
+dotnet add package Serilog.Sinks.Console
+dotnet add package Serilog.Sinks.File
+```
+
+#### Configuración en Program.cs
+
+```csharp
+// Program.cs (Razor Pages o MVC): se configura ANTES del builder
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.Console()
+    .WriteTo.File("logs/productos-.log", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+try
+{
+    var builder = WebApplication.CreateBuilder(args);
+    builder.Host.UseSerilog(); // Sustituye el logger por defecto
+    // ... resto de configuración
+    var app = builder.Build();
+    // ...
+    app.Run();
+}
+catch (Exception ex)
+{
+    Log.Fatal(ex, "La aplicación terminó inesperadamente");
+}
+finally
+{
+    Log.CloseAndFlush(); // Vuelca lo que quede en el buffer
+}
+```
+
+#### Uso en controladores y páginas
+
+```csharp
+// MVC: se inyecta igual que ILogger<T>
+public class ProductosController(
+    IAlmacenProductos almacen,
+    ILogger<ProductosController> registro) : Controller
+{
+    public IActionResult Index()
+    {
+        registro.LogInformation("Listando catálogo de productos");
+        return View(almacen.ObtenerTodos());
+    }
+}
+```
+
+La interfaz `ILogger<T>` no cambia: Serilog se registra como proveedor y el resto del código no se entera.
+
+#### Niveles y plantillas
+
+```csharp
+registro.LogInformation("Producto {Id} encontrado", id);      // Plantilla con variables
+registro.LogWarning("Producto {Id} no encontrado", id);       // Aviso
+registro.LogError(ex, "Error al buscar {Id}", id);            // Error con excepción
+```
+
+El fichero de log queda así:
+
+```
+2026-10-05 12:50:20.036 +02:00 [INF] Arrancando ProductosApp
+2026-10-05 12:50:20.275 +02:00 [WRN] El WebRootPath no se encontró
+2026-10-05 12:51:05.123 +02:00 [INF] Listando catálogo de productos
+```
+
+> 📝 **Nota:** `WriteTo.File("logs/productos-.log", rollingInterval: RollingInterval.Day)` crea un fichero por día (`productos-20261005.log`). La rotación evita que el fichero crezca sin límite.
+
+> ⚠️ **Advertencia:** `Log.CloseAndFlush()` en el `finally` es obligatorio: sin él, los últimos mensajes pueden quedarse en el buffer y no escribirse si la app cae.
+
+| Característica | ILogger por defecto | Serilog |
+|----------------|:-------------------:|:-------:|
+| Consola | Sí | Sí |
+| Fichero con rotación | No | Sí |
+| Plantillas de mensaje | No | Sí |
+| Niveles por categoría | Básico | Configurable |
+| Formato de fecha y nivel | Simple | Estructurado |
 ## 23.6. Errores frecuentes y cómo leerlos
 
 **Cada tipo de fallo de este ciclo tiene su cara visible; esta tabla es la primera referencia cuando algo no va:**
