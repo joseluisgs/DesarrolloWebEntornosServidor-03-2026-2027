@@ -1,4 +1,4 @@
-- [14. Model Binding: del formulario al servidor](#14-model-binding-del-formulario-al-servidor)
+﻿- [14. Model Binding: del formulario al servidor](#14-model-binding-del-formulario-al-servidor)
   - [14.1. El traductor: qué es el Model Binding](#141-el-traductor-qué-es-el-model-binding)
   - [14.2. Las tres fuentes de un valor](#142-las-tres-fuentes-de-un-valor)
   - [14.3. La misma edición en las dos visiones](#143-la-misma-edición-en-las-dos-visiones)
