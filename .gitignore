@@ -1,4 +1,4 @@
-# Compilación
+﻿# Compilación
 bin/
 obj/
 out/
@@ -37,3 +37,4 @@ TestResults/
 # Material archivado y material no versionado
 back/
 /ejemplos/
+upload.sh
