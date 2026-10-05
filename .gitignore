@@ -26,29 +26,14 @@ out/
 packages/
 artifacts/
 
-# Publicaciones y resultados de pruebas
+# Publicaciones
 publish/
 TestResults/
 
 # Contenido multimedia y docs (no subir a git)
 /multimedia/
-/doc/
 /docs/
 
-# Prácticas de cursos anteriores
-/practicas/2023-2024/
-/practicas/2024-2025/
-
-# Material extra no incluido en el índice
-/ejercicios/
-/ejemplos/mas_ejemplos/
-
-# Sistema y ofimática
-*.pptx
-.DS_Store
-Thumbs.db
-upload.sh
-
-# Archivo local del material antiguo: nunca se sube
+# Material archivado y material no versionado
 back/
-
+/ejemplos/

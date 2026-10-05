@@ -233,6 +233,7 @@ graph TD
 - **DataAnnotations:** el atributo pone la regla y el servidor la hace cumplir
 - **Ataques:** XSS con escapado, CSRF con token antifalsificación, cabeceras de protección y límite de peticiones
 - **Avisos genéricos:** el error no debe decir cuál de los dos datos falla
+- **Límite de peticiones:** cupo por ventana con **429**; middleware propio, limitador en caja o `AspNetCoreRateLimit` con reglas por endpoint
 - 📌 **Ejemplo real:** Cualquier banco pide segundo factor y valida en servidor: la misma defensa que montaste con token y validación.
 
 #### Punto 16: ficheros y almacenamiento
@@ -259,6 +260,7 @@ graph TD
 - **`AddIdentity`:** usuarios, accesos y roles tal y como vienen del framework
 - **`UserManager` y `SignInManager`:** altas, claves con hash y acceso con cookie de identidad
 - **Roles, políticas y requisitos:** quién entra y qué puede tocar; CSRF y XSS defendidos
+- **Passkeys:** credenciales del dispositivo que sustituyen la contraseña; en .NET 10 viven dentro de Identity con su handler
 - 📌 **Ejemplo real:** Instagram distingue al dueño de una cuenta de un visitante: identidad con claims y autorización con atributos.
 
 #### Punto 20: configuración y entornos
@@ -271,6 +273,7 @@ graph TD
 #### Punto 21: optimización y rendimiento
 - **Medir antes:** F12, `curl -w` y `Stopwatch` cuentan la misma petición desde tres sitios
 - **`IMemoryCache` y output cache:** valores calculados una vez y respuestas enteras guardadas
+- **HybridCache:** caché unificada de memoria y distribuida con protección contra estampidas
 - **Compresión:** Brotli y gzip para el texto; las imágenes ya vienen comprimidas
 - 📌 **Ejemplo real:** YouTube hace el segundo visionado instantáneo: la caché evita repetir el trabajo.
 
@@ -285,6 +288,7 @@ graph TD
 - **Leer errores:** código, mensaje, fichero y línea; los avisos llegan antes que los fallos
 - **Depurador, F12 e `ILogger`:** mirar la ejecución, la petición y el registro
 - **Página de error:** detallada en desarrollo, genérica en producción
+- **`ProblemDetails`:** el framework estandariza el error con `AddProblemDetails` y `UseExceptionHandler`
 - 📌 **Ejemplo real:** Netflix reproduce el fallo en pruebas y lo detiene en un punto de interrupción; nadie adivina.
 
 #### Punto 24: pruebas y documentación
@@ -298,6 +302,7 @@ graph TD
 - **Imagen y contenedor:** el paquete cerrado y esa imagen en marcha
 - **Dockerfile por fases:** compila el kit completo, ejecuta la imagen mínima
 - **GitHub Actions y servicios como Render:** el flujo prueba, construye y publica; la plataforma despliega desde el repositorio
+- **Sondeo de salud:** `GET /health` responde **200** con su estado; el orquestador usa esa respuesta
 - 📌 **Ejemplo real:** Spotify actualiza su app sin cortar el servicio: alguien publica una versión nueva y el contenedor la recibe.
 
 ## 26.3. Herramientas y perfiles
@@ -401,7 +406,9 @@ Antes de dar por cerrada la unidad, asegúrate de poder responder **SÍ** a esta
 | **Sesión** | Datos en el servidor con la llave en la cookie de sesión |
 | **Claim** | Par `tipo-valor` de la identidad de un usuario |
 | **Identity** | Framework oficial de usuarios, accesos y roles |
+| **Passkey** | Credencial del dispositivo que sustituye la contraseña; en .NET 10, dentro de Identity |
 | **`IOptions<T>`** | Configuración tipada inyectable desde `appsettings` |
+| **HybridCache** | Caché que unifica memoria y distribuida con protección contra estampidas |
 | **Output cache** | Caché de la respuesta entera, declarada por lectura |
 | **Compresión** | Brotli o gzip sobre el texto de la respuesta |
 | **Cultura** | Idioma y región que deciden textos y formatos (`es-ES`) |
@@ -412,6 +419,9 @@ Antes de dar por cerrada la unidad, asegúrate de poder responder **SÍ** a esta
 | **Imagen / Contenedor** | El paquete cerrado / esa imagen en marcha |
 | **GitHub Actions** | Flujos YAML que compilan, prueban y publican solos |
 | **Render** | Servicio gestionado que despliega desde tu repositorio |
+| **ProblemDetails** | Formato estándar del error (tipo, título, estado) con `AddProblemDetails` |
+| **Sondeo de salud** | Ruta ligera (`/health`) que dice si el contenedor sigue vivo |
+| **Límite de peticiones** | Cupo por ventana con `429`; middleware propio, limitador en caja o `AspNetCoreRateLimit` |
 
 ## 26.7. Ejercicios de repaso
 
