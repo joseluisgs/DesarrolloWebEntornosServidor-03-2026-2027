@@ -508,6 +508,19 @@ app.Run();
 - **CDN**: servir el HTML y los estáticos desde servidores cercanos al visitante, sin tocar tu código
 - **Sin trabajo duplicado entre peticiones**: lo que se calcula igual en todas, se calcula una vez y se comparte
 
+#### Carga diferida de imágenes: `loading="lazy"`
+
+El atributo `loading="lazy"` en un `<img>` le dice al navegador que no cargue la imagen hasta que esté cerca del viewport. En un catálogo con 50 fotos, la primera carga es mucho más rápida: solo se descargan las visibles.
+
+```html
+<!-- ❌ MALO: carga todas las imágenes de golpe -->
+<img src="/uploads/producto1.jpg" alt="Producto 1" />
+
+<!-- ✅ BUENO: el navegador decide cuándo cargarla -->
+<img src="/uploads/producto1.jpg" alt="Producto 1" loading="lazy" />
+```
+
+> 📝 **Nota:** La imagen del logo o de la portada **no** debe llevar `lazy`: tiene que aparecer de inmediato. `lazy` va en imágenes de listados y galerías.
 ## 21.6. Reglas de seguridad
 
 - **Output cache solo en lecturas públicas**: la caché de salida no distingue usuarios; una zona privada cacheada se sirve igual a todos

@@ -629,6 +629,37 @@ Si un paquete aparece con m�s de una versi�n en la salida, hay drift: revisa
 | CI/CD con builds reproducibles | S� |
 
 > 📝 **Nota:** CPM no compila m�s r�pido ni a�ade funcionalidad; ordena la configuraci�n. Es una decisi�n de organizaci�n, no t�cnica.
+### 20.5.5. Trampa: Dockerfile y CPM
+
+Si usas CPM y despliegues con Docker, el `Dockerfile` necesita copiar `Directory.Packages.props` **antes** de ejecutar `dotnet restore`. Sin él, el build falla con el error **NU1015**: los `.csproj` no tienen versiones y el contenedor no encuentra el fichero que las declara.
+
+📌 **Ejemplo real:** Una tienda migrada a CPM despliega en Render. El build en el contenedor falla con `NU1015: No se encontró ninguna versión para el paquete` aunque en local compila perfecto. La causa: el Dockerfile copiaba los `.csproj` pero no el `Directory.Packages.props`.
+
+**El Dockerfile correcto:**
+
+```dockerfile
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+
+# Copiar CPM ANTES de los .csproj y del restore
+COPY ["Directory.Packages.props", "."]
+COPY ["MiApp/MiApp.csproj", "MiApp/"]
+COPY ["MiApp.Shared/MiApp.Shared.csproj", "MiApp.Shared/"]
+
+RUN dotnet restore "MiApp/MiApp.csproj"
+# ... resto del build
+```
+
+**El Dockerfile incorrecto** (falta CPM):
+
+```dockerfile
+# ❌ MALO: sin Directory.Packages.props, restore falla con NU1015
+COPY ["MiApp/MiApp.csproj", "MiApp/"]
+COPY ["MiApp.Shared/MiApp.Shared.csproj", "MiApp.Shared/"]
+RUN dotnet restore "MiApp/MiApp.csproj"  # ← NU1015 aquí
+```
+
+> ⚠️ **Advertencia:** El orden importa: primero `Directory.Packages.props`, después los `.csproj`, y solo entonces `dotnet restore`. Si copias el fichero después del restore, es como si no lo copiaras.
 ## 20.6. Reglas de seguridad
 
 - **Nunca secretos en `appsettings.json`**: ni claves de correo, ni cadenas de conexión, ni tokens
