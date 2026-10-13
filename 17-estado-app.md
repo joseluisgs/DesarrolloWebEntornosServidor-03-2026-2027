@@ -422,6 +422,8 @@ Dos apuntes de la casa: dentro de una misma petición no hay que pasar nada a ma
 
 ### 17.9.3. Almacenamiento
 
+El repositorio en memoria guarda los Funkos en una lista estática que sobrevive entre peticiones. En la práctica real sustituirías esta clase por una con EF Core o MongoDB sin tocar la gestión de estado.
+
 ```csharp
 public static class RepositorioFunkos
 {

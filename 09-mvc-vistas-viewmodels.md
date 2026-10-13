@@ -464,6 +464,8 @@ El criterio es simple — si la respuesta cambia cuando cambian los datos de neg
 
 ### 9.7.3. Almacenamiento
 
+El repositorio en memoria guarda los Funkos en una lista estática que sobrevive entre peticiones. En la práctica real sustituirías esta clase por una con EF Core o MongoDB sin tocar el controlador.
+
 ```csharp
 public static class RepositorioFunkos
 {

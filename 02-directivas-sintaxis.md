@@ -501,6 +501,8 @@ graph TD
 
 ### 2.4.3. Cadenas, interpolación y formato
 
+La interpolación de cadenas en Razor usa `$"texto {expresión}"` para mezclar texto y variables, y `ToString("formato")` para controlar cómo se muestra un número o una fecha.
+
 ```cshtml
 @{
     var nombre = "Auriculares";

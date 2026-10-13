@@ -341,6 +341,8 @@ Si el Layout lleva `<base href="~/" />`, los enlaces con `href="?page=2"` se res
 
 ### 14.9.3. Almacenamiento
 
+El repositorio en memoria guarda los Funkos en una lista estática que sobrevive entre peticiones. En la práctica real sustituirías esta clase por una con EF Core o MongoDB sin tocar el Model Binding.
+
 ```csharp
 public static class RepositorioFunkos
 {

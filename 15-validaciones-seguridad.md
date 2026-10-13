@@ -366,6 +366,8 @@ public IActionResult Edicion(ProductoInput input, List<string> etiquetas)
 
 ### 15.9.3. Almacenamiento
 
+El repositorio en memoria guarda los Funkos en una lista estática que sobrevive entre peticiones. En la práctica real sustituirías esta clase por una con EF Core o MongoDB sin tocar las validaciones.
+
 ```csharp
 public static class RepositorioFunkos
 {

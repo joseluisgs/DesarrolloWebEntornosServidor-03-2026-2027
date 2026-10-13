@@ -496,6 +496,8 @@ Y el resultado en las dos visiones es palabra por palabra el mismo: tras el env�
 
 ### 16.11.3. Almacenamiento
 
+El repositorio en memoria guarda los Funkos en una lista estática que sobrevive entre peticiones. En la práctica real sustituirías esta clase por una con EF Core o MongoDB sin tocar el almacenamiento de ficheros.
+
 ```csharp
 public static class RepositorioFunkos
 {

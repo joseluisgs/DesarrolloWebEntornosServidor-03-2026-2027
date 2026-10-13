@@ -1,4 +1,4 @@
-﻿- [21. Optimización y rendimiento](#21-optimización-y-rendimiento)
+- [21. Optimización y rendimiento](#21-optimización-y-rendimiento)
   - [21.1. Rendimiento: por dónde se va el tiempo](#211-rendimiento-por-dónde-se-va-el-tiempo)
     - [21.1.1. El viaje de una petición](#2111-el-viaje-de-una-petición)
     - [21.1.2. Medir antes de optimizar](#2112-medir-antes-de-optimizar)
@@ -567,6 +567,8 @@ El atributo `loading="lazy"` en un `<img>` le dice al navegador que no cargue la
 | `esNovedad` | bool | Sí |
 
 ### 21.8.3. Almacenamiento
+
+El repositorio en memoria guarda los Funkos en una lista estática que sobrevive entre peticiones. En la práctica real sustituirías esta clase por una con EF Core o MongoDB sin tocar la optimización de rendimiento.
 
 ```csharp
 public static class RepositorioFunkos

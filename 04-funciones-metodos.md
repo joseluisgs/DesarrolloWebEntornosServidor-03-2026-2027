@@ -167,6 +167,8 @@ graph TD
 
 ### 4.2.1. Métodos y propiedades
 
+Las clases de modelo exponen métodos y propiedades que la vista puede usar directamente con la sintaxis `@objeto.Propiedad` o `@objeto.Metodo()`.
+
 ```cshtml
 @using ProductosApp.Models
 @using ProductosApp.Repositories
@@ -355,6 +357,8 @@ Ahí sí hay llaves, y la función se queda dentro sin salir.
 Una lambda (o función anónima) es una función sin nombre, escrita al vuelo: `x => expresión`. Es la base de LINQ y de casi todo lo que hace falta en una vista.
 
 ### 4.3.1. Lambdas como argumento
+
+Las funciones lambda de C# también funcionan dentro de Razor: `x => x.Precio > 20` filtra la lista directamente en la vista con LINQ.
 
 ```cshtml
 @using ProductosApp.Repositories

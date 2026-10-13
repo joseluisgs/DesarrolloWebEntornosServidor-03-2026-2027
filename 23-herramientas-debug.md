@@ -1,4 +1,4 @@
-﻿- [23. Herramientas de programación, prueba y depuración](#23-herramientas-de-programación-prueba-y-depuración)
+- [23. Herramientas de programación, prueba y depuración](#23-herramientas-de-programación-prueba-y-depuración)
   - [23.1. El entorno de desarrollo](#231-el-entorno-de-desarrollo)
     - [23.1.1. Rider y el ecosistema JetBrains](#2311-rider-y-el-ecosistema-jetbrains)
     - [23.1.2. La estructura del proyecto y cómo se ejecuta](#2312-la-estructura-del-proyecto-y-cómo-se-ejecuta)
@@ -553,6 +553,8 @@ app.UseRouting();
 | `esNovedad` | bool | Sí |
 
 ### 23.9.3. Almacenamiento
+
+El repositorio en memoria guarda los Funkos en una lista estática que sobrevive entre peticiones. En la práctica real sustituirías esta clase por una con EF Core o MongoDB sin tocar las herramientas de depuración.
 
 ```csharp
 public static class RepositorioFunkos

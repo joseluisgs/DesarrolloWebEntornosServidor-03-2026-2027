@@ -518,6 +518,8 @@ La conversión del nombre es automática pero hay que conocerla: `ResumenProduct
 
 ### 5.5.1. Las directivas que comparte
 
+El layout comparte las mismas directivas que sus páginas hijas: `@using`, `@namespace` y `@addTagHelper`. Al heredarlas, cada página no necesita repetirlas.
+
 ```cshtml
 @using ProductosApp
 @namespace ProductosApp.Pages

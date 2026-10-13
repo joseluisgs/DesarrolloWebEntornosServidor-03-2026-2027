@@ -328,6 +328,8 @@ Escribir `action="/productos/alta"` a mano es escribir una URL a mano, con los m
 
 ### 13.7.3. Almacenamiento
 
+El repositorio en memoria guarda los Funkos en una lista estática que sobrevive entre peticiones. En la práctica real sustituirías esta clase por una con EF Core o MongoDB sin tocar el formulario.
+
 ```csharp
 public static class RepositorioFunkos
 {

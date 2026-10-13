@@ -1,4 +1,4 @@
-﻿- [20. Configuración de la aplicación web](#20-configuración-de-la-aplicación-web)
+- [20. Configuración de la aplicación web](#20-configuración-de-la-aplicación-web)
   - [20.1. Configuración: dónde vive la decisión](#201-configuración-dónde-vive-la-decisión)
     - [20.1.1. Appsettings.json y sus variantes](#2011-appsettingsjson-y-sus-variantes)
     - [20.1.2. El orden de las fuentes](#2012-el-orden-de-las-fuentes)
@@ -607,7 +607,9 @@ Y los `.csproj` **ya no llevan `Version=`**:
 
 > 🔧 **Truco:** Para desactivarlo puntualmente en un proyecto heredado, a�ade en su `.csproj`: `<ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>`.
 
-### 20.5.3. Comprobaci�n
+### 20.5.3. Comprobación
+
+Con `dotnet list package` compruebas qué versiones de paquetes tiene instaladas la solución, incluidas las dependencias transitivas.
 
 ```bash
 # Ver todas las versiones de paquetes de la soluci�n
@@ -708,6 +710,8 @@ RUN dotnet restore "MiApp/MiApp.csproj"  # ← NU1015 aquí
 | `esNovedad` | bool | Sí |
 
 ### 20.8.3. Almacenamiento
+
+El repositorio en memoria guarda los Funkos en una lista estática que sobrevive entre peticiones. En la práctica real sustituirías esta clase por una con EF Core o MongoDB sin tocar la configuración por entornos.
 
 ```csharp
 public static class RepositorioFunkos

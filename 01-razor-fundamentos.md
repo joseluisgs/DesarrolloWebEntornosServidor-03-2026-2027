@@ -360,6 +360,8 @@ Cuando necesitas más de una instrucción (variables, cálculos, condiciones pre
 
 ### 1.4.4. Todos los delimitadores en un solo archivo
 
+Este ejemplo completo reúne los tres delimitadores de Razor en una misma vista: los bloques `@{ }`, las expresiones `@variable` y los comentarios `@* *@`.
+
 ```cshtml
 @* Vista: Pages/Productos/Detalle.cshtml *@
 @* TODO: cuando haya repositorio, estos datos vendrán de la lista *@

@@ -130,6 +130,8 @@ graph LR
 
 ### 3.1.3. Cómo se llama desde la vista
 
+Una vez inyectado el repositorio, la vista lo usa dentro de un bloque `@{ }` para cargar los datos antes de pintar el HTML.
+
 ```cshtml
 @using ProductosApp.Repositories
 @{
@@ -461,6 +463,8 @@ graph TD
 ```
 
 ### 3.4.1. Array unidimensional
+
+Un array guarda varios valores del mismo tipo en una sola variable, con índice desde 0. Se recorre igual que en C#, con `for` o `foreach`.
 
 ```cshtml
 @{

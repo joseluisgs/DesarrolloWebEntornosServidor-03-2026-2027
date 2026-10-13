@@ -94,6 +94,8 @@ dotnet sln migrate
 
 ## 2. Compilar y ejecutar
 
+Estos comandos compilan el proyecto para verificar errores y lo ejecutan en el servidor de desarrollo.
+
 ```bash
 # Compilar (el primer gran comprobador de errores)
 dotnet build
@@ -138,6 +140,8 @@ dotnet run archivo.cs
 > 💡 **Consejo:** en cuanto la solución tenga más de un proyecto, `dotnet run` necesita `--project`; si no, te preguntará cuál quieres arrancar. Y antes de un `git commit`, borra `bin/` y `obj/` con `dotnet clean`.
 
 ## 3. Paquetes NuGet
+
+Los paquetes NuGet son librerías externas que añades a tu proyecto. Se gestionan con comandos de CLI o desde el IDE.
 
 ```bash
 # Añadir un paquete
@@ -187,6 +191,8 @@ dotnet add package coverlet.collector
 ```
 
 ## 4. .NET tools: herramientas globales
+
+Las herramientas globales de .NET son utilidades CLI que se instalan una vez y se usan desde cualquier proyecto.
 
 ```bash
 # Listar las herramientas instaladas globalmente
@@ -251,6 +257,8 @@ dotnet ef migrations script -o script.sql
 
 ## 7. Tests
 
+Los tests verifican que tu código funciona correctamente. Estos comandos ejecutan las pruebas unitarias del proyecto.
+
 ```bash
 # Ejecutar todos los tests
 dotnet test
@@ -298,6 +306,8 @@ dotnet test --filter "TestCategory=E2E"
 
 ## 8. Formateo de código
 
+El formateo automático asegura que todo el equipo usa el mismo estilo de código. Se ejecuta con dotnet format.
+
 ```bash
 # Formatear según el .editorconfig del proyecto
 dotnet format
@@ -310,6 +320,8 @@ dotnet format --verify-no-changes
 ```
 
 ## 9. User Secrets (secretos de desarrollo)
+
+User Secrets almacena credenciales y configuración sensible fuera del repositorio. Solo funciona en desarrollo.
 
 ```bash
 # Inicializar los secretos en el proyecto (solo una vez)
@@ -330,6 +342,8 @@ dotnet user-secrets remove "Storage:UploadPath"
 
 ## 10. Certificados de desarrollo
 
+ASP.NET Core usa HTTPS en desarrollo con un certificado autofirmado. Estos comandos lo gestionan.
+
 ```bash
 # Crear el certificado de desarrollo para HTTPS
 dotnet dev-certs https
@@ -342,6 +356,8 @@ dotnet dev-certs https --clean
 ```
 
 ## 11. Docker
+
+Estos comandos construyen y ejecutan contenedores Docker para tu aplicación.
 
 ```bash
 # Compilar la imagen
@@ -365,6 +381,8 @@ docker compose up -d --build      # Reconstruir y levantar
 ```
 
 ## 12. Git
+
+Estos comandos de Git son los que usarás a diario para controlar versiones de tu código.
 
 ```bash
 # Estado del repositorio

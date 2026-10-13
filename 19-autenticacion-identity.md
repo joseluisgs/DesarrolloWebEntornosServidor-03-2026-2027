@@ -799,6 +799,8 @@ Razor escapa por defecto todo lo que sale de `@`: el mismo producto con `<script
 
 ### 19.8.3. Almacenamiento
 
+El repositorio en memoria guarda los Funkos en una lista estática que sobrevive entre peticiones. En la práctica real lo sustituirías por Entity Framework Core con la base de datos de Identity, sin tocar la autenticación.
+
 ```csharp
 public static class RepositorioFunkos
 {

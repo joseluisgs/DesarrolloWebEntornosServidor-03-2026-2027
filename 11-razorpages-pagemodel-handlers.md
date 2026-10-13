@@ -344,6 +344,8 @@ Reutiliza el proyecto `FunkosWeb` del reto del 10, con sus páginas de listado y
 
 ### 11.7.3. Almacenamiento
 
+El repositorio en memoria guarda los Funkos en una lista estática que sobrevive entre peticiones. En la práctica real sustituirías esta clase por una con EF Core o MongoDB sin tocar los handlers.
+
 ```csharp
 public static class RepositorioFunkos
 {
