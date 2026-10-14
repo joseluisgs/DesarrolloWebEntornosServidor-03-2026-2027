@@ -71,12 +71,12 @@ graph LR
     A --> D["button submit<br/>el que envía"]
     C --> E["Al pulsar:<br/>nombre=Teclado&categoria=Hogar"]
     E --> F["El servidor<br/>rellena sus parámetros"]
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#607D8,color:#fffB,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
-    style E fill:#9C27B,color:#fff0,color:#fff
-    style F fill:#607D8,color:#fffB,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#607D8B,color:#fff
+    style C fill:#FF9800,color:#fff
+    style D fill:#4CAF50,color:#fff
+    style E fill:#9C27B0,color:#fff
+    style F fill:#607D8B,color:#fff
 ```
 
 📌 **Ejemplo real:** El formulario de cualquier web de reserva de vuelos es esta misma estructura repetida: origen, destino, fechas y pasajeros, cada campo con su `name` para que el servidor sepa qué es cada cosa cuando llega el paquete.
@@ -100,13 +100,13 @@ graph LR
     F --> G["302<br/>redirect"]
     G --> A
     E --> B
-    style A fill:#4CAF5,color:#fff0,color:#fff
-    style B fill:#607D8,color:#fffB,color:#fff
-    style C fill:#2196F,color:#fff3,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style E fill:#f4433,color:#fff6,color:#fff
-    style F fill:#9C27B,color:#fff0,color:#fff
-    style G fill:#f4433,color:#fff6,color:#fff
+    style A fill:#4CAF50,color:#fff
+    style B fill:#607D8B,color:#fff
+    style C fill:#2196F3,color:#fff
+    style D fill:#FF9800,color:#fff
+    style E fill:#f44336,color:#fff
+    style F fill:#9C27B0,color:#fff
+    style G fill:#f44336,color:#fff
 ```
 
 Hay una pieza de seguridad que el navegador no ve y trabaja sola: el **token antiforgery**. El Form Tag Helper inyecta un campo oculto `__RequestVerificationToken` en cada formulario, y el servidor lo exige en cada POST. Lo que sí cambia entre visiones es quién lo exige:
@@ -266,10 +266,10 @@ graph LR
     A["Datos<br/>categorias · etiquetas · campos"] --> B["Plantilla Razor<br/>@foreach sobre los datos"]
     B --> C["Formulario dinámico<br/>options · checkboxes · inputs"]
     C --> D["El navegador<br/>pinta y envía"]
-    style A fill:#FF980,color:#fff0,color:#fff
-    style B fill:#2196F,color:#fff3,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#607D8,color:#fffB,color:#fff
+    style A fill:#FF9800,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#607D8B,color:#fff
 ```
 
 📌 **Ejemplo real:** Los formularios de preferencias de cualquier servicio (notificaciones, privacidad, idioma) se generan así: hay una lista de opciones en el servidor y la plantilla pinta un control por cada una. Si el producto añade una opción nueva, la vista cambia sin que nadie edite HTML.

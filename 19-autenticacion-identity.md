@@ -73,11 +73,11 @@ graph TD
     I --> C1["Claim Name = ana@prueba.com"]
     I --> C2["Claim Role = Admin"]
     I --> C3["Claim sub = identificador interno"]
-    style P fill:#2196F,color:#fff3,color:#fff
-    style I fill:#607D8,color:#fffB,color:#fff
-    style C1 fill:#4CAF5,color:#fff0,color:#fff
-    style C2 fill:#FF980,color:#fff0,color:#fff
-    style C3 fill:#9C27B,color:#fff0,color:#fff
+    style P fill:#2196F3,color:#fff
+    style I fill:#607D8B,color:#fff
+    style C1 fill:#4CAF50,color:#fff
+    style C2 fill:#FF9800,color:#fff
+    style C3 fill:#9C27B0,color:#fff
 ```
 
 📌 **Ejemplo real:** Netflix. Cuando te saluda por tu nombre en la barra superior, está leyendo el claim `Name` de la identidad que reconstruyó en esa petición.
@@ -167,12 +167,12 @@ graph TD
     CS --> D["HttpContext.Session<br/>cesta y visitas cargadas"]
     U --> R["La vista se pinta<br/>con tu nombre y tus datos"]
     D --> R
-    style P fill:#2196F,color:#fff3,color:#fff
-    style CI fill:#9C27B,color:#fff0,color:#fff
-    style CS fill:#FF980,color:#fff0,color:#fff
-    style U fill:#607D8,color:#fffB,color:#fff
-    style D fill:#607D8,color:#fffB,color:#fff
-    style R fill:#4CAF5,color:#fff0,color:#fff
+    style P fill:#2196F3,color:#fff
+    style CI fill:#9C27B0,color:#fff
+    style CS fill:#FF9800,color:#fff
+    style U fill:#607D8B,color:#fff
+    style D fill:#607D8B,color:#fff
+    style R fill:#4CAF50,color:#fff
 ```
 
 Las dos se distinguen por su nombre y por lo que pasa cuando una falta o alguien toca su valor:
@@ -210,12 +210,12 @@ graph TD
     UM --> EF["IdentityDbContext<br/>tablas AspNet"]
     SM --> CK["Cookie de identidad<br/>claims firmados"]
     CK --> P2["La peticion siguiente<br/>ya sabe quien eres"]
-    style P fill:#2196F,color:#fff3,color:#fff
-    style P2 fill:#4CAF5,color:#fff0,color:#fff
-    style UM fill:#FF980,color:#fff0,color:#fff
-    style SM fill:#FF980,color:#fff0,color:#fff
-    style EF fill:#607D8,color:#fffB,color:#fff
-    style CK fill:#9C27B,color:#fff0,color:#fff
+    style P fill:#2196F3,color:#fff
+    style P2 fill:#4CAF50,color:#fff
+    style UM fill:#FF9800,color:#fff
+    style SM fill:#FF9800,color:#fff
+    style EF fill:#607D8B,color:#fff
+    style CK fill:#9C27B0,color:#fff
 ```
 
 Lo que aporta sobre una autenticación propia:
@@ -306,12 +306,12 @@ graph LR
     A --> U["HttpContext.User<br/>con tus claims"]
     U --> Z["UseAuthorization<br/>evalua el atributo"]
     Z --> F["Tu pagina o tu accion<br/>ya no pregunta nada"]
-    style P fill:#2196F,color:#fff3,color:#fff
-    style R fill:#607D8,color:#fffB,color:#fff
-    style A fill:#FF980,color:#fff0,color:#fff
-    style U fill:#9C27B,color:#fff0,color:#fff
-    style Z fill:#607D8,color:#fffB,color:#fff
-    style F fill:#4CAF5,color:#fff0,color:#fff
+    style P fill:#2196F3,color:#fff
+    style R fill:#607D8B,color:#fff
+    style A fill:#FF9800,color:#fff
+    style U fill:#9C27B0,color:#fff
+    style Z fill:#607D8B,color:#fff
+    style F fill:#4CAF50,color:#fff
 ```
 
 Cada bloque tiene su porqué:
@@ -608,12 +608,12 @@ graph TD
     A -->|Si| R["¿Tiene el rol o la politica?"]
     R -->|No| D["302 a /Account/AccessDenied"]
     R -->|Si| OK["200: la vista se pinta"]
-    style P fill:#2196F,color:#fff3,color:#fff
-    style A fill:#607D8,color:#fffB,color:#fff
-    style L fill:#FF980,color:#fff0,color:#fff
-    style R fill:#607D8,color:#fffB,color:#fff
-    style D fill:#f4433,color:#fff6,color:#fff
-    style OK fill:#4CAF5,color:#fff0,color:#fff
+    style P fill:#2196F3,color:#fff
+    style A fill:#607D8B,color:#fff
+    style L fill:#FF9800,color:#fff
+    style R fill:#607D8B,color:#fff
+    style D fill:#f44336,color:#fff
+    style OK fill:#4CAF50,color:#fff
 ```
 
 > 📝 **Nota:** el rol viaja como un claim más en la identidad, así que `User.IsInRole("Admin")` en la vista responde sin mirar la base de datos en cada petición.

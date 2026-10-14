@@ -83,11 +83,11 @@ graph TD
     B --> C["User secrets<br/>solo en Development"]
     C --> D["Variables de entorno<br/>App__Mensaje"]
     D --> E["Argumentos al arrancar<br/>la ultima palabra"]
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#2196F,color:#fff3,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style D fill:#9C27B,color:#fff0,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#FF9800,color:#fff
+    style D fill:#9C27B0,color:#fff
+    style E fill:#4CAF50,color:#fff
 ```
 
 La superposición se aplica clave a clave — no fichero a fichero. Arrancando en `Development`, la vista pinta `MENSAJE-DEV` en las dos visiones: el fichero de desarrollo gana al base en el mensaje, y `Version` sigue pintando `1.0.0` porque esa clave solo existe en el base. Cada fuente corrige lo que necesita y deja el resto en paz.
@@ -180,12 +180,12 @@ graph LR
     CF --> IO["IOptions AppConfig"]
     IO --> P["PageModel o controlador"]
     P --> V["La vista pinta el valor"]
-    style J fill:#607D8,color:#fffB,color:#fff
-    style IC fill:#2196F,color:#fff3,color:#fff
-    style CF fill:#FF980,color:#fff0,color:#fff
-    style IO fill:#9C27B,color:#fff0,color:#fff
-    style P fill:#4CAF5,color:#fff0,color:#fff
-    style V fill:#4CAF5,color:#fff0,color:#fff
+    style J fill:#607D8B,color:#fff
+    style IC fill:#2196F3,color:#fff
+    style CF fill:#FF9800,color:#fff
+    style IO fill:#9C27B0,color:#fff
+    style P fill:#4CAF50,color:#fff
+    style V fill:#4CAF50,color:#fff
 ```
 
 El objeto `opciones.Value.Mensaje` pinta el mismo `MENSAJE-DEV` que la lectura directa en `Development` y el `MENSAJE-PROD` del fichero de producción en `Production`, en las dos visiones.
@@ -314,11 +314,11 @@ graph LR
     R --> B["El arranque queda legible"]
     S --> B
     C --> B
-    style P fill:#2196F,color:#fff3,color:#fff
-    style R fill:#FF980,color:#fff0,color:#fff
-    style S fill:#FF980,color:#fff0,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style B fill:#4CAF5,color:#fff0,color:#fff
+    style P fill:#2196F3,color:#fff
+    style R fill:#FF9800,color:#fff
+    style S fill:#FF9800,color:#fff
+    style C fill:#FF9800,color:#fff
+    style B fill:#4CAF50,color:#fff
 ```
 
 El `Program.cs` resultante no esconde nada: se le de arriba abajo y se ve qué hace la aplicación antes de aceptar una petición.
@@ -360,12 +360,12 @@ graph TD
     M --> I["IMensajesRepository"]
     J --> I
     I --> S["El servicio y la vista<br/>no saben cual es"]
-    style C fill:#2196F,color:#fff3,color:#fff
-    style Q fill:#607D8,color:#fffB,color:#fff
-    style M fill:#FF980,color:#fff0,color:#fff
-    style J fill:#9C27B,color:#fff0,color:#fff
-    style I fill:#4CAF5,color:#fff0,color:#fff
-    style S fill:#4CAF5,color:#fff0,color:#fff
+    style C fill:#2196F3,color:#fff
+    style Q fill:#607D8B,color:#fff
+    style M fill:#FF9800,color:#fff
+    style J fill:#9C27B0,color:#fff
+    style I fill:#4CAF50,color:#fff
+    style S fill:#4CAF50,color:#fff
 ```
 
 Con `App__Datos=json`, la fuente declarada por el repositorio pasa a ser `json` y el servicio responde `el mensaje se lee de un fichero JSON (v1.0.0)`, en las dos visiones y sin que nadie toque `Program.cs` ni la vista.
@@ -481,12 +481,12 @@ graph TD
     M --> V2["La vista de MVC"]
     V1 --> R["Los mismos valores medidos:<br/>MENSAJE-DEV, CALIENTE, MENSAJE-ENV"]
     V2 --> R
-    style I fill:#2196F,color:#fff3,color:#fff
-    style P fill:#FF980,color:#fff0,color:#fff
-    style M fill:#9C27B,color:#fff0,color:#fff
-    style V1 fill:#607D8,color:#fffB,color:#fff
-    style V2 fill:#607D8,color:#fffB,color:#fff
-    style R fill:#4CAF5,color:#fff0,color:#fff
+    style I fill:#2196F3,color:#fff
+    style P fill:#FF9800,color:#fff
+    style M fill:#9C27B0,color:#fff
+    style V1 fill:#607D8B,color:#fff
+    style V2 fill:#607D8B,color:#fff
+    style R fill:#4CAF50,color:#fff
 ```
 
 | | Visión Razor Pages | Visión MVC |
@@ -521,13 +521,13 @@ graph TD
     US -->|"solo en Development"| S["La aplicacion"]
     EV -->|"en cualquier entorno"| S
     A -->|"siempre disponible"| S
-    style R fill:#607D8,color:#fffB,color:#fff
-    style A fill:#607D8,color:#fffB,color:#fff
-    style D fill:#2196F,color:#fff3,color:#fff
-    style US fill:#FF980,color:#fff0,color:#fff
-    style P fill:#9C27B,color:#fff0,color:#fff
-    style EV fill:#9C27B,color:#fff0,color:#fff
-    style S fill:#4CAF5,color:#fff0,color:#fff
+    style R fill:#607D8B,color:#fff
+    style A fill:#607D8B,color:#fff
+    style D fill:#2196F3,color:#fff
+    style US fill:#FF9800,color:#fff
+    style P fill:#9C27B0,color:#fff
+    style EV fill:#9C27B0,color:#fff
+    style S fill:#4CAF50,color:#fff
 ```
 
 📌 **Ejemplo real:** Cualquier desarrollador con varias webs en local guarda sus claves de correo en los secretos de su equipo; el repositorio del proyecto no contiene ni una, y por eso puede subirlo a un repositorio compartido sin miedo.

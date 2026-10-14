@@ -118,10 +118,10 @@ graph LR
     B -->|"@foreach"| C["Una tarjeta<br/>por cada producto"]
     C --> D["HTML final<br/>que recibe el navegador"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#2196F,color:#fff3,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#FF9800,color:#fff
+    style D fill:#4CAF50,color:#fff
 ```
 
 📌 **Ejemplo real:** Netflix no consulta la base de datos 40 veces mientras bajas por la portada. Pide el catálogo una vez y lo recorre en memoria. Nosotros hacemos una versión mini: pedimos la lista una vez y el `@foreach` la pinta.
@@ -169,15 +169,15 @@ graph TD
     D --> D1["case + break<br/>nunca olvides break"]
     E --> E1["_ => valor por defecto"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#2196F,color:#fff3,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style E fill:#9C27B,color:#fff0,color:#fff
-    style B1 fill:#2196F,color:#fff3,color:#fff
-    style C1 fill:#4CAF5,color:#fff0,color:#fff
-    style D1 fill:#FF980,color:#fff0,color:#fff
-    style E1 fill:#9C27B,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#FF9800,color:#fff
+    style E fill:#9C27B0,color:#fff
+    style B1 fill:#2196F3,color:#fff
+    style C1 fill:#4CAF50,color:#fff
+    style D1 fill:#FF9800,color:#fff
+    style E1 fill:#9C27B0,color:#fff
 ```
 
 ### 3.2.1. If, else if y else
@@ -385,13 +385,13 @@ graph TD
     F["@do { } while"] --> G["Ejecuta el bloque<br/>AL MENOS una vez"]
     G --> B
 
-    style A fill:#FF980,color:#fff0,color:#fff
-    style B fill:#607D8,color:#fffB,color:#fff
-    style C fill:#2196F,color:#fff3,color:#fff
-    style D fill:#f4433,color:#fff6,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
-    style F fill:#9C27B,color:#fff0,color:#fff
-    style G fill:#9C27B,color:#fff0,color:#fff
+    style A fill:#FF9800,color:#fff
+    style B fill:#607D8B,color:#fff
+    style C fill:#2196F3,color:#fff
+    style D fill:#f44336,color:#fff
+    style E fill:#4CAF50,color:#fff
+    style F fill:#9C27B0,color:#fff
+    style G fill:#9C27B0,color:#fff
 ```
 
 - **`@while`**: evalúa primero, puede no ejecutarse nunca
@@ -450,16 +450,16 @@ graph TD
     C1["Acceso: m[f, c]<br/>Tamaño: GetLength(0), GetLength(1)"] -.-> C
     D1["Acceso: r[f][c]<br/>Tamaño: r.Length y r[f].Length"] -.-> D
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#2196F,color:#fff3,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style D fill:#9C27B,color:#fff0,color:#fff
-    style B0 fill:#2196F,color:#fff3,color:#fff
-    style C0 fill:#FF980,color:#fff0,color:#fff
-    style D0 fill:#9C27B,color:#fff0,color:#fff
-    style B1 fill:#4CAF5,color:#fff0,color:#fff
-    style C1 fill:#4CAF5,color:#fff0,color:#fff
-    style D1 fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#FF9800,color:#fff
+    style D fill:#9C27B0,color:#fff
+    style B0 fill:#2196F3,color:#fff
+    style C0 fill:#FF9800,color:#fff
+    style D0 fill:#9C27B0,color:#fff
+    style B1 fill:#4CAF50,color:#fff
+    style C1 fill:#4CAF50,color:#fff
+    style D1 fill:#4CAF50,color:#fff
 ```
 
 ### 3.4.1. Array unidimensional

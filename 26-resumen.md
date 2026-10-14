@@ -112,23 +112,23 @@ graph TD
     C24 --> K11[NUnit y Playwright]
     C25 --> K12[Dockerfile y contenedor]
 
-    style UD03 fill:#2196F,color:#fff3,color:#fff
-    style P1 fill:#4CAF5,color:#fff0,color:#fff
-    style P2 fill:#FF980,color:#fff0,color:#fff
-    style P3 fill:#9C27B,color:#fff0,color:#fff
-    style P4 fill:#607D8,color:#fffB,color:#fff
-    style K1 fill:#2196F,color:#fff3,color:#fff
-    style K2 fill:#2196F,color:#fff3,color:#fff
-    style K3 fill:#2196F,color:#fff3,color:#fff
-    style K4 fill:#2196F,color:#fff3,color:#fff
-    style K5 fill:#2196F,color:#fff3,color:#fff
-    style K6 fill:#2196F,color:#fff3,color:#fff
-    style K7 fill:#2196F,color:#fff3,color:#fff
-    style K8 fill:#2196F,color:#fff3,color:#fff
-    style K9 fill:#2196F,color:#fff3,color:#fff
-    style K10 fill:#2196F,color:#fff3,color:#fff
-    style K11 fill:#2196F,color:#fff3,color:#fff
-    style K12 fill:#2196F,color:#fff3,color:#fff
+    style UD03 fill:#2196F3,color:#fff
+    style P1 fill:#4CAF50,color:#fff
+    style P2 fill:#FF9800,color:#fff
+    style P3 fill:#9C27B0,color:#fff
+    style P4 fill:#607D8B,color:#fff
+    style K1 fill:#2196F3,color:#fff
+    style K2 fill:#2196F3,color:#fff
+    style K3 fill:#2196F3,color:#fff
+    style K4 fill:#2196F3,color:#fff
+    style K5 fill:#2196F3,color:#fff
+    style K6 fill:#2196F3,color:#fff
+    style K7 fill:#2196F3,color:#fff
+    style K8 fill:#2196F3,color:#fff
+    style K9 fill:#2196F3,color:#fff
+    style K10 fill:#2196F3,color:#fff
+    style K11 fill:#2196F3,color:#fff
+    style K12 fill:#2196F3,color:#fff
 ```
 
 ## 26.2. Conceptos clave
@@ -471,9 +471,9 @@ graph LR
     UD03 -.->|Razor, MVC, páginas y despliegue| UD04
     UD04 -.->|componentes e interacción en la web| UD05
 
-    style UD01 fill:#4CAF5,color:#fff0,color:#fff
-    style UD02 fill:#2196F,color:#fff3,color:#fff
-    style UD03 fill:#FF980,color:#fff0,color:#fff
-    style UD04 fill:#9C27B,color:#fff0,color:#fff
-    style UD05 fill:#f4433,color:#fff6,color:#fff
+    style UD01 fill:#4CAF50,color:#fff
+    style UD02 fill:#2196F3,color:#fff
+    style UD03 fill:#FF9800,color:#fff
+    style UD04 fill:#9C27B0,color:#fff
+    style UD05 fill:#f44336,color:#fff
 ```

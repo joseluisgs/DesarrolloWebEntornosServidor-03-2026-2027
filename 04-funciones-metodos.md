@@ -116,15 +116,15 @@ graph TD
     D --> D1["Se usa en varias vistas<br/>y se puede testear"]
     E --> E1["Decisión de negocio<br/>no es cosa de la vista"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#FF980,color:#fff0,color:#fff
-    style C fill:#2196F,color:#fff3,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
-    style E fill:#9C27B,color:#fff0,color:#fff
-    style B1 fill:#FF980,color:#fff0,color:#fff
-    style C1 fill:#2196F,color:#fff3,color:#fff
-    style D1 fill:#4CAF5,color:#fff0,color:#fff
-    style E1 fill:#9C27B,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#FF9800,color:#fff
+    style C fill:#2196F3,color:#fff
+    style D fill:#4CAF50,color:#fff
+    style E fill:#9C27B0,color:#fff
+    style B1 fill:#FF9800,color:#fff
+    style C1 fill:#2196F3,color:#fff
+    style D1 fill:#4CAF50,color:#fff
+    style E1 fill:#9C27B0,color:#fff
 ```
 
 | Situación | Dónde va | Ejemplo |
@@ -155,14 +155,14 @@ graph TD
     F --> H["HTML + datos<br/>al navegador"]
     G --> H
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#2196F,color:#fff3,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style E fill:#9C27B,color:#fff0,color:#fff
-    style F fill:#2196F,color:#fff3,color:#fff
-    style G fill:#FF980,color:#fff0,color:#fff
-    style H fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#FF9800,color:#fff
+    style E fill:#9C27B0,color:#fff
+    style F fill:#2196F3,color:#fff
+    style G fill:#FF9800,color:#fff
+    style H fill:#4CAF50,color:#fff
 ```
 
 ### 4.2.1. Métodos y propiedades
@@ -394,13 +394,13 @@ graph LR
     C --> F["La MISMA lista<br/>en otro orden"]
     D --> G["Sublista<br/>o un elemento"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#2196F,color:#fff3,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style E fill:#2196F,color:#fff3,color:#fff
-    style F fill:#4CAF5,color:#fff0,color:#fff
-    style G fill:#FF980,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#FF9800,color:#fff
+    style E fill:#2196F3,color:#fff
+    style F fill:#4CAF50,color:#fff
+    style G fill:#FF9800,color:#fff
 ```
 
 | Lambda | Método | Devuelve |
@@ -501,14 +501,14 @@ graph TD
     E --> G["Vista PARCIAL<br/>reutilizar HTML  →  punto 05"]
     E --> H["TAG HELPER<br/>controles de servidor  →  punto 06"]
 
-    style A fill:#f4433,color:#fff6,color:#fff
-    style B fill:#f4433,color:#fff6,color:#fff
-    style C fill:#f4433,color:#fff6,color:#fff
-    style D fill:#f4433,color:#fff6,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
-    style F fill:#4CAF5,color:#fff0,color:#fff
-    style G fill:#4CAF5,color:#fff0,color:#fff
-    style H fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#f44336,color:#fff
+    style B fill:#f44336,color:#fff
+    style C fill:#f44336,color:#fff
+    style D fill:#f44336,color:#fff
+    style E fill:#4CAF50,color:#fff
+    style F fill:#4CAF50,color:#fff
+    style G fill:#4CAF50,color:#fff
+    style H fill:#4CAF50,color:#fff
 ```
 
 ### 4.4.1. El helper no está soportado

@@ -87,11 +87,11 @@ graph TD
     R --> T1["Dentro de la misma respuesta<br/>ViewData, ViewBag, ModelState"]
     R --> T2["En una cookie que vuelve<br/>TempData (cookies, punto 18)"]
     R --> T3["En el servidor, para todos<br/>estaticos y singleton"]
-    style P fill:#2196F,color:#fff3,color:#fff
-    style R fill:#607D8,color:#fffB,color:#fff
-    style T1 fill:#4CAF5,color:#fff0,color:#fff
-    style T2 fill:#FF980,color:#fff0,color:#fff
-    style T3 fill:#9C27B,color:#fff0,color:#fff
+    style P fill:#2196F3,color:#fff
+    style R fill:#607D8B,color:#fff
+    style T1 fill:#4CAF50,color:#fff
+    style T2 fill:#FF9800,color:#fff
+    style T3 fill:#9C27B0,color:#fff
 ```
 
 Los tres primeros trucos son el trabajo de este punto. El segundo, TempData, es el que Netflix usa para enseñarte el aviso del idioma: el que redirige deja la nota y la página siguiente la pinta.
@@ -120,12 +120,12 @@ graph LR
     V --> F["Acaba la peticion:<br/>la caja desaparece"]
     L --> F
     P --> F
-    style H fill:#2196F,color:#fff3,color:#fff
-    style D fill:#9C27B,color:#fff0,color:#fff
-    style V fill:#4CAF5,color:#fff0,color:#fff
-    style L fill:#4CAF5,color:#fff0,color:#fff
-    style P fill:#4CAF5,color:#fff0,color:#fff
-    style F fill:#607D8,color:#fffB,color:#fff
+    style H fill:#2196F3,color:#fff
+    style D fill:#9C27B0,color:#fff
+    style V fill:#4CAF50,color:#fff
+    style L fill:#4CAF50,color:#fff
+    style P fill:#4CAF50,color:#fff
+    style F fill:#607D8B,color:#fff
 ```
 
 ### 17.2.2. Visión Razor Pages: ViewData en el PageModel
@@ -208,10 +208,10 @@ graph LR
     A["POST: el handler deja<br/>el aviso en TempData"] -->|"302 con Location"| B["GET: la vista de destino<br/>lee el aviso y lo pinta"]
     B --> C["La caja queda vacia"]
     C --> D["GET siguiente:<br/>ya no hay nada que pintar"]
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#4CAF5,color:#fff0,color:#fff
-    style C fill:#607D8,color:#fffB,color:#fff
-    style D fill:#f4433,color:#fff6,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#4CAF50,color:#fff
+    style C fill:#607D8B,color:#fff
+    style D fill:#f44336,color:#fff
 ```
 
 ### 17.3.2. Visión Razor Pages: TempData con PRG
@@ -325,14 +325,14 @@ graph TD
     A --> Q2["Peticion 2"]
     Q1 --> W["Cada peticion ve la suya<br/>distinta siempre"]
     Q2 --> W
-    style S fill:#4CAF5,color:#fff0,color:#fff
-    style P1 fill:#2196F,color:#fff3,color:#fff
-    style P2 fill:#2196F,color:#fff3,color:#fff
-    style V fill:#FF980,color:#fff0,color:#fff
-    style A fill:#9C27B,color:#fff0,color:#fff
-    style Q1 fill:#607D8,color:#fffB,color:#fff
-    style Q2 fill:#607D8,color:#fffB,color:#fff
-    style W fill:#FF980,color:#fff0,color:#fff
+    style S fill:#4CAF50,color:#fff
+    style P1 fill:#2196F3,color:#fff
+    style P2 fill:#2196F3,color:#fff
+    style V fill:#FF9800,color:#fff
+    style A fill:#9C27B0,color:#fff
+    style Q1 fill:#607D8B,color:#fff
+    style Q2 fill:#607D8B,color:#fff
+    style W fill:#FF9800,color:#fff
 ```
 
 **El peligro está en cómo recibes el servicio en una acción:** los parámetros llegan desde la petición. Si pides un tipo registrado sin decirlo a la inyección, el binding fabrica un objeto nuevo en cada petición — el compartido deja de serlo sin que se note y el contador se queda en `1`, `1`, `1`.

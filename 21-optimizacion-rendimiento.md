@@ -59,16 +59,16 @@ graph TD
     K --> N2["El navegador la pinta"]
     C -.->|"aqui gana la cache de valores"| G1["Valores calculados"]
     H -.->|"aqui gana la cache de salida"| G2["Respuestas guardadas"]
-    style N fill:#2196F,color:#fff3,color:#fff
-    style R fill:#607D8,color:#fffB,color:#fff
-    style S fill:#2196F,color:#fff3,color:#fff
-    style B fill:#9C27B,color:#fff0,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style H fill:#FF980,color:#fff0,color:#fff
-    style K fill:#4CAF5,color:#fff0,color:#fff
-    style N2 fill:#4CAF5,color:#fff0,color:#fff
-    style G1 fill:#607D8,color:#fffB,color:#fff
-    style G2 fill:#607D8,color:#fffB,color:#fff
+    style N fill:#2196F3,color:#fff
+    style R fill:#607D8B,color:#fff
+    style S fill:#2196F3,color:#fff
+    style B fill:#9C27B0,color:#fff
+    style C fill:#FF9800,color:#fff
+    style H fill:#FF9800,color:#fff
+    style K fill:#4CAF50,color:#fff
+    style N2 fill:#4CAF50,color:#fff
+    style G1 fill:#607D8B,color:#fff
+    style G2 fill:#607D8B,color:#fff
 ```
 
 Cada tramo tiene su propio culpable cuando la petición tarda: la red no la controlas — la base de datos se arregla con consultas bien hechas y con caché, el cálculo se arregla con no repetir trabajo, y la respuesta se arregla con caché de salida y compresión. Antes de culpar a nadie, la única forma honesta es saber en qué tramo se queda el tiempo.
@@ -106,11 +106,11 @@ graph TD
     A --> F["Comparas antes y despues<br/>con la misma peticion"]
     B --> F
     C --> F
-    style M fill:#2196F,color:#fff3,color:#fff
-    style A fill:#FF980,color:#fff0,color:#fff
-    style B fill:#9C27B,color:#fff0,color:#fff
-    style C fill:#607D8,color:#fffB,color:#fff
-    style F fill:#4CAF5,color:#fff0,color:#fff
+    style M fill:#2196F3,color:#fff
+    style A fill:#FF9800,color:#fff
+    style B fill:#9C27B0,color:#fff
+    style C fill:#607D8B,color:#fff
+    style F fill:#4CAF50,color:#fff
 ```
 
 📌 **Ejemplo real:** Netflix mide cada reproducción con sus propios cronómetros; nadie optimiza a ciegas: primero saben cuánto tarda y dónde.
@@ -160,11 +160,11 @@ graph TD
     Q -->|no| C["Calcula el valor"]
     C --> G["Lo guarda con caducidad"]
     G --> R
-    style P fill:#2196F,color:#fff3,color:#fff
-    style Q fill:#607D8,color:#fffB,color:#fff
-    style R fill:#4CAF5,color:#fff0,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style G fill:#9C27B,color:#fff0,color:#fff
+    style P fill:#2196F3,color:#fff
+    style Q fill:#607D8B,color:#fff
+    style R fill:#4CAF50,color:#fff
+    style C fill:#FF9800,color:#fff
+    style G fill:#9C27B0,color:#fff
 ```
 
 📌 **Ejemplo real:** Booking pide decenas de veces por segundo la lista de ciudades de su buscador; ese listado no cambia cada minuto y vive en caché, mientras que el precio del día se consulta cada vez.
@@ -363,12 +363,12 @@ graph LR
     G --> N["El navegador lo deshace"]
     B --> N
     I["Una imagen ya comprimida"] --> S["Se queda igual"]
-    style T fill:#2196F,color:#fff3,color:#fff
-    style G fill:#FF980,color:#fff0,color:#fff
-    style B fill:#9C27B,color:#fff0,color:#fff
-    style N fill:#4CAF5,color:#fff0,color:#fff
-    style I fill:#607D8,color:#fffB,color:#fff
-    style S fill:#607D8,color:#fffB,color:#fff
+    style T fill:#2196F3,color:#fff
+    style G fill:#FF9800,color:#fff
+    style B fill:#9C27B0,color:#fff
+    style N fill:#4CAF50,color:#fff
+    style I fill:#607D8B,color:#fff
+    style S fill:#607D8B,color:#fff
 ```
 
 El registro es doble: `AddResponseCompression` en los servicios y `UseResponseCompression` en el conducto, lo más arriba posible, para que comprima todo lo que venga detrás. En el laboratorio se habilita también para HTTPS con `EnableForHttps = true`.
@@ -432,11 +432,11 @@ graph LR
     C --> B["Tres concerns<br/>tres ficheros"]
     K --> B
     O --> B
-    style P fill:#2196F,color:#fff3,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style K fill:#9C27B,color:#fff0,color:#fff
-    style O fill:#607D8,color:#fffB,color:#fff
-    style B fill:#4CAF5,color:#fff0,color:#fff
+    style P fill:#2196F3,color:#fff
+    style C fill:#FF9800,color:#fff
+    style K fill:#9C27B0,color:#fff
+    style O fill:#607D8B,color:#fff
+    style B fill:#4CAF50,color:#fff
 ```
 
 📌 **Ejemplo real:** Una plataforma de cursos separa su cableado de rendimiento en bloques: caché, compresión y caché de salida; cada bloque se configura en un sitio y el arranque solo los encadena.

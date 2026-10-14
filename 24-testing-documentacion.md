@@ -54,9 +54,9 @@ graph TD
     U["Pruebas unitarias<br/>NUnit: la logica sola"]
     U --> I
     I --> E
-    style E fill:#9C27B,color:#fff0,color:#fff
-    style I fill:#FF980,color:#fff0,color:#fff
-    style U fill:#4CAF5,color:#fff0,color:#fff
+    style E fill:#9C27B0,color:#fff
+    style I fill:#FF9800,color:#fff
+    style U fill:#4CAF50,color:#fff
 ```
 
 | Nivel | Qué comprueba | Cuántas | Cuánto tarda |
@@ -355,13 +355,13 @@ graph TD
     D --> E["El editor la muestra<br/>al llamarla"]
     R --> Q["Al equipo nuevo<br/>no le preguntas nada"]
     N --> P["El resumen cuenta<br/>que cubre cada prueba"]
-    style X fill:#2196F,color:#fff3,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style R fill:#9C27B,color:#fff0,color:#fff
-    style N fill:#607D8,color:#fffB,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
-    style Q fill:#4CAF5,color:#fff0,color:#fff
-    style P fill:#4CAF5,color:#fff0,color:#fff
+    style X fill:#2196F3,color:#fff
+    style D fill:#FF9800,color:#fff
+    style R fill:#9C27B0,color:#fff
+    style N fill:#607D8B,color:#fff
+    style E fill:#4CAF50,color:#fff
+    style Q fill:#4CAF50,color:#fff
+    style P fill:#4CAF50,color:#fff
 ```
 
 ### 24.4.1. XMLDoc en la lógica de las vistas
@@ -423,11 +423,11 @@ graph LR
     D --> P["Playwright abre Chromium<br/>y ejecuta las de pagina"]
     N --> R["Resumen: superadas,<br/>con error, omitidas"]
     P --> R
-    style T fill:#2196F,color:#fff3,color:#fff
-    style D fill:#607D8,color:#fffB,color:#fff
-    style N fill:#4CAF5,color:#fff0,color:#fff
-    style P fill:#9C27B,color:#fff0,color:#fff
-    style R fill:#FF980,color:#fff0,color:#fff
+    style T fill:#2196F3,color:#fff
+    style D fill:#607D8B,color:#fff
+    style N fill:#4CAF50,color:#fff
+    style P fill:#9C27B0,color:#fff
+    style R fill:#FF9800,color:#fff
 ```
 
 📌 **Ejemplo real:** Los equipos de integración continua ejecutan exactamente la misma orden que tú: `dotnet test`; si falla, no se publica nada.

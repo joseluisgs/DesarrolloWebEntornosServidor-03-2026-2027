@@ -54,11 +54,11 @@ graph TD
     P --> N["Ingles<br/>SharedResource.en.resx"]
     E --> V["La misma vista<br/>pinta segun la cultura"]
     N --> V
-    style I fill:#2196F,color:#fff3,color:#fff
-    style P fill:#FF980,color:#fff0,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
-    style N fill:#9C27B,color:#fff0,color:#fff
-    style V fill:#607D8,color:#fffB,color:#fff
+    style I fill:#2196F3,color:#fff
+    style P fill:#FF9800,color:#fff
+    style E fill:#4CAF50,color:#fff
+    style N fill:#9C27B0,color:#fff
+    style V fill:#607D8B,color:#fff
 ```
 
 | | Internacionalización | Localización |
@@ -151,12 +151,12 @@ graph TD
     A -->|no| N["SharedResource.resx<br/>el neutral de la casa"]
     R --> T["Devuelve el texto traducido"]
     N --> T
-    style P fill:#2196F,color:#fff3,color:#fff
-    style L fill:#FF980,color:#fff0,color:#fff
-    style A fill:#607D8,color:#fffB,color:#fff
-    style R fill:#9C27B,color:#fff0,color:#fff
-    style N fill:#9C27B,color:#fff0,color:#fff
-    style T fill:#4CAF5,color:#fff0,color:#fff
+    style P fill:#2196F3,color:#fff
+    style L fill:#FF9800,color:#fff
+    style A fill:#607D8B,color:#fff
+    style R fill:#9C27B0,color:#fff
+    style N fill:#9C27B0,color:#fff
+    style T fill:#4CAF50,color:#fff
 ```
 
 📌 **Ejemplo real:** Cualquier panel administrativo multiidioma separa sus textos globales (botones, avisos, errores) de los de cada vista; los primeros viven en un recurso compartido y se traducen una sola vez.
@@ -173,11 +173,11 @@ graph TD
     Q -->|no la trae| C["Cookie: .AspNetCore.Culture"]
     C -->|no la trae| A["Cabecera: Accept-Language"]
     A -->|no la trae| D["Por defecto: es-ES"]
-    style P fill:#2196F,color:#fff3,color:#fff
-    style Q fill:#FF980,color:#fff0,color:#fff
-    style C fill:#9C27B,color:#fff0,color:#fff
-    style A fill:#607D8,color:#fffB,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
+    style P fill:#2196F3,color:#fff
+    style Q fill:#FF9800,color:#fff
+    style C fill:#9C27B0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style D fill:#4CAF50,color:#fff
 ```
 
 Cada proveedor, medido en las dos visiones:
@@ -384,15 +384,15 @@ graph TD
     HL --> T["Los mismos textos<br/>en las dos visiones"]
     SL --> T
     DA --> T
-    style V fill:#2196F,color:#fff3,color:#fff
-    style L fill:#2196F,color:#fff3,color:#fff
-    style F fill:#2196F,color:#fff3,color:#fff
-    style J fill:#2196F,color:#fff3,color:#fff
-    style HL fill:#FF980,color:#fff0,color:#fff
-    style SL fill:#FF980,color:#fff0,color:#fff
-    style DA fill:#9C27B,color:#fff0,color:#fff
-    style G fill:#607D8,color:#fffB,color:#fff
-    style T fill:#4CAF5,color:#fff0,color:#fff
+    style V fill:#2196F3,color:#fff
+    style L fill:#2196F3,color:#fff
+    style F fill:#2196F3,color:#fff
+    style J fill:#2196F3,color:#fff
+    style HL fill:#FF9800,color:#fff
+    style SL fill:#FF9800,color:#fff
+    style DA fill:#9C27B0,color:#fff
+    style G fill:#607D8B,color:#fff
+    style T fill:#4CAF50,color:#fff
 ```
 
 | Qué se localiza | Cómo |

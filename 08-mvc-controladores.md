@@ -95,12 +95,12 @@ graph TD
     B -->|"No"| D{"¿Encaja en la<br/>ruta convencional?"}
     D -->|"Sí"| E["La acción que toque:<br/>ProductosController.Index()"]
     D -->|"No"| F["HTTP 404<br/>no hay destino"]
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#FF980,color:#fff0,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
-    style F fill:#f4433,color:#fff6,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#FF9800,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#FF9800,color:#fff
+    style E fill:#4CAF50,color:#fff
+    style F fill:#f44336,color:#fff
 ```
 
 📌 **Ejemplo real:** En GitHub, cada repositorio tiene su propia dirección (`github.com/usuario/proyecto`) y esa misma plantilla encaja con millones de combinaciones. Eso es una ruta con huecos: el patrón es único, los datos cambian en cada visita.
@@ -244,18 +244,18 @@ graph TD
     D --> R3["text/plain"]
     E --> R4["HTTP 404"]
     F --> R5["HTTP 302 + Location"]
-    style Q fill:#2196F,color:#fff3,color:#fff
-    style A fill:#4CAF5,color:#fff0,color:#fff
-    style B fill:#4CAF5,color:#fff0,color:#fff
-    style C fill:#9C27B,color:#fff0,color:#fff
-    style D fill:#9C27B,color:#fff0,color:#fff
-    style E fill:#f4433,color:#fff6,color:#fff
-    style F fill:#FF980,color:#fff0,color:#fff
-    style R1 fill:#607D8,color:#fffB,color:#fff
-    style R2 fill:#607D8,color:#fffB,color:#fff
-    style R3 fill:#607D8,color:#fffB,color:#fff
-    style R4 fill:#f4433,color:#fff6,color:#fff
-    style R5 fill:#FF980,color:#fff0,color:#fff
+    style Q fill:#2196F3,color:#fff
+    style A fill:#4CAF50,color:#fff
+    style B fill:#4CAF50,color:#fff
+    style C fill:#9C27B0,color:#fff
+    style D fill:#9C27B0,color:#fff
+    style E fill:#f44336,color:#fff
+    style F fill:#FF9800,color:#fff
+    style R1 fill:#607D8B,color:#fff
+    style R2 fill:#607D8B,color:#fff
+    style R3 fill:#607D8B,color:#fff
+    style R4 fill:#f44336,color:#fff
+    style R5 fill:#FF9800,color:#fff
 ```
 
 📌 **Ejemplo real:** Netflix es una web y a la vez una app. La web recibe `text/html` porque alguien tiene que pintarla en un navegador; la tele y el móvil piden `application/json` a las mismas acciones del servidor. El dato es el mismo; cambia el resultado que se le devuelve a cada cliente.
@@ -452,17 +452,17 @@ graph LR
     H --> I["_Layout.cshtml"]
     I --> J["HTML con HTTP 200"]
     G --> K["HTTP 404"]
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#607D8,color:#fffB,color:#fff
-    style C fill:#f4433,color:#fff6,color:#fff
-    style D fill:#607D8,color:#fffB,color:#fff
-    style E fill:#FF980,color:#fff0,color:#fff
-    style F fill:#4CAF5,color:#fff0,color:#fff
-    style G fill:#f4433,color:#fff6,color:#fff
-    style H fill:#4CAF5,color:#fff0,color:#fff
-    style I fill:#4CAF5,color:#fff0,color:#fff
-    style J fill:#4CAF5,color:#fff0,color:#fff
-    style K fill:#f4433,color:#fff6,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#607D8B,color:#fff
+    style C fill:#f44336,color:#fff
+    style D fill:#607D8B,color:#fff
+    style E fill:#FF9800,color:#fff
+    style F fill:#4CAF50,color:#fff
+    style G fill:#f44336,color:#fff
+    style H fill:#4CAF50,color:#fff
+    style I fill:#4CAF50,color:#fff
+    style J fill:#4CAF50,color:#fff
+    style K fill:#f44336,color:#fff
 ```
 
 | Paso | Quién | Qué hace |

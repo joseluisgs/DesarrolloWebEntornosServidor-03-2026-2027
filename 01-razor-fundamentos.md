@@ -95,14 +95,14 @@ graph TD
     B -->|"Generación<br/>ANTICIPADA"| H["Se generan páginas<br/>en tiempo de compilación"]
     H --> D
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#FF980,color:#fff0,color:#fff
-    style C fill:#2196F,color:#fff3,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
-    style E fill:#607D8,color:#fffB,color:#fff
-    style F fill:#9C27B,color:#fff0,color:#fff
-    style G fill:#9C27B,color:#fff0,color:#fff
-    style H fill:#f4433,color:#fff6,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#FF9800,color:#fff
+    style C fill:#2196F3,color:#fff
+    style D fill:#4CAF50,color:#fff
+    style E fill:#607D8B,color:#fff
+    style F fill:#9C27B0,color:#fff
+    style G fill:#9C27B0,color:#fff
+    style H fill:#f44336,color:#fff
 ```
 
 | Mecanismo | Dónde se ejecuta | Ventaja | Riesgo |
@@ -151,14 +151,14 @@ graph LR
     E --> F["Estáticos<br/>css, js"]
     E --> G["Endpoint Razor o MVC<br/>genera el HTML"]
     G --> H["Respuesta<br/>al navegador"]
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#607D8,color:#fffB,color:#fff
-    style C fill:#f4433,color:#fff6,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style E fill:#9C27B,color:#fff0,color:#fff
-    style F fill:#4CAF5,color:#fff0,color:#fff
-    style G fill:#4CAF5,color:#fff0,color:#fff
-    style H fill:#607D8,color:#fffB,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#607D8B,color:#fff
+    style C fill:#f44336,color:#fff
+    style D fill:#FF9800,color:#fff
+    style E fill:#9C27B0,color:#fff
+    style F fill:#4CAF50,color:#fff
+    style G fill:#4CAF50,color:#fff
+    style H fill:#607D8B,color:#fff
 ```
 
 📌 **Ejemplo real:** La pestaña *Network* del navegador (F12) te muestra el final de este viaje: cada fichero que pide la página es una petición que recorrió su propio pipeline. Por eso el CSS suele aparecer antes que el HTML: los estáticos se resuelven en un middleware previo al endpoint.
@@ -203,15 +203,15 @@ graph LR
         EJS["Node EJS<br/>&lt;% %&gt;"]
     end
 
-    style RAZOR fill:#4CAF5,color:#fff0,color:#fff
-    style JSP fill:#607D8,color:#fffB,color:#fff
-    style TH fill:#607D8,color:#fffB,color:#fff
-    style PHP fill:#2196F,color:#fff3,color:#fff
-    style TW fill:#2196F,color:#fff3,color:#fff
-    style BL fill:#2196F,color:#fff3,color:#fff
-    style ASPX fill:#9C27B,color:#fff0,color:#fff
-    style ERB fill:#FF980,color:#fff0,color:#fff
-    style EJS fill:#FF980,color:#fff0,color:#fff
+    style RAZOR fill:#4CAF50,color:#fff
+    style JSP fill:#607D8B,color:#fff
+    style TH fill:#607D8B,color:#fff
+    style PHP fill:#2196F3,color:#fff
+    style TW fill:#2196F3,color:#fff
+    style BL fill:#2196F3,color:#fff
+    style ASPX fill:#9C27B0,color:#fff
+    style ERB fill:#FF9800,color:#fff
+    style EJS fill:#FF9800,color:#fff
 ```
 
 | Tecnología | Lenguaje | Delimitador típico | Fichero |
@@ -253,12 +253,12 @@ graph LR
     C -->|"3. Render"| E["HTML final<br/>texto plano"]
     E -->|"4. Respuesta HTTP"| F["Navegador<br/>lo pinta"]
 
-    style A fill:#9C27B,color:#fff0,color:#fff
-    style B fill:#607D8,color:#fffB,color:#fff
-    style C fill:#2196F,color:#fff3,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
-    style F fill:#607D8,color:#fffB,color:#fff
+    style A fill:#9C27B0,color:#fff
+    style B fill:#607D8B,color:#fff
+    style C fill:#2196F3,color:#fff
+    style D fill:#FF9800,color:#fff
+    style E fill:#4CAF50,color:#fff
+    style F fill:#607D8B,color:#fff
 ```
 
 Dos ideas clave que te van a ahorrar horas de frustración:
@@ -285,13 +285,13 @@ graph TD
     A --> F["@: y &lt;text&gt;<br/>texto literal desde C#"]
     A --> G["@* *@ comentario<br/>no llega al navegador"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#4CAF5,color:#fff0,color:#fff
-    style C fill:#2196F,color:#fff3,color:#fff
-    style D fill:#9C27B,color:#fff0,color:#fff
-    style E fill:#FF980,color:#fff0,color:#fff
-    style F fill:#FF980,color:#fff0,color:#fff
-    style G fill:#f4433,color:#fff6,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#4CAF50,color:#fff
+    style C fill:#2196F3,color:#fff
+    style D fill:#9C27B0,color:#fff
+    style E fill:#FF9800,color:#fff
+    style F fill:#FF9800,color:#fff
+    style G fill:#f44336,color:#fff
 ```
 
 ### 1.4.1. Expresiones con @
@@ -437,14 +437,14 @@ graph LR
     F --> G["El usuario pulsa F12<br/>y lo lee"]
     G --> H["Peligro:<br/>datos expuestos"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#FF980,color:#fff0,color:#fff
-    style C fill:#2196F,color:#fff3,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
-    style F fill:#9C27B,color:#fff0,color:#fff
-    style G fill:#f4433,color:#fff6,color:#fff
-    style H fill:#f4433,color:#fff6,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#FF9800,color:#fff
+    style C fill:#2196F3,color:#fff
+    style D fill:#4CAF50,color:#fff
+    style E fill:#4CAF50,color:#fff
+    style F fill:#9C27B0,color:#fff
+    style G fill:#f44336,color:#fff
+    style H fill:#f44336,color:#fff
 ```
 
 ```cshtml
@@ -560,20 +560,20 @@ graph TD
     D --> D2["Pages/Index.cshtml.cs"]
     D --> D3["Pages/Shared/_Layout.cshtml"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#4CAF5,color:#fff0,color:#fff
-    style C fill:#2196F,color:#fff3,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style B1 fill:#2196F,color:#fff3,color:#fff
-    style B2 fill:#2196F,color:#fff3,color:#fff
-    style B3 fill:#2196F,color:#fff3,color:#fff
-    style B4 fill:#2196F,color:#fff3,color:#fff
-    style C1 fill:#9C27B,color:#fff0,color:#fff
-    style C2 fill:#9C27B,color:#fff0,color:#fff
-    style C3 fill:#9C27B,color:#fff0,color:#fff
-    style D1 fill:#9C27B,color:#fff0,color:#fff
-    style D2 fill:#9C27B,color:#fff0,color:#fff
-    style D3 fill:#9C27B,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#4CAF50,color:#fff
+    style C fill:#2196F3,color:#fff
+    style D fill:#FF9800,color:#fff
+    style B1 fill:#2196F3,color:#fff
+    style B2 fill:#2196F3,color:#fff
+    style B3 fill:#2196F3,color:#fff
+    style B4 fill:#2196F3,color:#fff
+    style C1 fill:#9C27B0,color:#fff
+    style C2 fill:#9C27B0,color:#fff
+    style C3 fill:#9C27B0,color:#fff
+    style D1 fill:#9C27B0,color:#fff
+    style D2 fill:#9C27B0,color:#fff
+    style D3 fill:#9C27B0,color:#fff
 ```
 
 Las diferencias que de verdad importan:

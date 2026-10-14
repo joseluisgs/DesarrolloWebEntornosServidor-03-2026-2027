@@ -78,10 +78,10 @@ graph TD
     N --> D["Con Expires: en disco<br/>viven hasta su fecha"]
     M -->|Cookie: en cada peticion| S
     D -->|Cookie: en cada peticion| S
-    style S fill:#2196F,color:#fff3,color:#fff
-    style N fill:#607D8,color:#fffB,color:#fff
-    style M fill:#FF980,color:#fff0,color:#fff
-    style D fill:#9C27B,color:#fff0,color:#fff
+    style S fill:#2196F3,color:#fff
+    style N fill:#607D8B,color:#fff
+    style M fill:#FF9800,color:#fff
+    style D fill:#9C27B0,color:#fff
 ```
 
 ### 18.1.2. Ciclo de vida: escribir, leer y borrar
@@ -244,11 +244,11 @@ graph TD
     S --> N["Cookie sin HttpOnly"]
     H --> JH["document.cookie la omite:<br/>ningun script la ve"]
     N --> JN["JavaScript la lee y la escribe<br/>y viaja al servidor"]
-    style S fill:#2196F,color:#fff3,color:#fff
-    style H fill:#4CAF5,color:#fff0,color:#fff
-    style N fill:#FF980,color:#fff0,color:#fff
-    style JH fill:#607D8,color:#fffB,color:#fff
-    style JN fill:#9C27B,color:#fff0,color:#fff
+    style S fill:#2196F3,color:#fff
+    style H fill:#4CAF50,color:#fff
+    style N fill:#FF9800,color:#fff
+    style JH fill:#607D8B,color:#fff
+    style JN fill:#9C27B0,color:#fff
 ```
 
 📌 **Ejemplo real:** YouTube. Tus preferencias de reproducción viven en cookies que la propia página lee con JavaScript; el identificador con el que te reconoces no aparece en `document.cookie`, porque está marcado como `HttpOnly`.
@@ -454,12 +454,12 @@ graph TD
     C --> T["Tu pagina o tu accion<br/>lee y escribe con HttpContext.Session"]
     T --> G["Al terminar la peticion,<br/>la sesion se guarda sola"]
     G --> S["Respuesta al navegador"]
-    style P fill:#2196F,color:#fff3,color:#fff
-    style R fill:#607D8,color:#fffB,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style T fill:#4CAF5,color:#fff0,color:#fff
-    style G fill:#9C27B,color:#fff0,color:#fff
-    style S fill:#607D8,color:#fffB,color:#fff
+    style P fill:#2196F3,color:#fff
+    style R fill:#607D8B,color:#fff
+    style C fill:#FF9800,color:#fff
+    style T fill:#4CAF50,color:#fff
+    style G fill:#9C27B0,color:#fff
+    style S fill:#607D8B,color:#fff
 ```
 
 Tres consecuencias prácticas de ese esquema:
@@ -508,11 +508,11 @@ graph TD
     P -->|El servidor| S["Sesion: datos del usuario<br/>llave en la cookie, datos en el servidor"]
     P -->|Las dos partes| C["Cookie: preferencias<br/>el dato viaja en cada peticion"]
     P -->|Solo el navegador| L["localStorage: dato de interfaz<br/>lo lee y escribe JavaScript"]
-    style D fill:#2196F,color:#fff3,color:#fff
-    style P fill:#607D8,color:#fffB,color:#fff
-    style S fill:#9C27B,color:#fff0,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style L fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#2196F3,color:#fff
+    style P fill:#607D8B,color:#fff
+    style S fill:#9C27B0,color:#fff
+    style C fill:#FF9800,color:#fff
+    style L fill:#4CAF50,color:#fff
 ```
 
 La sesión, además, no compite con la cookie: se apoya en ella. Sin cookie no hay sesión posible, porque el servidor solo recibe peticiones anónimas y no sabe a qué datos ir. Lo que cambia de una a otra es quién se queda con el peso: el dato entero viaja en la cookie y en la sesión solo va la llave.
@@ -525,12 +525,12 @@ graph TD
     C2 --> L2["El servidor busca los datos<br/>detras de esa llave"]
     L1 --> R["La respuesta sale<br/>montada con las dos"]
     L2 --> R
-    style N fill:#2196F,color:#fff3,color:#fff
-    style C1 fill:#FF980,color:#fff0,color:#fff
-    style C2 fill:#9C27B,color:#fff0,color:#fff
-    style L1 fill:#607D8,color:#fffB,color:#fff
-    style L2 fill:#607D8,color:#fffB,color:#fff
-    style R fill:#4CAF5,color:#fff0,color:#fff
+    style N fill:#2196F3,color:#fff
+    style C1 fill:#FF9800,color:#fff
+    style C2 fill:#9C27B0,color:#fff
+    style L1 fill:#607D8B,color:#fff
+    style L2 fill:#607D8B,color:#fff
+    style R fill:#4CAF50,color:#fff
 ```
 
 La regla que se repite en la práctica: si el dato le pertenece a una cuenta va a la sesión — si es una preferencia que debe sobrevivir a cerrar el navegador, va a una cookie; y si solo lo usa el código de la propia página, no hace falta que viaje nada.

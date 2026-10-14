@@ -185,10 +185,10 @@ graph LR
     A["Repositorio<br/>Producto (9 campos)"] --> B["Controlador<br/>Ficha(id)"]
     B --> C["ProductoViewModel<br/>7 campos + 4 textos"]
     C --> D["Vista Ficha.cshtml<br/>solo pinta"]
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#f4433,color:#fff6,color:#fff
-    style C fill:#9C27B,color:#fff0,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#f44336,color:#fff
+    style C fill:#9C27B0,color:#fff
+    style D fill:#4CAF50,color:#fff
 ```
 
 > 💡 **Consejo:** si en la vista escribes `@Model.` y el autocompletado solo ofrece siete campos y cuatro textos, tienes el escudo funcionando. El ViewModel es la lista de lo que la vista tiene permitido conocer.
@@ -264,13 +264,13 @@ graph TD
     A --> D["Bien para títulos<br/>y avisos"]
     B --> E["Forma exacta y<br/>errores al compilar"]
     C --> F["Demasiado:<br/>la vista ve de más"]
-    style Q fill:#2196F,color:#fff3,color:#fff
-    style A fill:#FF980,color:#fff0,color:#fff
-    style B fill:#4CAF5,color:#fff0,color:#fff
-    style C fill:#f4433,color:#fff6,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
-    style F fill:#f4433,color:#fff6,color:#fff
+    style Q fill:#2196F3,color:#fff
+    style A fill:#FF9800,color:#fff
+    style B fill:#4CAF50,color:#fff
+    style C fill:#f44336,color:#fff
+    style D fill:#FF9800,color:#fff
+    style E fill:#4CAF50,color:#fff
+    style F fill:#f44336,color:#fff
 ```
 
 > 💡 **Truco:** el criterio es el tamaño. Un título o un aviso de una petición: `ViewData` o `TempData`. Una vista con lista, contadores y textos derivados: ViewModel. Si vas a escribir tres o más claves seguidas, ya es ViewModel.
@@ -393,10 +393,10 @@ graph TD
     I --> C["CatalogoViewModel<br/>Productos del catálogo"]
     P --> V["Resumen.cshtml<br/>@model IResumen"]
     C --> V
-    style I fill:#2196F,color:#fff3,color:#fff
-    style P fill:#9C27B,color:#fff0,color:#fff
-    style C fill:#9C27B,color:#fff0,color:#fff
-    style V fill:#4CAF5,color:#fff0,color:#fff
+    style I fill:#2196F3,color:#fff
+    style P fill:#9C27B0,color:#fff
+    style C fill:#9C27B0,color:#fff
+    style V fill:#4CAF50,color:#fff
 ```
 
 > 📝 **Nota:** en vistas, la herencia profunda casi nunca compensa: una jerarquía plana de ViewModels con uno o dos contratos como este cubre casi todos los casos reales. Lo importante es que la vista pida *qué* necesita, no *qué clase* es.
@@ -418,11 +418,11 @@ graph TD
     Q --> B["Textos y conteos<br/>de vista<br/>ViewModel"]
     Q --> C["Reglas de negocio<br/>y datos<br/>Modelo / Repositorio"]
     Q --> D["Busca, convierte<br/>y decide vista<br/>Controlador"]
-    style Q fill:#2196F,color:#fff3,color:#fff
-    style A fill:#4CAF5,color:#fff0,color:#fff
-    style B fill:#9C27B,color:#fff0,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style D fill:#f4433,color:#fff6,color:#fff
+    style Q fill:#2196F3,color:#fff
+    style A fill:#4CAF50,color:#fff
+    style B fill:#9C27B0,color:#fff
+    style C fill:#FF9800,color:#fff
+    style D fill:#f44336,color:#fff
 ```
 
 El criterio es simple — si la respuesta cambia cuando cambian los datos de negocio, no va en la vista.

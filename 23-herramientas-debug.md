@@ -70,13 +70,13 @@ graph LR
     D --> V["La vista se pinta"]
     V --> N["El navegador la recibe"]
     N -.->|"y F12 la desglosa"| F["Pestana Red"]
-    style T fill:#2196F,color:#fff3,color:#fff
-    style S fill:#607D8,color:#fffB,color:#fff
-    style P fill:#2196F,color:#fff3,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style V fill:#9C27B,color:#fff0,color:#fff
-    style N fill:#4CAF5,color:#fff0,color:#fff
-    style F fill:#4CAF5,color:#fff0,color:#fff
+    style T fill:#2196F3,color:#fff
+    style S fill:#607D8B,color:#fff
+    style P fill:#2196F3,color:#fff
+    style D fill:#FF9800,color:#fff
+    style V fill:#9C27B0,color:#fff
+    style N fill:#4CAF50,color:#fff
+    style F fill:#4CAF50,color:#fff
 ```
 
 📌 **Ejemplo real:** Cualquier proyecto real se arranca igual: una orden de compilación, una orden de ejecución y una petición al navegador; detrás de la web de Netflix hay un servidor que alguien arranca igual que tú arrancas el tuyo.
@@ -117,12 +117,12 @@ graph TD
     F --> C["La causa:<br/>sobra un corchete"]
     C --> R["Corriges y vuelves a build"]
     R --> OK["Compilacion correcta"]
-    style B fill:#2196F,color:#fff3,color:#fff
-    style E fill:#f4433,color:#fff6,color:#fff
-    style F fill:#FF980,color:#fff0,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style R fill:#607D8,color:#fffB,color:#fff
-    style OK fill:#4CAF5,color:#fff0,color:#fff
+    style B fill:#2196F3,color:#fff
+    style E fill:#f44336,color:#fff
+    style F fill:#FF9800,color:#fff
+    style C fill:#FF9800,color:#fff
+    style R fill:#607D8B,color:#fff
+    style OK fill:#4CAF50,color:#fff
 ```
 
 📌 **Ejemplo real:** Cualquier error de compilación que veas en un proyecto ajeno sigue el mismo patrón: un código, un mensaje, un fichero y una línea; aprender a leerlo es aprender a leer cualquier proyecto.
@@ -212,14 +212,14 @@ graph TD
     E --> P
     P -->|La peticion| D["Miras cabeceras y cuerpo"]
     P -->|El navegador| J["Miras errores de JavaScript"]
-    style F fill:#2196F,color:#fff3,color:#fff
-    style R fill:#FF980,color:#fff0,color:#fff
-    style K fill:#9C27B,color:#fff0,color:#fff
-    style S fill:#607D8,color:#fffB,color:#fff
-    style E fill:#607D8,color:#fffB,color:#fff
-    style P fill:#2196F,color:#fff3,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
-    style J fill:#4CAF5,color:#fff0,color:#fff
+    style F fill:#2196F3,color:#fff
+    style R fill:#FF9800,color:#fff
+    style K fill:#9C27B0,color:#fff
+    style S fill:#607D8B,color:#fff
+    style E fill:#607D8B,color:#fff
+    style P fill:#2196F3,color:#fff
+    style D fill:#4CAF50,color:#fff
+    style J fill:#4CAF50,color:#fff
 ```
 
 En este ciclo ya has usado la pestaña Red para mirar cookies, para comprobar redirecciones y para medir tiempos; la Consola es la que avisa de los errores de JavaScript, y Fuentes muestra el HTML que el navegador ha recibido de verdad, que no siempre es el que escribiste.
@@ -250,12 +250,12 @@ graph TD
     I --> W["Warning<br/>algo raro, aun funciona"]
     W --> E["Error<br/>un fallo concreto"]
     E --> C["Critical<br/>la aplicacion no sigue"]
-    style T fill:#607D8,color:#fffB,color:#fff
-    style D fill:#607D8,color:#fffB,color:#fff
-    style I fill:#2196F,color:#fff3,color:#fff
-    style W fill:#FF980,color:#fff0,color:#fff
-    style E fill:#f4433,color:#fff6,color:#fff
-    style C fill:#9C27B,color:#fff0,color:#fff
+    style T fill:#607D8B,color:#fff
+    style D fill:#607D8B,color:#fff
+    style I fill:#2196F3,color:#fff
+    style W fill:#FF9800,color:#fff
+    style E fill:#f44336,color:#fff
+    style C fill:#9C27B0,color:#fff
 ```
 
 El uso es directo: se inyecta `ILogger<T>` con constructor primario y se registra con el nivel que toca. En el laboratorio, una petición a `/alarma` deja en la consola tres líneas, una por nivel:
@@ -287,10 +287,10 @@ graph TD
     X["Excepcion no controlada"] --> Q{"Que entorno es?"}
     Q -->|Development| D["Pagina detallada:<br/>NullReferenceException y traza"]
     Q -->|Production| P["Aviso generico:<br/>Se ha producido un error inesperado"]
-    style X fill:#f4433,color:#fff6,color:#fff
-    style Q fill:#607D8,color:#fffB,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style P fill:#4CAF5,color:#fff0,color:#fff
+    style X fill:#f44336,color:#fff
+    style Q fill:#607D8B,color:#fff
+    style D fill:#FF9800,color:#fff
+    style P fill:#4CAF50,color:#fff
 ```
 
 ```csharp

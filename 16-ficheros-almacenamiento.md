@@ -68,14 +68,14 @@ graph LR
     D -->|Sí| F["Nombre único"]
     F --> G["Disco:<br/>wwwroot/uploads"]
     G --> H["URL pública<br/>/uploads/..."]
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#607D8,color:#fffB,color:#fff
-    style C fill:#9C27B,color:#fff0,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style E fill:#f4433,color:#fff6,color:#fff
-    style F fill:#4CAF5,color:#fff0,color:#fff
-    style G fill:#4CAF5,color:#fff0,color:#fff
-    style H fill:#607D8,color:#fffB,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#607D8B,color:#fff
+    style C fill:#9C27B0,color:#fff
+    style D fill:#FF9800,color:#fff
+    style E fill:#f44336,color:#fff
+    style F fill:#4CAF50,color:#fff
+    style G fill:#4CAF50,color:#fff
+    style H fill:#607D8B,color:#fff
 ```
 
 > ⚠️ **Advertencia:** sin `enctype="multipart/form-data"` el navegador envía el formulario como texto y el servidor recibe un campo vacío. Es el error número uno de las primeras subidas: el formulario "funciona" y el `IFormFile` llega a `null`.
@@ -243,14 +243,14 @@ graph TD
     E -->|No| G{"¿Extensión en<br/>la lista blanca?"}
     G -->|No| F
     G -->|Sí| H["Guardado seguro<br/>en uploads/"]
-    style A fill:#f4433,color:#fff6,color:#fff
-    style B fill:#FF980,color:#fff0,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#2196F,color:#fff3,color:#fff
-    style E fill:#FF980,color:#fff0,color:#fff
-    style F fill:#f4433,color:#fff6,color:#fff
-    style G fill:#FF980,color:#fff0,color:#fff
-    style H fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#f44336,color:#fff
+    style B fill:#FF9800,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#2196F3,color:#fff
+    style E fill:#FF9800,color:#fff
+    style F fill:#f44336,color:#fff
+    style G fill:#FF9800,color:#fff
+    style H fill:#4CAF50,color:#fff
 ```
 
 ```csharp

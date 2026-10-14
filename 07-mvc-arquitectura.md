@@ -97,15 +97,15 @@ graph TD
     G --> I
     H --> I
 
-    style A fill:#f4433,color:#fff6,color:#fff
-    style B fill:#607D8,color:#fffB,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style D fill:#9C27B,color:#fff0,color:#fff
-    style E fill:#2196F,color:#fff3,color:#fff
-    style F fill:#f4433,color:#fff6,color:#fff
-    style G fill:#f4433,color:#fff6,color:#fff
-    style H fill:#f4433,color:#fff6,color:#fff
-    style I fill:#f4433,color:#fff6,color:#fff
+    style A fill:#f44336,color:#fff
+    style B fill:#607D8B,color:#fff
+    style C fill:#FF9800,color:#fff
+    style D fill:#9C27B0,color:#fff
+    style E fill:#2196F3,color:#fff
+    style F fill:#f44336,color:#fff
+    style G fill:#f44336,color:#fff
+    style H fill:#f44336,color:#fff
+    style I fill:#f44336,color:#fff
 ```
 
 📌 **Ejemplo real:** Netflix tiene una sola página de resultados, pero detrás hay quien decide qué te recomienda (reglas de negocio), quien busca los datos (acceso a datos) y quien dibuja las carátulas (presentación). Si los tres equipos trabajaran en el mismo fichero, cada despliegue rompería el trabajo de los otros dos.
@@ -151,11 +151,11 @@ graph TD
     C -.->|"elige"| V
     M -.->|"entrega"| C
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style C fill:#f4433,color:#fff6,color:#fff
-    style M fill:#9C27B,color:#fff0,color:#fff
-    style V fill:#4CAF5,color:#fff0,color:#fff
-    style R fill:#2196F,color:#fff3,color:#fff
+    style A fill:#607D8B,color:#fff
+    style C fill:#f44336,color:#fff
+    style M fill:#9C27B0,color:#fff
+    style V fill:#4CAF50,color:#fff
+    style R fill:#2196F3,color:#fff
 ```
 
 📌 **Ejemplo real:** Glovo. Cuando pides un restaurante, el controlador recibe la petición, el modelo calcula qué restaurantes hay abiertos y a qué distancia están, y la vista dibuja la lista. Si el diseñador cambia las tarjetas, el cálculo de distancias no se entera.
@@ -191,15 +191,15 @@ graph LR
         B4 --> B5["Solo HTML"]
     end
 
-    style A1 fill:#f4433,color:#fff6,color:#fff
-    style A2 fill:#607D8,color:#fffB,color:#fff
-    style A3 fill:#f4433,color:#fff6,color:#fff
-    style A4 fill:#2196F,color:#fff3,color:#fff
-    style B1 fill:#f4433,color:#fff6,color:#fff
-    style B2 fill:#9C27B,color:#fff0,color:#fff
-    style B3 fill:#9C27B,color:#fff0,color:#fff
-    style B4 fill:#4CAF5,color:#fff0,color:#fff
-    style B5 fill:#4CAF5,color:#fff0,color:#fff
+    style A1 fill:#f44336,color:#fff
+    style A2 fill:#607D8B,color:#fff
+    style A3 fill:#f44336,color:#fff
+    style A4 fill:#2196F3,color:#fff
+    style B1 fill:#f44336,color:#fff
+    style B2 fill:#9C27B0,color:#fff
+    style B3 fill:#9C27B0,color:#fff
+    style B4 fill:#4CAF50,color:#fff
+    style B5 fill:#4CAF50,color:#fff
 ```
 
 > ⚠️ **Advertencia:** MVC no prohíbe que una vista acceda a datos (es técnicamente posible), pero deja de estar separado en cuanto lo haces. Es como comprar una cocina nueva y seguir comiendo en el suelo.
@@ -380,16 +380,16 @@ graph TD
     C1 -->|"pasa los datos"| D1
     D1 --> D2
 
-    style A fill:#9C27B,color:#fff0,color:#fff
-    style A1 fill:#9C27B,color:#fff0,color:#fff
-    style A2 fill:#9C27B,color:#fff0,color:#fff
-    style B fill:#607D8,color:#fffB,color:#fff
-    style B1 fill:#607D8,color:#fffB,color:#fff
-    style C fill:#f4433,color:#fff6,color:#fff
-    style C1 fill:#f4433,color:#fff6,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
-    style D1 fill:#4CAF5,color:#fff0,color:#fff
-    style D2 fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#9C27B0,color:#fff
+    style A1 fill:#9C27B0,color:#fff
+    style A2 fill:#9C27B0,color:#fff
+    style B fill:#607D8B,color:#fff
+    style B1 fill:#607D8B,color:#fff
+    style C fill:#f44336,color:#fff
+    style C1 fill:#f44336,color:#fff
+    style D fill:#4CAF50,color:#fff
+    style D1 fill:#4CAF50,color:#fff
+    style D2 fill:#4CAF50,color:#fff
 ```
 
 | Carpeta | Rol MVC | Ejemplos |
@@ -427,13 +427,13 @@ graph TD
     D -.->|"nunca decide reglas"| N
     P -.->|"nunca consulta la BD"| D
 
-    style A fill:#9C27B,color:#fff0,color:#fff
-    style P fill:#4CAF5,color:#fff0,color:#fff
-    style N fill:#FF980,color:#fff0,color:#fff
-    style D fill:#2196F,color:#fff3,color:#fff
-    style P1 fill:#4CAF5,color:#fff0,color:#fff
-    style N1 fill:#FF980,color:#fff0,color:#fff
-    style D1 fill:#2196F,color:#fff3,color:#fff
+    style A fill:#9C27B0,color:#fff
+    style P fill:#4CAF50,color:#fff
+    style N fill:#FF9800,color:#fff
+    style D fill:#2196F3,color:#fff
+    style P1 fill:#4CAF50,color:#fff
+    style N1 fill:#FF9800,color:#fff
+    style D1 fill:#2196F3,color:#fff
 ```
 
 > 💡 **Analogía:** En una empresa, comercial (presentación) habla con el cliente, dirección (negocio) decide la estrategia y almacén (datos) guarda la mercancía. Si el almacén empieza a negociar precios con el cliente directamente, la empresa tiene un problema de organización, no de ventas.

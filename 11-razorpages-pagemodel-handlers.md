@@ -103,12 +103,12 @@ graph LR
     B -->|"verbo POST<br/>sin ?handler"| D["OnPost()<br/>guarda y redirige"]
     C --> E["HTML"]
     D --> F["302 + Location"]
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#FF980,color:#fff0,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#9C27B,color:#fff0,color:#fff
-    style E fill:#607D8,color:#fffB,color:#fff
-    style F fill:#f4433,color:#fff6,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#FF9800,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#9C27B0,color:#fff
+    style E fill:#607D8B,color:#fff
+    style F fill:#f44336,color:#fff
 ```
 
 El selector mira dos cosas: el verbo HTTP de la petición y el valor de `handler`, si la query lo trae. Con eso decide cuál de los métodos de tu PageModel se ejecuta y qué resultado devuelve la página.
@@ -172,12 +172,12 @@ graph LR
     R --> S["SupportsGet<br/>public int Etapa"]
     F["Formulario POST<br/>nombre, marca, Etapa"] --> Q["Parametro del handler<br/>OnPost(string nombre)"]
     F --> B["BindProperty<br/>public string Nombre"]
-    style R fill:#2196F,color:#fff3,color:#fff
-    style F fill:#FF980,color:#fff0,color:#fff
-    style P fill:#4CAF5,color:#fff0,color:#fff
-    style S fill:#9C27B,color:#fff0,color:#fff
-    style Q fill:#4CAF5,color:#fff0,color:#fff
-    style B fill:#9C27B,color:#fff0,color:#fff
+    style R fill:#2196F3,color:#fff
+    style F fill:#FF9800,color:#fff
+    style P fill:#4CAF50,color:#fff
+    style S fill:#9C27B0,color:#fff
+    style Q fill:#4CAF50,color:#fff
+    style B fill:#9C27B0,color:#fff
 ```
 
 📌 **Ejemplo real:** Cuando subes la foto de perfil en cualquier red social, el formulario viaja con `enctype="multipart/form-data"` y el servidor recibe un `IFormFile`: ese enlace de formulario a propiedad es el que veremos a fondo en el 13 y el 14.
@@ -220,11 +220,11 @@ graph LR
     B --> C["302 Location:<br/>/productos/alta"]
     C --> D["GET /productos/alta<br/>OnGet() pinta"]
     D --> E["Guardados: 1<br/>sin reenvio del formulario"]
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#9C27B,color:#fff0,color:#fff
-    style C fill:#f4433,color:#fff6,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
-    style E fill:#607D8,color:#fffB,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#9C27B0,color:#fff
+    style C fill:#f44336,color:#fff
+    style D fill:#4CAF50,color:#fff
+    style E fill:#607D8B,color:#fff
 ```
 
 Envía dos POST con el token: cada uno devuelve **302** con `Location: /productos/alta` y el GET siguiente muestra el contador en 2, sin ningún mensaje. El dato sobrevivió a la redirección porque vive en el servidor, y el navegador no reenvía el formulario al refrescar.
@@ -285,11 +285,11 @@ graph TD
     B -->|No| D["OnPost()<br/>handler por defecto"]
     C --> E["200"]
     D --> E
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#FF980,color:#fff0,color:#fff
-    style C fill:#9C27B,color:#fff0,color:#fff
-    style D fill:#607D8,color:#fffB,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#FF9800,color:#fff
+    style C fill:#9C27B0,color:#fff
+    style D fill:#607D8B,color:#fff
+    style E fill:#4CAF50,color:#fff
 ```
 
 > 💡 **Consejo:** durante el desarrollo, pon en cada handler un mensaje identificativo, como hicimos con `Marca`. Cuando pruebes una vista con varios handlers, ver en el HTML cuál se ejecutó te ahorra media hora de depuración.

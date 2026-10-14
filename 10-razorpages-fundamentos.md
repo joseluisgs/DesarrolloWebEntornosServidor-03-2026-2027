@@ -62,12 +62,12 @@ graph LR
     C --> D["Vista<br/>Detalle.cshtml"]
     A --> E["Página<br/>Productos/Detalle.cshtml"]
     E <--> F["PageModel<br/>DetalleModel"]
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#f4433,color:#fff6,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
-    style F fill:#9C27B,color:#fff0,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#f44336,color:#fff
+    style C fill:#FF9800,color:#fff
+    style D fill:#4CAF50,color:#fff
+    style E fill:#4CAF50,color:#fff
+    style F fill:#9C27B0,color:#fff
 ```
 
 > 💡 **Analogía:** MVC es un restaurante con camarero: pides, el camarero (controlador) va a cocina, decide qué te trae y vuelve. Razor Pages es showcooking: te sientas delante de la barra y el cocinero (el `PageModel`) te prepara el plato en la misma mesa donde lo consumes.
@@ -127,10 +127,10 @@ graph TD
     A["URL<br/>/Catalogo/Index"] --> B["Archivo<br/>Pages/Catalogo/Index.cshtml"]
     B --> C["PageModel<br/>CatalogoIndexModel.OnGet()"]
     C --> D["HTML con layout<br/>titulado por ViewData"]
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#4CAF5,color:#fff0,color:#fff
-    style C fill:#9C27B,color:#fff0,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#4CAF50,color:#fff
+    style C fill:#9C27B0,color:#fff
+    style D fill:#FF9800,color:#fff
 ```
 
 ### 10.2.2. El mapa en el navegador
@@ -237,11 +237,11 @@ graph TD
     B -->|Sí| C["DetalleModel.OnGet(id)<br/>prepara los datos"]
     B -->|No| D["404<br/>nada que servir"]
     C --> E["HTML con layout"]
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#FF980,color:#fff0,color:#fff
-    style C fill:#9C27B,color:#fff0,color:#fff
-    style D fill:#f4433,color:#fff6,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#FF9800,color:#fff
+    style C fill:#9C27B0,color:#fff
+    style D fill:#f44336,color:#fff
+    style E fill:#4CAF50,color:#fff
 ```
 
 ¿Y si quitamos la restricción? Lo probamos con `@page "/productos/{id}"`:
@@ -322,11 +322,11 @@ graph TD
     M --> R["return Page()<br/>la página se pinta sola"]
     R --> L["_Layout.cshtml<br/>@RenderBody()"]
     L --> H["HTML final"]
-    style V fill:#4CAF5,color:#fff0,color:#fff
-    style M fill:#9C27B,color:#fff0,color:#fff
-    style R fill:#2196F,color:#fff3,color:#fff
-    style L fill:#FF980,color:#fff0,color:#fff
-    style H fill:#607D8,color:#fffB,color:#fff
+    style V fill:#4CAF50,color:#fff
+    style M fill:#9C27B0,color:#fff
+    style R fill:#2196F3,color:#fff
+    style L fill:#FF9800,color:#fff
+    style H fill:#607D8B,color:#fff
 ```
 
 > 📝 **Nota:** en MVC el controlador hacía `return View(viewmodel)` y la vista podía ser cualquiera; aquí el binomio es fijo y `Page()` devuelve siempre la propia página. El resto de handlers (`OnPost`), las propiedades con `[BindProperty]` y los handlers con nombre los abrimos en el punto 11.

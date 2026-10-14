@@ -52,10 +52,10 @@ graph LR
     C["Tu codigo<br/>en la carpeta del proyecto"] --> P["dotnet publish<br/>empaqueta lo publicable"]
     P --> S["Una carpeta publish<br/>lista para mover"]
     S --> D["El servidor:<br/>la ejecuta o la mete en un contenedor"]
-    style C fill:#2196F,color:#fff3,color:#fff
-    style P fill:#FF980,color:#fff0,color:#fff
-    style S fill:#9C27B,color:#fff0,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
+    style C fill:#2196F3,color:#fff
+    style P fill:#FF9800,color:#fff
+    style S fill:#9C27B0,color:#fff
+    style D fill:#4CAF50,color:#fff
 ```
 
 📌 **Ejemplo real:** Spotify. La app se actualiza sola y sigue sonando: nadie reinstala nada a mano, alguien publica una nueva versión y el servicio no se corta.
@@ -98,10 +98,10 @@ graph LR
     I -->|"docker run"| C2["Contenedor 2"]
     C1 --> V["La misma aplicacion<br/>en los tres sitios"]
     C2 --> V
-    style I fill:#9C27B,color:#fff0,color:#fff
-    style C1 fill:#4CAF5,color:#fff0,color:#fff
-    style C2 fill:#4CAF5,color:#fff0,color:#fff
-    style V fill:#2196F,color:#fff3,color:#fff
+    style I fill:#9C27B0,color:#fff
+    style C1 fill:#4CAF50,color:#fff
+    style C2 fill:#4CAF50,color:#fff
+    style V fill:#2196F3,color:#fff
 ```
 
 ### 25.2.2. El Dockerfile por fases
@@ -132,11 +132,11 @@ graph TD
     R --> E["Etapa 2:<br/>imagen de ejecucion"]
     E -->|COPY --from=build| F["Solo la carpeta publish"]
     F --> C["El contenedor<br/>escucha en el 8080"]
-    style S fill:#FF980,color:#fff0,color:#fff
-    style R fill:#FF980,color:#fff0,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
-    style F fill:#9C27B,color:#fff0,color:#fff
-    style C fill:#2196F,color:#fff3,color:#fff
+    style S fill:#FF9800,color:#fff
+    style R fill:#FF9800,color:#fff
+    style E fill:#4CAF50,color:#fff
+    style F fill:#9C27B0,color:#fff
+    style C fill:#2196F3,color:#fff
 ```
 
 La separación en fases no es decorativa — la imagen de ejecución no lleva el compilador, ni el código fuente, ni las herramientas de desarrollo.
@@ -179,11 +179,11 @@ graph LR
     I -->|docker run -p -e| C["Contenedor en marcha"]
     C --> P["http://localhost:5322"]
     P --> R["La aplicacion responde<br/>con su variable de entorno"]
-    style D fill:#FF980,color:#fff0,color:#fff
-    style I fill:#9C27B,color:#fff0,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style P fill:#2196F,color:#fff3,color:#fff
-    style R fill:#4CAF5,color:#fff0,color:#fff
+    style D fill:#FF9800,color:#fff
+    style I fill:#9C27B0,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style P fill:#2196F3,color:#fff
+    style R fill:#4CAF50,color:#fff
 ```
 
 📌 **Ejemplo real:** Las tiendas online publican con órdenes como las tuyas: construir la imagen, comprobarla y arrancarla; la diferencia es quién las ejecuta y cuántas veces al día.
@@ -197,7 +197,7 @@ graph LR
 ```dockerfile
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
-COPY ["FunkoApp.csproj", "./"]
+COPY ["ProductosApp.csproj", "./"]
 RUN dotnet restore
 COPY . .
 RUN dotnet publish -c Release -o /app/publish
@@ -207,7 +207,7 @@ WORKDIR /app
 COPY --from=build /app/publish .
 ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
-ENTRYPOINT ["dotnet", "FunkoApp.dll"]
+ENTRYPOINT ["dotnet", "ProductosApp.dll"]
 ```
 
 ### 25.2.5. Visión MVC: el Dockerfile de la tienda
@@ -215,9 +215,9 @@ ENTRYPOINT ["dotnet", "FunkoApp.dll"]
 **En MVC cambian dos líneas, el `.csproj` de la primera etapa y el ensamblado de la orden de arranque; el resto del Dockerfile es idéntico:**
 
 ```dockerfile
-COPY ["FunkoAppMvc.csproj", "./"]
+COPY ["ProductosAppMvc.csproj", "./"]
 # ...
-ENTRYPOINT ["dotnet", "FunkoAppMvc.dll"]
+ENTRYPOINT ["dotnet", "ProductosAppMvc.dll"]
 ```
 
 > 📝 **Nota:** el Dockerfile vive en la raíz del proyecto y es parte del código: revisarlo es revisar cómo se empaqueta la aplicación.
@@ -279,11 +279,11 @@ graph TD
     R --> S["El servicio en la nube<br/>la baja y la arranca"]
     S --> N["Contenedores en marcha<br/>detrás de un balanceador"]
     N --> V["Los visitantes<br/>la usan como siempre"]
-    style I fill:#9C27B,color:#fff0,color:#fff
-    style R fill:#2196F,color:#fff3,color:#fff
-    style S fill:#FF980,color:#fff0,color:#fff
-    style N fill:#4CAF5,color:#fff0,color:#fff
-    style V fill:#4CAF5,color:#fff0,color:#fff
+    style I fill:#9C27B0,color:#fff
+    style R fill:#2196F3,color:#fff
+    style S fill:#FF9800,color:#fff
+    style N fill:#4CAF50,color:#fff
+    style V fill:#4CAF50,color:#fff
 ```
 
 | Pieza | Qué hace | Ejemplos |
@@ -353,12 +353,12 @@ graph LR
     P -->|"en verde"| D["Trabajo publicar:<br/>docker build y push"]
     P -->|"en rojo"| N["Se corta:<br/>no se publica nada"]
     D --> R["La imagen, en el registro"]
-    style C fill:#2196F,color:#fff3,color:#fff
-    style A fill:#607D8,color:#fffB,color:#fff
-    style P fill:#FF980,color:#fff0,color:#fff
-    style D fill:#9C27B,color:#fff0,color:#fff
-    style N fill:#f4433,color:#fff6,color:#fff
-    style R fill:#4CAF5,color:#fff0,color:#fff
+    style C fill:#2196F3,color:#fff
+    style A fill:#607D8B,color:#fff
+    style P fill:#FF9800,color:#fff
+    style D fill:#9C27B0,color:#fff
+    style N fill:#f44336,color:#fff
+    style R fill:#4CAF50,color:#fff
 ```
 
 Las órdenes del flujo son exactamente las que has ejecutado a mano en este punto: `dotnet publish`, `docker build` y `docker push`. La única diferencia es el sitio donde se ejecutan: servidores limpios de GitHub que solo tienen lo que el propio flujo instala.
@@ -422,7 +422,7 @@ El camino en Render, que es el que se sigue en clase, tiene cinco pasos:
 
 ### 25.7.1. Contexto
 
-**Paso 0:** parte del reto del punto 24 en sus dos visiones (`FunkoApp` y `FunkoAppMvc`), con las pruebas de NUnit y Playwright en verde. Tu tienda ya se comprueba sola; ahora le falta poder vivir fuera de tu máquina.
+**Paso 0:** parte del reto del punto 24 en sus dos visiones (`ProductosApp` y `ProductosAppMvc`), con las pruebas de NUnit y Playwright en verde. Tu tienda ya se comprueba sola; ahora le falta poder vivir fuera de tu máquina.
 
 ### 25.7.2. Modelo de datos
 
@@ -469,11 +469,11 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 
 **Visión Razor Pages:**
 
-10. El Dockerfile de tu `FunkoApp` con su `ENTRYPOINT` del proyecto de páginas; comprueba que el contenedor sirve la portada con la cesta en sesión
+10. El Dockerfile de tu `ProductosApp` con su `ENTRYPOINT` del proyecto de páginas; comprueba que el contenedor sirve la portada con la cesta en sesión
 
 **Visión MVC:**
 
-11. El mismo Dockerfile para `FunkoAppMvc` cambiando el `.csproj` y el ensamblado; comprueba que el contenedor sirve la portada con la misma configuración
+11. El mismo Dockerfile para `ProductosAppMvc` cambiando el `.csproj` y el ensamblado; comprueba que el contenedor sirve la portada con la misma configuración
 
 **Puntos extra:**
 

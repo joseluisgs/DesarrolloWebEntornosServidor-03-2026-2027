@@ -73,11 +73,11 @@ graph LR
     B --> C{"¿ModelState.IsValid?"}
     C -->|"No"| D["200<br/>vuelve la vista o la página<br/>con los mensajes"]
     C -->|"Sí"| E["La lógica normal:<br/>guardar y redirigir"]
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#9C27B,color:#fff0,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style D fill:#f4433,color:#fff6,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#9C27B0,color:#fff
+    style C fill:#FF9800,color:#fff
+    style D fill:#f44336,color:#fff
+    style E fill:#4CAF50,color:#fff
 ```
 
 ### 15.1.2. Visión Razor Pages: validar y devolver la página
@@ -212,16 +212,16 @@ graph TD
     D --> H["Token antiforgery"]
     E --> I["Límite de peticiones"]
     F --> J["Validar nombres"]
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#FF980,color:#fff0,color:#fff
-    style C fill:#f4433,color:#fff6,color:#fff
-    style D fill:#f4433,color:#fff6,color:#fff
-    style E fill:#f4433,color:#fff6,color:#fff
-    style F fill:#f4433,color:#fff6,color:#fff
-    style G fill:#4CAF5,color:#fff0,color:#fff
-    style H fill:#4CAF5,color:#fff0,color:#fff
-    style I fill:#4CAF5,color:#fff0,color:#fff
-    style J fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#FF9800,color:#fff
+    style C fill:#f44336,color:#fff
+    style D fill:#f44336,color:#fff
+    style E fill:#f44336,color:#fff
+    style F fill:#f44336,color:#fff
+    style G fill:#4CAF50,color:#fff
+    style H fill:#4CAF50,color:#fff
+    style I fill:#4CAF50,color:#fff
+    style J fill:#4CAF50,color:#fff
 ```
 
 ## 15.3. XSS y el escapado

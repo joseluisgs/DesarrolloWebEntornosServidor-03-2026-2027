@@ -55,13 +55,13 @@ graph LR
     E["Etiqueta normal<br/>&lt;span class=...&gt;"] --> F["El servidor<br/>NO la toca"]
     F --> G["Misma etiqueta<br/>al navegador"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#2196F,color:#fff3,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
-    style E fill:#FF980,color:#fff0,color:#fff
-    style F fill:#FF980,color:#fff0,color:#fff
-    style G fill:#FF980,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#4CAF50,color:#fff
+    style E fill:#FF9800,color:#fff
+    style F fill:#FF9800,color:#fff
+    style G fill:#FF9800,color:#fff
 ```
 
 📌 **Ejemplo real:** Instagram no escribe en su HTML *"esta foto tiene 1.204 likes"*. Alguien decide eso en el servidor antes de mandar la página. Un Tag Helper hace lo mismo, pero a nivel de etiqueta: el servidor decide qué etiqueta sale y con qué.
@@ -144,15 +144,15 @@ graph LR
     G -->|Sí| H["HTTP 200<br/>Detalle del Producto 7"]
     G -->|No| I["HTTP 404"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#2196F,color:#fff3,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#607D8,color:#fffB,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
-    style F fill:#FF980,color:#fff0,color:#fff
-    style G fill:#FF980,color:#fff0,color:#fff
-    style H fill:#4CAF5,color:#fff0,color:#fff
-    style I fill:#f4433,color:#fff6,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#607D8B,color:#fff
+    style E fill:#4CAF50,color:#fff
+    style F fill:#FF9800,color:#fff
+    style G fill:#FF9800,color:#fff
+    style H fill:#4CAF50,color:#fff
+    style I fill:#f44336,color:#fff
 ```
 
 
@@ -216,14 +216,14 @@ graph TD
     F --> G["Si cambia el contenido<br/>cambia la URL"]
     G --> H["El navegador<br/>descarga lo nuevo"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#FF980,color:#fff0,color:#fff
-    style C fill:#f4433,color:#fff6,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style E fill:#f4433,color:#fff6,color:#fff
-    style F fill:#4CAF5,color:#fff0,color:#fff
-    style G fill:#2196F,color:#fff3,color:#fff
-    style H fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#FF9800,color:#fff
+    style C fill:#f44336,color:#fff
+    style D fill:#FF9800,color:#fff
+    style E fill:#f44336,color:#fff
+    style F fill:#4CAF50,color:#fff
+    style G fill:#2196F3,color:#fff
+    style H fill:#4CAF50,color:#fff
 ```
 
 📌 **Ejemplo real:** Netflix cambia su código varias veces al día. Si el navegador guardara `app.js` en caché para siempre, los usuarios verían una versión vieja. Con huella, la dirección cambia en cada despliegue y todo el mundo recibe lo nuevo sin limpiar caché.
@@ -271,15 +271,15 @@ graph TD
     C --> F
     G --> I["El servidor<br/>NO ha trabajado"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#2196F,color:#fff3,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
-    style E fill:#607D8,color:#fffB,color:#fff
-    style F fill:#FF980,color:#fff0,color:#fff
-    style G fill:#4CAF5,color:#fff0,color:#fff
-    style H fill:#f4433,color:#fff6,color:#fff
-    style I fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#FF9800,color:#fff
+    style D fill:#4CAF50,color:#fff
+    style E fill:#607D8B,color:#fff
+    style F fill:#FF9800,color:#fff
+    style G fill:#4CAF50,color:#fff
+    style H fill:#f44336,color:#fff
+    style I fill:#4CAF50,color:#fff
 ```
 
 📌 **Ejemplo real:** El panel de estadísticas de cualquier red social. No se recalculan los seguidores globales en cada visita: se guardan un rato y se sirven tal cual. Si no, con millones de peticiones el servidor no daría abasto.
@@ -386,17 +386,17 @@ graph TD
     F3 --> G
     G --> H["&lt;span class=&quot;badge bg-primary&quot;&gt;<br/>Novedad&lt;/span&gt;"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#2196F,color:#fff3,color:#fff
-    style C fill:#2196F,color:#fff3,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style E fill:#9C27B,color:#fff0,color:#fff
-    style F fill:#9C27B,color:#fff0,color:#fff
-    style F1 fill:#2196F,color:#fff3,color:#fff
-    style F2 fill:#2196F,color:#fff3,color:#fff
-    style F3 fill:#4CAF5,color:#fff0,color:#fff
-    style G fill:#FF980,color:#fff0,color:#fff
-    style H fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#2196F3,color:#fff
+    style D fill:#FF9800,color:#fff
+    style E fill:#9C27B0,color:#fff
+    style F fill:#9C27B0,color:#fff
+    style F1 fill:#2196F3,color:#fff
+    style F2 fill:#2196F3,color:#fff
+    style F3 fill:#4CAF50,color:#fff
+    style G fill:#FF9800,color:#fff
+    style H fill:#4CAF50,color:#fff
 ```
 
 No toques `context`: sirve para saber de dónde vienes (qué atributos originales había). Lo que tú editas es siempre **`output`**: adónde vas.

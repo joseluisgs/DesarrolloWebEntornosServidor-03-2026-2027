@@ -102,16 +102,16 @@ graph TD
     C1 --> F["Se invoca donde<br/>tú quieras"]
     D1 --> G["Se invoca donde<br/>tú quieras"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#2196F,color:#fff3,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#9C27B,color:#fff0,color:#fff
-    style B1 fill:#2196F,color:#fff3,color:#fff
-    style C1 fill:#4CAF5,color:#fff0,color:#fff
-    style D1 fill:#9C27B,color:#fff0,color:#fff
-    style E fill:#2196F,color:#fff3,color:#fff
-    style F fill:#4CAF5,color:#fff0,color:#fff
-    style G fill:#9C27B,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#9C27B0,color:#fff
+    style B1 fill:#2196F3,color:#fff
+    style C1 fill:#4CAF50,color:#fff
+    style D1 fill:#9C27B0,color:#fff
+    style E fill:#2196F3,color:#fff
+    style F fill:#4CAF50,color:#fff
+    style G fill:#9C27B0,color:#fff
 ```
 
 | Herramienta | ¿Qué reutiliza? | ¿Tiene lógica propia? | Ejemplo en ProductosApp |
@@ -191,16 +191,16 @@ graph TD
     E --> I["Index.cshtml<br/>el contenido"]
     I --> J["HTML final<br/>al navegador"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#FF980,color:#fff0,color:#fff
-    style C fill:#2196F,color:#fff3,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
-    style E fill:#2196F,color:#fff3,color:#fff
-    style F fill:#4CAF5,color:#fff0,color:#fff
-    style G fill:#9C27B,color:#fff0,color:#fff
-    style H fill:#9C27B,color:#fff0,color:#fff
-    style I fill:#4CAF5,color:#fff0,color:#fff
-    style J fill:#607D8,color:#fffB,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#FF9800,color:#fff
+    style C fill:#2196F3,color:#fff
+    style D fill:#4CAF50,color:#fff
+    style E fill:#2196F3,color:#fff
+    style F fill:#4CAF50,color:#fff
+    style G fill:#9C27B0,color:#fff
+    style H fill:#9C27B0,color:#fff
+    style I fill:#4CAF50,color:#fff
+    style J fill:#607D8B,color:#fff
 ```
 
 | Pieza del layout | Para qué sirve |
@@ -381,13 +381,13 @@ graph LR
     E --> G["HTML combinado"]
     F --> G
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#FF980,color:#fff0,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#2196F,color:#fff3,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
-    style F fill:#9C27B,color:#fff0,color:#fff
-    style G fill:#607D8,color:#fffB,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#FF9800,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#2196F3,color:#fff
+    style E fill:#4CAF50,color:#fff
+    style F fill:#9C27B0,color:#fff
+    style G fill:#607D8B,color:#fff
 ```
 
 | Sintaxis | Cuándo usarla |
@@ -421,15 +421,15 @@ graph TD
     B1 --> D["Tarjetas · pies · avisos"]
     C1 --> E["Contadores · resúmenes<br/>menús dinámicos"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#2196F,color:#fff3,color:#fff
-    style C fill:#9C27B,color:#fff0,color:#fff
-    style B1 fill:#2196F,color:#fff3,color:#fff
-    style B2 fill:#2196F,color:#fff3,color:#fff
-    style C1 fill:#9C27B,color:#fff0,color:#fff
-    style C2 fill:#9C27B,color:#fff0,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#9C27B0,color:#fff
+    style B1 fill:#2196F3,color:#fff
+    style B2 fill:#2196F3,color:#fff
+    style C1 fill:#9C27B0,color:#fff
+    style C2 fill:#9C27B0,color:#fff
+    style D fill:#4CAF50,color:#fff
+    style E fill:#4CAF50,color:#fff
 ```
 
 📌 **Ejemplo real:** En Instagram, el número de seguidores de un perfil no se lo pasa la página al componente: el componente lo consulta él mismo cada vez que se pinta. Si se lo tuviera que pasar la vista, cada vista que quiera mostrar seguidores tendría que repetir la misma consulta. Un View Component evita exactamente eso.
@@ -540,17 +540,17 @@ graph TD
     E["Si falta C"] --> E1["partial sale<br/>como TEXTO literal"]
     F["Si falta D"] --> F1["vc:resumen-productos<br/>sale como TEXTO literal"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#4CAF5,color:#fff0,color:#fff
-    style C fill:#2196F,color:#fff3,color:#fff
-    style D fill:#9C27B,color:#fff0,color:#fff
-    style B1 fill:#4CAF5,color:#fff0,color:#fff
-    style C1 fill:#2196F,color:#fff3,color:#fff
-    style D1 fill:#9C27B,color:#fff0,color:#fff
-    style E fill:#f4433,color:#fff6,color:#fff
-    style E1 fill:#f4433,color:#fff6,color:#fff
-    style F fill:#f4433,color:#fff6,color:#fff
-    style F1 fill:#f4433,color:#fff6,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#4CAF50,color:#fff
+    style C fill:#2196F3,color:#fff
+    style D fill:#9C27B0,color:#fff
+    style B1 fill:#4CAF50,color:#fff
+    style C1 fill:#2196F3,color:#fff
+    style D1 fill:#9C27B0,color:#fff
+    style E fill:#f44336,color:#fff
+    style E1 fill:#f44336,color:#fff
+    style F fill:#f44336,color:#fff
+    style F1 fill:#f44336,color:#fff
 ```
 
 📌 **Ejemplo real:** En el punto anterior nos quejamos de que cada vista necesitaba `@using ProductosApp.Models` y `@using ProductosApp.Repositories`. Este es el sitio donde se escriben una vez y desaparecen de todas las demás.

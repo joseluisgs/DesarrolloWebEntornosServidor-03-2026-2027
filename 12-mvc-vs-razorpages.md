@@ -53,11 +53,11 @@ graph LR
     B --> D["ProductosController<br/>+ Detalle(1)"]
     C --> E["HTML con layout"]
     D --> E
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#FF980,color:#fff0,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#f4433,color:#fff6,color:#fff
-    style E fill:#607D8,color:#fffB,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#FF9800,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#f44336,color:#fff
+    style E fill:#607D8B,color:#fff
 ```
 
 📌 **Ejemplo real:** Los dos enfoques conviven en la industria. Los paneles de gestión y las páginas de trámite suelen ir en Razor Pages, una vista por archivo; las aplicaciones que mezclan vistas con servicios de datos van en MVC, donde un mismo controlador puede devolver una vista a un navegador y JSON a una app móvil.
@@ -81,13 +81,13 @@ graph TD
     C --> E["MVC"]
     D --> F["Añade también:<br/>un par de acciones MVC si necesitas JSON"]
     E --> G["Añade también:<br/>páginas sueltas si una vista no crece"]
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#4CAF5,color:#fff0,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style D fill:#4CAF5,color:#fff0,color:#fff
-    style E fill:#f4433,color:#fff6,color:#fff
-    style F fill:#607D8,color:#fffB,color:#fff
-    style G fill:#607D8,color:#fffB,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#4CAF50,color:#fff
+    style C fill:#FF9800,color:#fff
+    style D fill:#4CAF50,color:#fff
+    style E fill:#f44336,color:#fff
+    style F fill:#607D8B,color:#fff
+    style G fill:#607D8B,color:#fff
 ```
 
 ## 12.3. Convivir en la misma aplicación
@@ -143,13 +143,13 @@ graph TD
     C --> E["Pages/<br/>con su _ViewImports (con @namespace) y _Layout"]
     D --> F["HTML con layout MVC"]
     E --> G["HTML con layout Pages"]
-    style A fill:#FF980,color:#fff0,color:#fff
-    style B fill:#f4433,color:#fff6,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#f4433,color:#fff6,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
-    style F fill:#607D8,color:#fffB,color:#fff
-    style G fill:#607D8,color:#fffB,color:#fff
+    style A fill:#FF9800,color:#fff
+    style B fill:#f44336,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#f44336,color:#fff
+    style E fill:#4CAF50,color:#fff
+    style F fill:#607D8B,color:#fff
+    style G fill:#607D8B,color:#fff
 ```
 
 > 💡 **Consejo:** si vas a convivir, convive de verdad: no mezcles carpetas. Las páginas van en `Pages/`, las vistas en `Views/`, y cada una con sus propios `_ViewImports` y `_Layout`.
@@ -243,11 +243,11 @@ graph LR
     C --> D["3. Ruta propia<br/>/ficha/{id:int}"]
     B --> E["4. Comprobar<br/>mismo título, mismo h1"]
     D --> E
-    style A fill:#f4433,color:#fff6,color:#fff
-    style B fill:#9C27B,color:#fff0,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#2196F,color:#fff3,color:#fff
-    style E fill:#607D8,color:#fffB,color:#fff
+    style A fill:#f44336,color:#fff
+    style B fill:#9C27B0,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#2196F3,color:#fff
+    style E fill:#607D8B,color:#fff
 ```
 
 ### 12.4.3. La colisión de rutas

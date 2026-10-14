@@ -164,12 +164,12 @@ graph TD
     B --> B1["Index.cshtml<br/>NO repite las directivas"]
     C --> C1["Index.cshtml<br/>NO repite las directivas"]
 
-    style A fill:#9C27B,color:#fff0,color:#fff
-    style B fill:#2196F,color:#fff3,color:#fff
-    style C fill:#2196F,color:#fff3,color:#fff
-    style D fill:#2196F,color:#fff3,color:#fff
-    style B1 fill:#4CAF5,color:#fff0,color:#fff
-    style C1 fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#9C27B0,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#2196F3,color:#fff
+    style D fill:#2196F3,color:#fff
+    style B1 fill:#4CAF50,color:#fff
+    style C1 fill:#4CAF50,color:#fff
 ```
 
 | Fichero | Qué acumula | Alcance |
@@ -207,13 +207,13 @@ graph LR
     E --> G
     F --> G
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#4CAF5,color:#fff0,color:#fff
-    style C fill:#9C27B,color:#fff0,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style E fill:#2196F,color:#fff3,color:#fff
-    style F fill:#f4433,color:#fff6,color:#fff
-    style G fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#4CAF50,color:#fff
+    style C fill:#9C27B0,color:#fff
+    style D fill:#FF9800,color:#fff
+    style E fill:#2196F3,color:#fff
+    style F fill:#f44336,color:#fff
+    style G fill:#4CAF50,color:#fff
 ```
 
 > ⚠️ **Advertencia:** El error número uno al empezar es mezclar reglas. `@page` (directiva, minúscula) y una expresión de variable no son lo mismo, y el compilador las distingue. Del mismo modo, `@viewdata` no funciona porque C# sí distingue mayúsculas.
@@ -302,14 +302,14 @@ graph LR
     F --> H
     G --> H
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#9C27B,color:#fff0,color:#fff
-    style C fill:#FF980,color:#fff0,color:#fff
-    style D fill:#f4433,color:#fff6,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
-    style F fill:#2196F,color:#fff3,color:#fff
-    style G fill:#4CAF5,color:#fff0,color:#fff
-    style H fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#9C27B0,color:#fff
+    style C fill:#FF9800,color:#fff
+    style D fill:#f44336,color:#fff
+    style E fill:#4CAF50,color:#fff
+    style F fill:#2196F3,color:#fff
+    style G fill:#4CAF50,color:#fff
+    style H fill:#4CAF50,color:#fff
 ```
 
 ### 2.3.2. Declaración y expresión: del código al HTML
@@ -447,15 +447,15 @@ graph TD
     D --> D1["Pasan la REFERENCIA<br/>el objeto es el mismo"]
     E --> E1["dynamic: el tipo<br/>se decide en ejecución"]
 
-    style A fill:#607D8,color:#fffB,color:#fff
-    style B fill:#2196F,color:#fff3,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#9C27B,color:#fff0,color:#fff
-    style E fill:#FF980,color:#fff0,color:#fff
-    style B1 fill:#607D8,color:#fffB,color:#fff
-    style C1 fill:#607D8,color:#fffB,color:#fff
-    style D1 fill:#f4433,color:#fff6,color:#fff
-    style E1 fill:#f4433,color:#fff6,color:#fff
+    style A fill:#607D8B,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#9C27B0,color:#fff
+    style E fill:#FF9800,color:#fff
+    style B1 fill:#607D8B,color:#fff
+    style C1 fill:#607D8B,color:#fff
+    style D1 fill:#f44336,color:#fff
+    style E1 fill:#f44336,color:#fff
 ```
 
 > ⚠️ **Advertencia:** tres errores típicos:
@@ -575,14 +575,14 @@ graph TD
     D --> D1["@a fuera del if<br/>→ error de compilación"]
     E --> E1["@b fuera de la función<br/>→ error de compilación"]
 
-    style A fill:#9C27B,color:#fff0,color:#fff
-    style B fill:#607D8,color:#fffB,color:#fff
-    style C fill:#4CAF5,color:#fff0,color:#fff
-    style D fill:#f4433,color:#fff6,color:#fff
-    style E fill:#f4433,color:#fff6,color:#fff
-    style C1 fill:#4CAF5,color:#fff0,color:#fff
-    style D1 fill:#f4433,color:#fff6,color:#fff
-    style E1 fill:#f4433,color:#fff6,color:#fff
+    style A fill:#9C27B0,color:#fff
+    style B fill:#607D8B,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#f44336,color:#fff
+    style E fill:#f44336,color:#fff
+    style C1 fill:#4CAF50,color:#fff
+    style D1 fill:#f44336,color:#fff
+    style E1 fill:#f44336,color:#fff
 ```
 
 | Dónde se declara | ¿Dónde se ve? |
@@ -607,12 +607,12 @@ graph TD
     D["¿Cómo se pasan datos?"] --> E["Con el MODELO<br/>model= y PartialAsync"]
     D --> F["Con ViewData / ViewBag<br/>(punto 08)"]
 
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#607D8,color:#fffB,color:#fff
-    style C fill:#607D8,color:#fffB,color:#fff
-    style D fill:#FF980,color:#fff0,color:#fff
-    style E fill:#4CAF5,color:#fff0,color:#fff
-    style F fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#607D8B,color:#fff
+    style C fill:#607D8B,color:#fff
+    style D fill:#FF9800,color:#fff
+    style E fill:#4CAF50,color:#fff
+    style F fill:#4CAF50,color:#fff
 ```
 
 ```cshtml

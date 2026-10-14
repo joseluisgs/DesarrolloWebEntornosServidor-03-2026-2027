@@ -48,13 +48,13 @@ graph LR
     D --> F
     E --> F
     F --> G["Objeto C# listo<br/>int, string, InputModel, List"]
-    style A fill:#2196F,color:#fff3,color:#fff
-    style B fill:#FF980,color:#fff0,color:#fff
-    style C fill:#607D8,color:#fffB,color:#fff
-    style D fill:#607D8,color:#fffB,color:#fff
-    style E fill:#607D8,color:#fffB,color:#fff
-    style F fill:#9C27B,color:#fff0,color:#fff
-    style G fill:#4CAF5,color:#fff0,color:#fff
+    style A fill:#2196F3,color:#fff
+    style B fill:#FF9800,color:#fff
+    style C fill:#607D8B,color:#fff
+    style D fill:#607D8B,color:#fff
+    style E fill:#607D8B,color:#fff
+    style F fill:#9C27B0,color:#fff
+    style G fill:#4CAF50,color:#fff
 ```
 
 📌 **Ejemplo real:** El buscador de cualquier biblioteca online funciona por query string: tecleas `?q=cervantes` en la dirección y el servidor recibe un texto que traduce en una consulta. Quien hace esa traducción, campo a campo, es el binding; sin él, tendrías que leer la URL a mano con `Request.Query["q"]`.
