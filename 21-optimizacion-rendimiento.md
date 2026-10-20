@@ -350,6 +350,18 @@ sequenceDiagram
 > 💡 **Consejo:** Usa una etiqueta por recurso (`"productos"`, `"usuarios"`, `"pedidos"`). Así invalidas solo lo que tocas: al añadir un producto no invalidas la caché de usuarios.
 
 > 📝 **Nota:** `EvictByTagAsync` necesita un `IOutputCacheStore` distribuido (Redis o similar) si la app corre en varios servidores. Con `AddDistributedMemoryCache` funciona en un solo servidor.
+
+**¿Quién invalida qué?** Invalidar no es solo cosa del alta de productos: cualquier servicio que cambie algo visible en una página cacheada debe vaciar la etiqueta correspondiente.
+
+| Servicio | Operación | ¿Qué invalida? | Por qué |
+|----------|-----------|----------------|---------|
+| Productos | Alta, edición, baja | Etiqueta `productos` | El listado y la ficha cambian |
+| Valoraciones | Puntuar un producto | Etiqueta `productos` | La ficha muestra la valoración |
+| Compras | Comprar | Etiqueta `productos` | La ficha muestra stock y datos que cambian con la compra |
+| Carrito | Añadir o quitar | Nada | Es dato privado: no se cachea, así que no hay nada que vaciar |
+
+> 💡 **Consejo:** la última fila es la que evita el error contrario: si un dato no se cachea, invalidarlo es ruido que solo cuesta tiempo de ejecución.
+
 ## 21.3. Compresión de las respuestas
 
 ### 21.3.1. Gzip y brotli
