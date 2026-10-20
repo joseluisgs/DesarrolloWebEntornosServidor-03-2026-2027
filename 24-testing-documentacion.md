@@ -194,6 +194,8 @@ public class Carrito
 
 El `PageModel` se queda en lo suyo: coger la petición, llamar a la lógica y devolver la vista; lo que importa de él ya está cubierto por las pruebas de página del 24.3.
 
+Si el `PageModel` inyecta servicios (por ejemplo un `IOutputCacheStore` para invalidar la caché al editar), tenlo en cuenta al construirlo en un test unitario: cada servicio del constructor es un argumento más (`new IndexModel(null!, null!, null!)`). Las pruebas de página con `WebApplicationFactory` no se enteran, porque el arranque real ya registra esos servicios con `AddOutputCache()` y compañía.
+
 ### 24.2.4. Visión MVC: probar la lógica del controlador
 
 **En MVC el reparto es el mismo: la lógica de presentación en su clase y el controlador reducido a enlazar petición, lógica y vista:**
