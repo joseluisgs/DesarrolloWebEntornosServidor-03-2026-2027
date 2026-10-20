@@ -112,6 +112,7 @@ graph LR
 # Etapa 1: compilar (tiene el kit completo)
 FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /src
+COPY ["Directory.Packages.props", "./"]   # solo si el proyecto usa CPM; sin él, NU1015
 COPY ["DespliegueApp.csproj", "./"]
 RUN dotnet restore
 COPY . .
@@ -125,6 +126,8 @@ ENV ASPNETCORE_URLS=http://+:8080
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "DespliegueApp.dll"]
 ```
+
+> 📝 **Nota:** la línea de `Directory.Packages.props` solo hace falta si el proyecto centraliza sus versiones con CPM (un `Directory.Packages.props` en la raíz). Sin esa copia, `dotnet restore` falla con **NU1015**: los `.csproj` no llevan `Version=` y el catálogo de versiones no está dentro de la imagen.
 
 ```mermaid
 graph TD
