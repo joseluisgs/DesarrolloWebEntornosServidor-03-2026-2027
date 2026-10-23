@@ -14,7 +14,7 @@
     - [19.2.6. Registro y acceso, comparados](#1926-registro-y-acceso-comparados)
     - [19.2.7. Cerrar la sesión](#1927-cerrar-la-sesión)
     - [19.2.8. Hacia el acceso sin clave: passkeys](#1928-hacia-el-acceso-sin-clave-passkeys)
-    - [19.2.9. Login externo: entrar con Google, GitHub o Microsoft](#1929-login-externo-entrar-con-google-github-o-microsoft)
+    - [19.2.9. Login externo: entrar con google, GitHub o Microsoft](#1929-login-externo-entrar-con-google-github-o-microsoft)
   - [19.3. Autorización: qué puede ver cada uno](#193-autorización-qué-puede-ver-cada-uno)
     - [19.3.1. La regla con atributo](#1931-la-regla-con-atributo)
     - [19.3.2. Visión Razor Pages: atributos y convenciones](#1932-visión-razor-pages-atributos-y-convenciones)
@@ -512,7 +512,7 @@ var resultado = await signInManager.PerformPasskeyAssertionAsync(credencialJson)
 
 > 📝 **Nota:** las passkeys complementan a la contraseña, no la sustituyen del tirón; la sesión con cookie de identidad que montaste en el 19.2.4 sigue siendo el mismo conducto.
 
-### 19.2.9. Login externo: entrar con Google, GitHub o Microsoft
+### 19.2.9. Login externo: entrar con google, GitHub o Microsoft
 
 Identity nace con la mesa puesta para esto: la tabla `AspNetUserLogins` (19.2.2) existe desde el principio para asociar una cuenta local con un acceso externo. El mecanismo es el mismo OAuth 2.0 y OIDC de la unidad de servidor: redirigir al proveedor, consentimiento, retorno con código y canje servidor a servidor; las piezas de seguridad (state, nonce y PKCE) ya las gestiona el middleware. Lo único que cambia en una web es el final del viaje: aquí **no se emite ningún JWT**, la entrada externa acaba en la cookie de identidad que manejas desde el 19.2.4.
 
