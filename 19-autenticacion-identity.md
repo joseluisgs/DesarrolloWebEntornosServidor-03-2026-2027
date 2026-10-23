@@ -14,6 +14,7 @@
     - [19.2.6. Registro y acceso, comparados](#1926-registro-y-acceso-comparados)
     - [19.2.7. Cerrar la sesión](#1927-cerrar-la-sesión)
     - [19.2.8. Hacia el acceso sin clave: passkeys](#1928-hacia-el-acceso-sin-clave-passkeys)
+    - [19.2.9. Login externo: entrar con Google, GitHub o Microsoft](#1929-login-externo-entrar-con-google-github-o-microsoft)
   - [19.3. Autorización: qué puede ver cada uno](#193-autorización-qué-puede-ver-cada-uno)
     - [19.3.1. La regla con atributo](#1931-la-regla-con-atributo)
     - [19.3.2. Visión Razor Pages: atributos y convenciones](#1932-visión-razor-pages-atributos-y-convenciones)
@@ -262,7 +263,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options)
 | **`AspNetUserRoles`** | Qué rol tiene cada usuario |
 | **`AspNetUserClaims`** | Claims propios de un usuario |
 | **`AspNetRoleClaims`** | Claims propios de un rol |
-| **`AspNetUserLogins`** | Accesos externos (Google, Microsoft), si algún día se usan |
+| **`AspNetUserLogins`** | Accesos externos (Google, Microsoft): los usa el login externo de 19.2.9 |
 | **`AspNetUserTokens`** | Tokens de confirmación y de recuperación de clave |
 
 Si la identidad y los datos de negocio comparten `DbContext`, hay que dejar una sola clase y registrarla una vez: dos contextos para la misma base dan nombres de tabla y migraciones en guerra.
@@ -510,6 +511,86 @@ var resultado = await signInManager.PerformPasskeyAssertionAsync(credencialJson)
 📌 **Ejemplo real:** Google y Apple abren las cuentas con passkey: registras el dispositivo una vez y después solo pides entrar con tu huella o tu cara, sin escribir ninguna clave.
 
 > 📝 **Nota:** las passkeys complementan a la contraseña, no la sustituyen del tirón; la sesión con cookie de identidad que montaste en el 19.2.4 sigue siendo el mismo conducto.
+
+### 19.2.9. Login externo: entrar con Google, GitHub o Microsoft
+
+Identity nace con la mesa puesta para esto: la tabla `AspNetUserLogins` (19.2.2) existe desde el principio para asociar una cuenta local con un acceso externo. El mecanismo es el mismo OAuth 2.0 y OIDC de la unidad de servidor: redirigir al proveedor, consentimiento, retorno con código y canje servidor a servidor; las piezas de seguridad (state, nonce y PKCE) ya las gestiona el middleware. Lo único que cambia en una web es el final del viaje: aquí **no se emite ningún JWT**, la entrada externa acaba en la cookie de identidad que manejas desde el 19.2.4.
+
+```mermaid
+sequenceDiagram
+    participant N as Navegador
+    participant W as Tu web
+    participant P as Proveedor
+    N->>W: GET /Account/ExternalLogin?provider=Google
+    W-->>N: 302 al proveedor
+    Note over N,P: El usuario autoriza con su cuenta
+    P-->>N: 302 de vuelta con el código
+    N->>W: GET /signin-google?code=ABC
+    Note over W,P: Canje servidor a servidor, con el ClientSecret
+    W-->>N: Cookie de identidad y redirect a la tienda
+```
+
+En Razor Pages el conducto son dos páginas: la que lanza el reto y la que recibe el retorno.
+
+```csharp
+// Pages/Account/ExternalLogin.cshtml.cs: solo lanza el reto
+public class ExternalLoginModel(SignInManager<AppUser> signInManager) : PageModel
+{
+    public IActionResult OnGet(string provider, string? returnUrl = null)
+    {
+        var redirectUrl = Url.Page("/ExternalLoginCallback", new { returnUrl });
+        var properties = signInManager
+            .ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+        return Challenge(properties, provider);   // 302 hacia el proveedor
+    }
+}
+```
+
+```csharp
+// Pages/Account/ExternalLoginCallback.cshtml.cs: recibe el retorno
+public class ExternalLoginCallbackModel(
+    SignInManager<AppUser> signInManager,
+    UserManager<AppUser> userManager) : PageModel
+{
+    public async Task<IActionResult> OnGetAsync(string? returnUrl = null)
+    {
+        var info = await signInManager.GetExternalLoginInfoAsync();
+        if (info is null) return RedirectToPage("./Login");
+
+        // ¿Ya había una cuenta asociada a ese acceso? Entonces, dentro
+        var login = await userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+        if (login is not null)
+        {
+            await signInManager.SignInAsync(login, isPersistent: false);
+            return RedirectToPage(returnUrl ?? "/Index");
+        }
+
+        // Primera vez: se crea la cuenta local con el correo del proveedor
+        var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+        var user = new AppUser { UserName = email, Email = email };
+        await userManager.CreateAsync(user);
+        await userManager.AddLoginAsync(user, info);   // queda en AspNetUserLogins
+        await signInManager.SignInAsync(user, isPersistent: false);
+        return RedirectToPage(returnUrl ?? "/Index");
+    }
+}
+```
+
+Y en la página de acceso, la puerta se anuncia con un simple enlace:
+
+```razor
+<a asp-page="/ExternalLogin" asp-route-provider="Google">Entrar con Google</a>
+```
+
+En MVC el mismo conducto cabe en dos acciones: `Challenge(properties, provider)` en la de entrada y `GetExternalLoginInfoAsync` en la de retorno; el patrón completo está explicado en 16.6.5 de la unidad de servidor, y solo cambia el final: aquí `SignInAsync` y redirección, allí emisión de JWT.
+
+La configuración de las puertas es la misma del tema 16: cada proveedor se registra solo si `Auth:{Proveedor}:Enabled` está activo, los proveedores de .NET 10 se instalan con su paquete NuGet (Google, MicrosoftAccount, GitHub y Twitter) y los secretos viven en user-secrets. Las recetas de cada proveedor y la tabla de credenciales de aula están en 16.5.7 de la unidad de servidor, y los errores típicos en 16.5.8.
+
+> 💡 **Consejo:** en local, si la web corre en `http`, prueba con los proveedores que admiten bucle local: Google, Microsoft y GitHub aceptan `http://localhost` como retorno.
+
+> ⚠️ **Advertencia:** la cookie que firma el login externo es la misma de siempre: `HttpOnly`, `Secure` en producción y `SameSite` según tu configuración. El login externo no debilita nada, pero añade una pieza a tu cadena de confianza: a partir de ahora el proveedor certifica quién es tu usuario.
+
+📌 **Ejemplo real:** las tiendas que ofrecen "entrar con Google" guardan en `AspNetUserLogins` la asociación entre su cuenta interna y el identificador del proveedor; en el segundo acceso nadie escribe la contraseña local: el proveedor certifica la identidad y la tienda solo firma su cookie.
 
 ## 19.3. Autorización: qué puede ver cada uno
 
@@ -840,6 +921,7 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 - Crea la acción o la vista de `/Account/AccessDenied` y comprueba que un usuario sin rol aterriza en ella con su aviso en lugar de en un hueco
 - Crea un rol `Admin` con `RoleManager`, asígnalo a una cuenta con `UserManager.AddToRoleAsync` y comprueba que `[Authorize(Roles = "Admin")]` deja entrar solo a esa cuenta
 - Añade `[Authorize(Policy = "EsAdmin")]` con su `AddPolicy` y comprueba que hace lo mismo que la versión con rol
+- Añade una puerta de login externo (Google o GitHub) activable por configuración, y comprueba que el segundo acceso entra sin escribir la contraseña: la asociación vive en `AspNetUserLogins`
 - Escribe en el repositorio por qué el `ReturnUrl` hay que validar antes de usarlo
 
 ---
