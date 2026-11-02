@@ -233,7 +233,7 @@ graph TD
 - **DataAnnotations:** el atributo pone la regla y el servidor la hace cumplir
 - **Ataques:** XSS con escapado, CSRF con token antifalsificación, cabeceras de protección y límite de peticiones
 - **Avisos genéricos:** el error no debe decir cuál de los dos datos falla
-- **Límite de peticiones:** cupo por ventana con **429**; middleware propio, limitador en caja o `AspNetCoreRateLimit` con reglas por endpoint
+- **Límite de peticiones:** cupo por ventana con **429**; middleware propio o limitador en caja con reglas por endpoint
 - 📌 **Ejemplo real:** Cualquier banco pide segundo factor y valida en servidor: la misma defensa que montaste con token y validación.
 
 #### Punto 16: ficheros y almacenamiento
@@ -421,7 +421,7 @@ Antes de dar por cerrada la unidad, asegúrate de poder responder **SÍ** a esta
 | **Render** | Servicio gestionado que despliega desde tu repositorio |
 | **ProblemDetails** | Formato estándar del error (tipo, título, estado) con `AddProblemDetails` |
 | **Sondeo de salud** | Ruta ligera (`/health`) que dice si el contenedor sigue vivo |
-| **Límite de peticiones** | Cupo por ventana con `429`; middleware propio, limitador en caja o `AspNetCoreRateLimit` |
+| **Límite de peticiones** | Cupo por ventana con `429`; middleware propio o limitador en caja |
 
 ## 26.7. Ejercicios de repaso
 

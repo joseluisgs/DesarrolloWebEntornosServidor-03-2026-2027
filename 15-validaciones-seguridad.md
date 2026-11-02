@@ -246,7 +246,7 @@ Los headers HTTP son la fachada de tu servidor: el navegador los lee antes de pi
 |----------|-------|-----------|
 | `X-Content-Type-Options` | `nosniff` | Que el navegador "adivine" tipos y ejecute algo por accidente |
 | `X-Frame-Options` | `DENY` | Que tu web se monte dentro de un iframe ajeno (clickjacking) |
-| `X-XSS-Protection` | `1; mode=block` | El filtro XSS heredado de navegadores antiguos |
+| `Content-Security-Policy` | `default-src 'self'` | Que solo cargue scripts y recursos de tu propio origen (la defensa anti-XSS) |
 | `Referrer-Policy` | `strict-origin-when-cross-origin` | Que se filtre la URL completa a sitios de terceros |
 | `Permissions-Policy` | `camera=(), microphone=(), ...` | Que las páginas pidan permisos del dispositivo |
 
@@ -262,7 +262,7 @@ public class SecurityHeadersMiddleware(RequestDelegate next)
     {
         context.Response.Headers["X-Content-Type-Options"] = "nosniff";
         context.Response.Headers["X-Frame-Options"] = "DENY";
-        context.Response.Headers["X-XSS-Protection"] = "1; mode=block";
+        context.Response.Headers["Content-Security-Policy"] = "default-src 'self'";
         context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
         await _next(context);
     }
@@ -275,6 +275,8 @@ app.UseMiddleware<SecurityHeadersMiddleware>();
 ```
 
 Cualquier respuesta de la aplicación, página o acción, sale ya con las cuatro cabeceras; lo compruebas con las cabeceras de la petición en la pestaña Network del navegador o con `curl -i`.
+
+> 📝 **Nota:** `X-XSS-Protection` no está en la lista, y no es un olvido: era el filtro XSS de IE y Chrome antiguos, los navegadores modernos la ignoran (Chrome la retiró en 2019) y OWASP recomienda no enviarla. La defensa anti-XSS es `Content-Security-Policy`. Con `default-src 'self'` se bloquean también los scripts en línea de tus vistas (los `onsubmit` de confirm de los formularios): o los pasas a un `.js` o añades `'unsafe-inline'` a `script-src`, sabiendo que ahí aflojas la defensa.
 
 > 💡 **Consejo:** el orden en el pipeline importa: las cabeceras se añaden antes de que el endpoint pinte, para que también las lleven las respuestas de error.
 
@@ -312,7 +314,7 @@ public async Task InvokeAsync(HttpContext context)
 
 En funcionamiento, seis peticiones seguidas devuelven **200, 200, 200, 200, 429, 429**, y la última lleva la cabecera `Retry-After: 10` para que el cliente sepa cuándo volver. Las respuestas bloqueadas ni siquiera llegan al endpoint: el trabajo del servidor se ahorra por completo.
 
-Y como referencia de entorno, el middleware propio del apartado no es la única forma: ASP.NET Core trae el limitador en caja (`AddRateLimiting` con ventanas fijas por clave y `UseRateLimiter` en el conducto), y proyectos reales de referencia usan el paquete `AspNetCoreRateLimit`, que añade reglas por endpoint: cien peticiones cada quince segundos con carácter general, diez por minuto en las rutas de acceso y veinte por minuto en los `POST`, con el **429** y su mensaje. La idea es la misma que la del middleware: cupo, ventana y castigo; cambia de dónde sale la regla.
+Y como referencia de entorno, el middleware propio del apartado no es la única forma: ASP.NET Core trae el limitador en caja (`AddRateLimiting` con ventanas fijas por clave y `UseRateLimiter` en el conducto) y admite reglas por endpoint con el mismo cuadro: cien peticiones cada quince segundos con carácter general, diez por minuto en las rutas de acceso y veinte por minuto en los `POST`, con el **429** y su mensaje. El paquete de terceros `AspNetCoreRateLimit` hacía este trabajo, pero lleva años abandonado y el límite va hoy con el limitador nativo. La idea es la misma que la del middleware: cupo, ventana y castigo; cambia de dónde sale la regla.
 
 ## 15.7. Errores, tamaños y ficheros
 
@@ -420,7 +422,7 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 | **Result\<T\>** | La validación como valor: camino feliz y camino de error sin excepciones |
 | **XSS** | Inyección de scripts; la defensa es el escapado de Razor y no usar `Html.Raw` |
 | **CSRF** | POST foráneo con tu sesión; la defensa es el token doble |
-| **Cabeceras** | Middleware propio: `nosniff`, `DENY`, `X-XSS-Protection`, `Referrer-Policy` |
+| **Cabeceras** | Middleware propio: `nosniff`, `DENY`, `Content-Security-Policy`, `Referrer-Policy` |
 | **Límite de peticiones** | Ventana por IP y nivel; el cupo se paga con **429** y `Retry-After` |
 | **`[RequestSizeLimit]`** | Corta la petición antes de la lógica: **400** sin procesar nada |
 | **Comprobado** | Año inválido **200** con mensaje; seis peticiones **200×4 y 429×2**; nombre gigante **400** |
