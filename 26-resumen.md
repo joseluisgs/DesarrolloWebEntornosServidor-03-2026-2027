@@ -260,7 +260,7 @@ graph TD
 - **`AddIdentity`:** usuarios, accesos y roles tal y como vienen del framework
 - **`UserManager` y `SignInManager`:** altas, claves con hash y acceso con cookie de identidad
 - **Roles, políticas y requisitos:** quién entra y qué puede tocar; CSRF y XSS defendidos
-- **Passkeys:** credenciales del dispositivo que sustituyen la contraseña; en .NET 10 viven dentro de Identity con su handler
+- **Passkeys:** par de claves del dispositivo que sustituyen la contraseña; Identity guarda solo la pública en `AspNetUserPasskeys` y el acceso es un reto firmado que verifica `PasskeySignInAsync`
 - 📌 **Ejemplo real:** Instagram distingue al dueño de una cuenta de un visitante: identidad con claims y autorización con atributos.
 
 #### Punto 20: configuración y entornos
@@ -337,6 +337,7 @@ graph TD
 |-------|------------------|---------------|
 | Olvidar `@model` en una página | La página se pinta y el handler no se ejecuta | Declararlo siempre en cada página |
 | `UseAuthentication` después de `UseAuthorization` | Todas las rutas se evalúan anónimas | Orden fijo: primero autenticar |
+| Passkey sin `IdentitySchemaVersions.Version3` | No se crea `AspNetUserPasskeys` y el fallo llega al escribir, no al arrancar | `options.Stores.SchemaVersion` dentro del `AddIdentity` |
 | Secretos en `appsettings.json` | Se suben al repositorio por accidente | User secrets o variables de entorno |
 | `IOptions<T>` para valores que cambian | Se queda con el valor del arranque | `IOptionsMonitor<T>` cuando debe recargar |
 | Output cache en zona privada | Se sirve la respuesta a cualquiera | Solo lecturas públicas; claves por usuario si acaso |
@@ -406,7 +407,7 @@ Antes de dar por cerrada la unidad, asegúrate de poder responder **SÍ** a esta
 | **Sesión** | Datos en el servidor con la llave en la cookie de sesión |
 | **Claim** | Par `tipo-valor` de la identidad de un usuario |
 | **Identity** | Framework oficial de usuarios, accesos y roles |
-| **Passkey** | Credencial del dispositivo que sustituye la contraseña; en .NET 10, dentro de Identity |
+| **Passkey** | Par de claves del dispositivo que sustituye la contraseña; solo la pública vive en `AspNetUserPasskeys` |
 | **`IOptions<T>`** | Configuración tipada inyectable desde `appsettings` |
 | **HybridCache** | Caché que unifica memoria y distribuida con protección contra estampidas |
 | **Output cache** | Caché de la respuesta entera, declarada por lectura |

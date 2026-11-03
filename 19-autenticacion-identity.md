@@ -500,13 +500,135 @@ Salir no vacía, además, la sesión de la aplicación: `SignOutAsync` se lleva 
 
 **.NET 10 trae las passkeys dentro de Identity: credenciales del dispositivo que sustituyen la contraseña sin cambiar el conducto de cookies que ya conoces.** La passkey nace en el navegador, con el autenticador del sistema operativo, y después el acceso es un gesto: el servidor manda un reto, el dispositivo lo firma y el servidor verifica la firma; no hay clave que robar ni que reutilizar entre sitios.
 
-La pieza nueva del framework es el `PasskeyHandler`, con el que `SignInManager` crea las opciones de registro y las de acceso y verifica el reto con comparación de tiempo constante:
+Por detrás hay un par de claves. La privada se queda en el dispositivo, protegida por el chip y liberada solo con huella, cara o PIN; la pública viaja al servidor y es la única que se guarda. Como no hay un secreto compartido que teclear, filtrar la tabla de usuarios no regala ninguna clave, y como el navegador solo entrega la passkey en el sitio donde se creó, una web falsa que imita la tuya no consigue usarla.
+
+La pieza nueva del framework es el `PasskeyHandler`, con el que `SignInManager` crea las opciones y verifica el reto con comparación de tiempo constante. Identity lo presenta en dos momentos, y los dos son iguales en las dos visiones. Primero el servidor devuelve un JSON con el reto, el navegador habla con el autenticador y devuelve la credencial; entonces el servidor decide si esa firma vale.
+
+```mermaid
+sequenceDiagram
+    participant N as Navegador
+    participant S as Tu servidor
+    participant D as Dispositivo
+    Note over N,S: Crear la passkey desde la zona privada
+    N->>S: POST con token, dame las opciones
+    S-->>N: JSON con el reto y los datos del usuario
+    N->>D: navigator.credentials.create()
+    D-->>N: credencial firmada con la clave privada
+    N->>S: POST la credencial en JSON
+    S-->>N: 200, la passkey queda guardada
+    Note over N,S: Entrar con la passkey desde el acceso
+    N->>S: POST con token, dame las opciones
+    S-->>N: JSON con el reto
+    N->>D: navigator.credentials.get()
+    D-->>N: firma del reto
+    N->>S: POST la firma en JSON
+    S-->>N: Cookie de identidad y 302
+```
+
+Cada flecha tiene su método en el framework, y ninguno sale del patrón de siempre:
+
+| Momento | Método | Qué devuelve |
+|---------|--------|--------------|
+| Pedir opciones de creación | `SignInManager.MakePasskeyCreationOptionsAsync(PasskeyUserEntity)` | JSON para `navigator.credentials.create()` |
+| Recibir la credencial nueva | `SignInManager.PerformPasskeyAttestationAsync(string)` | `PasskeyAttestationResult`, con la passkey y el usuario del reto |
+| Guardarla | `UserManager.AddOrUpdatePasskeyAsync(usuario, UserPasskeyInfo)` | inserta o actualiza la fila |
+| Pedir opciones de acceso | `SignInManager.MakePasskeyRequestOptionsAsync(usuario)` | JSON para `navigator.credentials.get()` |
+| Recibir la firma | `SignInManager.PasskeySignInAsync(string)` | `SignInResult`; si vale, escribe la cookie de identidad |
+| Listar y borrar | `UserManager.GetPasskeysAsync` y `RemovePasskeyAsync` | la tabla de la zona privada |
+
+En Razor Pages el primer momento son dos handlers de la página de cuenta y el segundo dos de la página de acceso; en MVC son cuatro acciones del controlador de cuentas con exactamente las mismas llamadas. Solo cambia quién recibe la petición, y en Pages las URLs llevan el parámetro de handler (`?handler=PasskeyAssertion`), que es como Razor Pages nombra a los métodos `OnPost...Async`.
 
 ```csharp
-// El patrón de Identity no cambia: el gestor sigue mandando
-var opciones = await signInManager.MakePasskeyCreationOptionsAsync();
-var resultado = await signInManager.PerformPasskeyAssertionAsync(credencialJson);
+// Crear: dos pasos, los dos con [Authorize] por la página entera
+[Authorize]
+public async Task<IActionResult> OnPostPasskeyCreationOptionsAsync()
+{
+    var usuario = await userManager.GetUserAsync(User);
+    if (usuario is null) return NotFound();
+
+    var opciones = await signInManager.MakePasskeyCreationOptionsAsync(new PasskeyUserEntity
+    {
+        Id = await userManager.GetUserIdAsync(usuario),
+        Name = usuario.UserName!,
+        DisplayName = usuario.UserName!
+    });
+
+    return Content(opciones, "application/json");
+}
+
+[Authorize]
+public async Task<IActionResult> OnPostPasskeyAttestationAsync(string credential)
+{
+    var usuario = await userManager.GetUserAsync(User);
+    if (usuario is null) return NotFound();
+
+    var resultado = await signInManager.PerformPasskeyAttestationAsync(credential);
+    if (!resultado.Succeeded) return BadRequest();
+
+    // El reto nombra a una cuenta: se comprueba que es la conectada
+    var usuarioId = await userManager.GetUserIdAsync(usuario);
+    if (!string.Equals(resultado.UserEntity?.Id, usuarioId, StringComparison.Ordinal))
+        return BadRequest();
+
+    await userManager.AddOrUpdatePasskeyAsync(usuario, resultado.Passkey);
+    return new JsonResult(new { ok = true });
+}
 ```
+
+```csharp
+// Entrar: los mismos dos pasos, pero sin necesidad de estar identificado
+[AllowAnonymous]
+public async Task<IActionResult> OnPostPasskeyRequestOptionsAsync(string? email)
+{
+    IdentityUser? usuario = null;
+    if (!string.IsNullOrWhiteSpace(email))
+    {
+        usuario = await userManager.FindByEmailAsync(email);
+    }
+
+    var opciones = await signInManager.MakePasskeyRequestOptionsAsync(usuario);
+    return Content(opciones, "application/json");
+}
+
+[AllowAnonymous]
+public async Task<IActionResult> OnPostPasskeyAssertionAsync(string credential)
+{
+    var resultado = await signInManager.PasskeySignInAsync(credential);
+    if (!resultado.Succeeded)
+    {
+        return StatusCode(StatusCodes.Status401Unauthorized,
+            new { ok = false, mensaje = "La passkey no es válida" });
+    }
+
+    return new JsonResult(new { ok = true });
+}
+```
+
+Para que las passkeys tengan dónde vivir hace falta una línea más en el arranque de Identity: el esquema 3 añade la tabla `AspNetUserPasskeys` al resto de tablas `AspNet*`.
+
+```csharp
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    // Esquema 3: sin esta línea no existe AspNetUserPasskeys
+    options.Stores.SchemaVersion = IdentitySchemaVersions.Version3;
+
+    options.Password.RequiredLength = 8;
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.User.RequireUniqueEmail = true;
+})
+.AddEntityFrameworkStores<AppDbContext>()
+.AddDefaultTokenProviders();
+```
+
+En esa tabla solo entra la parte pública de la credencial: el identificador, la clave pública, el nombre, el contador de firmas y si está respaldada en la nube. La clave privada no se transmite nunca, así que no hay nada que robar del servidor.
+
+Del lado del navegador no hay librería que instalar: `navigator.credentials.create()` y `navigator.credentials.get()` son APIs del propio WebAuthn. Un script corto pide el JSON al servidor, se lo pasa al navegador y devuelve la credencial como un campo de formulario más, con el token antiforgery al lado, igual que cualquier otro POST de la aplicación.
+
+> 💡 **Consejo:** `MakePasskeyRequestOptionsAsync` acepta el usuario o el nulo. Con el correo escrito solo se piden las passkeys de esa cuenta; sin correo, el navegador puede ofrecer las que haya en el equipo, que es lo que permite elegir entre varias sin teclear nada.
+
+> 📝 **Nota:** `PasskeyAttestationResult` trae en `UserEntity` el usuario al que se emitió el reto; compararlo con el de la cookie antes de guardar cuesta una línea y deja cerrada la puerta a cualquier enredo entre retos y sesiones.
+
+> ⚠️ **Advertencia:** sin `IdentitySchemaVersions.Version3` la tabla `AspNetUserPasskeys` no se crea y el fallo aparece al escribir, no al arrancar: la aplicación levanta bien y el primer intento de crear una passkey revienta en el guardado.
 
 📌 **Ejemplo real:** Google y Apple abren las cuentas con passkey: registras el dispositivo una vez y después solo pides entrar con tu huella o tu cara, sin escribir ninguna clave.
 
@@ -529,6 +651,70 @@ sequenceDiagram
     Note over W,P: Canje servidor a servidor, con el ClientSecret
     W-->>N: Cookie de identidad y redirect a la tienda
 ```
+
+La aplicación conoce cuatro puertas, y cada una solo se registra si está activa y trae sus credenciales completas. El nombre que se pide en la URL, el esquema que queda registrado y el paquete que hay que instalar no siempre coinciden, y esa diferencia es la que más vueltas da:
+
+| Puerta (la de la URL) | Esquema registrado | Paquete NuGet | Credenciales |
+|-----------------------|--------------------|---------------|--------------|
+| `Google` | `Google` | `Microsoft.AspNetCore.Authentication.Google` | `Google:ClientId` / `Google:ClientSecret` |
+| `Microsoft` | `MicrosoftAccount` | `Microsoft.AspNetCore.Authentication.MicrosoftAccount` | `Microsoft:ClientId` / `Microsoft:ClientSecret` |
+| `GitHub` | `GitHub` | `AspNet.Security.OAuth.GitHub` | `GitHub:ClientId` / `GitHub:ClientSecret` |
+| `Twitter` | `Twitter` | `Microsoft.AspNetCore.Authentication.Twitter` | `Twitter:ClientId` / `Twitter:ClientSecret` |
+
+Microsoft es el único que se pide con un nombre y se registra con otro: la URL lleva `provider=Microsoft` y el esquema es `MicrosoftAccount`, que es como se llama el paquete. Y GitHub es el único de los cuatro que no es de Microsoft: `AspNet.Security.OAuth.GitHub` es un proyecto de la comunidad.
+
+La puerta entera se decide en el arranque con una línea de activación más las dos credenciales:
+
+```csharp
+// Solo se registra si está activa y completa: si falta una, el esquema no existe
+if (configuration.GetValue<bool>("Auth:Google:Enabled"))
+{
+    var clientId = configuration["Google:ClientId"];
+    var clientSecret = configuration["Google:ClientSecret"];
+
+    if (!string.IsNullOrEmpty(clientId) && !string.IsNullOrEmpty(clientSecret))
+    {
+        auth.AddGoogle(options =>
+        {
+            options.ClientId = clientId;
+            options.ClientSecret = clientSecret;
+            options.UsePkce = true;
+        });
+    }
+}
+```
+
+Los `Enabled` vienen a `false` en `appsettings.json`, que es el estado en el que se reparte el ejemplo. Abrir una puerta en local son tres comandos, y van en user-secrets porque son secretos de verdad:
+
+```bash
+dotnet user-secrets set "Auth:Google:Enabled" "true"
+dotnet user-secrets set "Google:ClientId" "xxxx.apps.googleusercontent.com"
+dotnet user-secrets set "Google:ClientSecret" "xxxx"
+```
+
+User secrets solo funciona si el `.csproj` declara un `UserSecretsId`, y el fichero vive en el perfil del usuario, fuera del repositorio; en producción ese mismo hueco lo llenan las variables de entorno, con el doble guion bajo para separar niveles (`Auth__Google__Enabled`).
+
+En la página de acceso, la puerta se anuncia con un simple enlace, y que esté pintado no significa que esté abierta:
+
+```razor
+<a asp-page="/ExternalLogin" asp-route-provider="Google">Entrar con Google</a>
+```
+
+Con la puerta cerrada el esquema ni siquiera se registra, así que la aplicación no puede lanzar el reto. Hay dos respuestas válidas, y la trampa es dejar la página en blanco o dejar que reviente la excepción del esquema desconocido. Lo cómodo es centralizar el motivo en un auxiliar propio, con un `enum` de estados, y que la vista lo pinte:
+
+```csharp
+// Un único sitio decide, para que las dos visiones expliquen exactamente lo mismo
+public static string? MotivoPuerta(IConfiguration configuration, string proveedor) =>
+    Estado(configuration, proveedor) switch
+    {
+        PuertaEstado.NoExiste => $"No existe la puerta \"{proveedor}\"",
+        PuertaEstado.Cerrada => $"La puerta de {proveedor} está cerrada",
+        PuertaEstado.SinCredenciales => $"La puerta de {proveedor} le faltan credenciales",
+        _ => null
+    };
+```
+
+Si el motivo no es nulo, la vista responde **404** con ese texto, o un **302** de vuelta al acceso con el aviso en `TempData`; si es nulo, se devuelve el `Challenge` y el navegador sale hacia el proveedor.
 
 En Razor Pages el conducto son dos páginas: la que lanza el reto y la que recibe el retorno.
 
@@ -576,15 +762,58 @@ public class ExternalLoginCallbackModel(
 }
 ```
 
-Y en la página de acceso, la puerta se anuncia con un simple enlace:
+En MVC el mismo conducto cabe en dos acciones con exactamente las mismas llamadas; solo cambia dónde se escribe el destino y adónde se redirige después.
 
-```razor
-<a asp-page="/ExternalLogin" asp-route-provider="Google">Entrar con Google</a>
+```csharp
+// Controllers/CuentaController.cs
+[HttpGet("/Account/ExternalLogin")]
+[AllowAnonymous]
+public IActionResult ExternalLogin(string provider, string? returnUrl = null)
+{
+    var redirectUrl = Url.Action(nameof(ExternalLoginCallback), new { returnUrl });
+    var properties = signInManager
+        .ConfigureExternalAuthenticationProperties(provider, redirectUrl);
+    return Challenge(properties, provider);   // 302 hacia el proveedor
+}
+
+[HttpGet("/Account/ExternalLoginCallback")]
+[AllowAnonymous]
+public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null)
+{
+    var info = await signInManager.GetExternalLoginInfoAsync();
+    if (info is null) return RedirectToAction(nameof(Login));
+
+    // ¿Ya había una cuenta asociada a ese acceso? Entonces, dentro
+    var login = await userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+    if (login is not null)
+    {
+        await signInManager.SignInAsync(login, isPersistent: false);
+        return Redirect(returnUrl ?? "/");
+    }
+
+    // Primera vez: se crea la cuenta local con el correo del proveedor
+    var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+    var user = new AppUser { UserName = email, Email = email };
+    await userManager.CreateAsync(user);
+    await userManager.AddLoginAsync(user, info);   // queda en AspNetUserLogins
+    await signInManager.SignInAsync(user, isPersistent: false);
+    return Redirect(returnUrl ?? "/");
+}
 ```
 
-En MVC el mismo conducto cabe en dos acciones: `Challenge(properties, provider)` en la de entrada y `GetExternalLoginInfoAsync` en la de retorno; el patrón completo está explicado en 16.6.5 de la unidad de servidor, y solo cambia el final: aquí `SignInAsync` y redirección, allí emisión de JWT.
+El patrón completo del reto y del canje servidor a servidor está explicado en 16.6.5 de la unidad de servidor; lo que aquí cambia es el final del viaje, `SignInAsync` en lugar de emitir un JWT. Las recetas de cada proveedor y la tabla de credenciales de aula siguen en 16.5.7, y los errores típicos en 16.5.8.
 
-La configuración de las puertas es la misma del tema 16: cada proveedor se registra solo si `Auth:{Proveedor}:Enabled` está activo, los proveedores de .NET 10 se instalan con su paquete NuGet (Google, MicrosoftAccount, GitHub y Twitter) y los secretos viven en user-secrets. Las recetas de cada proveedor y la tabla de credenciales de aula están en 16.5.7 de la unidad de servidor, y los errores típicos en 16.5.8.
+**Tres cosas pueden fallar en el retorno**, y las tres se cortan antes de tocar la base:
+
+- `GetExternalLoginInfoAsync` devuelve `null` cuando el proveedor no devuelve la información esperada: el `state` no coincide o se ha perdido la cookie temporal entre la ida y la vuelta. Se vuelve al acceso y no se crea ninguna cuenta.
+- Si el proveedor no certifica ningún correo (`ClaimTypes.Email` ausente), no hay con qué montar la cuenta local. Lo suyo es pedir esos datos al proveedor o completar el alta a mano, nunca inventar un identificador.
+- Si el correo ya existe con otra clave, `CreateAsync` devuelve sus errores. En vez de crear una segunda cuenta, hay que asociar el acceso a la que ya está, que es exactamente lo que hace `AddLoginAsync`.
+
+**El segundo acceso** es la comprobación que cuenta, y se ve en tres sitios:
+
+- En la base, una fila en `AspNetUserLogins` con el `LoginProvider`, el `ProviderKey` que dio el proveedor y el `UserId` de tu cuenta.
+- En la petición, ninguna llamada a `PasswordSignInAsync`: el callback entra por `FindByLoginAsync` y firma directo con `SignInAsync`.
+- En **F12**, pestaña *Red*, el `GET /Account/ExternalLoginCallback` responde **302** con la `Set-Cookie` de identidad encima, sin ningún `POST` de formulario de acceso por medio.
 
 > 💡 **Consejo:** en local, si la web corre en `http`, prueba con los proveedores que admiten bucle local: Google, Microsoft y GitHub aceptan `http://localhost` como retorno.
 
@@ -794,6 +1023,8 @@ Junto a la política de claves va el bloqueo por intentos: `MaxFailedAccessAttem
 
 Comprobar la clave no significa deshacer el hash: no hay operación inversa. El servidor vuelve a calcular el hash de lo que acabas de escribir y compara los dos; si coinciden, entras, y si no, la puerta sigue cerrada.
 
+Quien no quiera ninguna clave que teclear tiene otro camino, el del 19.2.8: la passkey. Sigue habiendo una credencial y sigue sin guardarse en claro, pero la parte privada no sale jamás del dispositivo y en el servidor solo se almacena la pública.
+
 > ⚠️ **Advertencia:** el aviso de acceso fallido debe ser genérico. Decir "ese correo no existe" o "esa clave no coincide" le ahorra trabajo al atacante, porque ya sabe cuál de los dos datos es el bueno.
 
 📌 **Ejemplo real:** LinkedIn. Cuando en 2012 se filtraron las contraseñas de sus usuarios, lo que circuló fue un listado de hashes: para reventar cada una hubo que adivinarla una a una.
@@ -835,6 +1066,7 @@ Razor escapa por defecto todo lo que sale de `@`: el mismo producto con `<script
 - **`[Authorize]` en cada ruta privada**: una carpeta olvidada devuelve su vista a cualquiera
 - **Valida el `ReturnUrl`** antes de redirigir — viene del navegador y debe apuntar a tu propia web, o la bandera falsa te envía a otro sitio
 - **Nada de claves en claro**: ni en la base de datos, ni en la sesión, ni en `localStorage`
+- **Passkey atada a la cuenta conectada**: el reto nombra a un usuario, y `resultado.UserEntity` se compara con el de la cookie antes de guardar
 - **Token antifalsificación en todo `POST`** que cambie datos
 - **Sin `Html.Raw` con datos del usuario**: el escapado por defecto de Razor es la defensa del XSS
 - **Avisos genéricos** en el acceso fallido; los motivos se quedan en el servidor
@@ -922,6 +1154,7 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 - Crea un rol `Admin` con `RoleManager`, asígnalo a una cuenta con `UserManager.AddToRoleAsync` y comprueba que `[Authorize(Roles = "Admin")]` deja entrar solo a esa cuenta
 - Añade `[Authorize(Policy = "EsAdmin")]` con su `AddPolicy` y comprueba que hace lo mismo que la versión con rol
 - Añade una puerta de login externo (Google o GitHub) activable por configuración, y comprueba que el segundo acceso entra sin escribir la contraseña: la asociación vive en `AspNetUserLogins`
+- Monta una passkey sobre tu cuenta: activa antes `IdentitySchemaVersions.Version3` para que exista `AspNetUserPasskeys`, monta los dos pasos con `MakePasskeyCreationOptionsAsync` y `PerformPasskeyAttestationAsync`, y comprueba que un segundo acceso entra con `PasskeySignInAsync` sin escribir la contraseña
 - Escribe en el repositorio por qué el `ReturnUrl` hay que validar antes de usarlo
 
 ---
@@ -942,6 +1175,7 @@ Rellena la lista con seis figuras de modo que haya activas y dadas de baja, nove
 | **`[Authorize]`** | Protege página o controlador; sin identificar, **302** a `/Account/Login` con `ReturnUrl` |
 | **Roles y políticas** | `[Authorize(Roles)]` y `AddPolicy`; sin el rol, **302** a `/Account/AccessDenied` |
 | **Hash con sal** | La clave se guarda como hash; `123` choca con la política de 8 caracteres |
+| **Passkey** | Par de claves del dispositivo que sustituye a la contraseña; solo la pública se guarda, en `AspNetUserPasskeys` |
 | **Token antifalsificación** | `POST` sin token: **400** |
 | **Escapado de Razor** | `@` pinta `&lt;script&gt;` en lugar de ejecutarlo |
 | **Comprobado** | **302** a Login y a AccessDenied, **200** con el usuario en las dos visiones, mensaje oficial de Identity con clave débil, **400** sin token, **302** al cerrar sesión con `SignOutAsync` y XSS escapado en el listado |
