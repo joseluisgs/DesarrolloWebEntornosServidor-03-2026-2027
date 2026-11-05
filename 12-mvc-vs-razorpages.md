@@ -7,7 +7,7 @@
     - [12.4.2. La página equivalente](#1242-la-página-equivalente)
     - [12.4.3. La colisión de rutas](#1243-la-colisión-de-rutas)
     - [12.4.4. Completar la migración](#1244-completar-la-migración)
-  - [12.5. Tabla de decisión](#125-tabla-de-decision)
+  - [12.5. Tabla de decisión](#125-tabla-de-decisión)
   - [12.6. Buenas prácticas](#126-buenas-prácticas)
   - [12.7. Reto: migra la tienda de Funkos](#127-reto-migra-la-tienda-de-funkos)
     - [12.7.1. Contexto](#1271-contexto)

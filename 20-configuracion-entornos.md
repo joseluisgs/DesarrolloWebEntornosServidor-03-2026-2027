@@ -20,13 +20,19 @@
   - [20.4. Secretos y entornos sin fugas](#204-secretos-y-entornos-sin-fugas)
     - [20.4.1. User Secrets en desarrollo](#2041-user-secrets-en-desarrollo)
     - [20.4.2. Variables de entorno en producción](#2042-variables-de-entorno-en-producción)
-  - [20.5. Reglas de seguridad](#205-reglas-de-seguridad)
-  - [20.6. Buenas prácticas](#206-buenas-prácticas)
-  - [20.7. Reto: la configuración de la tienda de Funkos](#207-reto-la-configuración-de-la-tienda-de-funkos)
-    - [20.7.1. Contexto](#2071-contexto)
-    - [20.7.2. Modelo de datos](#2072-modelo-de-datos)
-    - [20.7.3. Almacenamiento](#2073-almacenamiento)
-    - [20.7.4. Retos](#2074-retos)
+  - [20.5. Versiones de paquetes: central package management](#205-versiones-de-paquetes-central-package-management)
+    - [20.5.1. El problema: versiones que se desalinean](#2051-el-problema-versiones-que-se-desalinean)
+    - [20.5.2. La solución: central package management (CPM)](#2052-la-solución-central-package-management-cpm)
+    - [20.5.3. Comprobación](#2053-comprobación)
+    - [20.5.4. Cuándo usarlo](#2054-cuándo-usarlo)
+    - [20.5.5. Trampa: Dockerfile y CPM](#2055-trampa-dockerfile-y-cpm)
+  - [20.6. Reglas de seguridad](#206-reglas-de-seguridad)
+  - [20.7. Buenas prácticas](#207-buenas-prácticas)
+  - [20.8. Reto: la configuración de la tienda de Funkos](#208-reto-la-configuración-de-la-tienda-de-funkos)
+    - [20.8.1. Contexto](#2081-contexto)
+    - [20.8.2. Modelo de datos](#2082-modelo-de-datos)
+    - [20.8.3. Almacenamiento](#2083-almacenamiento)
+    - [20.8.4. Retos](#2084-retos)
 
 
 
@@ -554,13 +560,13 @@ En `Production` con las dos variables puestas, la vista responde `MENSAJE-ENV` e
 
 ## 20.5. Versiones de paquetes: central package management
 
-Cada `.csproj` lleva sus `<PackageReference>` con la versi�n escrita dentro. En un proyecto de un solo fichero no pasa nada; en una soluci�n con varios proyectos, dos paquetes compartidos pueden acabar con versiones distintas sin que nadie lo decida. Eso se llama *drift* de versiones y es una fuente de errores dif�ciles de reproducir.
+Cada `.csproj` lleva sus `<PackageReference>` con la versión escrita dentro. En un proyecto de un solo fichero no pasa nada; en una solución con varios proyectos, dos paquetes compartidos pueden acabar con versiones distintas sin que nadie lo decida. Eso se llama *drift* de versiones y es una fuente de errores difíciles de reproducir.
 
-📌 **Ejemplo real:** Una tienda online con proyecto de API, proyecto de tests y proyecto de herramientas usa `NUnit`. La API lo tiene en 4.3.1, los tests en 4.6.1 y las herramientas en 4.3.1. El día que un test pasa a fallar, nadie sabe si es el c�digo o la versi�n del framework de pruebas.
+📌 **Ejemplo real:** Una tienda online con proyecto de API, proyecto de tests y proyecto de herramientas usa `NUnit`. La API lo tiene en 4.3.1, los tests en 4.6.1 y las herramientas en 4.3.1. El día que un test pasa a fallar, nadie sabe si es el código o la versión del framework de pruebas.
 
 ### 20.5.1. El problema: versiones que se desalinean
 
-Imagina esta soluci�n:
+Imagina esta solución:
 
 ```
 ProductosApp.slnx
@@ -572,20 +578,20 @@ ProductosApp.slnx
     └── ProductosApp.Test.csproj        ← Microsoft.EntityFrameworkCore 10.0.1
 ```
 
-El mismo paquete, tres versiones. Funciona... hasta que deja de funcionar. La causa real: cada `.csproj` decide su versi�n por su cuenta.
+El mismo paquete, tres versiones. Funciona... hasta que deja de funcionar. La causa real: cada `.csproj` decide su versión por su cuenta.
 
-### 20.5.2. La soluci�n: central package management (CPM)
+### 20.5.2. La solución: central package management (CPM)
 
-**Central Package Management** mueve las **versiones** de los paquetes a un �nico fichero en la ra�z: `Directory.Packages.props`.
+**Central Package Management** mueve las **versiones** de los paquetes a un único fichero en la raíz: `Directory.Packages.props`.
 
 ```xml
-<!-- Directory.Packages.props (ra�z de la soluci�n) -->
+<!-- Directory.Packages.props (raíz de la solución) -->
 <Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <!-- Las versiones viven AQU�, una sola vez -->
+    <!-- Las versiones viven AQUÍ, una sola vez -->
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.1" />
     <PackageVersion Include="NUnit" Version="4.3.2" />
@@ -596,41 +602,41 @@ El mismo paquete, tres versiones. Funciona... hasta que deja de funcionar. La ca
 Y los `.csproj` **ya no llevan `Version=`**:
 
 ```xml
-<!-- ProductosApp.Mvc.csproj: sin Version, la aporta la ra�z -->
+<!-- ProductosApp.Mvc.csproj: sin Version, la aporta la raíz -->
 <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" />
 <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
 ```
 
-> 💡 **Analogía:** Es el cat�logo de precios del almac�n. El precio se fija **una vez** en el cat�logo, no en cada etiqueta de cada balda. Si cambia el precio, cambia en toda la tienda.
+> 💡 **Analogía:** Es el catálogo de precios del almacén. El precio se fija **una vez** en el catálogo, no en cada etiqueta de cada balda. Si cambia el precio, cambia en toda la tienda.
 
-> ⚠️ **Advertencia:** Si a�ades un `<PackageReference>` sin meter su `<PackageVersion>` correspondiente en la ra�z, el `dotnet restore` **falla** avis�ndote de que falta la versi�n. Es molesto la primera vez y salvador despu�s.
+> ⚠️ **Advertencia:** Si añades un `<PackageReference>` sin meter su `<PackageVersion>` correspondiente en la raíz, el `dotnet restore` **falla** avisándote de que falta la versión. Es molesto la primera vez y salvador después.
 
-> 🔧 **Truco:** Para desactivarlo puntualmente en un proyecto heredado, a�ade en su `.csproj`: `<ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>`.
+> 🔧 **Truco:** Para desactivarlo puntualmente en un proyecto heredado, añade en su `.csproj`: `<ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>`.
 
 ### 20.5.3. Comprobación
 
 Con `dotnet list package` compruebas qué versiones de paquetes tiene instaladas la solución, incluidas las dependencias transitivas.
 
 ```bash
-# Ver todas las versiones de paquetes de la soluci�n
+# Ver todas las versiones de paquetes de la solución
 dotnet list package --include-transitive
 
-# Verificar que no hay drift (una sola versi�n por paquete)
+# Verificar que no hay drift (una sola versión por paquete)
 dotnet list package
 ```
 
-Si un paquete aparece con m�s de una versi�n en la salida, hay drift: revisa qui�n lo declara y unifica en `Directory.Packages.props`.
+Si un paquete aparece con más de una versión en la salida, hay drift: revisa quién lo declara y unifica en `Directory.Packages.props`.
 
 ### 20.5.4. Cuándo usarlo
 
-| Situaci�n | ¿CPM? |
+| Situación | ¿CPM? |
 |-----------|:-----:|
-| Soluci�n de un solo proyecto | No hace falta |
-| Soluci�n con 2+ proyectos que comparten paquetes | S� |
-| Equipo de varias personas | S� |
-| CI/CD con builds reproducibles | S� |
+| Solución de un solo proyecto | No hace falta |
+| Solución con 2+ proyectos que comparten paquetes | Sí |
+| Equipo de varias personas | Sí |
+| CI/CD con builds reproducibles | Sí |
 
-> 📝 **Nota:** CPM no compila m�s r�pido ni a�ade funcionalidad; ordena la configuraci�n. Es una decisi�n de organizaci�n, no t�cnica.
+> 📝 **Nota:** CPM no compila más rápido ni añade funcionalidad; ordena la configuración. Es una decisión de organización, no técnica.
 ### 20.5.5. Trampa: Dockerfile y CPM
 
 Si usas CPM y despliegues con Docker, el `Dockerfile` necesita copiar `Directory.Packages.props` **antes** de ejecutar `dotnet restore`. Sin él, el build falla con el error **NU1015**: los `.csproj` no tienen versiones y el contenedor no encuentra el fichero que las declara.
@@ -685,7 +691,7 @@ RUN dotnet restore "MiApp/MiApp.csproj"  # ← NU1015 aquí
 - **Constructor primario** para las clases que reciben opciones, como con cualquier otro servicio
 - **Nombres de sección estables**: `App`, `Email`, `Storage`; cambiarlos es romper todas las fuentes a la vez
 - **Pruebas con el entorno activo**: las comprobaciones se hacen con el entorno declarado, no con el que supones
-- **Versiones de paquetes centralizadas** en `Directory.Packages.props` cuando la soluci�n tiene varios proyectos
+- **Versiones de paquetes centralizadas** en `Directory.Packages.props` cuando la solución tiene varios proyectos
 
 ## 20.8. Reto: la configuración de la tienda de Funkos
 

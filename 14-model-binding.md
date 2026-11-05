@@ -9,6 +9,8 @@
   - [14.5. Colecciones y casillas](#145-colecciones-y-casillas)
   - [14.6. Conversión de tipos y valores por defecto](#146-conversión-de-tipos-y-valores-por-defecto)
   - [14.7. Búsqueda y paginación por query string](#147-búsqueda-y-paginación-por-query-string)
+    - [14.7.1. Trampa de Razor Pages: el parámetro `page` no enlaza](#1471-trampa-de-razor-pages-el-parámetro-page-no-enlaza)
+    - [14.7.2. Trampa de Razor Pages: `<base href>` y las URLs relativas](#1472-trampa-de-razor-pages-base-href-y-las-urls-relativas)
   - [14.8. Buenas prácticas](#148-buenas-prácticas)
   - [14.9. Reto: edición de Funkos con enlazado de modelos](#149-reto-edición-de-funkos-con-enlazado-de-modelos)
     - [14.9.1. Contexto](#1491-contexto)

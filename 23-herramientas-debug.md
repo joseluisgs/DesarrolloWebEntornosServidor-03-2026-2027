@@ -15,6 +15,8 @@
   - [23.5. Registro y diagnóstico](#235-registro-y-diagnóstico)
     - [23.5.1. ILogger: niveles y categorías](#2351-ilogger-niveles-y-categorías)
     - [23.5.2. La página de error: desarrollo frente a producción](#2352-la-página-de-error-desarrollo-frente-a-producción)
+    - [23.5.3. Serilog: logging estructurado a fichero](#2353-serilog-logging-estructurado-a-fichero)
+    - [23.5.4. GlobalExceptionHandler: errores consistentes](#2354-globalexceptionhandler-errores-consistentes)
   - [23.6. Errores frecuentes y cómo leerlos](#236-errores-frecuentes-y-cómo-leerlos)
   - [23.7. Reglas de seguridad](#237-reglas-de-seguridad)
   - [23.8. Buenas prácticas](#238-buenas-prácticas)

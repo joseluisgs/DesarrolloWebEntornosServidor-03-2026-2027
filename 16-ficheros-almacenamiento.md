@@ -12,7 +12,7 @@
   - [16.5. Servir los ficheros subidos](#165-servir-los-ficheros-subidos)
   - [16.6. Descargas con file](#166-descargas-con-file)
   - [16.7. Límites de la subida](#167-límites-de-la-subida)
-  - [16.8. La estructura del proyecto: dónde va cada cosa](#168-la-estructura-del-proyecto-dónde-vae-cada-cosa)
+  - [16.8. La estructura del proyecto: dónde va cada cosa](#168-la-estructura-del-proyecto-dónde-va-cada-cosa)
   - [16.9. El formulario completo en las dos visiones](#169-el-formulario-completo-en-las-dos-visiones)
     - [16.9.1. Visión Razor Pages: el alta completa](#1691-visión-razor-pages-el-alta-completa)
     - [16.9.2. Visión MVC: el alta completa](#1692-visión-mvc-el-alta-completa)

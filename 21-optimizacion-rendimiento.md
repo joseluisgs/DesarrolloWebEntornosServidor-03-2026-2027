@@ -11,7 +11,7 @@
     - [21.2.6. HybridCache: la caché unificada](#2126-hybridcache-la-caché-unificada)
     - [21.2.7. OutputCache con tags: invalidar por grupo](#2127-outputcache-con-tags-invalidar-por-grupo)
   - [21.3. Compresión de las respuestas](#213-compresión-de-las-respuestas)
-    - [21.3.1. gzip y brotli](#2131-gzip-y-brotli)
+    - [21.3.1. Gzip y brotli](#2131-gzip-y-brotli)
     - [21.3.2. Qué se comprime y qué no](#2132-qué-se-comprime-y-qué-no)
   - [21.4. Infrastructure de rendimiento](#214-infrastructure-de-rendimiento)
     - [21.4.1. CacheConfig, CompressionConfig y OutputCacheConfig](#2141-cacheconfig-compressionconfig-y-outputcacheconfig)
