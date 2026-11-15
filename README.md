@@ -4,15 +4,6 @@ UD03. Desarrollo de páginas web dinámicas en .NET. 2DAW. Curso 2026-2027
 
 ![imagen](https://github.com/joseluisgs/DesarrolloWebEntornosServidor-00-2023-2024/raw/master/images/servicios.png)
 
-- [Desarrollo Web en Entorno Servidor - 03 - Desarrollo de páginas web dinámicas en .NET](#desarrollo-web-en-entorno-servidor---03---desarrollo-de-páginas-web-dinámicas-en-net)
-  - [Contenido](#contenido)
-  - [Proyecto integrador](#proyecto-integrador)
-  - [Contenido en YouTube](#contenido-en-youtube)
-  - [Resultados de Aprendizaje y Criterios de Evaluación](#resultados-de-aprendizaje-y-criterios-de-evaluación)
-  - [Autor](#autor)
-    - [Contacto](#contacto)
-  - [Licencia de uso](#licencia-de-uso)
-
 
 ## Contenido
 
