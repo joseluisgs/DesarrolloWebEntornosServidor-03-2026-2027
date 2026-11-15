@@ -41,11 +41,11 @@ Los proyectos realizados en clase:
 
 ## Contenido en YouTube
 - [Resumen](https://youtu.be/gIQ8ciJ9ymE)
-- [Arquitectura](https://youtu.be/BLLIR88agkg)[MCV vs Razor Pages](https://youtu.be/0g1k5J6X7xM)
+- [Arquitectura](https://youtu.be/BLLIR88agkg)
 - [MCV vs Razor Pages](https://youtu.be/bq62XOacLj0)
 - [Manejo de formularios web](https://youtu.be/NYi0xUqlXBo)
-- [Manejo del Estado, la Seguridad y Persistencia](https://youtu.be/tNfpH5PqZ0s)
-- [ Tag Helpers, Internacionalización y Localización](https://youtu.be/WyK1O9oeYuU)
+- [Manejo del estado, la seguridad y persistencia](https://youtu.be/tNfpH5PqZ0s)
+- [Tag Helpers, internacionalización y localización](https://youtu.be/WyK1O9oeYuU)
 - [Testing con Playwright](https://youtu.be/mrfIrqZD3Gc)
 - [Lista de reproducción](https://www.youtube.com/playlist?list=PLLiuVpAc3Gv4)
 
