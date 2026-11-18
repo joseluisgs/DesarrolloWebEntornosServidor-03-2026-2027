@@ -212,7 +212,7 @@ graph TD
 
 > 💡 **Consejo:** `@RenderBody()` puede aparecer solo una vez por layout. Si lo pones dos veces, ASP.NET Core lanza una excepción: el contenido no se puede renderizar dos veces.
 
-> 📝 **Nota:** Como ves, el CSS va por CDN (`cdn.jsdelivr.net`). En esta unidad no nos complicamos con `wwwroot` ni con *bundling*; el objetivo es ver el layout funcionando.
+> 📝 **Nota:** Como ves, el CSS va por CDN (`cdn.jsdelivr.net`). En este punto no nos complicamos con `wwwroot` ni con *bundling*; el objetivo es ver el layout funcionando. La decisión completa, cuándo conviene pasar el CDN a `wwwroot/lib` y cómo se hace, está en el punto 26.
 
 ### 5.2.3. Secciones con RenderSectionAsync
 

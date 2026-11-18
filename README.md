@@ -33,7 +33,8 @@ UD03. Desarrollo de páginas web dinámicas en .NET. 2DAW. Curso 2026-2027
 23. [Herramientas de programación, prueba y depuración](23-herramientas-debug.md)
 24. [Pruebas y documentación del código de presentación](24-testing-documentacion.md)
 25. [Despliegue con Docker y nube](25-docker-despliegue.md)
-26. [Resumen](26-resumen.md)
+26. [Recursos estáticos y librerías externas](26-recursos-estaticos.md)
+27. [Resumen](27-resumen.md)
 
 ## Proyecto integrador
 Los proyectos realizados en clase:

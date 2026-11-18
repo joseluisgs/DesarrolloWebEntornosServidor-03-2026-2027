@@ -1,6 +1,6 @@
-- [26. Resumen y conclusiones](#26-resumen-y-conclusiones)
-  - [26.1. Mapa conceptual de la unidad](#261-mapa-conceptual-de-la-unidad)
-  - [26.2. Conceptos clave](#262-conceptos-clave)
+- [27. Resumen y conclusiones](#27-resumen-y-conclusiones)
+  - [27.1. Mapa conceptual de la unidad](#271-mapa-conceptual-de-la-unidad)
+  - [27.2. Conceptos clave](#272-conceptos-clave)
     - [Parte 1: vistas y Razor](#parte-1-vistas-y-razor)
       - [Punto 00: comandos de la CLI de .NET](#punto-00-comandos-de-la-cli-de-net)
       - [Punto 01: fundamentos de Razor](#punto-01-fundamentos-de-razor)
@@ -31,28 +31,28 @@
       - [Punto 23: herramientas, prueba y depuración](#punto-23-herramientas-prueba-y-depuración)
       - [Punto 24: pruebas y documentación](#punto-24-pruebas-y-documentación)
       - [Punto 25: despliegue con Docker](#punto-25-despliegue-con-docker)
-  - [26.3. Herramientas y perfiles](#263-herramientas-y-perfiles)
+  - [27.3. Herramientas y perfiles](#273-herramientas-y-perfiles)
     - [SDK y CLI](#sdk-y-cli)
     - [NuGet (paquetes habituales)](#nuget-paquetes-habituales)
     - [IDE](#ide)
-  - [26.4. Errores comunes a evitar](#264-errores-comunes-a-evitar)
-  - [26.5. Checklist de supervivencia](#265-checklist-de-supervivencia)
+  - [27.4. Errores comunes a evitar](#274-errores-comunes-a-evitar)
+  - [27.5. Checklist de supervivencia](#275-checklist-de-supervivencia)
     - [Parte 1: vistas y Razor](#parte-1-vistas-y-razor-1)
     - [Parte 2: MVC y Razor Pages](#parte-2-mvc-y-razor-pages-1)
     - [Parte 3: formularios, datos y estado](#parte-3-formularios-datos-y-estado-1)
     - [Parte 4: aplicación completa](#parte-4-aplicación-completa)
-  - [26.6. Glosario de términos](#266-glosario-de-términos)
-  - [26.7. Ejercicios de repaso](#267-ejercicios-de-repaso)
-  - [26.8. ¿Qué viene después?](#268-qué-viene-después)
-  - [26.9. Mapa de conexiones entre temas](#269-mapa-de-conexiones-entre-temas)
+  - [27.6. Glosario de términos](#276-glosario-de-términos)
+  - [27.7. Ejercicios de repaso](#277-ejercicios-de-repaso)
+  - [27.8. ¿Qué viene después?](#278-qué-viene-después)
+  - [27.9. Mapa de conexiones entre temas](#279-mapa-de-conexiones-entre-temas)
 
 
 
-# 26. Resumen y conclusiones
+# 27. Resumen y conclusiones
 
 > 💡 **Punto de partida:** Has recorrido la unidad entera, desde la primera vista dinámica hasta el contenedor publicado en la nube. Este resumen consolida todo en una sola mirada.
 
-Aquí repasas en una página los 26 puntos de la unidad: qué es cada cosa, con qué herramienta se hace y dónde se equivoca la gente — úsalo como referencia rápida antes del examen y como índice para volver al punto que te falte.
+Aquí repasas en una página los 27 puntos de la unidad: qué es cada cosa, con qué herramienta se hace y dónde se equivoca la gente — úsalo como referencia rápida antes del examen y como índice para volver al punto que te falte.
 
 **Objetivos de aprendizaje:**
 
@@ -60,7 +60,7 @@ Aquí repasas en una página los 26 puntos de la unidad: qué es cada cosa, con 
 - Consolidar el vocabulario técnico
 - Tener una referencia rápida para el examen
 
-## 26.1. Mapa conceptual de la unidad
+## 27.1. Mapa conceptual de la unidad
 
 ```mermaid
 graph TD
@@ -131,7 +131,7 @@ graph TD
     style K12 fill:#2196F3,color:#fff
 ```
 
-## 26.2. Conceptos clave
+## 27.2. Conceptos clave
 
 ### Parte 1: vistas y Razor
 
@@ -305,7 +305,7 @@ graph TD
 - **Sondeo de salud:** `GET /health` responde **200** con su estado; el orquestador usa esa respuesta
 - 📌 **Ejemplo real:** Spotify actualiza su app sin cortar el servicio: alguien publica una versión nueva y el contenedor la recibe.
 
-## 26.3. Herramientas y perfiles
+## 27.3. Herramientas y perfiles
 
 ### SDK y CLI
 - **`dotnet new`**: Crea proyectos a partir de plantillas
@@ -331,7 +331,7 @@ graph TD
 - **JetBrains Rider:** IDE principal del ciclo, para C# y .NET; de la misma familia que IntelliJ, PyCharm, CLion y WebStorm
 - **Visual Studio Code:** alternativa ligera y multiplataforma, con las mismas ideas de depuración
 
-## 26.4. Errores comunes a evitar
+## 27.4. Errores comunes a evitar
 
 | Error | Por qué está mal | Cómo evitarlo |
 |-------|------------------|---------------|
@@ -353,7 +353,7 @@ graph TD
 | Playwright instalado por otra vía en flujos | Versión que no cuadra con los paquetes | El script del propio proyecto |
 | cachear datos personales sin control | La respuesta de uno puede servirse a otro | Invalidar al escribir y cachear por usuario |
 
-## 26.5. Checklist de supervivencia
+## 27.5. Checklist de supervivencia
 
 Antes de dar por cerrada la unidad, asegúrate de poder responder **SÍ** a estas preguntas:
 
@@ -388,7 +388,7 @@ Antes de dar por cerrada la unidad, asegúrate de poder responder **SÍ** a esta
 
 > 🔧 **Truco:** la mejor forma de aprender es practicando — no leas solo los apuntes: abre el IDE, monta el proyecto del punto y pásate la comprobación con `curl` o con F12 hasta que la respuesta sea la que esperabas.
 
-## 26.6. Glosario de términos
+## 27.6. Glosario de términos
 
 | Término | Definición |
 |---------|------------|
@@ -424,7 +424,7 @@ Antes de dar por cerrada la unidad, asegúrate de poder responder **SÍ** a esta
 | **Sondeo de salud** | Ruta ligera (`/health`) que dice si el contenedor sigue vivo |
 | **Límite de peticiones** | Cupo por ventana con `429`; middleware propio o limitador en caja |
 
-## 26.7. Ejercicios de repaso
+## 27.7. Ejercicios de repaso
 
 1. **CLI y estructura:** Crea un proyecto Razor Pages con `dotnet new`, añádelo a una solución `.slnx` y describe la estructura de carpetas que se ha generado.
 2. **Razor:** Escribe una vista que pinte una tabla de productos con una función local que calcule el precio con IVA; comprueba que el HTML sale escapado.
@@ -442,7 +442,7 @@ Antes de dar por cerrada la unidad, asegúrate de poder responder **SÍ** a esta
 14. **Pruebas:** Escribe pruebas unitarias del carrito con NUnit y FluentAssertions y una prueba de portada con Playwright; ejecuta `dotnet test` y lee el resumen.
 15. **Proyecto integrador:** Despliega tu tienda completa: carpeta publicada, Dockerfile por fases, contenedor con variables de entorno y flujo de GitHub Actions que no publique sin pruebas en verde.
 
-## 26.8. ¿Qué viene después?
+## 27.8. ¿Qué viene después?
 
 En la **UD04: Aplicaciones Web Híbridas y Componentes de Servidor en .NET** aprenderás a montar interfaces híbridas: componentes de servidor con Blazor que conviven con JavaScript — sobre la misma base de vistas y controladores que has construido aquí.
 
@@ -458,7 +458,7 @@ En la **UD04: Aplicaciones Web Híbridas y Componentes de Servidor en .NET** apr
 
 📌 **Ejemplo real:** En la UD04 embeberás un carrito interactivo en una página Razor: la vista que ya sabes pintar se queda como base y el componente de Blazor se monta encima, hablando con JavaScript cuando hace falta.
 
-## 26.9. Mapa de conexiones entre temas
+## 27.9. Mapa de conexiones entre temas
 
 ```mermaid
 graph LR
