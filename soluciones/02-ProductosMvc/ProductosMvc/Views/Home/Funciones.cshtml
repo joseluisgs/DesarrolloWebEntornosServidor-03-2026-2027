@@ -1,0 +1,66 @@
+@* ============================================================================
+   Views/Home/Funciones.cshtml - funciones y delegados dentro de la vista
+   El cuerpo de esta vista es IDÉNTICO al de Pages/Funciones.cshtml del ejemplo 01.
+   Hay dos formas de meter comportamiento en una vista:
+   1) @@functions  → métodos de la clase que genera la vista
+   2) delegados    → Func<> o Action<> guardados en variables del bloque de código
+   Lo que NO existe en Razor es la directiva @@helper: se fue con WebPages.
+   ============================================================================ *@
+@model ProductosMvc.ViewModels.FuncionesViewModel
+@{
+    ViewData["Title"] = "Funciones en la vista";
+
+    // Delegado: una lambda guardada en una variable y usada desde el HTML
+    Func<decimal, string> precioEnTexto = importe => importe.ToString("C");
+
+    // Otro delegado, con dos parámetros
+    Func<string, int, string> etiquetaConCantidad = (etiqueta, cantidad) => $"{etiqueta} ({cantidad})";
+}
+
+@functions {
+    // Método local de la vista: se compila dentro de esta vista, junto al controlador.
+    // Sirve para no repetir la misma regla de presentación en cinco trozos de HTML.
+    static string EtiquetaStock(int unidades) => unidades switch
+    {
+        0 => "Agotado",
+        < 5 => "Últimas unidades",
+        _ => "En stock"
+    };
+
+    static string PrimeraLetraMayuscula(string texto) =>
+        string.IsNullOrWhiteSpace(texto) ? texto : char.ToUpperInvariant(texto[0]) + texto[1..];
+}
+
+<h1 class="titulo">Funciones en la vista</h1>
+
+<h2>Delegados declarados en el bloque de código</h2>
+
+<p>
+    Un <code>Func&lt;decimal, string&gt;</code> formatea el precio más caro del catálogo:
+    <strong>@precioEnTexto(Model.PrecioMaximo)</strong>.
+</p>
+
+<p>
+    Un <code>Func&lt;string, int, string&gt;</code> junta etiqueta y cantidad:
+    <strong>@etiquetaConCantidad("Productos", Model.Productos.Count)</strong>.
+</p>
+
+<h2>Métodos del bloque @@functions</h2>
+
+<ul>
+    @foreach (var producto in Model.Productos)
+    {
+        <li>
+            <strong>@PrimeraLetraMayuscula(producto.Nombre)</strong>:
+            @EtiquetaStock(producto.Stock) · @precioEnTexto(producto.Precio)
+        </li>
+    }
+</ul>
+
+<div class="nota">
+    <p>
+        <strong>Dónde poner cada cosa:</strong> la regla de presentación repetida en varias
+        vistas sube al controlador (o a una extensión de formato); lo que solo pinta, se queda
+        en @@functions; y lo que se usa una vez, en un delegado del bloque de código.
+    </p>
+</div>

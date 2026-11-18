@@ -1,0 +1,82 @@
+@* ============================================================================
+   Views/Home/Estructuras.cshtml - if, switch, for, foreach y while dentro de la vista
+   El cuerpo de esta vista es IDÉNTICO al de Pages/Estructuras.cshtml del ejemplo 01:
+   las estructuras de control de C# son las mismas en cualquier vista Razor.
+   La única diferencia es de dónde sale el modelo: del ViewModel, no del PageModel.
+   ============================================================================ *@
+@model ProductosMvc.ViewModels.EstructurasViewModel
+@{
+    ViewData["Title"] = "Estructuras de control";
+
+    // Datos de trabajo preparados en el bloque de código de la propia vista
+    var categorias = Model.Productos.Select(p => p.Categoria).Distinct().ToList();
+    var contador = 0;
+}
+
+<h1 class="titulo">Estructuras de control en la vista</h1>
+
+<h2>if / else if / else</h2>
+
+@if (Model.Productos.Count == 0)
+{
+    <p class="vacio">No hay productos en el catálogo.</p>
+}
+else if (Model.Productos.Count < 5)
+{
+    <p>El catálogo tiene <strong>@Model.Productos.Count</strong> productos: pocos para una tienda.</p>
+}
+else
+{
+    <p>El catálogo tiene <strong>@Model.Productos.Count</strong> productos.</p>
+}
+
+<h2>switch</h2>
+
+<p>
+    El inventario se comporta así:
+</p>
+
+@switch (Model.StockTotal)
+{
+    case 0:
+        <p class="stock stock--agotado">Todo agotado: no queda nada que vender.</p>
+        break;
+    case < 10:
+        <p class="stock stock--poco">Quedan pocas unidades: <strong>@Model.StockTotal</strong> en total.</p>
+        break;
+    default:
+        <p class="stock stock--ok">Inventario sano: <strong>@Model.StockTotal</strong> unidades.</p>
+        break;
+}
+
+<h2>foreach</h2>
+
+<ul>
+    @foreach (var categoria in categorias)
+    {
+        <li>@categoria</li>
+    }
+</ul>
+
+<h2>for</h2>
+
+<p>Un contador con for: @for (var i = 1; i <= Model.Productos.Count; i++){<text>@i </text>}</p>
+
+<h2>while</h2>
+
+<p>
+    Un while que se corta solo (si no, la vista se quedaría pensando para siempre):
+    @while (contador < 3)
+    {
+        contador++;
+        <text>@contador </text>
+    }
+</p>
+
+<div class="nota">
+    <p>
+        <strong>Regla de oro:</strong> en una vista solo va lógica de presentación. Si una
+        estructura empieza a decidir precios, a tocar la base de datos o a validar datos,
+        esa lógica se sube al controlador y la vista se queda pintando.
+    </p>
+</div>

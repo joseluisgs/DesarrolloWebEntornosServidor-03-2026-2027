@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>latest</LangVersion>
+        <RootNamespace>ProductosMvc</RootNamespace>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <!-- CS1570 y CS1587: los comentarios XML de las vistas .cshtml no son XML bien formado -->
+        <NoWarn>$(NoWarn);NU1902;NU1903;CS1591;CS1570;CS1587</NoWarn>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/ProductosMvc.xml</DocumentationFile>
+    </PropertyGroup>
+    <ItemGroup>
+        <!-- Único paquete del ejemplo: SQLite en fichero, para que dotnet run baste -->
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.12" />
+    </ItemGroup>
+</Project>

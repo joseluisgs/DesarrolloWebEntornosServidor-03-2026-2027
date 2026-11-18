@@ -1,0 +1,62 @@
+@* ============================================================================
+   Views/Home/Detalle.cshtml - la ficha de un producto
+   El ViewModel trae Sugerencias, que el DTO no llevaba: ese es el trabajo del ViewModel,
+   darle a la vista lo que pide sin ensuciar el modelo de negocio.
+   ============================================================================
+*@
+@model DetalleViewModel
+@{
+    ViewData["Title"] = Model.Producto.Nombre;
+    var producto = Model.Producto;
+}
+
+<article class="ficha">
+    <img class="ficha__imagen" src="@producto.Imagen" alt="Foto de @producto.Nombre" />
+
+    <div class="ficha__cuerpo">
+        <p class="tarjeta__categoria">
+            @* Enlace a la acción Categoria con su parámetro en la query string. *@
+            <a asp-controller="Home" asp-action="Categoria"
+               asp-route-categoria="@producto.Categoria">@producto.Categoria</a>
+        </p>
+
+        <h1 class="titulo">@producto.Nombre</h1>
+        <p class="ficha__descripcion">@producto.Descripcion</p>
+
+        <dl class="ficha__datos">
+            <dt>Precio</dt>
+            <dd><precio importe="@producto.Precio" destacado="true" /></dd>
+
+            <dt>Disponibilidad</dt>
+            @* switch dentro del HTML: cada caso lleva su propio trozo de marcado. *@
+            @switch (producto.Stock)
+            {
+                case 0:
+                    <dd class="stock stock--agotado">Agotado</dd>
+                    break;
+                case < 5:
+                    <dd class="stock stock--poco">Últimas unidades: quedan @producto.Stock</dd>
+                    break;
+                default:
+                    <dd class="stock stock--ok">En stock: @producto.Stock unidades</dd>
+                    break;
+            }
+        </dl>
+
+        <p>
+            <a class="enlace" asp-controller="Home" asp-action="Index">← Volver al catálogo</a>
+        </p>
+    </div>
+</article>
+
+@if (Model.Sugerencias.Count > 0)
+{
+    <h2>También de @producto.Categoria</h2>
+
+    <div class="rejilla">
+        @foreach (var sugerencia in Model.Sugerencias)
+        {
+            <partial name="_TarjetaProducto" model="sugerencia" />
+        }
+    </div>
+}

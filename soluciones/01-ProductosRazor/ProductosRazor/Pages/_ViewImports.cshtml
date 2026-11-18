@@ -1,0 +1,16 @@
+@* ============================================================================
+   _ViewImports.cshtml - directivas compartidas por TODAS las páginas
+   UBICACIÓN: Pages/, la raíz de las páginas
+   RAZÓN: lo que se declare aquí no hace falta repetirlo en cada .cshtml.
+   Es el sitio donde se registran los namespaces, el modelo por defecto y los Tag Helpers.
+   ============================================================================
+*@
+@using ProductosRazor
+@using ProductosRazor.Dtos
+@using ProductosRazor.Models
+@using ProductosRazor.Models.Enums
+@using ProductosRazor.Services
+@using Microsoft.AspNetCore.Hosting
+@namespace ProductosRazor.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, ProductosRazor

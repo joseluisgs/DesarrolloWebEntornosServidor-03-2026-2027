@@ -1,0 +1,16 @@
+@* ============================================================================
+   Views/_ViewImports.cshtml - directivas compartidas por TODAS las vistas
+   UBICACIÓN: Views/, la raíz de las vistas (en Razor Pages era Pages/)
+   RAZÓN: lo que se declare aquí no hace falta repetirlo en cada .cshtml.
+   Es el mismo contenido que el _ViewImports del ejemplo 01, con una diferencia:
+   aquí NO hay @@namespace, porque las vistas MVC heredan el suyo de la carpeta.
+   ============================================================================ *@
+@using ProductosMvc
+@using ProductosMvc.Dtos
+@using ProductosMvc.Models
+@using ProductosMvc.Models.Enums
+@using ProductosMvc.Services
+@using ProductosMvc.ViewModels
+@using Microsoft.AspNetCore.Hosting
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@addTagHelper *, ProductosMvc

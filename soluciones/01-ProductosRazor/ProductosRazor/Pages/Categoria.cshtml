@@ -1,0 +1,35 @@
+@* ============================================================================
+   Categoria.cshtml - los productos de una sola categoría
+   El cuerpo de esta página es IDÉNTICO al de Views/Home/Categoria.cshtml del
+   ejemplo 02. El parámetro llega por la query string y el Model Binding lo ha
+   convertido en el enum, así que la vista puede compararlo sin parsear nada.
+   ============================================================================ *@
+@page
+@model ProductosRazor.Pages.CategoriaModel
+@{
+    ViewData["Title"] = $"Categoría {Model.Categoria}";
+}
+
+<p class="migas">
+    <a asp-page="/Index">Catálogo</a> / @Model.Categoria
+</p>
+
+<h1 class="titulo">@Model.Categoria</h1>
+
+@if (Model.Productos.Count == 0)
+{
+    <p class="vacio">No hay productos en esta categoría todavía.</p>
+}
+else
+{
+    <p class="chiquito">
+        @Model.Productos.Count productos en esta categoría.
+    </p>
+
+    <div class="rejilla">
+        @foreach (var producto in Model.Productos)
+        {
+            <partial name="_TarjetaProducto" model="producto" />
+        }
+    </div>
+}

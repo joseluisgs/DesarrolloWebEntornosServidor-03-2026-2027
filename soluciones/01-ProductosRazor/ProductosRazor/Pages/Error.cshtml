@@ -1,0 +1,28 @@
+@* ============================================================================
+   Error.cshtml - la página de error del sistema
+   El cuerpo de esta página es IDÉNTICO al de Views/Shared/Error.cshtml del
+   ejemplo 02. La sirve el middleware UseExceptionHandler cuando algo falla
+   fuera de Development. El detalle del fallo solo se muestra aquí.
+   ============================================================================ *@
+@page
+@model ProductosRazor.Pages.ErrorModel
+@{
+    ViewData["Title"] = "Algo ha fallado";
+}
+
+<h1 class="titulo">Algo ha fallado</h1>
+
+<p class="vacio">
+    La petición no se ha podido atender. Vuelve al catálogo y prueba con otro producto.
+</p>
+
+@if (!string.IsNullOrEmpty(Model.Ruta))
+{
+    <p class="chiquito">
+        Ruta que falló: <code>@Model.Ruta</code>
+    </p>
+}
+
+<p>
+    <a class="enlace" asp-page="/Index">← Volver al catálogo</a>
+</p>

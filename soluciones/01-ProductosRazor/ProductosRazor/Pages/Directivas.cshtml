@@ -1,0 +1,111 @@
+@* ============================================================================
+   Directivas.cshtml - el catálogo de directivas de Razor
+   El cuerpo de esta página es IDÉNTICO al de Views/Home/Directivas.cshtml del
+   ejemplo 02. La única diferencia es la línea @@model, y la presencia de @@page:
+   aquí el fichero es el que da la URL; en MVC la da la acción del controlador.
+
+   @@page       convierte el fichero en una página con URL propia
+   @@model      dice qué tipo recibe la vista (lo pone el PageModel)
+   @@layout     plantilla envolvente (en realidad lo decide _ViewStart)
+   @@using      namespace disponible en esta vista (aquí y en _ViewImports)
+   @@inject     pide un objeto del contenedor de dependencias
+   @@functions  C# de vista: métodos que la vista puede llamar
+   @@section    un hueco concreto del layout para contenido de esta página
+   ============================================================================ *@
+@page
+@model ProductosRazor.Pages.DirectivasModel
+@* @@inject: en vez de crear el servicio, se pide prestado. Funciona con cualquier
+   servicio registrado en el contenedor; aquí hay dos de ejemplo. *@
+@inject IProductService ServicioProductos
+@inject IWebHostEnvironment Entorno
+@{
+    ViewData["Title"] = "Directivas de Razor";
+}
+
+<h1 class="titulo">Directivas de Razor</h1>
+
+<h2>Las que ya has estado usando sin verte</h2>
+
+<table class="tabla">
+    <thead>
+        <tr>
+            <th>Directiva</th>
+            <th>Qué hace</th>
+            <th>Dónde se usa</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td><code>@@page</code></td>
+            <td>Convierte el .cshtml en una página con URL propia (solo existe en Razor Pages)</td>
+            <td>Primera línea del fichero, en Razor Pages</td>
+        </tr>
+        <tr>
+            <td><code>@@model</code></td>
+            <td>Declara el tipo que la vista recibe del modelo</td>
+            <td>Bajo @@page en Razor Pages; arriba del todo en MVC</td>
+        </tr>
+        <tr>
+            <td><code>@@layout</code></td>
+            <td>Elige la plantilla envolvente de la página</td>
+            <td>_ViewStart.cshtml, para no repetirlo en cada vista</td>
+        </tr>
+        <tr>
+            <td><code>@@using</code></td>
+            <td>Añade un namespace a la vista</td>
+            <td>_ViewImports.cshtml, compartido por todas las vistas</td>
+        </tr>
+        <tr>
+            <td><code>@@addTagHelper</code></td>
+            <td>Activa un conjunto de Tag Helpers en la vista</td>
+            <td>_ViewImports.cshtml</td>
+        </tr>
+        <tr>
+            <td><code>@@page "{id:int}"</code></td>
+            <td>Da una plantilla de ruta con un segmento obligatorio y tipado</td>
+            <td>En la página de detalle de Razor Pages; en MVC lo hace el atributo [Route]</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>@@inject: pedir prestado un servicio</h2>
+
+<p>
+    Esta página se está sirviendo desde el entorno <strong>@Entorno.EnvironmentName</strong>,
+    con la aplicación <strong>@Entorno.ApplicationName</strong>.
+</p>
+
+@{
+    var resumen = await ServicioProductos.GetCatalogSummaryAsync();
+}
+
+<p>
+    El servicio inyectado ve el catálogo con <strong>@resumen.TotalProductos</strong> productos y
+    un inventario valorado en <strong>@resumen.ValorInventario.ToString("C")</strong>.
+</p>
+
+<div class="nota">
+    <p>
+        <strong>Cuándo se usa:</strong> cuando la vista necesita un dato o un comportamiento que
+        no le llega del modelo. Es tentador inyectar cinco servicios en la vista: cuanto más
+        hagas eso, más lógica se te escapa del PageModel y más difícil es de probar.
+    </p>
+</div>
+
+<h2>@@functions: métodos que solo viven en esta vista</h2>
+
+<p>
+    Mayúsculas desde un método de la vista: <strong>@Mayusculas("directivas de razor")</strong>.
+</p>
+
+@functions {
+    // Este bloque se compila dentro de la clase de la página generada.
+    // Es C# normal: puede ser estático, puede recibir parámetros y lo puede llamar el HTML.
+    static string Mayusculas(string texto) => texto.ToUpperInvariant();
+}
+
+@section Scripts {
+    <script>
+        console.log("Esta línea solo la ve esta vista: la sección vive en el layout.");
+    </script>
+}

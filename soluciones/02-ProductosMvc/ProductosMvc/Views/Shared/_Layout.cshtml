@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Productos MVC</title>
+    @* Tag Helper de enlace: asp-append-version pone la versión del fichero en la URL. *@
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="cabecera">
+        <nav class="navegacion">
+            <a class="navegacion__marca" asp-controller="Home" asp-action="Index">Productos MVC</a>
+
+            <ul class="navegacion__lista">
+                @* asp-controller + asp-action resuelven la URL sin escribir rutas a mano.
+                   Si mañana cambia el patrón por convención, estos enlaces no se rompen. *@
+                <li><a asp-controller="Home" asp-action="Index">Catálogo</a></li>
+                <li><a asp-controller="Home" asp-action="Directivas">Directivas</a></li>
+                <li><a asp-controller="Home" asp-action="Estructuras">Estructuras</a></li>
+                <li><a asp-controller="Home" asp-action="Funciones">Funciones</a></li>
+
+                @* asp-route-categoria manda el valor como parámetro de la query string:
+                   el resultado es /Home/Categoria?categoria=Audio *@
+                @foreach (var categoria in Enum.GetValues<ProductCategory>())
+                {
+                    <li>
+                        <a asp-controller="Home" asp-action="Categoria"
+                           asp-route-categoria="@categoria">@categoria</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </header>
+
+    <main class="contenido">
+        @* RenderBody: aquí se inyecta el contenido de la vista que se esté sirviendo. *@
+        @RenderBody()
+    </main>
+
+    <footer class="pie">
+        <p>J.L. González · Desarrollo Web en Entornos Servidor (DAW) · IES Luis Vives</p>
+    </footer>
+
+    @* RenderSectionAsync: la sección Scripts es opcional; cada vista decide si la llena. *@
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

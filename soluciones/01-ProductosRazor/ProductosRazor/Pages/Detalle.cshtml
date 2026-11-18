@@ -1,0 +1,76 @@
+@* ============================================================================
+   Detalle.cshtml - la ficha de un producto
+   El cuerpo de esta página es IDÉNTICO al de Views/Home/Detalle.cshtml del
+   ejemplo 02. La línea @@page "~/producto/{id:int}" le da una plantilla de ruta
+   con un segmento obligatorio y tipado: /producto/7 entra, /producto/abc no
+   (devuelve 404 sin llegar al handler). En MVC ese mismo trabajo lo hace [Route].
+   El ~/ ancla la plantilla a la raíz: sin él se sumaría a la carpeta Pages/
+   y la URL sería /Detalle/producto/1.
+   ============================================================================ *@
+@page "~/Producto/{id:int}"
+@model ProductosRazor.Pages.DetalleModel
+@{
+    ViewData["Title"] = Model.Producto?.Nombre ?? "Producto no encontrado";
+}
+
+@if (Model.Producto is null)
+{
+    @* El PageModel ya respondió 404 con NotFound(); esto solo pasa si se navega a mano. *@
+    <p class="vacio">No existe ningún producto con ese identificador.</p>
+}
+else
+{
+    var producto = Model.Producto;
+
+    <article class="ficha">
+        <img class="ficha__imagen" src="@producto.Imagen" alt="Foto de @producto.Nombre" />
+
+        <div class="ficha__cuerpo">
+            <p class="tarjeta__categoria">
+                @* Enlace a la página de Categoría con su parámetro en la query string. *@
+                <a asp-page="/Categoria" asp-route-categoria="@producto.Categoria">@producto.Categoria</a>
+            </p>
+
+            <h1 class="titulo">@producto.Nombre</h1>
+            <p class="ficha__descripcion">@producto.Descripcion</p>
+
+            <dl class="ficha__datos">
+                <dt>Precio</dt>
+                <dd><precio importe="@producto.Precio" destacado="true" /></dd>
+
+                <dt>Disponibilidad</dt>
+                @* switch dentro del HTML: cada caso lleva su propio trozo de marcado. *@
+                @switch (producto.Stock)
+                {
+                    case 0:
+                        <dd class="stock stock--agotado">Agotado</dd>
+                        break;
+                    case < 5:
+                        <dd class="stock stock--poco">Últimas unidades: quedan @producto.Stock</dd>
+                        break;
+                    default:
+                        <dd class="stock stock--ok">En stock: @producto.Stock unidades</dd>
+                        break;
+                }
+            </dl>
+
+            <p>
+                <a class="enlace" asp-page="/Index">← Volver al catálogo</a>
+            </p>
+        </div>
+    </article>
+
+    @* Sugerencias: el DTO no las trae, porque un producto no "tiene" relacionados.
+       Ese dato extra de presentación es exactamente para lo que sirve el PageModel. *@
+    @if (Model.Sugerencias.Count > 0)
+    {
+        <h2>También de @producto.Categoria</h2>
+
+        <div class="rejilla">
+            @foreach (var sugerencia in Model.Sugerencias)
+            {
+                <partial name="_TarjetaProducto" model="sugerencia" />
+            }
+        </div>
+    }
+}

@@ -1,0 +1,39 @@
+@* ============================================================================
+   Views/Home/Index.cshtml - el catálogo
+   La vista recibe un ViewModel, no la lista suelta: así quien la lee sabe
+   de un vistazo todo lo que esta pantalla necesita.
+   ============================================================================
+*@
+@model CatalogoViewModel
+@{
+    ViewData["Title"] = "Catálogo de productos";
+}
+
+<h1 class="titulo">Catálogo de productos</h1>
+
+@* ViewData lleva los datos sueltos de la página. Se comprueba con @@if porque no se
+   compara en tiempo de compilación: si te equivocas de nombre, el fallo es en runtime.
+   ViewBag haría lo mismo, pero es exclusivo de los controladores MVC: por eso esta
+   demo usa ViewData y se puede copiar tal cual en el ejemplo 01. *@
+@if (ViewData["Mensaje"] is string mensaje)
+{
+    <p class="chiquito">@mensaje</p>
+}
+
+@* Componente de vista: misma técnica, mismo tag que en Razor Pages. *@
+<vc:catalog-summary />
+
+@if (Model.Productos.Count == 0)
+{
+    <p class="vacio">El catálogo está vacío. Ejecuta la app en modo Development para que se siembre.</p>
+}
+else
+{
+    <div class="rejilla">
+        @* El parcial se invoca con <partial>, igual que en el ejemplo 01. *@
+        @foreach (var producto in Model.Productos)
+        {
+            <partial name="_TarjetaProducto" model="producto" />
+        }
+    </div>
+}

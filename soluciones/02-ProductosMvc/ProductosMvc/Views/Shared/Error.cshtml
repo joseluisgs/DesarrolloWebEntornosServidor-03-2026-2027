@@ -1,0 +1,28 @@
+@* ============================================================================
+   Views/Shared/Error.cshtml - la vista de error del sistema
+   La sirve la acción Home/Error, a la que llega UseExceptionHandler cuando algo
+   revienta fuera de Development. El detalle del fallo solo se muestra aquí,
+   nunca en producción.
+   ============================================================================
+*@
+@model ErrorViewModel
+@{
+    ViewData["Title"] = "Algo ha fallado";
+}
+
+<h1 class="titulo">Algo ha fallado</h1>
+
+<p class="vacio">
+    La petición no se ha podido atender. Vuelve al catálogo y prueba con otro producto.
+</p>
+
+@if (!string.IsNullOrEmpty(Model.Ruta))
+{
+    <p class="chiquito">
+        Ruta que falló: <code>@Model.Ruta</code>
+    </p>
+}
+
+<p>
+    <a class="enlace" asp-controller="Home" asp-action="Index">← Volver al catálogo</a>
+</p>

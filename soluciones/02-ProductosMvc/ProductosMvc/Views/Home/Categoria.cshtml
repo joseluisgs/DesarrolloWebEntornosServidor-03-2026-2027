@@ -1,0 +1,34 @@
+@* ============================================================================
+   Views/Home/Categoria.cshtml - los productos de una sola categoría
+   El parámetro llega por la query string y el Model Binding lo ha convertido en el enum,
+   así que la vista puede compararlo y usarlo sin parsear nada.
+   ============================================================================
+*@
+@model CategoriaViewModel
+@{
+    ViewData["Title"] = $"Categoría {Model.Categoria}";
+}
+
+<p class="migas">
+    <a asp-controller="Home" asp-action="Index">Catálogo</a> / @Model.Categoria
+</p>
+
+<h1 class="titulo">@Model.Categoria</h1>
+
+@if (Model.Productos.Count == 0)
+{
+    <p class="vacio">No hay productos en esta categoría todavía.</p>
+}
+else
+{
+    <p class="chiquito">
+        @Model.Productos.Count productos en esta categoría.
+    </p>
+
+    <div class="rejilla">
+        @foreach (var producto in Model.Productos)
+        {
+            <partial name="_TarjetaProducto" model="producto" />
+        }
+    </div>
+}

@@ -1,0 +1,22 @@
+@* ============================================================================
+   Default.cshtml - vista del componente de vista CatalogSummary
+   Idéntica a la del ejemplo 01: los componentes de vista funcionan igual
+   en las dos arquitecturas, y se invocan igual con <vc:catalog-summary />.
+   ============================================================================
+*@
+@model CatalogSummaryDto
+<section class="resumen">
+    <h2 class="resumen__titulo">Resumen del catálogo</h2>
+
+    <p class="resumen__dato">
+        <strong>@Model.TotalProductos</strong> productos ·
+        inventario valorado en <strong>@Model.ValorInventario.ToString("C")</strong>
+    </p>
+
+    <ul class="resumen__lista">
+        @foreach (var item in Model.PorCategoria)
+        {
+            <li><span class="resumen__categoria">@item.Categoria</span> @item.Total</li>
+        }
+    </ul>
+</section>

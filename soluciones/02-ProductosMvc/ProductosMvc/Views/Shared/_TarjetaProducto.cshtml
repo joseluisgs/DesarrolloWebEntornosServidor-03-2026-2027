@@ -1,0 +1,31 @@
+@* ============================================================================
+   Views/Shared/_TarjetaProducto.cshtml - PARCIAL
+   El mismo parcial del ejemplo 01, con la misma misión: un trozo de vista reutilizable.
+   La única diferencia es dónde vive: Views/Shared/ en vez de Pages/Shared/.
+   ============================================================================
+*@
+@model ProductDto
+<article class="tarjeta">
+    <img class="tarjeta__imagen" src="@Model.Imagen" alt="Foto de @Model.Nombre" />
+
+    <div class="tarjeta__cuerpo">
+        <p class="tarjeta__categoria">@Model.Categoria</p>
+
+        <h3 class="tarjeta__titulo">
+            @* El detalle ya no es una página, es una acción con ruta propia:
+               asp-route-id llena el hueco {id} de "producto/{id}". *@
+            <a asp-controller="Home" asp-action="Detalle" asp-route-id="@Model.Id">@Model.Nombre</a>
+        </h3>
+
+        <p class="tarjeta__descripcion">@Model.Descripcion</p>
+
+        <div class="tarjeta__pie">
+            @* Nuestro Tag Helper propio: convierte <precio> en un span con el importe formateado. *@
+            <precio importe="@Model.Precio" destacado="@(Model.Precio >= 500)" />
+
+            <span class="stock @(Model.Disponible ? "stock--ok" : "stock--agotado")">
+                @(Model.Disponible ? $"Quedan {Model.Stock}" : "Agotado")
+            </span>
+        </div>
+    </div>
+</article>
