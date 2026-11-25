@@ -1,0 +1,24 @@
+@page
+@model ProductosWeb.RazorPages.Pages.Productos.CrearModel
+@{
+    ViewData["Title"] = "Nuevo producto";
+}
+
+<h1 class="titulo">Nuevo producto</h1>
+
+@* asp-validation-summary="All" pinta la lista de errores generales del ModelState.
+   Aquí caben las dos capas: los mensajes de DataAnnotations y los de FluentValidation,
+   que el PageModel ha sumado al mismo diccionario antes de devolver la página. *@
+<div asp-validation-summary="All" class="resumen-errores" data-testid="resumen-errores"></div>
+
+@* En Razor Pages el form sin asp-page apunta a la propia página. El Tag Helper genera
+   el action correcto e inyecta el token anti-forgery oculto que exige el POST. *@
+<form method="post" data-testid="formulario-crear">
+    @* El partial está en Pages/Shared y usa el prefijo del modelo, igual que en MVC. *@
+    <partial name="_FormularioProducto" for="Formulario" />
+
+    <div class="acciones">
+        <button type="submit" class="boton boton--principal" data-testid="boton-guardar">Guardar</button>
+        <a class="enlace" asp-page="/Productos/Index">Volver al catálogo</a>
+    </div>
+</form>

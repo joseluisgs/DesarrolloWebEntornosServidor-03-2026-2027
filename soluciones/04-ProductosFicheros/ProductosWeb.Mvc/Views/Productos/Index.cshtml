@@ -1,0 +1,104 @@
+@model IReadOnlyList<ProductDto>
+@{
+    ViewData["Title"] = "Catálogo de productos";
+}
+
+<h1 class="titulo">Catálogo de productos</h1>
+
+@* TempData["Exito"] y TempData["Error"] son los mensajes que el controlador envía tras un
+   Post-Redirect-Get: viajan en la sesión, sobreviven a la redirección y se borran solos
+   al leerlos. Sin TempData, el usuario no vería nunca la confirmación del alta. *@
+@if (TempData["Exito"] is string exito)
+{
+    <div class="aviso aviso--ok" data-testid="mensaje-exito">@exito</div>
+}
+
+@if (TempData["Error"] is string error)
+{
+    <div class="aviso aviso--mal" data-testid="mensaje-error">@error</div>
+}
+
+<p>
+    @* Enlace generado con el Tag Helper asp-*: no se escribe la URL a mano. *@
+    <a class="enlace" asp-controller="Productos" asp-action="Crear">+ Añadir producto</a>
+    <a class="enlace" asp-controller="Productos" asp-action="Subir" data-testid="enlace-subir">Subir fichero suelto</a>
+</p>
+
+@if (Model.Count == 0)
+{
+    <p class="vacio">Todavía no hay productos en el catálogo.</p>
+}
+else
+{
+    <table class="tabla" data-testid="tabla-productos">
+        <thead>
+            <tr>
+                <th>Imagen</th>
+                <th>Producto</th>
+                <th>Categoría</th>
+                <th>Año</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var producto in Model)
+        {
+            <tr data-testid="fila-producto">
+                <td>
+                    @* La miniatura se sirve desde la carpeta estática y el enlace de descarga
+                       entrega el mismo fichero con Content-Disposition: sirve igual para una
+                       imagen subida que para la de por defecto. *@
+                    <img src="@producto.Imagen" alt="@producto.Nombre" class="tabla__miniatura" />
+                    <a class="enlace" asp-controller="Productos" asp-action="Descargar"
+                       asp-route-ruta="@producto.Imagen" data-testid="descargar-@producto.Id">Descargar</a>
+                </td>
+                <td>
+                    <strong>@producto.Nombre</strong>
+                    @if (producto.EsNovedad)
+                    {
+                        <span class="insignia insignia--novedad" data-testid="insignia-novedad-@producto.Id">Novedad</span>
+                    }
+                    <p class="chiquito">@producto.Descripcion</p>
+
+                    @* Las etiquetas son texto libre del formulario: se pintan como chipes pequeños.
+                       Si el producto no tiene ninguna, la línea no aparece. *@
+                    @if (producto.Etiquetas.Count > 0)
+                    {
+                        <p class="etiquetas-listado" data-testid="etiquetas-@producto.Id">
+                            @foreach (var etiqueta in producto.Etiquetas)
+                            {
+                                <span class="insignia">@etiqueta</span>
+                            }
+                        </p>
+                    }
+                </td>
+                <td>@producto.Categoria</td>
+                <td>@producto.Anio</td>
+                @* ToString("N2") con la cultura de la app pinta 1.299,00 € en español. *@
+                <td class="precio">@producto.Precio.ToString("N2") €</td>
+                <td>
+                    <span class="stock @(producto.Disponible ? "stock--ok" : "stock--agotado")">
+                        @(producto.Disponible ? $"{producto.Stock} uds." : "Agotado")
+                    </span>
+                </td>
+                <td>
+                    @* Enlaces de edición: el Id viaja como segmento de la ruta. *@
+                    <a asp-controller="Productos" asp-action="Editar" asp-route-id="@producto.Id">Editar</a>
+
+                    @* El formulario de borrado va en un POST con token anti-forgery.
+                       Un enlace <a href> dispara un GET, y un GET no debe borrar nada. *@
+                    <form asp-controller="Productos" asp-action="Eliminar" asp-route-id="@producto.Id"
+                          method="post" class="formulario-inline"
+                          onsubmit="return confirm('¿Seguro que quieres eliminar este producto?');">
+                        <button type="submit" class="boton boton--peligro" data-testid="boton-eliminar">
+                            Eliminar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

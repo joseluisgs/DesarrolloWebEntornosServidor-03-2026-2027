@@ -1,0 +1,575 @@
+/* ==========================================================================
+   site.css - estilos de los ejemplos 01 (Razor Pages) y 02 (MVC)
+   Los dos ficheros son idénticos a propósito: los ejemplos son espejos,
+   y el CSS es la mitad que sí se comparte entre arquitecturas.
+   Sin framework externo: la app arranca sin conexión y el CSS
+   no tapa lo que el ejemplo enseña (Razor, no CSS).
+   ========================================================================== */
+
+:root {
+    --tinta: #1f2933;
+    --tinta-suave: #52606d;
+    --fondo: #f7f9fb;
+    --blanco: #ffffff;
+    --borde: #d9e2ec;
+    --acento: #1d4ed8;
+    --ok: #15803d;
+    --poco: #b45309;
+    --no: #b91c1c;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    color: var(--tinta);
+    background: var(--fondo);
+    line-height: 1.6;
+}
+
+/* Cabecera y navegación ---------------------------------------------------- */
+
+.cabecera {
+    background: var(--blanco);
+    border-bottom: 1px solid var(--borde);
+}
+
+.navegacion {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.navegacion__marca {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--acento);
+    text-decoration: none;
+}
+
+.navegacion__lista {
+    display: flex;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+}
+
+.navegacion__lista a {
+    color: var(--tinta-suave);
+    text-decoration: none;
+}
+
+.navegacion__lista a:hover {
+    color: var(--acento);
+}
+
+/* Contenido ---------------------------------------------------------------- */
+
+.contenido {
+    max-width: 60rem;
+    margin: 0 auto;
+    padding: 2rem 1rem 3rem;
+}
+
+.titulo {
+    margin-top: 0;
+    font-size: 1.8rem;
+}
+
+h2 {
+    margin-top: 2rem;
+    font-size: 1.25rem;
+}
+
+.pie {
+    border-top: 1px solid var(--borde);
+    text-align: center;
+    color: var(--tinta-suave);
+    font-size: 0.9rem;
+    padding: 1rem;
+}
+
+.pie p {
+    margin: 0.2rem 0;
+}
+
+/* Rejilla y tarjetas ------------------------------------------------------- */
+
+.rejilla {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 1rem;
+}
+
+.tarjeta {
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: 0.5rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.tarjeta__imagen,
+.ficha__imagen {
+    width: 100%;
+    height: 9rem;
+    object-fit: cover;
+    background: #eef2f7;
+}
+
+.tarjeta__cuerpo {
+    padding: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    flex: 1;
+}
+
+.tarjeta__categoria {
+    margin: 0;
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--tinta-suave);
+}
+
+.tarjeta__titulo {
+    margin: 0;
+    font-size: 1.05rem;
+}
+
+.tarjeta__titulo a {
+    color: var(--tinta);
+    text-decoration: none;
+}
+
+.tarjeta__titulo a:hover {
+    color: var(--acento);
+}
+
+.tarjeta__descripcion {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--tinta-suave);
+    flex: 1;
+}
+
+.tarjeta__pie,
+.ficha__datos dd {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+/* Ficha de detalle --------------------------------------------------------- */
+
+.ficha {
+    display: grid;
+    grid-template-columns: 18rem 1fr;
+    gap: 1.5rem;
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.ficha__imagen {
+    height: 100%;
+    min-height: 14rem;
+}
+
+.ficha__cuerpo {
+    padding: 1.25rem 1.25rem 1.25rem 0;
+}
+
+.ficha__datos {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.3rem 1rem;
+    margin: 1rem 0;
+}
+
+.ficha__datos dt {
+    color: var(--tinta-suave);
+}
+
+.enlace {
+    color: var(--acento);
+}
+
+/* Precio (Tag Helper propio) y stock --------------------------------------- */
+
+.precio {
+    font-weight: 700;
+}
+
+.precio--destacado {
+    color: var(--acento);
+    font-size: 1.1rem;
+}
+
+.stock {
+    font-size: 0.8rem;
+    padding: 0.1rem 0.5rem;
+    border-radius: 999px;
+    border: 1px solid currentColor;
+}
+
+.stock--ok,
+.stock--ok.stock {
+    color: var(--ok);
+}
+
+.stock--poco {
+    color: var(--poco);
+}
+
+.stock--agotado,
+.stock--no {
+    color: var(--no);
+}
+
+/* Resumen, tablas y notas -------------------------------------------------- */
+
+.resumen {
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+    border-left: 4px solid var(--acento);
+    border-radius: 0.35rem;
+    padding: 0.5rem 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.resumen__titulo {
+    margin: 0.25rem 0;
+    font-size: 1.1rem;
+}
+
+.resumen__dato {
+    margin: 0.25rem 0;
+}
+
+.resumen__lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    list-style: none;
+    margin: 0.25rem 0 0.5rem;
+    padding: 0;
+}
+
+.resumen__categoria {
+    font-weight: 600;
+}
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--blanco);
+    border: 1px solid var(--borde);
+}
+
+.tabla th,
+.tabla td {
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--borde);
+    vertical-align: top;
+}
+
+.tabla thead th {
+    background: #eef2f7;
+}
+
+.nota {
+    background: #fffbeb;
+    border: 1px solid #fcd34d;
+    border-radius: 0.35rem;
+    padding: 0.75rem 1rem;
+    margin: 1.5rem 0;
+}
+
+.nota p {
+    margin: 0;
+}
+
+.vacio {
+    color: var(--tinta-suave);
+    font-style: italic;
+}
+
+.chiquito {
+    color: var(--tinta-suave);
+    font-size: 0.9rem;
+}
+
+.migas {
+    margin: 0 0 0.5rem;
+    font-size: 0.9rem;
+    color: var(--tinta-suave);
+}
+
+.migas a {
+    color: var(--acento);
+}
+
+code {
+    background: #eef2f7;
+    padding: 0.1rem 0.35rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+}
+
+@media (max-width: 40rem) {
+    .ficha {
+        grid-template-columns: 1fr;
+    }
+
+    .ficha__cuerpo {
+        padding: 1.25rem;
+    }
+}
+
+/* ==========================================================================
+   Añadidos del ejemplo 03: formularios, avisos y validación
+   Lo que sigue no está en los ejemplos 01 y 02: esos solo leen datos.
+   ========================================================================== */
+
+/* Formularios -------------------------------------------------------------- */
+
+.formulario,
+.campo {
+    display: grid;
+    gap: 0.3rem;
+    margin-bottom: 1rem;
+}
+
+.campo label {
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.control {
+    font: inherit;
+    padding: 0.5rem 0.7rem;
+    border: 1px solid var(--borde);
+    border-radius: 0.35rem;
+    background: var(--blanco);
+    color: var(--tinta);
+    max-width: 30rem;
+}
+
+.control:focus {
+    outline: 2px solid var(--acento);
+    outline-offset: 1px;
+}
+
+textarea.control {
+    resize: vertical;
+}
+
+.campo__error {
+    color: var(--no);
+    font-size: 0.85rem;
+    min-height: 1.1rem;
+}
+
+/* Los input, select y textarea con error se marcan en rojo: el navegador aplica esta
+   clase porque el Tag Helper de validación la añade cuando el campo tiene errores. */
+.input-validation-error,
+select.input-validation-error,
+textarea.input-validation-error {
+    border-color: var(--no);
+}
+
+/* El Tag Helper no deja el div vacío: con el ModelState válido pinta una lista sin
+   mensajes, así que :empty no lo oculta nunca. La clase validation-summary-valid
+   sí distingue el caso "sin errores" y es la que lo mantiene fuera de la vista. */
+.resumen-errores.validation-summary-valid {
+    display: none;
+}
+
+.resumen-errores {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    border-left: 4px solid var(--no);
+    border-radius: 0.35rem;
+    padding: 0.6rem 1rem;
+    margin-bottom: 1.25rem;
+    list-style: none;
+}
+
+.resumen-errores ul {
+    margin: 0.25rem 0;
+    padding-left: 1.1rem;
+}
+
+.acciones {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.25rem;
+}
+
+.formulario-inline {
+    display: inline;
+}
+
+/* Botones ------------------------------------------------------------------ */
+
+.boton {
+    font: inherit;
+    padding: 0.45rem 1rem;
+    border-radius: 0.35rem;
+    border: 1px solid var(--borde);
+    background: var(--blanco);
+    color: var(--tinta);
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.boton--principal {
+    background: var(--acento);
+    border-color: var(--acento);
+    color: var(--blanco);
+}
+
+.boton--peligro {
+    background: var(--blanco);
+    border-color: var(--no);
+    color: var(--no);
+    padding: 0.2rem 0.6rem;
+    font-size: 0.85rem;
+}
+
+.boton:hover {
+    filter: brightness(0.95);
+}
+
+/* Avisos de TempData ------------------------------------------------------- */
+
+.aviso {
+    border-radius: 0.35rem;
+    padding: 0.6rem 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.aviso--ok {
+    background: #f0fdf4;
+    border: 1px solid #86efac;
+    border-left: 4px solid var(--ok);
+    color: var(--ok);
+}
+
+.aviso--mal {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    border-left: 4px solid var(--no);
+    color: var(--no);
+}
+
+/* Ajustes de dos columnas para el formulario ------------------------------- */
+
+@media (min-width: 40rem) {
+    .campo--mitad {
+        display: inline-grid;
+        width: calc(50% - 0.5rem);
+        vertical-align: top;
+        margin-right: 0.75rem;
+    }
+}
+
+/* Lista de etiquetas del formulario ---------------------------------------- */
+
+.etiquetas {
+    display: grid;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.etiquetas__fila {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.etiquetas__fila .control {
+    max-width: 14rem;
+}
+
+/* Ficheros subidos: ayuda, casilla y miniatura ----------------------------- */
+
+.campo__ayuda {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--apagado);
+    margin-top: 0.3rem;
+}
+
+.campo__casilla {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    cursor: pointer;
+}
+
+.tabla__miniatura {
+    width: 3.5rem;
+    height: 3.5rem;
+    object-fit: cover;
+    border-radius: 0.35rem;
+    border: 1px solid var(--borde);
+    display: block;
+}
+
+.imagen-actual__miniatura {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border-radius: 0.35rem;
+    border: 1px solid var(--borde);
+    display: block;
+    margin-bottom: 0.4rem;
+}
+
+.insignia {
+    display: inline-block;
+    border-radius: 0.35rem;
+    padding: 0.1rem 0.45rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin-left: 0.4rem;
+    vertical-align: middle;
+}
+
+.insignia--novedad {
+    background: var(--acento);
+    color: var(--blanco);
+}
+
+/* Etiquetas del producto en el listado ------------------------------------- */
+
+.etiquetas-listado {
+    margin: 0.3rem 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+}
+
+.etiquetas-listado .insignia {
+    background: var(--fondo);
+    border: 1px solid var(--borde);
+    color: var(--tinta-suave);
+    margin-left: 0;
+}

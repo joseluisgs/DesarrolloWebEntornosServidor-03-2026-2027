@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <RootNamespace>ProductosWeb.Test</RootNamespace>
+        <NoWarn>$(NoWarn);CS1591</NoWarn>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Trae el framework ASP.NET Core a los tests: necesario para construir
+             controladores, PageModels y contextos de model binding -->
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="coverlet.collector" Version="6.0.4" />
+        <PackageReference Include="FluentAssertions" Version="6.12.2" />
+        <!-- Base de datos en memoria: sin fichero y sin instalar nada -->
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.12" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.0" />
+        <PackageReference Include="Moq" Version="4.20.72" />
+        <PackageReference Include="NUnit" Version="4.3.2" />
+        <PackageReference Include="NUnit.Analyzers" Version="4.7.0" />
+        <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Los tests cruzan las tres piezas: el negocio compartido y las dos visiones -->
+        <ProjectReference Include="..\ProductosWeb.Shared\ProductosWeb.Shared.csproj" />
+        <ProjectReference Include="..\ProductosWeb.Mvc\ProductosWeb.Mvc.csproj" />
+        <ProjectReference Include="..\ProductosWeb.RazorPages\ProductosWeb.RazorPages.csproj" />
+    </ItemGroup>
+</Project>

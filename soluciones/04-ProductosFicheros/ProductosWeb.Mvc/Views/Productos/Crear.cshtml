@@ -1,0 +1,25 @@
+@model ProductFormViewModel
+@{
+    ViewData["Title"] = "Nuevo producto";
+}
+
+<h1 class="titulo">Nuevo producto</h1>
+
+@* asp-validation-summary="All" pinta la lista de errores generales del ModelState.
+   Aquí caben las dos capas: los mensajes de DataAnnotations y los de FluentValidation,
+   que el controlador ha sumado al mismo diccionario antes de devolver la vista. *@
+<div asp-validation-summary="All" class="resumen-errores" data-testid="resumen-errores"></div>
+
+@* El form Tag Helper hace dos cosas sin que las pidas: genera el action con la URL correcta
+   (da igual cuál sea la ruta) e inyecta el token anti-forgery oculto que exige el POST.
+   El enctype="multipart/form-data" es imprescindible: sin él el navegador enviaría el
+   formulario como texto plano y el fichero llegaría vacío al servidor. *@
+<form asp-controller="Productos" asp-action="Crear" method="post"
+      enctype="multipart/form-data" data-testid="formulario-crear">
+    <partial name="_FormularioProducto" model="Model" />
+
+    <div class="acciones">
+        <button type="submit" class="boton boton--principal" data-testid="boton-guardar">Guardar</button>
+        <a class="enlace" asp-controller="Productos" asp-action="Index">Volver al catálogo</a>
+    </div>
+</form>

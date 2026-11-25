@@ -1,0 +1,37 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net10.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>latest</LangVersion>
+        <RootNamespace>ProductosWeb.Shared</RootNamespace>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <NoWarn>$(NoWarn);NU1902;NU1903;CS1591</NoWarn>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <DocumentationFile>bin/$(Configuration)/$(TargetFramework)/ProductosWeb.Shared.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <!-- Trae ASP.NET Core al proyecto de clase: hace falta para los binders,
+             ModelState y las extensiones de configuración que comparten las dos visiones -->
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- Usings globales: el SDK de clase no los trae como el de web -->
+        <Using Include="Microsoft.AspNetCore.Builder" />
+        <Using Include="Microsoft.AspNetCore.Hosting" />
+        <Using Include="Microsoft.Extensions.Configuration" />
+        <Using Include="Microsoft.Extensions.DependencyInjection" />
+        <Using Include="Microsoft.Extensions.Hosting" />
+        <Using Include="Microsoft.Extensions.Logging" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <!-- SQLite en fichero: dotnet run basta, sin Docker ni Postgres -->
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.12" />
+        <!-- Validación: solo el paquete base. La integración con ASP.NET Core
+             se hace a mano, como recomienda la documentación de FluentValidation -->
+        <PackageReference Include="FluentValidation" Version="12.2.0" />
+    </ItemGroup>
+</Project>

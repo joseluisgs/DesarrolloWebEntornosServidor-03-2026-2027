@@ -1,0 +1,9 @@
+@page
+@model DescargarModel
+@{
+    ViewData["Title"] = "Descargar fichero";
+}
+
+@* Esta página nunca se pinta: el handler OnGet devuelve el fichero con su cabecera de
+   descarga y el navegador abre el diálogo de guardado. El archivo existe solo para que
+   Razor Pages registre la ruta /Productos/Descargar. *@

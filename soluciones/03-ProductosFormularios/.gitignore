@@ -1,0 +1,40 @@
+# Compilación
+bin/
+obj/
+out/
+
+# IDEs
+.idea/
+.vs/
+.vscode/
+*.sln.iml
+*.DotSettings.user
+
+# Archivos temporales
+*.user
+*.suo
+*.userprefs
+*.log
+*.cache
+*.pdb
+*.tmp
+*.bak
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+artifacts/
+
+# Publicaciones
+publish/
+TestResults/
+
+# Base de datos local de los ejemplos
+productos.db
+productos.db-shm
+productos.db-wal
+
+# Contenido multimedia y docs (no subir a git)
+/multimedia/
+/docs/

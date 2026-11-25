@@ -27,15 +27,11 @@ public class CategoriaModel(IProductService service) : PageModel
     /// <param name="cancellationToken">Token de cancelación de la petición.</param>
     /// <returns>La página con los productos filtrados.</returns>
     public async Task<IActionResult> OnGetAsync(
-        string? categoria,
+        ProductCategory categoria,
         CancellationToken cancellationToken = default)
     {
-        if(categoria is null || !Enum.TryParse<ProductCategory>(categoria, true, out var cat))
-        {
-            return NotFound();
-        }
-        Categoria = cat;
-        Productos = await service.GetByCategoryAsync(cat, cancellationToken);
+        Categoria = categoria;
+        Productos = await service.GetByCategoryAsync(categoria, cancellationToken);
 
         return Page();
     }

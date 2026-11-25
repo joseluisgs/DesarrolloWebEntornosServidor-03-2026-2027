@@ -1,0 +1,117 @@
+@model ProductFormViewModel
+
+@* Este partial es el formulario de alta y edición, y lo comparten las dos visiones.
+   Cada campo usa asp-for, que a la vez escribe el atributo name, pinta el valor actual
+   y añade los data-val-* de las DataAnnotations para la validación en cliente.
+
+   La novedad del ejemplo 04 es el campo de fichero: asp-for="ImagenFile" genera un input
+   type="file" con el nombre correcto, y el form contenedor lleva enctype="multipart/form-data"
+   para que el navegador envíe el fichero por el cuerpo de la petición. *@
+
+<div class="campo">
+    <label asp-for="Nombre"></label>
+    <input asp-for="Nombre" class="control" placeholder="Ej: Smartphone Aurora X5" data-testid="nombre" />
+    <span asp-validation-for="Nombre" class="campo__error" data-testid="error-nombre"></span>
+</div>
+
+<div class="campo">
+    <label asp-for="Descripcion"></label>
+    <textarea asp-for="Descripcion" class="control" rows="3"
+              placeholder="Qué es y para quién va" data-testid="descripcion"></textarea>
+    <span asp-validation-for="Descripcion" class="campo__error" data-testid="error-descripcion"></span>
+</div>
+
+<div class="campo campo--mitad">
+    @* Precio: el form admite coma o punto, así que "12,50" y "12.50" valen igual. *@
+    <label asp-for="Precio"></label>
+    <input asp-for="Precio" class="control" inputmode="decimal" placeholder="0,00" data-testid="precio" />
+    <span asp-validation-for="Precio" class="campo__error" data-testid="error-precio"></span>
+</div>
+
+<div class="campo campo--mitad">
+    <label asp-for="Stock"></label>
+    <input asp-for="Stock" class="control" inputmode="numeric" placeholder="0" data-testid="stock" />
+    <span asp-validation-for="Stock" class="campo__error" data-testid="error-stock"></span>
+</div>
+
+<div class="campo campo--mitad">
+    @* Campo numérico más del formulario completo: el año va acotado por DataAnnotation
+       y por una regla de FluentValidation, que se suman en el mismo ModelState. *@
+    <label asp-for="Anio"></label>
+    <input asp-for="Anio" class="control" inputmode="numeric" placeholder="2026" data-testid="anio" />
+    <span asp-validation-for="Anio" class="campo__error" data-testid="error-anio"></span>
+</div>
+
+<div class="campo campo--mitad">
+    <label asp-for="Categoria"></label>
+    @* GetEnumSelectList saca las opciones del enum: si mañana añades una categoría,
+       aparece en el desplegable sin tocar la vista. *@
+    <select asp-for="Categoria" class="control"
+            asp-items="Html.GetEnumSelectList<ProductCategory>()" data-testid="categoria"></select>
+    <span asp-validation-for="Categoria" class="campo__error"></span>
+</div>
+
+<div class="campo campo--mitad">
+    @* Casilla: el form envía "true" o no envía nada, y el binder de .NET la convierte en bool.
+       El label envuelve a la casilla, así que pulsar el texto también la marca (asociación
+       implícita del HTML, sin necesidad del atributo for). *@
+    <label class="campo__casilla">
+        <input asp-for="EsNovedad" data-testid="esnovedad" />
+        <span>Es novedad</span>
+    </label>
+    <span asp-validation-for="EsNovedad" class="campo__error"></span>
+</div>
+
+<div class="campo">
+    <label asp-for="ImagenFile"></label>
+    @* El tipo, el tamaño y el contenido no se validan en la vista: el servicio de almacenamiento
+       es quien decide si el fichero entra. Aquí solo se limita la extensión como ayuda. *@
+    <input asp-for="ImagenFile" class="control" accept=".jpg,.jpeg,.png,.gif" data-testid="imagen-file" />
+    <span asp-validation-for="ImagenFile" class="campo__error" data-testid="error-imagen-file"></span>
+</div>
+
+<div class="campo">
+    <label asp-for="Imagen"></label>
+    <input asp-for="Imagen" class="control" placeholder="/images/producto-sin-imagen.svg" data-testid="imagen" />
+    <span asp-validation-for="Imagen" class="campo__error"></span>
+</div>
+
+<div class="campo">
+    @* Lista de etiquetas: cada input lleva el nombre con su índice (Etiquetas[0], Etiquetas[1]...)
+       y el botón de añadir pinta una fila nueva con el siguiente. El binder de colecciones
+       reconstruye la lista entera con esos nombres, sin que la vista tenga que decirle cuántas hay. *@
+    <label asp-for="Etiquetas"></label>
+    <div class="etiquetas" data-testid="etiquetas">
+        @for (var i = 0; i < Model.Etiquetas.Count; i++)
+        {
+            <div class="etiquetas__fila">
+                <input asp-for="Etiquetas[i]" class="control" placeholder="Ej: oferta" data-testid="etiqueta-@i" />
+                <button type="button" class="boton" data-testid="quitar-etiqueta-@i"
+                        onclick="this.parentElement.remove()">Quitar</button>
+            </div>
+        }
+    </div>
+    <button type="button" class="boton" data-testid="anadir-etiqueta">Añadir etiqueta</button>
+    <span asp-validation-for="Etiquetas" class="campo__error" data-testid="error-etiquetas"></span>
+</div>
+
+<script>
+    // Añadir etiqueta: se pinta la fila con el índice que sigue y el mismo aspecto que las demás.
+    // El nombre del campo lleva el prefijo del formulario: en MVC es Etiquetas[0] y en
+    // Razor Pages, Formulario.Etiquetas[0]. Lo escribe el servidor en el partial.
+    document.querySelectorAll('[data-testid="anadir-etiqueta"]').forEach(function (boton) {
+        boton.addEventListener('click', function () {
+            var contenedor = boton.parentElement.querySelector('.etiquetas');
+            var indice = contenedor.querySelectorAll('input').length;
+            var prefijo = '@ViewData.TemplateInfo.HtmlFieldPrefix';
+            var nombreBase = prefijo ? prefijo + '.Etiquetas' : 'Etiquetas';
+            var fila = document.createElement('div');
+            fila.className = 'etiquetas__fila';
+            fila.innerHTML =
+                '<input class="control" name="' + nombreBase + '[' + indice + ']" ' +
+                'placeholder="Ej: oferta" data-testid="etiqueta-' + indice + '" />' +
+                '<button type="button" class="boton" onclick="this.parentElement.remove()">Quitar</button>';
+            contenedor.appendChild(fila);
+        });
+    });
+</script>

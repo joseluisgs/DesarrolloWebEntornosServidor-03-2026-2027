@@ -1,0 +1,29 @@
+@page
+@model SubirModel
+@{
+    ViewData["Title"] = "Subir fichero";
+}
+
+<h1 class="titulo">Subir fichero</h1>
+
+@* Esta página no crea producto: solo manda un fichero al servicio de almacenamiento.
+   Es la forma más directa de ver los rechazos (extensión, tamaño, firma) sin tener que
+   rellenar el alta completa cada vez. *@
+<div asp-validation-summary="All" class="resumen-errores" data-testid="resumen-errores"></div>
+
+@* enctype="multipart/form-data" hace que el navegador envíe el fichero en el cuerpo de la
+   petición. Sin él, el input type=file se envía vacío y el servicio respondería
+   "No has elegido ningún fichero". *@
+<form method="post" enctype="multipart/form-data" data-testid="formulario-subir">
+    <div class="campo">
+        <label for="fichero">Fichero</label>
+        <input type="file" id="fichero" name="fichero" class="control"
+               accept=".jpg,.jpeg,.png,.gif" data-testid="fichero" />
+        <span class="campo__ayuda">Solo imágenes .jpg, .jpeg, .png o .gif de hasta 5 MB.</span>
+    </div>
+
+    <div class="acciones">
+        <button type="submit" class="boton boton--principal" data-testid="boton-subir">Subir</button>
+        <a class="enlace" asp-page="/Productos/Index">Volver al catálogo</a>
+    </div>
+</form>

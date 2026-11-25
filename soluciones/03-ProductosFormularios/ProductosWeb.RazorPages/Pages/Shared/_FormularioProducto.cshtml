@@ -1,0 +1,50 @@
+@model ProductFormViewModel
+
+@* Este partial es el formulario de alta y edición, y lo comparten las dos visiones.
+   Cada campo usa asp-for, que a la vez escribe el atributo name, pinta el valor actual
+   y añade los data-val-* de las DataAnnotations para la validación en cliente.
+
+   El truco que permite reutilizarlo también en la página de Binding es HtmlFieldPrefix:
+   cuando la vista contenedora lo usa con for="Cabecera", el prefijo se propaga y los
+   nombres salen como Cabecera.Nombre en lugar de Nombre, sin tocar una sola línea de aquí. *@
+
+<div class="campo">
+    <label asp-for="Nombre"></label>
+    <input asp-for="Nombre" class="control" placeholder="Ej: Smartphone Aurora X5" data-testid="nombre" />
+    <span asp-validation-for="Nombre" class="campo__error" data-testid="error-nombre"></span>
+</div>
+
+<div class="campo">
+    <label asp-for="Descripcion"></label>
+    <textarea asp-for="Descripcion" class="control" rows="3"
+              placeholder="Qué es y para quién va" data-testid="descripcion"></textarea>
+    <span asp-validation-for="Descripcion" class="campo__error" data-testid="error-descripcion"></span>
+</div>
+
+<div class="campo campo--mitad">
+    @* Precio: el binder propio acepta coma o punto, así que "12,50" y "12.50" valen igual. *@
+    <label asp-for="Precio"></label>
+    <input asp-for="Precio" class="control" inputmode="decimal" placeholder="0,00" data-testid="precio" />
+    <span asp-validation-for="Precio" class="campo__error" data-testid="error-precio"></span>
+</div>
+
+<div class="campo campo--mitad">
+    <label asp-for="Stock"></label>
+    <input asp-for="Stock" class="control" inputmode="numeric" placeholder="0" data-testid="stock" />
+    <span asp-validation-for="Stock" class="campo__error" data-testid="error-stock"></span>
+</div>
+
+<div class="campo">
+    <label asp-for="Categoria"></label>
+    @* GetEnumSelectList saca las opciones del enum: si mañana añades una categoría,
+       aparece en el desplegable sin tocar la vista. *@
+    <select asp-for="Categoria" class="control"
+            asp-items="Html.GetEnumSelectList<ProductCategory>()" data-testid="categoria"></select>
+    <span asp-validation-for="Categoria" class="campo__error"></span>
+</div>
+
+<div class="campo">
+    <label asp-for="Imagen"></label>
+    <input asp-for="Imagen" class="control" placeholder="/images/producto-sin-imagen.svg" data-testid="imagen" />
+    <span asp-validation-for="Imagen" class="campo__error"></span>
+</div>

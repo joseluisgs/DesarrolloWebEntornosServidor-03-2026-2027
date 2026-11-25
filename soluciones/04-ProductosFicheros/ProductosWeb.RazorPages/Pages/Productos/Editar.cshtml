@@ -1,0 +1,37 @@
+@page "{id:long}"
+@model ProductosWeb.RazorPages.Pages.Productos.EditarModel
+@{
+    ViewData["Title"] = "Editar producto";
+}
+
+<h1 class="titulo">Editar producto</h1>
+
+<div asp-validation-summary="All" class="resumen-errores" data-testid="resumen-errores"></div>
+
+@* Mismo partial que el alta. La única diferencia está en el modelo, que ya viene relleno
+   desde el GET, y en el campo oculto del Id. Como el alta, el form es multipart para poder
+   traer una imagen nueva. *@
+<form method="post" enctype="multipart/form-data" data-testid="formulario-editar">
+    <input type="hidden" asp-for="Formulario.Id" data-testid="id-oculto" />
+
+    @* La imagen que ya tiene el producto, con el mismo enlace de descarga que el catálogo. *@
+    @if (!string.IsNullOrEmpty(Model.Formulario.Imagen))
+    {
+        <div class="campo">
+            <label>Imagen actual</label>
+            <div class="imagen-actual">
+                <img src="@Model.Formulario.Imagen" alt="Imagen de @Model.Formulario.Nombre"
+                     class="imagen-actual__miniatura" />
+                <a class="enlace" asp-page="/Productos/Descargar"
+                   asp-route-ruta="@Model.Formulario.Imagen" data-testid="descargar-actual">Descargar</a>
+            </div>
+        </div>
+    }
+
+    <partial name="_FormularioProducto" for="Formulario" />
+
+    <div class="acciones">
+        <button type="submit" class="boton boton--principal" data-testid="boton-guardar">Guardar cambios</button>
+        <a class="enlace" asp-page="/Productos/Index">Volver al catálogo</a>
+    </div>
+</form>

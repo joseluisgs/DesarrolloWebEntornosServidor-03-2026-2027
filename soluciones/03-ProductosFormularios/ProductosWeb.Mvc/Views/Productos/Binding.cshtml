@@ -1,0 +1,74 @@
+@model BindingFormViewModel
+@{
+    ViewData["Title"] = "Binding avanzado";
+}
+
+<h1 class="titulo">Binding avanzado</h1>
+
+<p>
+    Este formulario no guarda nada: sirve para ver cómo llegan los datos al servidor.
+    La cabecera se envía con prefijo (<code>Cabecera.Nombre</code>), las etiquetas por índice
+    (<code>Etiquetas[0]</code>) y cada recargo como par de campos con el mismo índice
+    (<code>Recargos[1].Importe</code>). Pulsa un botón y mira cómo se repinta todo lo que habías escrito.
+</p>
+
+<div asp-validation-summary="All" class="resumen-errores" data-testid="resumen-errores"></div>
+
+@* El resumen es lo que el binder ha recogido del último POST válido: línea a línea,
+   con el nombre exacto del campo que viajaba en el formulario. *@
+@if (ViewData["Resumen"] is string resumen)
+{
+    <div class="aviso aviso--ok">
+        <p><strong>Lo que el binder ha recibido:</strong></p>
+        <pre data-testid="resumen-binding">@resumen</pre>
+    </div>
+}
+
+<form asp-controller="Productos" asp-action="Binding" method="post" data-testid="formulario-binding">
+    <h2>Cabecera con prefijo</h2>
+    <p>
+        El partial del producto se reutiliza tal cual. El atributo for del partial tag helper
+        establece el prefijo del campo, así que cada name sale como Cabecera.Nombre,
+        Cabecera.Precio... sin tocar una sola línea del partial.
+    </p>
+    <partial name="_FormularioProducto" for="Cabecera" />
+
+    <h2>Etiquetas por índice</h2>
+    <p>Cada input es una posición de la lista: Etiquetas[0], Etiquetas[1]...</p>
+    <ul class="lista-filas">
+        @for (var i = 0; i < Model.Etiquetas.Count; i++)
+        {
+            <li>
+                <label>Etiqueta @(i + 1)</label>
+                <input asp-for="Etiquetas[i]" class="control" placeholder="Ej: oferta" data-testid="etiqueta-@i" />
+            </li>
+        }
+    </ul>
+    <button type="submit" name="accion" value="anadir-etiqueta" class="boton" data-testid="boton-anadir-etiqueta">
+        + Añadir etiqueta
+    </button>
+
+    <h2>Recargos por índice</h2>
+    <p>Una sola fila de la lista manda dos campos: Recargos[i].Concepto y Recargos[i].Importe.</p>
+    <ul class="lista-filas">
+        @for (var i = 0; i < Model.Recargos.Count; i++)
+        {
+            <li>
+                <input asp-for="Recargos[i].Concepto" class="control" placeholder="Ej: Envío urgente"
+                       data-testid="recargo-concepto-@i" />
+                <input asp-for="Recargos[i].Importe" class="control control--corto" placeholder="0,00"
+                       data-testid="recargo-importe-@i" />
+            </li>
+        }
+    </ul>
+    <button type="submit" name="accion" value="anadir-recargo" class="boton" data-testid="boton-anadir-recargo">
+        + Añadir recargo
+    </button>
+
+    <div class="acciones">
+        @* Este botón dispara la validación de las dos capas sobre el modelo anidado. *@
+        <button type="submit" name="accion" value="probar" class="boton boton--principal"
+                data-testid="boton-probar">Probar el binding</button>
+        <a class="enlace" asp-controller="Productos" asp-action="Index">Volver al catálogo</a>
+    </div>
+</form>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Productos Ficheros Razor Pages</title>
+    @* Tag Helper de enlace: asp-append-version pone la versión del fichero en la URL. *@
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <header class="cabecera">
+        <nav class="navegacion">
+            @* asp-page resuelve la URL de la página desde su ruta en Pages/: si mueves el
+               fichero, el enlace se ajusta solo. *@
+            <a class="navegacion__marca" asp-page="/Productos/Index">Productos · Razor Pages</a>
+
+            <ul class="navegacion__lista">
+                <li><a asp-page="/Productos/Index">Catálogo</a></li>
+                <li><a asp-page="/Productos/Crear">Nuevo producto</a></li>
+                <li><a asp-page="/Productos/Subir">Subir fichero</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="contenido">
+        @* RenderBody: aquí se inyecta el contenido de la página que se esté sirviendo. *@
+        @RenderBody()
+    </main>
+
+    <footer class="pie">
+        <p>J.L. González · Desarrollo Web en Entornos Servidor (DAW) · IES Luis Vives</p>
+    </footer>
+
+    @* RenderSectionAsync: la sección Scripts es opcional; cada página decide si la llena. *@
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

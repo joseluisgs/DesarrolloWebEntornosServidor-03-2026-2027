@@ -1,0 +1,22 @@
+@page "{id:long}"
+@model ProductosWeb.RazorPages.Pages.Productos.EditarModel
+@{
+    ViewData["Title"] = "Editar producto";
+}
+
+<h1 class="titulo">Editar producto</h1>
+
+<div asp-validation-summary="All" class="resumen-errores" data-testid="resumen-errores"></div>
+
+@* Mismo partial que el alta. La única diferencia está en el modelo, que ya viene relleno
+   desde el GET, y en el campo oculto del Id. *@
+<form method="post" data-testid="formulario-editar">
+    <input type="hidden" asp-for="Formulario.Id" data-testid="id-oculto" />
+
+    <partial name="_FormularioProducto" for="Formulario" />
+
+    <div class="acciones">
+        <button type="submit" class="boton boton--principal" data-testid="boton-guardar">Guardar cambios</button>
+        <a class="enlace" asp-page="/Productos/Index">Volver al catálogo</a>
+    </div>
+</form>

@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ProductosWeb.Shared/ProductosWeb.Shared.csproj" />
+  <Project Path="ProductosWeb.Mvc/ProductosWeb.Mvc.csproj" />
+  <Project Path="ProductosWeb.RazorPages/ProductosWeb.RazorPages.csproj" />
+  <Project Path="ProductosWeb.Test/ProductosWeb.Test.csproj" />
+</Solution>
