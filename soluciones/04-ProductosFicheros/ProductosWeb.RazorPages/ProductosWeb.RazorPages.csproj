@@ -16,4 +16,8 @@
         <!-- Todo el negocio está en el proyecto compartido: este solo aporta la visión Razor Pages -->
         <ProjectReference Include="..\ProductosWeb.Shared\ProductosWeb.Shared.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="wwwroot\uploads\productos\" />
+    </ItemGroup>
 </Project>

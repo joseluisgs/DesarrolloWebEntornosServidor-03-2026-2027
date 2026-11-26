@@ -46,13 +46,18 @@ public class EditarModel(IProductService servicio, IValidator<ProductFormViewMod
     /// localizar el registro que hay que actualizar.
     /// </summary>
     /// <returns>La propia página con los errores si los hay; redirect si se actualizó.</returns>
-    public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPostAsync(int id)
     {
         var resultado = await validador.ValidateAsync(Formulario);
         resultado.AddToModelState(ModelState);
 
         if (!ModelState.IsValid)
         {
+            return Page();
+        }
+        if (id != Formulario.Id)
+        {
+            ModelState.AddModelError(string.Empty, "El Id del formulario no coincide con el de la ruta");
             return Page();
         }
 

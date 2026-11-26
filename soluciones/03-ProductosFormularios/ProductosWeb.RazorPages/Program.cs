@@ -19,6 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 // 1) Razor Pages con el mismo binder de decimales que la visión MVC.
 builder.Services.AddRazorPagesWeb();
 
+
 // 2) Capa de negocio, base de datos y validación: todo del proyecto compartido.
 builder.Services
     .AddDatabase(builder.Configuration, builder.Environment)
