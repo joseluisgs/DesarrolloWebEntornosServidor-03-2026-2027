@@ -8,11 +8,13 @@
 <div asp-validation-summary="All" class="resumen-errores" data-testid="resumen-errores"></div>
 
 @* Mismo partial que el alta, con el mismo formulario. La única diferencia está en el modelo,
-   que ya viene relleno, y en la acción del form. El Id viaja oculto en el propio modelo:
-   no aparece en la vista, pero el controlador lo usa para localizar el registro.
-   Como el alta, el form es multipart para poder traer una imagen nueva. *@
-<form asp-controller="Productos" asp-action="Editar" method="post"
+   que ya viene relleno, y en el identificador: viaja en la ruta (la pinta el servidor cuando
+   enlaza el catálogo) y además en un campo oculto. El POST comprueba que los dos dicen lo
+   mismo antes de tocar nada. Como el alta, el form es multipart para traer una imagen nueva. *@
+<form asp-controller="Productos" asp-action="Editar" asp-route-id="@Model.Id" method="post"
       enctype="multipart/form-data" data-testid="formulario-editar">
+    @* El campo sigue ahí porque el formulario tiene que saber qué registro edita; lo que no es
+       es una fuente de confianza: la confianza la da la ruta. Ver 15.5 de la documentación. *@
     <input type="hidden" asp-for="Id" data-testid="id-oculto" />
 
     @* La imagen que ya tiene el producto, con el mismo enlace de descarga que el catálogo. *@

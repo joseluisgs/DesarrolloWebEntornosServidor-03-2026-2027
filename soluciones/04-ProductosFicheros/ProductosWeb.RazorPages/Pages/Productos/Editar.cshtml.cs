@@ -48,11 +48,13 @@ public class EditarModel(
     }
 
     /// <summary>
-    /// Recibe la edición. El Id viaja en el modelo, no en la URL, y el servicio lo usa para
-    /// localizar el registro que hay que actualizar.
+    /// Recibe la edición. El identificador llega dos veces: en la ruta, que es la que enlazó el
+    /// catálogo y que por eso es fiable, y en el campo oculto del formulario, que lo pinta el
+    /// servidor pero que el cliente puede cambiar. Los dos tienen que decir lo mismo.
     /// </summary>
+    /// <param name="id">Identificador de la ruta, el que enlazó el catálogo.</param>
     /// <returns>La propia página con los errores si los hay; redirect si se actualizó.</returns>
-    public async Task<IActionResult> OnPostAsync()
+    public async Task<IActionResult> OnPostAsync(long id)
     {
         var resultado = await validador.ValidateAsync(Formulario);
         resultado.AddToModelState(ModelState);
@@ -63,6 +65,26 @@ public class EditarModel(
         {
             return Page();
         }
+
+        // Alternativa A, la que usamos: el Id de la ruta y el del formulario tienen que ser el
+        // mismo. Si alguien abre F12 y cambia el campo oculto para que el POST edite otro
+        // registro, aquí se queda: la petición solo puede tocar lo que enlazó el catálogo.
+        if (id != Formulario.Id)
+        {
+            ModelState.AddModelError(string.Empty, "El Id del formulario no coincide con el de la ruta");
+            return Page();
+        }
+
+        // Alternativa B, sin campo oculto: quita el <input type="hidden"> de la vista y pon aquí
+        // Formulario.Id = id; el identificador solo lo manda la ruta y el formulario llega con 0.
+        //
+        // Alternativa C, ni siquiera la ruta manda: carga el producto con el id de la ruta y
+        // aplica solo los campos que el usuario tiene permiso de cambiar. En este ejemplo esa
+        // parte ya la hace el servicio: ProductService.UpdateAsync usa el Id de la ruta como
+        // clave y solo copia los campos permitidos.
+        //
+        // Ninguna de las tres sustituye a la comprobación de existencia ni a la de permisos
+        // cuando la aplicación tenga usuarios: el identificador no es un secreto.
 
         var entidad = Formulario.ToEntity();
         if (!await AplicaImagenAsync(entidad))

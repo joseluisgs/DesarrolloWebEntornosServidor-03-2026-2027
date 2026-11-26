@@ -9,9 +9,11 @@
 <div asp-validation-summary="All" class="resumen-errores" data-testid="resumen-errores"></div>
 
 @* Mismo partial que el alta. La única diferencia está en el modelo, que ya viene relleno
-   desde el GET, y en el campo oculto del Id. Como el alta, el form es multipart para poder
-   traer una imagen nueva. *@
+   desde el GET, y en el identificador: viaja en la ruta y además en un campo oculto que el
+   POST comprueba contra la ruta. Como el alta, el form es multipart para traer una imagen. *@
 <form method="post" enctype="multipart/form-data" data-testid="formulario-editar">
+    @* El campo sigue ahí porque el formulario tiene que saber qué registro edita; lo que no es
+       es una fuente de confianza: la confianza la da la ruta. Ver 15.5 de la documentación. *@
     <input type="hidden" asp-for="Formulario.Id" data-testid="id-oculto" />
 
     @* La imagen que ya tiene el producto, con el mismo enlace de descarga que el catálogo. *@

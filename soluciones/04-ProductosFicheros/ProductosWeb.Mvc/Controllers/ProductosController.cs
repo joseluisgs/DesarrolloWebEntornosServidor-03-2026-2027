@@ -136,6 +136,21 @@ public class ProductosController(
             return View(model);
         }
 
+        // Alternativa A, la que usamos: el Id de la ruta y el del formulario tienen que ser el
+        // mismo. Si alguien abre F12 y cambia el campo oculto para que el POST edite otro
+        // registro, aquí se queda: la petición solo puede tocar lo que enlazó el catálogo.
+        if (id != model.Id)
+        {
+            ModelState.AddModelError(string.Empty, "El Id del formulario no coincide con el de la ruta");
+            return View(model);
+        }
+
+        // Este ejemplo ya venía con la alternativa C aplicada en la capa de servicio:
+        // ProductService.UpdateAsync usa el Id de la ruta como clave y solo copia los campos
+        // que el usuario puede cambiar, de modo que el Id del formulario no decide nada.
+        // La comprobación de arriba se mantiene además para que el intento falle en la vista,
+        // con un mensaje entendible, y no en silencio.
+
         var entidad = model.ToEntity();
         if (!await AplicaImagenAsync(entidad, model))
         {

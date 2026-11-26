@@ -300,7 +300,7 @@ Los identificadores autonuméricos tienen un problema propio: se pueden barrer. 
 
 > ⚠️ **Advertencia:** Esto no lo arregla el token antiforgery. El token evita que otra web envíe el POST con tu sesión; la comprobación del identificador evita que se edite un registro distinto del enlazado. Son dos ataques distintos y hacen falta los dos.
 
-> 📝 **Nota:** Las alternativas A, B y C están comentadas en la solución `03-ProductosFormularios`, en `Editar.cshtml.cs` de la visión Razor Pages y en `ProductosController.cs` de la visión MVC, con un test que demuestra que el identificador manipulado no llega a tocar el servicio.
+> 📝 **Nota:** Las alternativas A, B y C están comentadas en las soluciones `03-ProductosFormularios` y `04-ProductosFicheros`, en `Editar.cshtml.cs` de la visión Razor Pages y en `ProductosController.cs` de la visión MVC, con un test en cada una que demuestra que el identificador manipulado no llega a tocar el servicio.
 
 > 💡 **Consejo:** Antes de escribir un POST que lleve identificador, pregúntate de dónde sale ese valor. Si la respuesta es "del formulario", todavía no has terminado de diseñarlo.
 

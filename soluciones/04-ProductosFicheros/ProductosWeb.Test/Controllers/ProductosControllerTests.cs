@@ -297,6 +297,32 @@ public class ProductosControllerTests
     }
 
     [Test]
+    public async Task Editar_IdDeLaRutaDistintoDelFormulario_NoActualizaYDevuelveError()
+    {
+        // Arrange: el formulario dice 1 (así lo pintó el servidor), pero en la ruta llega 99.
+        // Es lo que queda cuando alguien abre F12 y se cambia el campo oculto para que el POST
+        // edite otro registro.
+        _servicio.Setup(s => s.GetByIdAsync(99, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ProductDto(99, "x", "y", 1, 1, 2026, ProductCategory.Audio, false, "i", true));
+
+        var formulario = FormularioValido();
+        formulario.Id = 1;
+
+        // Act
+        var resultado = await _controlador.Editar(99, formulario);
+
+        // Assert: se devuelve la vista con el error y el servicio no se llega a tocar.
+        var vista = resultado.Should().BeOfType<ViewResult>().Subject;
+        vista.Model.Should().BeSameAs(formulario);
+        var errorGlobal = _controlador.ModelState[string.Empty];
+        errorGlobal.Should().NotBeNull();
+        errorGlobal!.Errors.Should().Contain(e => e.ErrorMessage.Contains("no coincide"));
+        _servicio.Verify(
+            s => s.UpdateAsync(It.IsAny<long>(), It.IsAny<Product>(), It.IsAny<CancellationToken>()),
+            Times.Never);
+    }
+
+    [Test]
     public async Task Eliminar_ProductoExistente_RedirigeConTempDataDeExito()
     {
         // Arrange
