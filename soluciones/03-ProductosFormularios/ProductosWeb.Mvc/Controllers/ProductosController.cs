@@ -89,13 +89,16 @@ public class ProductosController(
     }
 
     /// <summary>
-    /// Recibe la edición. El Id viaja en el modelo, no en la URL, y el servicio lo usa para localizar el registro.
+    /// Recibe la edición. El identificador llega dos veces: en la ruta, que es la que enlazó el
+    /// catálogo y que por eso es fiable, y en el campo oculto del formulario, que lo pinta el
+    /// servidor pero que el cliente puede cambiar. Los dos tienen que decir lo mismo.
     /// </summary>
-    /// <param name="model">Modelo rellenado por el binder, con el Id de la edición.</param>
+    /// <param name="id">Identificador de la ruta, el que enlazó el catálogo.</param>
+    /// <param name="model">Modelo rellenado por el binder, con el Id del formulario.</param>
     /// <returns>Redirect con TempData si va bien; la misma vista con los errores si no.</returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Editar(ProductFormViewModel model)
+    public async Task<IActionResult> Editar(long id, ProductFormViewModel model)
     {
         var resultado = await validador.ValidateAsync(model);
         resultado.AddToModelState(ModelState);
@@ -104,6 +107,29 @@ public class ProductosController(
         {
             return View(model);
         }
+
+        // Alternativa A, la que usamos: el Id de la ruta y el del formulario tienen que ser el
+        // mismo. Si alguien abre F12 y cambia el campo oculto para que el POST edite otro
+        // registro, aquí se queda: la petición solo puede tocar lo que enlazó el catálogo.
+        if (id != model.Id)
+        {
+            ModelState.AddModelError(string.Empty, "El Id del formulario no coincide con el de la ruta");
+            return View(model);
+        }
+
+        // Alternativa B, sin campo oculto: quita el <input type="hidden"> de la vista y pon aquí
+        // model.Id = id; el identificador solo lo manda la ruta y el formulario llega con 0.
+        //
+        // Alternativa C, ni siquiera la ruta manda: carga el producto con el id de la ruta y
+        // aplica solo los campos que el usuario tiene permiso de cambiar, de modo que el Id del
+        // formulario ni se mira. Es la más dura y la que mejor aguanta el paso del tiempo:
+        //     var original = await servicio.GetByIdAsync(id);
+        //     if (original is null) { TempData["Error"] = "El producto solicitado no existe"; ... }
+        //     var aGuardar = ToEntity(model);
+        //     aGuardar.Id = original.Id;   // el registro lo decide el servidor
+        //
+        // Ninguna de las tres sustituye a la comprobación de existencia (más abajo) ni a la de
+        // permisos cuando la aplicación tenga usuarios: el identificador no es un secreto.
 
         var actualizado = await servicio.UpdateAsync(model.Id, ToEntity(model));
 

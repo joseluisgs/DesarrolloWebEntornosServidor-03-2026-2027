@@ -9,15 +9,16 @@
   - [15.2. El mapa de ataques](#152-el-mapa-de-ataques)
   - [15.3. XSS y el escapado](#153-xss-y-el-escapado)
   - [15.4. CSRF y el token doble](#154-csrf-y-el-token-doble)
-  - [15.5. Cabeceras de seguridad](#155-cabeceras-de-seguridad)
-  - [15.6. Límite de peticiones](#156-límite-de-peticiones)
-  - [15.7. Errores, tamaños y ficheros](#157-errores-tamaños-y-ficheros)
-  - [15.8. Buenas prácticas](#158-buenas-prácticas)
-  - [15.9. Reto: endurece la alta de Funkos](#159-reto-endurece-la-alta-de-funkos)
-    - [15.9.1. Contexto](#1591-contexto)
-    - [15.9.2. Modelo de datos](#1592-modelo-de-datos)
-    - [15.9.3. Almacenamiento](#1593-almacenamiento)
-    - [15.9.4. Retos](#1594-retos)
+  - [15.5. Campos ocultos manipulables e identificadores](#155-campos-ocultos-manipulables-e-identificadores)
+  - [15.6. Cabeceras de seguridad](#156-cabeceras-de-seguridad)
+  - [15.7. Límite de peticiones](#157-límite-de-peticiones)
+  - [15.8. Errores, tamaños y ficheros](#158-errores-tamaños-y-ficheros)
+  - [15.9. Buenas prácticas](#159-buenas-prácticas)
+  - [15.10. Reto: endurece la alta de Funkos](#1510-reto-endurece-la-alta-de-funkos)
+    - [15.10.1. Contexto](#15101-contexto)
+    - [15.10.2. Modelo de datos](#15102-modelo-de-datos)
+    - [15.10.3. Almacenamiento](#15103-almacenamiento)
+    - [15.10.4. Retos](#15104-retos)
 
 
 
@@ -195,21 +196,24 @@ Antes de las defensas, el mapa — estas son las amenazas que esta unidad te ens
 |---------|--------------------------|---------|------------|
 | **XSS** | Inyectar JavaScript en tu HTML | Escapado automático de Razor; nunca `Html.Raw` con datos de usuario | Punto 04 y 15.3 |
 | **CSRF** | Enviar un POST desde otro sitio con tu sesión | Token antiforgery doble (campo + cookie) | Punto 13 y 15.4 |
-| **Fuerza bruta / abuso** | Probar contraseñas o agotar el servidor | Límite de peticiones por ventana | 15.6 |
-| **Path traversal** | Leer o escribir ficheros fuera del almacén con `..` | Validación de nombres en el servicio de ficheros | 15.7 y 16 |
-| **Filtración de errores** | Provocar errores y leer el rastro interno | Manejo centralizado de excepciones | Punto 01 y 15.7 |
-| **Denegación por tamaño** | Subir ficheros gigantes para llenar el disco | Techo de tamaño de la petición | 15.7 |
-| **Clickjacking** | Montar tu web dentro de un iframe oculto | `X-Frame-Options` | 15.5 |
+| **Manipulación de campos ocultos** | Cambiar el identificador con F12 para que el servidor edite otro registro | Id tomado de la ruta y comprobación de que coincide con el del formulario | 15.5 |
+| **Fuerza bruta / abuso** | Probar contraseñas o agotar el servidor | Límite de peticiones por ventana | 15.7 |
+| **Path traversal** | Leer o escribir ficheros fuera del almacén con `..` | Validación de nombres en el servicio de ficheros | 15.8 y 16 |
+| **Filtración de errores** | Provocar errores y leer el rastro interno | Manejo centralizado de excepciones | Punto 01 y 15.8 |
+| **Denegación por tamaño** | Subir ficheros gigantes para llenar el disco | Techo de tamaño de la petición | 15.8 |
+| **Clickjacking** | Montar tu web dentro de un iframe oculto | `X-Frame-Options` | 15.6 |
 
 ```mermaid
 graph TD
     A["Petición entrante"] --> B{"¿Qué intenta<br/>hacer?"}
     B -->|"Escribir en tu HTML"| C["XSS"]
     B -->|"Firmar un POST<br/>con tu sesión"| D["CSRF"]
+    B -->|"Cambiar el Id<br/>del formulario"| K["Id cambiado"]
     B -->|"Martillar el servidor"| E["Abuso"]
     B -->|"Saltear el almacén"| F["Path traversal"]
     C --> G["Escapado + CSP"]
     D --> H["Token antiforgery"]
+    K --> L["Ruta + comprobación"]
     E --> I["Límite de peticiones"]
     F --> J["Validar nombres"]
     style A fill:#2196F3,color:#fff
@@ -222,13 +226,15 @@ graph TD
     style H fill:#4CAF50,color:#fff
     style I fill:#4CAF50,color:#fff
     style J fill:#4CAF50,color:#fff
+    style K fill:#f44336,color:#fff
+    style L fill:#4CAF50,color:#fff
 ```
 
 ## 15.3. XSS y el escapado
 
 El cross-site scripting consiste en convencer al servidor de que pinte, como si fuera tuyo, texto que escribió un atacante: `<script>robaCookies()</script>` en un campo de nombre. Razor ya te protege por defecto: todo lo que es `string` se escapa al pintarlo, y esa es la razón de que `@Model.Nombre` sea seguro aunque el usuario haya intentado meter HTML.
 
-La única forma de romper esa protección es tú, con `Html.Raw` o `HtmlString`, que le dicen al servidor *"esto ya es HTML, no lo toques"*. La regla es tajante: HTML de tu plantilla, sí; texto que venga de un formulario, de la URL o de una base de datos, jamás. Y como segunda línea de defensa, las cabeceras del apartado 15.5 restringen lo que el navegador acepta ejecutar.
+La única forma de romper esa protección es tú, con `Html.Raw` o `HtmlString`, que le dicen al servidor *"esto ya es HTML, no lo toques"*. La regla es tajante: HTML de tu plantilla, sí; texto que venga de un formulario, de la URL o de una base de datos, jamás. Y como segunda línea de defensa, las cabeceras del apartado 15.6 restringen lo que el navegador acepta ejecutar.
 
 ## 15.4. CSRF y el token doble
 
@@ -238,7 +244,67 @@ La defensa es un secreto que solo conocen tu formulario y tu servidor: el **toke
 
 📌 **Ejemplo real:** Los bancos añaden una segunda comprobación más allá del token: un número de operación que solo sirve una vez. Es la misma familia de ideas: no basta con que la petición llegue de tu navegador, tiene que llegar con las credenciales del formulario correcto.
 
-## 15.5. Cabeceras de seguridad
+## 15.5. Campos ocultos manipulables e identificadores
+
+Un campo oculto no es un campo seguro: es un campo que el navegador no pinta, pero que cualquiera puede abrir con F12, leer y cambiar antes de enviar el formulario. En la edición de verdad el formulario trae el identificador del registro en uno de esos campos, y si el servidor se fía de lo que pone ahí, cualquiera con dos dedos de frente consigue que tu aplicación edite el registro que a él le dé la gana.
+
+📌 **Ejemplo real:** Amazon. Si el identificador del pedido fuera un campo oculto que el servidor respeta sin mirar, cambiar en el navegador un `6` por un `7` sería abrir el pedido de otra persona. Por eso ningún formulario de verdad acepta el identificador solo porque venga escrito.
+
+El ataque cabe en tres pasos:
+
+1. Abrir el formulario de edición y pulsar **F12** sobre el campo oculto.
+2. Cambiar el valor, del `1` al `999`, y pulsar guardar.
+3. El servidor recibe el POST y actualiza el registro `999`, que no era el que enlazó el catálogo.
+
+La defensa consiste en no fiarse de una sola fuente: el identificador viaja dos veces, en la ruta y en el campo, y las dos tienen que decir lo mismo.
+
+```cshtml
+@* La ruta la pinta el servidor cuando enlaza desde el catálogo: es fiable *@
+<a asp-page="/Productos/Editar" asp-route-id="@producto.Id">Editar</a>
+
+@* El campo oculto también lo pinta el servidor, pero el cliente lo puede cambiar antes de enviar *@
+<input type="hidden" asp-for="Formulario.Id" />
+```
+
+```csharp
+// Pages/Productos/Editar.cshtml.cs
+public async Task<IActionResult> OnPostAsync(long id)
+{
+    // ... validación de los campos ...
+
+    if (id != Formulario.Id)
+    {
+        ModelState.AddModelError(string.Empty, "El Id del formulario no coincide con el de la ruta");
+        return Page();
+    }
+
+    // ... actualización del registro ...
+}
+```
+
+En la visión MVC es la misma idea: el formulario publica a una ruta con el identificador (`asp-route-id`), la acción lo recibe como parámetro `long id` y compara antes de tocar nada.
+
+**Alternativas**
+
+Hay más de una forma de cerrarlo y conviene conocerlas, porque ninguna sirve para todos los casos:
+
+| Alternativa | Cómo se hace | Cuándo conviene |
+|---|---|---|
+| **A. Ruta y formulario tienen que coincidir** | El POST recibe el Id de la ruta y lo compara con el del campo oculto | Cuando el formulario necesita el Id para pintarse; es la que usamos en las dos visiones |
+| **B. Solo la ruta** | Se quita el campo oculto y dentro del POST el servidor escribe el Id en el modelo | Cuando la ruta ya lleva el identificador y el campo no aporta nada |
+| **C. Ni la ruta decide** | Se carga el registro con el Id de la ruta y se aplican solo los campos que el usuario puede cambiar | Cuando hay campos que nunca deberían venir del cliente |
+| **D. Identificador no adivinable** | Ids de tipo `Guid` en lugar de números seguidos | Detiene el barrido de identificadores, pero no sustituye a la comprobación |
+| **E. Autorización** | Comprobar que el usuario tiene permiso para editar ese registro | Siempre que haya usuarios y permisos, que es el punto 19 |
+
+Los identificadores autonuméricos tienen un problema propio: se pueden barrer. Si el endpoint acepta el 1, después el 2 y así hasta el final, no hace falta adivinar nada, basta con pasear. Por eso un identificador nunca es un secreto, y por eso la alternativa D solo ayuda si va acompañada de A, B o C.
+
+> ⚠️ **Advertencia:** Esto no lo arregla el token antiforgery. El token evita que otra web envíe el POST con tu sesión; la comprobación del identificador evita que se edite un registro distinto del enlazado. Son dos ataques distintos y hacen falta los dos.
+
+> 📝 **Nota:** Las alternativas A, B y C están comentadas en la solución `03-ProductosFormularios`, en `Editar.cshtml.cs` de la visión Razor Pages y en `ProductosController.cs` de la visión MVC, con un test que demuestra que el identificador manipulado no llega a tocar el servicio.
+
+> 💡 **Consejo:** Antes de escribir un POST que lleve identificador, pregúntate de dónde sale ese valor. Si la respuesta es "del formulario", todavía no has terminado de diseñarlo.
+
+## 15.6. Cabeceras de seguridad
 
 Los headers HTTP son la fachada de tu servidor: el navegador los lee antes de pintar nada y ajusta su comportamiento. Estos cinco son el equipo mínimo:
 
@@ -280,7 +346,7 @@ Cualquier respuesta de la aplicación, página o acción, sale ya con las cuatro
 
 > 💡 **Consejo:** el orden en el pipeline importa: las cabeceras se añaden antes de que el endpoint pinte, para que también las lleven las respuestas de error.
 
-## 15.6. Límite de peticiones
+## 15.7. Límite de peticiones
 
 Sin límite, cualquiera puede martillear tu servidor — un script probando contraseñas, un rastreador refrescando tu listado mil veces por minuto o un ataque dirigido a agotar recursos. El **límite de peticiones** (rate limiting) corta por ventana de tiempo: pasas el cupo y la respuesta es **429 Too Many Requests**.
 
@@ -316,7 +382,7 @@ En funcionamiento, seis peticiones seguidas devuelven **200, 200, 200, 200, 429,
 
 Y como referencia de entorno, el middleware propio del apartado no es la única forma: ASP.NET Core trae el limitador en caja (`AddRateLimiting` con ventanas fijas por clave y `UseRateLimiter` en el conducto) y admite reglas por endpoint con el mismo cuadro: cien peticiones cada quince segundos con carácter general, diez por minuto en las rutas de acceso y veinte por minuto en los `POST`, con el **429** y su mensaje. El paquete de terceros `AspNetCoreRateLimit` hacía este trabajo, pero lleva años abandonado y el límite va hoy con el limitador nativo. La idea es la misma que la del middleware: cupo, ventana y castigo; cambia de dónde sale la regla.
 
-## 15.7. Errores, tamaños y ficheros
+## 15.8. Errores, tamaños y ficheros
 
 Tres defensas que cierran el mapa:
 
@@ -333,7 +399,7 @@ public IActionResult Edicion(ProductoInput input, List<string> etiquetas)
 
 **Nombres de fichero.** Quien sube un archivo puede intentar escribir fuera de tu almacén con un nombre como `../../appsettings.json`. La defensa es no confiar en ningún nombre: rechazar `..`, barras y contrabarras, exigir extensiones conocidas y comprobar el tamaño. Ese servicio completo lo montamos en el punto 16; aquí queda la idea — el nombre que llega del cliente es dato hostil hasta que lo validas.
 
-## 15.8. Buenas prácticas
+## 15.9. Buenas prácticas
 
 - **Valida en el servidor, siempre**: el navegador ayuda, pero el navegador lo controla el atacante
 - **Un atributo, un mensaje**: cada regla lleva su `ErrorMessage` y vive en el modelo, no en la vista
@@ -344,15 +410,15 @@ public IActionResult Edicion(ProductoInput input, List<string> etiquetas)
 - **Errores limpios en producción**: los detalles al registro, una página amable al usuario
 - **Ningún nombre de fichero es de fiar**: valida extensión, tamaño y forma antes de tocar el disco
 
-## 15.9. Reto: endurece la alta de Funkos
+## 15.10. Reto: endurece la alta de Funkos
 
 > Pásale la batería de seguridad al alta de tu tienda: validaciones, cabeceras, límites y techo de tamaño.
 
-### 15.9.1. Contexto
+### 15.10.1. Contexto
 
 **Paso 0:** parte de las altas del punto 13 en sus dos visiones (`FunkoApp` y `FunkoAppMvc`), con `Models/FunkoEditInput.cs` (del punto 14) y el repositorio de los apartados siguientes.
 
-### 15.9.2. Modelo de datos
+### 15.10.2. Modelo de datos
 
 | Propiedad | Tipo | Obligatorio |
 |-----------|------|:-----------:|
@@ -366,7 +432,7 @@ public IActionResult Edicion(ProductoInput input, List<string> etiquetas)
 | `activo` | bool | Sí |
 | `esNovedad` | bool | Sí |
 
-### 15.9.3. Almacenamiento
+### 15.10.3. Almacenamiento
 
 El repositorio en memoria guarda los Funkos en una lista estática que sobrevive entre peticiones. En la práctica real sustituirías esta clase por una con EF Core o MongoDB sin tocar las validaciones.
 
@@ -381,14 +447,14 @@ public static class RepositorioFunkos
 
 Rellena la lista con seis figuras de modo que haya activas y dadas de baja, novedades y no novedades, y las tres categorías.
 
-### 15.9.4. Retos
+### 15.10.4. Retos
 
 **Pasos compartidos (las dos visiones):**
 
 1. **En papel primero:** dibuja el mapa de ataques de tu alta: qué puede intentar alguien con el formulario y con qué defensa lo cortas
 2. Añade a `FunkoEditInput` las validaciones: `[Required]` en nombre y categoría, `[Range(1900, 2030)]` en el año y `[Range(0.01, 10000)]` en el precio, cada una con su `ErrorMessage`
 3. Envía un POST con el año a `1800` y comprueba que la respuesta es **200** con el mensaje del campo en la vista y que los campos buenos no se quejan
-4. Crea el middleware `SecurityHeadersMiddleware` con las cuatro cabeceras del apartado 15.5 y regístralo en `Program.cs`; comprueba con **F12** o con `curl -i` que toda respuesta las lleva
+4. Crea el middleware `SecurityHeadersMiddleware` con las cuatro cabeceras del apartado 15.6 y regístralo en `Program.cs`; comprueba con **F12** o con `curl -i` que toda respuesta las lleva
 5. Crea el middleware `RateLimitMiddleware` con la ventana de 5 peticiones cada 10 segundos; envía seis peticiones seguidas y comprueba que las dos últimas dan **429** con `Retry-After`
 
 **Visión Razor Pages:**

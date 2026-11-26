@@ -83,6 +83,8 @@ Y el destino, en cada visión:
 
 El orden de búsqueda lo fija el binding: la ruta manda sobre la query, y el cuerpo del formulario es la fuente de los POST. Si un mismo nombre aparece en dos sitios, gana la fuente de mayor prioridad; si no aparece en ninguna, el destino se queda en su valor por defecto (lo vemos en el apartado 14.6).
 
+> ⚠️ **Advertencia:** Que el binding decida no significa que el dato sea fiable. El identificador de un producto puede llegar en la ruta y a la vez en un campo oculto del formulario, y cualquiera de los dos puede haber tocado quien envía la petición. Si el POST usa uno de ellos para decidir qué registro actualiza, conviene comprobar que los dos dicen lo mismo; el asunto entero está en el apartado 15.5.
+
 ## 14.3. La misma edición en las dos visiones
 
 El corazón del punto: la misma vista de edición, montada dos veces. El formulario trae tres campos con prefijo (`Input.Nombre`, `Input.Anio`, `Input.Precio`) y una colección de casillas (`etiquetas`).
